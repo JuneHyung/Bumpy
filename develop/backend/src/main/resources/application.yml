@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://3.34.143.244:33056/bumpy
+    username: root
+    password: bumpySpring!#@$BOOM
+
+server:
+  servlet:
+    context-path: /api
