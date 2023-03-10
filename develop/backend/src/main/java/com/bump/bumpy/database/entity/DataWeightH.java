@@ -22,13 +22,13 @@ import java.io.Serializable;
 @Data
 @ToString
 @Entity
-@Table(name = "data_weight", schema = "bumpy")
-public class DataWeight implements Serializable {
+@Table(name = "DATA_WEIGHT_H", schema = "bumpy")
+public class DataWeightH implements Serializable {
     private static final long serialVersionUID = -7137221491689196090L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "`key`", nullable = false)
-    private Integer key;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @NotNull
     @Column(name = "user_key", nullable = false)

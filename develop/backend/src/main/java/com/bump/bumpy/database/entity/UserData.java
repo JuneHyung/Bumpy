@@ -22,16 +22,16 @@ import java.io.Serializable;
 @Data
 @ToString
 @Entity
-@Table(name = "user_data_test1", schema = "bumpy")
-public class UserDataTest1 implements Serializable {
+@Table(name = "USER_DATA_M", schema = "bumpy")
+public class UserData implements Serializable {
     private static final long serialVersionUID = -3107051566821694129L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "`key`", nullable = false)
-    private Integer key;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @NotNull
-    @Column(name = "user_key", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer userKey;
 
     @Size(max = 45)

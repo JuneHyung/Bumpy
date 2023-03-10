@@ -1,10 +1,42 @@
 spring:
+  profiles:
+    active: local
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://3.34.143.244:33056/bumpy
     username: root
     password: bumpySpring!#@$BOOM
 
+#  redis:
+#    host: localhost
+#    password: fcf832af8f4c5f902b5694a631e2958ad7688b74f1b227d245a95b980e7c22db
+#    port: 6379
+#    lettuce:
+#      pool:
+#        max-active: 100
+#        max-idle: 20
+#        min-idle: 10
+
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      ddl-auto: create-drop
+    show-sql: true
+
 server:
   servlet:
     context-path: /api
+  port: 8090
+
+jwt:
+  private:
+    key: classpath:rsa.private.key
+  public:
+    key: classpath:rsa.public.key
+
+cookie:
+  domain: localhost
+
+logging:
+  config: classpath:log4j2.yml
