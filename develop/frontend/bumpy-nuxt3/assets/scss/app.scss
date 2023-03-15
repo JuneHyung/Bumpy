@@ -1,6 +1,37 @@
-.test-box{
-  border:1px solid black;
-  p{
-    color:red;
-  }
+*, *:before, *:after {
+  box-sizing: inherit;
+  
+}
+html, body{
+  width:100%;
+  direction: ltr;
+  margin: 0;
+  box-sizing: border-box;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+img {
+  border-style: none;
+}
+a{
+  text-decoration: none;
+}
+ul,li,ol{
+  list-style: none;
+}
+p{
+  margin:0;
 }
