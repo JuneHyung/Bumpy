@@ -31,7 +31,18 @@ a{
 }
 ul,li,ol{
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 p{
   margin:0;
+}
+
+.content-layout{
+  width: 940px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #f1f3f5;
 }

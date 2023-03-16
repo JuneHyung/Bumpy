@@ -16,15 +16,17 @@
       <form class="login-form">
         <input type="text" placeholder="아이디" />
         <input type="text" placeholder="비밀번호" />
-        <button class="login-button">Login</button>
-        <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/list" class="move-sign-up-button">Sign up</NuxtLink></p>
+        <button class="login-button" @click="moveMain">Login</button>
+        <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signin" class="move-sign-up-button">Sign up</NuxtLink></p>
       </form>
     </div>
   </div>
 </template>
-<script>
-export default {
-  layout: 'custom',
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const moveMain = () => {
+  router.push('main');
 };
 </script>
 <style lang="scss" scoped>
