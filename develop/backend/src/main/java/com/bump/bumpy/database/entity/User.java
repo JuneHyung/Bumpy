@@ -2,8 +2,6 @@ package com.bump.bumpy.database.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
@@ -16,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Builder
 @AllArgsConstructor
@@ -23,29 +22,35 @@ import java.io.Serializable;
 @Data
 @ToString
 @Entity
-@Table(name = "user_test1", schema = "bumpy", indexes = {
+@Table(name = "USER_M", schema = "bumpy", indexes = {
         @Index(name = "email_UNIQUE", columnList = "email", unique = true),
         @Index(name = "id_UNIQUE", columnList = "user_id", unique = true)
 })
-public class UserTest1 implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = -1702784117870346566L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "`key`", nullable = false)
-    private Integer key;
 
-    @Size(max = 45)
+    @Id
+    @Size(max = 20, min = 5)
     @NotNull
-    @Column(name = "user_id", nullable = false, length = 45)
+    @Column(name = "user_id", nullable = false, length = 20, unique = true)
     private String userId;
 
-    @Size(max = 45)
+    @Size(max = 20, min = 8)
     @NotNull
-    @Column(name = "pw", nullable = false, length = 45)
+    @Column(name = "pw", nullable = false, length = 20, columnDefinition = "varchar(20) binary")
     private String pw;
 
     @Size(max = 45)
     @NotNull
-    @Column(name = "email", nullable = false, length = 45)
+    @Column(name = "email", nullable = false, length = 45, unique = true)
     private String email;
+
+    @Size(max = 1)
+    @NotNull
+    @Column(name = "use_yn", nullable = false, length = 1)
+    private String useYn;
+
+    public boolean isUsed() {
+        return Objects.equals(this.useYn, "Y");
+    }
 }

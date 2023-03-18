@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,21 +24,19 @@ import java.util.Date;
 @Data
 @ToString
 @Entity
-@Table(name = "user_inbody_test1", schema = "bumpy")
-public class UserInbodyTest1 implements Serializable {
+@Table(name = "USER_INBODY_H", schema = "bumpy", indexes = {
+        @Index(name = "userId_INDEX", columnList = "user_id"),
+})
+public class UserInbodyH implements Serializable {
     private static final long serialVersionUID = 8509340287155672114L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "`key`", nullable = false)
-    private Integer key;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @NotNull
-    @Column(name = "user_key", nullable = false)
-    private Integer userKey;
-
-    @NotNull
-    @Column(name = "seq", nullable = false)
-    private Integer seq;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     @Column(name = "d_date")
     private Date dDate;

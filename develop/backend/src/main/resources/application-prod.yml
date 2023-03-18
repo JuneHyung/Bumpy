@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mariadb/bumpy
+    username: root
+    password: bumpySpring!#@$BOOM
+
+cookie:
+  domain: www.bumpy.co.kr
