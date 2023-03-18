@@ -1,0 +1,48 @@
+*, *:before, *:after {
+  box-sizing: inherit;
+  
+}
+html, body{
+  width:100%;
+  direction: ltr;
+  margin: 0;
+  box-sizing: border-box;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+
+img {
+  border-style: none;
+}
+a{
+  text-decoration: none;
+}
+ul,li,ol{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+p{
+  margin:0;
+}
+
+.content-layout{
+  width: 940px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color: #f1f3f5;
+}
