@@ -11,3 +11,13 @@
 
 
 이미지 추가시 readme_images 폴더에 `번호_이름.확장자`형식으로 파일을 생성해 저장 해주세요.
+
+글에 이미지 추가시
+
+```text
+![제목](./readme_images/번호_제목.png)
+
+ex) 00_Nuxt3프로젝트 생성 결과.png의 경우
+![Nuxt3프로젝트 생성 결과](./readme_images/00_Nuxt3프로젝트 생성 결과.png)
+```
+
