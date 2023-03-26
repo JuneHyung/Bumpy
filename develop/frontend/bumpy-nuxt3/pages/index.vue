@@ -10,20 +10,31 @@
     </div>
     <div class="login-form-box">
       <p class="login-form-title">USER LOGIN</p>
-      <div class="login-form">
-        <input type="text" placeholder="아이디" />
-        <input type="text" placeholder="비밀번호" />
-        <button class="long-filled-button login-button" @click="moveMain">Login</button>
+      <form class="login-form" :action="target" @submit="moveMain(formData)">
+        <input type="text" placeholder="아이디" v-model="formData.id"/>
+        <input type="text" placeholder="비밀번호" v-model="formData.pw" />
+        <input type="submit" class="long-filled-button login-button" value="Login"/>
         <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signin" class="text-button bp-ml-sm">Sign up</NuxtLink></p>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import {ref} from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const moveMain = () => {
-  router.push('main');
+interface userFormData {
+  id: string,
+  pw: string,
+}
+const formData:userFormData = {
+  id: '',
+  pw: '',
+}
+const target = ref('#');
+const moveMain = (formData: userFormData) => {
+  target.value = formData.id === formData.pw ? 'main' : '#';
+  return formData.id === formData.pw;
 };
 
 const introduceMessageList: string[] = [
