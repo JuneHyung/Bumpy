@@ -1,3 +1,9 @@
+@import "./variable.scss";
+@import "./main.scss";
+@import "./login.scss";
+@import "./common/common.scss";
+@import "./common/button.scss";
+
 *, *:before, *:after {
   box-sizing: inherit;
   
@@ -7,6 +13,7 @@ html, body{
   direction: ltr;
   margin: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 article,
 aside,
@@ -44,5 +51,5 @@ p{
   display: flex;
   flex-direction: column;
   padding: 30px;
-  background-color: #f1f3f5;
+  background-color: $layout-background-color;
 }

@@ -1,0 +1,55 @@
+$size-list: (xs, sm, md, lg, xl);
+// margin & padding
+@each $size in $size-list {
+  $index: index($size-list, $size);
+
+  // margin
+  .bp-mt-#{$size}{
+    margin-top: 4px * $index;
+  }
+  .bp-mb-#{$size}{
+    margin-bottom: 4px * $index;
+  }
+  .bp-ml-#{$size}{
+    margin-left: 4px * $index;
+  }
+  .bp-mr-#{$size}{
+    margin-right: 4px * $index;
+  }
+  .bp-mx-#{$size}{
+    margin-left: 4px * $index;
+    margin-right: 4px * $index;
+  }
+  .bp-my-#{$size}{
+    margin-top: 4px * $index;
+    margin-bottom: 4px * $index;
+  }
+  .bp-ma-#{$size}{
+    margin: 4px * $index;
+  }
+
+  // padding
+  .bp-pt-#{$size}{
+    padding-top: 4px * $index;
+  }
+  .bp-pb-#{$size}{
+    padding-bottom: 4px * $index;
+  }
+  .bp-pl-#{$size}{
+    padding-left: 4px * $index;
+  }
+  .bp-pr-#{$size}{
+    padding-right: 4px * $index;
+  }
+  .bp-px-#{$size}{
+    padding-left: 4px * $index;
+    padding-right: 4px * $index;
+  }
+  .bp-py-#{$size}{
+    padding-top: 4px * $index;
+    padding-bottom: 4px * $index;
+  }
+  .bp-pa-#{$size}{
+    padding: 4px * $index;
+  }
+}
