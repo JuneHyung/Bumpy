@@ -11,6 +11,8 @@
     "nuxt": "^3.2.3"
   },
   "dependencies": {
+    "dayjs": "^1.11.7",
+    "lodash": "^4.17.21",
     "sass": "^1.59.2",
     "sass-loader": "^13.2.0"
   }
