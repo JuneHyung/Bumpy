@@ -6,6 +6,9 @@
     <DateInput :data="testForm.date" class="bp-my-sm" />
     <SelectboxInput :data="testForm.selectbox" class="bp-my-sm" />
     <SquareList type="rectangle" :list="testList"></SquareList>
+    <ProgressBar :value="76.5" :max="100" class="bp-my-sm"></ProgressBar>
+    <ProgressBar :value="20" :max="100" class="bp-my-sm"></ProgressBar>
+    <ProgressBar :value="54" :max="100" class="bp-my-sm"></ProgressBar>
   </form>
 </template>
 <script setup lang="ts">
@@ -15,6 +18,7 @@ import NumberInput from '../components/form/NumberInput.vue';
 import DateInput from '../components/form/DateInput.vue';
 import SelectboxInput from '../components/form/SelectboxInput.vue';
 import SquareList from '../components/list/SquareList.vue';
+import ProgressBar from '../components/progress/ProgressBar.vue';
 import { ref, Ref } from 'vue';
 const target = ref('#');
 
