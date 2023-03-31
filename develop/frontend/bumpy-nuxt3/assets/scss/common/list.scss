@@ -1,0 +1,39 @@
+.square-list-wrap-box{
+  display:flex;
+  flex-direction: row;
+  .square-item {
+    // width: 200px;
+    // height: 200px;
+    display:flex;
+    flex-direction: column;
+    flex: 3;
+    border-radius:4px;
+    background: linear-gradient(
+      to bottom,
+      $middle-point-color,
+      $high-point-color
+    );
+    &:first-child{
+      margin-left:0;
+    }
+    &:last-child{
+      margin-right:0;
+    }
+  }
+}
+.rectangle-list-wrap-box{
+  display:flex;
+  flex-direction: column;
+  .rectangle-item{
+    display:flex;
+    flex:1;
+    width:100%;
+    flex-direction: column;
+    border-radius:4px;
+    background: linear-gradient(
+      to bottom,
+      $middle-point-color,
+      $high-point-color
+    );
+  }
+}

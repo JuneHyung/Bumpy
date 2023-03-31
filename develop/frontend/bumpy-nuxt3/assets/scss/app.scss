@@ -4,12 +4,15 @@
 @import "./common/common.scss";
 @import "./common/button.scss";
 @import "./common/input.scss";
-*, *:before, *:after {
+@import "./common/list.scss";
+*,
+*:before,
+*:after {
   box-sizing: inherit;
-  
 }
-html, body{
-  width:100%;
+html,
+body {
+  width: 100%;
   direction: ltr;
   margin: 0;
   box-sizing: border-box;
@@ -33,19 +36,21 @@ summary {
 img {
   border-style: none;
 }
-a{
+a {
   text-decoration: none;
 }
-ul,li,ol{
+ul,
+li,
+ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-p{
-  margin:0;
+p {
+  margin: 0;
 }
 
-.content-layout{
+.content-layout {
   width: 940px;
   height: 100%;
   display: flex;
