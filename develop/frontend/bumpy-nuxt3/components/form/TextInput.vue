@@ -1,5 +1,7 @@
 <template>
-  <input type="text" :autofocus="false" :placeholder="data.placeholder" v-model="data.value" />
+  <label class="input-wrap-box">
+    <input type="text" :autofocus="false" :placeholder="data.placeholder" v-model="data.value" class="input-text"/>
+  </label>
 </template>
 <script setup lang="ts">
 interface inputText {
@@ -18,3 +20,6 @@ interface Props {
 
 const props = defineProps<Props>();
 </script>
+<style scoped lang="scss">
+
+</style>

@@ -1,5 +1,7 @@
 <template>
-  <input type="number" :autofocus="false" :placeholder="data.placeholder" v-model="data.value" maxlength="20" />
+  <label class="input-wrap-box">
+    <input type="number" :autofocus="false" :placeholder="data.placeholder" v-model="data.value" maxlength="20" class="input-number"/>
+  </label>
 </template>
 <script setup lang="ts">
 interface inputPassword {

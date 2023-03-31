@@ -1,12 +1,10 @@
 <template>
-  <h1>회원가입페이지</h1>
-
   <form class="login-form" :action="target" @submit="moveLogin(testForm)">
-    <TextInput :data="testForm.text" />
-    <PasswordInput :data="testForm.password" />
-    <NumberInput :data="testForm.number" />
-    <DateInput :data="testForm.date" />
-    <SelectboxInput :data="testForm.selectbox" />
+    <TextInput :data="testForm.text" class="bp-my-sm"/>
+    <PasswordInput :data="testForm.password" class="bp-my-sm" />
+    <NumberInput :data="testForm.number" class="bp-my-sm" />
+    <DateInput :data="testForm.date" class="bp-my-sm" />
+    <SelectboxInput :data="testForm.selectbox" class="bp-my-sm" />
   </form>
 </template>
 <script setup lang="ts">
@@ -66,3 +64,9 @@ const testForm: Ref<userFormData> = ref({
   },
 });
 </script>
+<style scoped lang="scss">
+.login-form{
+  display:flex;
+  flex-direction: column;
+}
+</style>

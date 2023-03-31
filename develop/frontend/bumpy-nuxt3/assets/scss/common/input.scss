@@ -1,0 +1,22 @@
+.input-wrap-box{
+  display:flex;
+  flex:1 1 400;
+  .correct-input{
+    border:1px solid $correct-color;
+  }
+  .incorrect-input{
+    border: 1px solid $incorrect-color;
+  }
+  .input-text, .input-password, .input-number, .input-date{
+    border: 2px solid $input-border-color;
+    outline:none;
+    border-radius:4px;
+    height:40px;
+    &:focus{
+      border: 2px solid $middle-point-color;
+    }
+    &:hover{
+      border: 2px solid $low-point-color;
+    }
+  }
+}
