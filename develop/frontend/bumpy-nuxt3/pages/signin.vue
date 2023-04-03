@@ -1,14 +1,14 @@
 <template>
   <form class="login-form" :action="target" @submit="moveLogin(testForm)">
-    <TextInput :data="testForm.text" class="bp-my-sm"/>
+    <TextInput :data="testForm.text" class="bp-my-sm" />
     <PasswordInput :data="testForm.password" class="bp-my-sm" />
     <NumberInput :data="testForm.number" class="bp-my-sm" />
     <DateInput :data="testForm.date" class="bp-my-sm" />
-    <SelectboxInput :data="testForm.selectbox" class="bp-my-sm" />
-    <SquareList type="rectangle" :list="testList"></SquareList>
-    <ProgressBar :value="76.5" :max="100" class="bp-my-sm"></ProgressBar>
-    <ProgressBar :value="20" :max="100" class="bp-my-sm"></ProgressBar>
-    <ProgressBar :value="54" :max="100" class="bp-my-sm"></ProgressBar>
+    <!-- <SelectboxInput :data="testForm.selectbox" class="bp-my-sm" />
+    <SquareList type="rectangle" :list="testList"></SquareList> -->
+    <MeterBar :value="55" :max="100" :min="0" :low="30" :high="68" :optimum="100" class="bp-my-sm"></MeterBar>
+    <MeterBar :value="20" :max="100" :min="0" :low="30" :high="68" :optimum="100" class="bp-my-sm"></MeterBar>
+    <MeterBar :value="80" :max="100" :min="0" :low="30" :high="68" :optimum="100" class="bp-my-sm"></MeterBar>
   </form>
 </template>
 <script setup lang="ts">
@@ -18,7 +18,7 @@ import NumberInput from '../components/form/NumberInput.vue';
 import DateInput from '../components/form/DateInput.vue';
 import SelectboxInput from '../components/form/SelectboxInput.vue';
 import SquareList from '../components/list/SquareList.vue';
-import ProgressBar from '../components/progress/ProgressBar.vue';
+import MeterBar from '../components/meter/MeterBar.vue';
 import { ref, Ref } from 'vue';
 const target = ref('#');
 
@@ -81,16 +81,16 @@ const testForm: Ref<userFormData> = ref({
 });
 
 const testList: ActivityList[] = [
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps:5, memo: '메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps:5, memo: '메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps:5, memo: '메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps:5, memo: '메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps:5, memo: '메모메모' },
-]
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+];
 </script>
 <style scoped lang="scss">
-.login-form{
-  display:flex;
+.login-form {
+  display: flex;
   flex-direction: column;
 }
 </style>
