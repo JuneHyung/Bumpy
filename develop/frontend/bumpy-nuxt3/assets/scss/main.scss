@@ -5,17 +5,6 @@
   flex-direction: column;
   padding: 30px;
   background-color: $layout-background-color;
-}
-.content-title {
-  color: $middle-point-color;
-}
-.content-wrap-box {
-  background-color: #fff;
-  border-radius: 20px;
-  border: none;
-  padding: 16px;
-  margin: 8px 0;
-}
 
 .activity-meal-wrap-box {
   display: flex;
@@ -114,4 +103,5 @@
       height: 100px;
     }
   }
+}
 }
