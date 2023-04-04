@@ -1,0 +1,38 @@
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  align-items: center;
+  height: 100%;
+  width: 200px;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  padding: 20px 0;
+  .menu-list-logo {
+    display: flex;
+    width: 100%;
+    height: 150px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+  }
+  
+  .menu-list-item {
+    width:100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color:$black-color; 
+    &:hover{
+      color: $middle-point-color;
+    }
+    &:active{
+      color:$high-point-color;
+    }
+  }
+  .current-list-item{
+      border-left: 3px solid $middle-point-color;
+      color: $middle-point-color;
+  }
+}

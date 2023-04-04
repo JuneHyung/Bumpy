@@ -2,7 +2,7 @@
   <nav class="menu-list">
     <NuxtLink to="/main" class="menu-list-logo"></NuxtLink>
     <template v-for="(item, idx) in menuList" :key="idx">
-      <NuxtLink :to="item.link" class="menu-list-item">{{ item.label }}</NuxtLink>
+      <NuxtLink :to="item.link" class="menu-list-item" :class="{'current-list-item':idx===0}">{{ item.label }}</NuxtLink>
     </template>
   </nav>
 </template>
@@ -36,27 +36,5 @@ const menuList: MenuItem[] = [
 ];
 </script>
 <style lang="scss" scoped>
-.menu-list {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: start; */
-  align-items: center;
-  height: 100%;
-  width: 200px;
-  box-sizing: border-box;
-  border: 1px solid black;
-  padding: 20px 10px;
-  .menu-list-logo {
-    display: flex;
-    width: 100%;
-    height: 150px;
-    border: 1px solid black;
-    margin-bottom: 20px;
-  }
-  .menu-list-item {
-    height: 100px;
-    display: flex;
-    align-items: center;
-  }
-}
+
 </style>
