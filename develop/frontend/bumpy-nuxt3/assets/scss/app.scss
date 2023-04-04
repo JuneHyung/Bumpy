@@ -6,10 +6,18 @@
 @import "./common/input.scss";
 @import "./common/list.scss";
 @import "./common/meterbar.scss";
+@import "./font.scss";
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+  // font-family: 'D2';
+  font-family: $font-NotoSans;
+  // font-family: 'BMJUA';
+  // font-family: 'KCC-Ganpan';
+  // font-family: 'TheJamsil';
+  // font-family: 'yg-jalnan';
 }
 html,
 body {
@@ -18,7 +26,13 @@ body {
   margin: 0;
   box-sizing: border-box;
   overflow: hidden;
+  font-size: $default-font-size;
 }
+h1,h2,h3,h4,h5,h6{
+  margin: 0;
+  font-family: $font-TheJamsil;
+}
+
 article,
 aside,
 details,
