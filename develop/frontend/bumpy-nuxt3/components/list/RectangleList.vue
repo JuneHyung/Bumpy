@@ -23,8 +23,8 @@ interface Props {
   list: ActivityList[]
 }
 
-const ListItem = defineAsyncComponent(()=>import('./SquareItem.vue'))
-// const ListItem = defineAsyncComponent(()=> import('./RectangleItem.vue'))
+// const ListItem = defineAsyncComponent(()=>import('./SquareItem.vue'))
+const ListItem = defineAsyncComponent(()=> import('./RectangleItem.vue'))
 
 const props = defineProps<Props>();
 </script>

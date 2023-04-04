@@ -28,19 +28,19 @@
     .activity-title-box,
     .meal-title-box {
       display: flex;
-      /* flex-wrap: wrap; */
-      /* flex-direction: row; */
+      justify-content: space-between;
+
       .activity-title,
       .meal-title {
         /* justify-self: flex-start; */
         align-content: flex-start;
       }
-      .activity-date,
-      .meal-date {
+      .activity-date{
         justify-content: center;
         align-items: center;
         justify-self: flex-end;
         align-self: end;
+        font-size:$small-font-size;
       }
     }
   }
@@ -49,6 +49,7 @@
     margin-right: 8px;
     .calendar {
       flex: 1 1 200px;
+      min-width:200px;
       height: 200px;
       margin-top: 8px;
       border: 1px solid black;
@@ -64,16 +65,29 @@
   display: flex;
   flex-direction: row;
   .last-activity-list {
-    flex: 3;
+    flex: 4;
+    padding-right:16px;
     .activity-title-box {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      .activity-title{
+        /* justify-self: flex-start; */
+        align-content: flex-start;
+      }
+      .activity-date{
+        justify-content: center;
+        align-items: center;
+        justify-self: flex-end;
+        align-self: end;
+        font-size:$small-font-size;
+      }
     }
   }
   .last-activity-chart-box {
     display: flex;
     flex-direction: column;
-    flex: 9;
+    flex: 8;
     padding: 8px;
     border: 1px solid black;
     .last-activity-chart-info {
