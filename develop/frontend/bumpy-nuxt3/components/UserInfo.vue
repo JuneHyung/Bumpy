@@ -1,114 +1,161 @@
 <template>
   <div class="user-info-box">
     <ul class="user-info-button-list">
-      <li class="logout-button">Logout</li>
-      <li class="setting-button">Setting</li>
+      <li class="logout-button text-button">Logout</li>
+      <li class="setting-button text-button">Setting</li>
     </ul>
     <div class="user-profile-wrap-box">
-      <div class="user-profile-box"></div>
+      <Avatar name="jh"></Avatar>
+      <p class="user-name bp-mt-sm">준형갓</p>
     </div>
-    <p>준형갓</p>
     <ul class="user-body-info-box">
-      <li>
-        <p>170cm</p>
-        <p>Height</p>
-      </li>
-      <li>
-        <p>69.5kg</p>
-        <p>Weight</p>
-      </li>
-      <li>
-        <p>27</p>
-        <p>age</p>
-      </li>
+      <template v-for="(body, idx) in userBodyInfo" :key="idx">
+        <li>
+          <p class="user-body-info-value bp-mb-xs">{{ body.value }} {{ body.unit }}</p>
+          <p class="user-body-info-category">{{ body.category }}</p>
+        </li>
+      </template>
     </ul>
     <ul class="user-activity-info-box">
-      <li>
-        <p>170cm</p>
-        <p>Height</p>
-      </li>
-      <li>
-        <p>69.5kg</p>
-        <p>Weight</p>
-      </li>
-      <li>
-        <p>27</p>
-        <p>age</p>
-      </li>
+      <template v-for="(activity, idx) in userActivityInfo" :key="idx">
+        <li class="bp-my-sm">
+          <span class="user-activity-info-category">{{ activity.category }} </span>
+          <span class="user-activity-info-value"> {{ activity.value }} {{ activity.unit }}</span>
+        </li>
+      </template>
     </ul>
     <ul class="user-inbody-info-box">
-      <li>
-        <p>체중</p>
-        <p>ㅇㅇㅇ</p>
-      </li>
-      <li>
-        <p>체중</p>
-        <p>ㅇㅇㅇ</p>
-      </li>
-      <li>
-        <p>체중</p>
-        <p>ㅇㅇㅇ</p>
-      </li>
-
-      <li>
-        <p>체중</p>
-        <p>ㅇㅇㅇ</p>
-      </li>
-      <li>
-        <p>체중</p>
-        <p>ㅇㅇㅇ</p>
-      </li>
+      <p class="user-inbody-title-wrap bp-mb-sm">
+        <h4>Your Last Inbody</h4>
+        <span class="last-inbody-date">2023.01.29</span>
+      </p>
+      <ul class="user-inbody-degree-wrap">
+        <template v-for="(degree, idx) in degreeList" :key="idx">
+          <li class="bp-mr-lg">
+            <div class="degree-box bp-mr-xs" :class="{'high-degree':degree.degree==='high','middle-degree':degree.degree==='middle','low-degree':degree.degree==='low'}"></div>
+            <p class="degree-name">{{ degree.name }}</p>
+          </li>
+        </template>
+      </ul>
+      
+      <ul class="user-inbody-info-wrap">
+        <template v-for="(inbody, idx) in userInbodyInfo" :key="idx">
+          <li class="bp-my-md">
+            <p class="inbody-title-wrap bp-mb-sm">
+              <h4 class="bp-mr-xs">{{ inbody.category }}</h4>
+              <span class="inbody-unit">( {{ inbody.unit }} )</span>
+            </p>
+            <MeterBar :value="inbody.value" :max="inbody.max" :min="inbody.min" :low="inbody.low" :high="inbody.high" :optinum="inbody.optinum"></MeterBar>
+          </li>
+        </template>
+      </ul>
     </ul>
   </div>
 </template>
-<style scoped lang="scss">
-.user-info-box {
-  display: flex;
-  flex-direction: column;
+<script setup>
+import MeterBar from './meter/MeterBar.vue';
+import Avatar from '/components/user/Avatar.vue';
+const userBodyInfo = ref([
+  {
+    category: 'Height',
+    value: 170,
+    unit: 'cm',
+  },
+  {
+    category: 'Weight',
+    value: 68,
+    unit: 'kg',
+  },
+  {
+    category: 'Age',
+    value: 27,
+    unit: '',
+  },
+]);
+const userActivityInfo = ref([
+  {
+    category: 'Continuity',
+    value: 180,
+    unit: 'days',
+  },
+  {
+    category: 'Last Active',
+    value: '2023-04-05',
+    unit: '',
+  },
+  {
+    category: 'Average Water',
+    value: 3.2,
+    unit: 'L',
+  },
+]);
 
-  /* align-items: center; */
-  height: 100%;
-  width: 300px;
-  box-sizing: border-box;
-  border: 1px solid black;
-  padding: 20px 10px;
+const degreeList = ref([
+  {
+    name: '표준 이하',
+    degree: 'low',
+  },
+  {
+    name: '표준',
+    degree: 'middle',
+  },
+  {
+    name: '표준 이상',
+    degree: 'high',
+  }
+])
 
-  .user-info-button-list {
-    display: flex;
-    height: auto;
-    /* flex-direction: row; */
-    /* flex: 1; */
-    /* justify-content: flex-start; */
-    .logout-button {
-      font-weight: 500;
-      /* justify-content: start; */
-      /* margin-left: auto; */
-    }
-    .setting-button {
-      margin-left: auto;
-    }
-  }
-
-  .user-profile-wrap-box {
-    display: flex;
-    justify-content: center;
-    margin: 60px 0 24px 0;
-    .user-profile-box {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: grey;
-    }
-  }
-
-  .user-body-info-box {
-    margin: 20px 0 60px 0;
-  }
-  .user-activity-info-box {
-    margin: 20px 0 60px 0;
-  }
-  .user-inbody-info-box {
-    margin: 0;
-  }
-}
-</style>
+const userInbodyInfo = ref([
+  {
+    value: 68.7,
+    max: 100,
+    min: 0,
+    low: 50,
+    high: 75,
+    optimum: 100,
+    category: '체중',
+    unit: 'kg',
+  },
+  {
+    value: 31.5,
+    max: 70,
+    min: 0,
+    low: 20,
+    high: 50,
+    optimum: 70,
+    category: '골격근량',
+    unit: 'kg',
+  },
+  {
+    value: 17,
+    max: 100,
+    min: 0,
+    low: 10,
+    high: 30,
+    optimum: 100,
+    category: '체지방량',
+    unit: 'kg',
+  },
+  {
+    value: 26.8,
+    max: 100,
+    min: 0,
+    low: 10,
+    high: 40,
+    optimum: 100,
+    category: 'BMI',
+    unit: 'kg/m2',
+  },
+  {
+    value: 26.5,
+    max: 70,
+    min: 0,
+    low: 10,
+    high: 40,
+    optimum: 70,
+    category: '체지방률',
+    unit: '%',
+  },
+]);
+</script>
+<style scoped lang="scss"></style>

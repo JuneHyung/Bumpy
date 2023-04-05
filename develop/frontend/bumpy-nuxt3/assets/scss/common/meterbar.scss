@@ -1,6 +1,9 @@
 .meter-bar{
   display:flex;
+  flex:1;
   meter{
+    display:flex;
+    flex:1;
     height:30px;
     // appearance: none;
     &::-webkit-meter-bar{

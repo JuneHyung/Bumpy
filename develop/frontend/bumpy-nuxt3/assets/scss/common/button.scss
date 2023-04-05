@@ -57,6 +57,7 @@
 /*text button*/
 .text-button {
   color: $middle-point-color;
+  cursor: pointer;
   &:hover {
     color: $low-point-color;
   }
