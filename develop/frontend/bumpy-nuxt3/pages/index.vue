@@ -19,7 +19,7 @@
         </div>
         <div>
           <input type="submit" class="long-filled-button login-button bp-mb-xl" value="Login" />
-          <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signin" class="text-button bp-ml-sm">Sign up</NuxtLink></p>
+          <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signup" class="text-button bp-ml-sm">Sign up</NuxtLink></p>
         </div>
       </form>
     </div>
