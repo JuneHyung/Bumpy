@@ -6,7 +6,7 @@
         <h3 class="content-title" @click="moveDetail">2022-02-01</h3>
         <button @click="moveEdit">Edit</button>
       </div>
-      <SquareList type="square" :list="testList"></SquareList>
+      <SquareList type="square" :list="testList" @click="moveDetail"></SquareList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
       <FullCalendar :options="calendarOptions"></FullCalendar>
