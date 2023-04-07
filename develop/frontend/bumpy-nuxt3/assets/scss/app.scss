@@ -1,27 +1,29 @@
-@import "./variable.scss";
-@import "./main.scss";
-@import "./login.scss";
-@import "./signup.scss";
-@import "./common/common.scss";
-@import "./common/button.scss";
-@import "./common/input.scss";
-@import "./common/list.scss";
-@import "./common/meterbar.scss";
-@import "./font.scss";
+@import './variable.scss';
+@import './font.scss';
+@import './main.scss';
+@import './login.scss';
+@import './signup.scss';
+@import './userpage.scss';
 
-@import "./menu/menu.scss";
+@import './common/common.scss';
+@import './common/button.scss';
+@import './common/input.scss';
+@import './common/list.scss';
+@import './common/meterbar.scss';
 
-@import "./user/avatar.scss";
-@import "./user/userInfo.scss";
+@import './menu/menu.scss';
 
-@import "./weight/weightDetail.scss";
-@import "./weight/weightEdit.scss";
-@import "./aerobic/aerobicDetail.scss";
-@import "./aerobic/aerobicEdit.scss";
-@import "./meal/mealDetail.scss";
-@import "./meal/mealEdit.scss";
-@import "./inbody/inbodyDetail.scss";
-@import "./inbody/inbodyEdit.scss";
+@import './user/avatar.scss';
+@import './user/userInfo.scss';
+
+@import './weight/weightDetail.scss';
+@import './weight/weightEdit.scss';
+@import './aerobic/aerobicDetail.scss';
+@import './aerobic/aerobicEdit.scss';
+@import './meal/mealDetail.scss';
+@import './meal/mealEdit.scss';
+@import './inbody/inbodyDetail.scss';
+@import './inbody/inbodyEdit.scss';
 *,
 *:before,
 *:after {
@@ -42,7 +44,12 @@ body {
   overflow: hidden;
   font-size: $default-font-size;
 }
-h1,h2,h3,h4,h5,h6{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   font-family: $font-TheJamsil;
 }
@@ -104,13 +111,13 @@ p {
   display: -webkit-box;
   -webkit-line-clamp: $line-cnt; /* 라인수 */
   -webkit-box-orient: vertical;
-  word-wrap:break-word; 
+  word-wrap: break-word;
   line-height: $line-height;
   height: $line-height * $line-cnt; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
 }
-.ellipsis-1{
-  @include ellipsis(1, 1.5em)
+.ellipsis-1 {
+  @include ellipsis(1, 1.5em);
 }
-.ellipsis-3{
-  @include ellipsis(3, 1.3em)
+.ellipsis-3 {
+  @include ellipsis(3, 1.3em);
 }

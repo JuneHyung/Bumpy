@@ -2,7 +2,7 @@
   <div class="user-info-box">
     <ul class="user-info-button-list">
       <li class="logout-button text-button">Logout</li>
-      <li class="setting-button text-button">Setting</li>
+      <li class="setting-button text-button" @click="moveUserPage">Setting</li>
     </ul>
     <div class="user-profile-wrap-box">
       <Avatar name="jh"></Avatar>
@@ -55,6 +55,8 @@
 <script setup>
 import MeterBar from './meter/MeterBar.vue';
 import Avatar from '/components/user/Avatar.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const userBodyInfo = ref([
   {
     category: 'Height',
@@ -157,5 +159,9 @@ const userInbodyInfo = ref([
     unit: '%',
   },
 ]);
+
+const moveUserPage = () => { 
+  router.push({path:'/userPage'})
+}
 </script>
 <style scoped lang="scss"></style>
