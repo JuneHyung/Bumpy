@@ -1,0 +1,32 @@
+.meter-bar{
+  display:flex;
+  flex:1;
+  meter{
+    display:flex;
+    flex:1;
+    height:30px;
+    // appearance: none;
+    &::-webkit-meter-bar{
+      height:30px;
+      border-radius: 1rem;
+      background-color: $meter-background-color;
+    }
+  
+    // 최적값 아래
+    &::-webkit-meter-even-less-good-value {
+      border-radius: 1rem;
+      background-color: $low-point-color;
+    }
+    // 최적값
+    &::-webkit-meter-optimum-value{
+      border-radius: 1rem;
+      background-color: $high-point-color;
+    }
+  
+    // 최적값 근접
+    &::-webkit-meter-suboptimum-value{
+      border-radius: 1rem;
+      background-color: $middle-point-color;
+    }
+  }
+}

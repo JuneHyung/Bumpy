@@ -3,18 +3,31 @@
   height: 420px;
   display: flex;
   .login-introduce-box {
+    display:flex;
+    flex-direction: column;
     padding: 30px;
     flex: 1 1 600px;
     height: 100%;
     color: #fff;
     background: linear-gradient(to bottom, $middle-point-color, $high-point-color);
+    justify-content: space-between;
+
     .introduce-title {
       font-weight: 900;
-      font-size: 36px;
+      font-size: $large-font-size;
     }
     .introduce-box {
-      font-size: 20px;
       font-weight: 500;
+      .introduce-message{
+        // margin:16px 0;
+        &:nth-child(3),&:nth-child(4),&:nth-child(5){
+          margin: 0;
+        }
+      }
+      .contact-info{
+        margin-top:60px;
+        font-size:$small-font-size;
+      }
     }
   }
   .login-form-box {
@@ -30,25 +43,24 @@
       align-items: center;
       justify-content: center;
       color: $middle-point-color;
-      height: 80px;
-      font-size: 24px;
+      height: 78px;
     }
     .login-form {
-      padding: 16px;
+      padding-bottom:30px;
       height: calc(100% - 80px);
       flex-wrap: wrap;
       display: flex;
       flex-direction: column;
-      input {
-        display:flex;
-        flex:1;
+      justify-content: space-between;
+      
+      .login-input{
+        input{
+          color:#fff;
+        }
       }
-
+      
       .login-button {
-        margin-top: 60px;
-        height: 60px;
         font-weight: 900;
-        font-size: 16px;
       }
 
       .move-sign-up-wrap-box {
@@ -57,6 +69,7 @@
         color: #fff;
         justify-content: center;
         align-items: center;
+        font-size:$small-font-size
       }
     }
   }
