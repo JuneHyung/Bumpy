@@ -1,0 +1,92 @@
+.signup-wrap-box {
+  // width: 1000px;
+  display: flex;
+  // flex-wrap: wrap;
+  flex-direction: row;
+  .signup-introduce-box {
+    display:flex;
+    flex-direction: column;
+    flex: 1 100px;
+    padding: 30px;
+    color: #fff;
+    background: linear-gradient(to bottom, $middle-point-color, $high-point-color);
+
+    .introduce-title {
+      font-weight: 900;
+      font-size: $large-font-size;
+    }
+    .introduce-box {
+      font-weight: 500;
+      .introduce-message{
+        // margin:16px 0;
+        &:nth-child(3),&:nth-child(4),&:nth-child(5){
+          margin: 0;
+        }
+      }
+      .contact-info{
+        margin-top:60px;
+        font-size:$small-font-size;
+      }
+    }
+  }
+
+  .signup-form-box{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 120px;
+    flex: 1;
+    // flex-shrink: 8;
+    // flex: 0 0 ;
+    
+    // height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    .signup-form-title {
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      color: $middle-point-color;
+      height: 78px;
+    }
+    .signup-form {
+      // display: flex;
+      flex-direction: column;
+      // justify-content: space-between;
+      
+      
+        input{
+          color:#fff;
+        }
+      
+      .signup-id-wrap{
+        display: flex;
+        align-items: center;
+        .id-input{
+          display:flex;
+          flex:8;
+        }
+      }
+      .signup-email-wrap{
+        display: flex;
+        align-items: center;
+        .email-input{
+          display:flex;
+          flex:8;
+        }
+      }
+      .signup-phone-wrap{
+        display:flex;
+        align-items:center;
+      }
+    }
+
+    .signup-button-wrap{
+      display:flex;
+      justify-content:flex-end;
+      .cancel-button, .signup-button{
+        // max-width:160px;
+        flex: 0
+      }
+    }
+  }
+}

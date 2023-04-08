@@ -1,12 +1,10 @@
 <template>
   <li class="rectangle-item bp-pa-sm bp-my-sm">
     <p>{{ info.name }}</p>
-    <p>{{ info.startWeight }}</p>
-    <p>{{ info.endWeight }}</p>
-    <p>{{ info.barWeight }}</p>
-    <p>{{ info.startReps }}</p>
-    <p>{{ info.endReps }}</p>
-    <p>{{ info.setReps }}</p>
+    <div class="bp-mt-md">
+      <p><span>{{ info.startWeight }}kg</span> ~ <span>{{info.endWeight}}kg</span> / <span>{{info.barWeight}}kg</span></p>
+      <p><span>{{ info.startWeight }}reps</span> ~ <span>{{info.endWeight}}reps</span> / <span>{{info.barWeight}}set</span></p>
+    </div>
   </li>
 </template>
 <script setup lang="ts">

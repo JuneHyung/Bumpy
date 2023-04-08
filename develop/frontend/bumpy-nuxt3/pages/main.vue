@@ -8,51 +8,26 @@
     <div class="activity-meal-wrap-box">
       <div class="content-wrap-box activity-wrap-box">
         <div class="activity-title-box">
-          <p class="activity-title">Your activity</p>
+          <h3 class="activity-title">Your activity</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
         <div class="calendar"></div>
       </div>
       <div class="content-wrap-box meal-wrap-box">
         <div class="meal-title-box">
-          <p class="meal-title">Your activity</p>
-          <p class="meal-date">2023.02.07</p>
+          <h3 class="meal-title">Today Meal</h3>
         </div>
+        <SquareList type="square" :list="testList"></SquareList>
       </div>
     </div>
 
     <div class="content-wrap-box last-activity-wrap-box">
       <ul class="last-activity-list">
         <div class="activity-title-box">
-          <p class="activity-title">Last activity</p>
+          <h3 class="activity-title">Last Activity</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
+        <RectangleList type="rectangle" :list="testList"></RectangleList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -76,35 +51,10 @@
     <div class="content-wrap-box last-activity-wrap-box">
       <ul class="last-activity-list">
         <div class="activity-title-box">
-          <p class="activity-title">Last activity</p>
+          <h3 class="activity-title">Last Aerobic</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
+        <RectangleList type="rectangle" :list="testList"></RectangleList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -127,9 +77,18 @@
   </main>
 </template>
 <script setup>
+import SquareList from '~/components/list/SquareList.vue';
+import RectangleList from '../components/list/RectangleList.vue';
 definePageMeta({
   layout: 'main-layout',
 });
+const testList = [
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모' },
+  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+];
 </script>
 <style lang="scss">
 

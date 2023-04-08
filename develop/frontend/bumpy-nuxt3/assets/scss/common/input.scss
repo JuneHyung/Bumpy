@@ -1,6 +1,7 @@
 .input-wrap-box{
   display:flex;
-  flex:1 1 400;
+  // flex:1 1 400;
+  border:none;
   .correct-input{
     border:1px solid $correct-color;
   }
@@ -8,15 +9,19 @@
     border: 1px solid $incorrect-color;
   }
   .input-text, .input-password, .input-number, .input-date{
-    border: 2px solid $input-border-color;
+    flex:1;
+    border: 1px solid $input-border-color;
     outline:none;
     border-radius:4px;
     height:40px;
+    background:none;
+    padding: 0 8px;
     &:focus{
-      border: 2px solid $middle-point-color;
+      border: 1px solid $middle-point-color;
     }
     &:hover{
-      border: 2px solid $low-point-color;
+      
+      border: 1px solid $low-point-color;
     }
   }
 }
