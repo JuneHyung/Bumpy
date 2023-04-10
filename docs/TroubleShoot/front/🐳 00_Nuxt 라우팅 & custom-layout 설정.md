@@ -60,7 +60,7 @@ pages/
 
 **생성된 Nuxt3 파일들을 보고**
 
-![Nuxt3프로젝트 생성 결과.png](./readme_images/00_Nuxt3프로젝트 생성 결과.png)
+![Nuxt3프로젝트 생성 결과.png](./readme_images/00_Nuxt3프로젝트_생성_결과.png)
 
 Nuxt3에서는 `pages/`폴더가 **옵션**이다.
 
