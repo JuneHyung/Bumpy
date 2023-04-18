@@ -41,6 +41,7 @@ export const Default = {
     },
   },
 };
+
 export const IDInput = {
   args: {
     inputData: {
