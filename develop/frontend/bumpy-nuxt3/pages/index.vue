@@ -37,8 +37,10 @@ interface inputText {
   autofocus?: boolean;
   maxlength?: number;
   minlength?: number;
-  disabeld?: boolean;
+  disabled?: boolean;
   readonly?: boolean;
+  suffix?: boolean;
+  pattern?: string;
 }
 interface inputPassword {
   value?: string;
@@ -54,7 +56,7 @@ interface userFormData {
   password: inputPassword;
 }
 const formData: userFormData = {
-  id: { value: '', placeholder: '아이디', maxlength: 20, minlength: 5 },
+  id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 5, pattern: '^[a-z]+[a-z0-9]{5,19}$' },
   password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 5 },
 };
 const target = ref('#');
