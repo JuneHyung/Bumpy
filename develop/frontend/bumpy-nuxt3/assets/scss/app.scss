@@ -1,3 +1,5 @@
+
+
 @import './variable.scss';
 @import './font.scss';
 @import './main.scss';
@@ -24,6 +26,7 @@
 @import './meal/mealEdit.scss';
 @import './inbody/inbodyDetail.scss';
 @import './inbody/inbodyEdit.scss';
+
 *,
 *:before,
 *:after {
@@ -126,3 +129,8 @@ p {
 .ellipsis-3 {
   @include ellipsis(3, 1.3em);
 }
+
+// :root {
+//   --fc-button-text-color:#fff;
+//   --fc-button-bg-color:red;
+// }

@@ -27,10 +27,11 @@
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.5",
+    "@fullcalendar/daygrid": "^6.1.5",
+    "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/vue3": "^6.1.5",
     "@storybook/vue3-vite": "^7.0.2",
     "dayjs": "^1.11.7",
-    "fullcalendar": "^6.1.5",
     "lodash": "^4.17.21",
     "sass": "^1.59.2",
     "sass-loader": "^13.2.0"

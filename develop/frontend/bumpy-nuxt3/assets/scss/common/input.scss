@@ -28,7 +28,8 @@
   .input-text,
   .input-password,
   .input-number,
-  .input-date {
+  .input-date, 
+  .select-list-box{
     flex: 1;
     border: 1px solid $input-border-color;
     outline: none;
