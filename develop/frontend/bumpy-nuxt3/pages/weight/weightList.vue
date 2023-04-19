@@ -9,46 +9,27 @@
       <SquareList type="square" :list="testList" @click="moveDetail"></SquareList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
-      <FullCalendar :options="calendarOptions"></FullCalendar>
+      <Calendar :list="weightList"></Calendar>
     </div>
   </main>
 </template>
 <script setup>
-import FullCalendar from '@fullcalendar/vue3';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-// import { INITIAL_EVENTS, createEventId } from './event-utils';
+import Calendar from '/components/Calendar.vue';
+
 import SquareList from '~~/components/list/SquareList.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
-const calendarOptions = {
-  plugins: [
-    dayGridPlugin,
-    timeGridPlugin,
-    interactionPlugin, // needed for dateClick
-  ],
-  headerToolbar: {
-    left: 'prev,next today',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay',
-  },
-  initialView: 'dayGridMonth', // alternatively, use the `events` setting to fetch from a feed
-  editable: true,
-  selectable: true,
-  selectMirror: true,
-  dayMaxEvents: true,
-  weekends: true,
-  // select: this.handleDateSelect,
-  // eventClick: this.handleEventClick,
-  // eventsSet: this.handleEvents,
-  /* you can update a remote database when these fire:
-  eventAdd:
-  eventChange:
-  eventRemove:
-  */
-};
+const weightList = [
+  {title: '운동 01', date:'2023-04-05'},
+  {title: '운동 02', date:'2023-04-05'},
+  {title: '운동 03', date:'2023-04-05'},
+  {title: '운동 04', date:'2023-04-05'},
+  {title: '운동 05', date:'2023-04-05'},
+  {title: '운동 06', date:'2023-04-15'},
+  {title: '운동 07', date:'2023-04-25'},
+  {title: '운동 08', date:'2023-04-11'},
+  {title: '운동 09', date:'2023-04-24'},
+]
 definePageMeta({
   layout: 'main-layout',
 });

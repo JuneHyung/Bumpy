@@ -18,10 +18,15 @@ interface EventListItem{
 type EventList = EventListItem[];
 
 interface Props {
-  list: EventList;
+  list?: EventList;
 }
 const props = defineProps<Props>();
+// const emits= defineEmits(['getDate'])
 
+const setDate = (v:any) =>{
+  console.log(v)
+// console.log(calendar.value.getDate())
+}
 const calendarOptions = ref({
   plugins: [
     dayGridPlugin,
@@ -49,7 +54,8 @@ const calendarOptions = ref({
   // dayMaxEvents: false,
   // weekends: false,
   // select: this.handleDateSelect,
-  // eventClick: this.handleEventClick,
+  // eventClick: setDate,
+  dateClick: setDate,
   // eventsSet: handleEvents,
   /* you can update a remote database when these fire:
   eventAdd:
