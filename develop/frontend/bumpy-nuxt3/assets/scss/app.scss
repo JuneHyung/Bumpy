@@ -123,11 +123,16 @@ p {
   line-height: $line-height;
   height: $line-height * $line-cnt; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
 }
-.ellipsis-1 {
+.ellipsis, .ellipsis-1 {
   @include ellipsis(1, 1.5em);
 }
 .ellipsis-3 {
   @include ellipsis(3, 1.3em);
+}
+
+.placeholder{
+  color:$input-border-color; 
+  
 }
 
 // :root {
