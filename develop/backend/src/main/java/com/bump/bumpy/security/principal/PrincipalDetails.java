@@ -1,7 +1,6 @@
 package com.bump.bumpy.security.principal;
 
-import com.bump.bumpy.database.entity.User;
-import lombok.Getter;
+import com.bump.bumpy.database.entity.UsrMUsr;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,14 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Getter
-public class PrincipalDetails implements UserDetails {
+public record PrincipalDetails(UsrMUsr usrMUsr) implements UserDetails {
     private static final String ROLE_USER = "USER";
-    private User user;
-
-    public PrincipalDetails(User user) {
-        this.user = user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -26,13 +19,19 @@ public class PrincipalDetails implements UserDetails {
     }
 
     @Override
-    public String getPassword() { return user.getPw(); }
+    public String getPassword() {
+        return usrMUsr.getPassword();
+    }
 
     @Override
-    public String getUsername() { return user.getUserId(); }
+    public String getUsername() {
+        return usrMUsr.getUserId();
+    }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
     public boolean isAccountNonLocked() {
@@ -45,5 +44,7 @@ public class PrincipalDetails implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() { return user.isUsed(); }
+    public boolean isEnabled() {
+        return usrMUsr.getUseYn();
+    }
 }

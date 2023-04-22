@@ -1,8 +1,7 @@
 package com.bump.bumpy.domain.auth;
 
-import com.bump.bumpy.database.entity.User;
-import com.bump.bumpy.database.repository.TokenStoreRepository;
-import com.bump.bumpy.database.repository.UserRepository;
+import com.bump.bumpy.database.entity.UsrMUsr;
+import com.bump.bumpy.database.repository.UsrMUsrRepository;
 import com.bump.bumpy.domain.auth.dto.request.LoginRequest;
 import com.bump.bumpy.security.jwt.JwtProvider;
 import com.bump.bumpy.security.principal.PrincipalDetails;
@@ -23,12 +22,12 @@ import java.time.Instant;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final UserRepository userRepository;
+    private final UsrMUsrRepository usrMUsrRepository;
     private final AuthenticationManager authenticationManager;
     private final PrincipalDetailsService principalDetailsService;
     private final JwtProvider jwtProvider;
     private final JwtDecoder jwtDecoder;
-    private final TokenStoreRepository tokenStoreRepository;
+//    private final CmMTokenRepository tokenStoreRepository;
 
     /**
      * Map형태로 반환 (accessToken, refreshToken)
@@ -57,8 +56,8 @@ public class AuthService {
         try {
             String subject = tokenCheckGetSubject(token);
 
-            User user = userRepository.findById(subject).orElseThrow(() -> new BadCredentialsException("유저 없음"));
-            PrincipalDetails details = (PrincipalDetails) principalDetailsService.loadUserByUsername(user.getUserId());
+            UsrMUsr usrMUsr = usrMUsrRepository.findById(subject).orElseThrow(() -> new BadCredentialsException("유저 없음"));
+            PrincipalDetails details = (PrincipalDetails) principalDetailsService.loadUserByUsername(usrMUsr.getUserId());
 
             stringMap.put("accessToken", jwtProvider.makeAccessToken(details));
             stringMap.put("refreshToken", jwtProvider.makeRefreshToken(details));
