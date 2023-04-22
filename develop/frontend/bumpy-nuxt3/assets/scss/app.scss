@@ -1,3 +1,5 @@
+
+
 @import './variable.scss';
 @import './font.scss';
 @import './main.scss';
@@ -24,6 +26,7 @@
 @import './meal/mealEdit.scss';
 @import './inbody/inbodyDetail.scss';
 @import './inbody/inbodyEdit.scss';
+
 *,
 *:before,
 *:after {
@@ -41,7 +44,7 @@ body {
   direction: ltr;
   margin: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  // overflow: hidden;
   font-size: $default-font-size;
 }
 h1,
@@ -85,7 +88,12 @@ ol {
 p {
   margin: 0;
 }
-
+.hidden-box {
+  display: none;
+}
+.full-width {
+  width: 100%;
+}
 .content-layout {
   width: 940px;
   height: 100%;
@@ -115,9 +123,19 @@ p {
   line-height: $line-height;
   height: $line-height * $line-cnt; /* line-height 가 1.2em 이고 3라인을 자르기 때문에 height는 1.2em * 3 = 3.6em */
 }
-.ellipsis-1 {
+.ellipsis, .ellipsis-1 {
   @include ellipsis(1, 1.5em);
 }
 .ellipsis-3 {
   @include ellipsis(3, 1.3em);
 }
+
+.placeholder{
+  color:$input-border-color; 
+  
+}
+
+// :root {
+//   --fc-button-text-color:#fff;
+//   --fc-button-bg-color:red;
+// }

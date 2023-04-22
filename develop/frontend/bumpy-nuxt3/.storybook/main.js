@@ -1,4 +1,4 @@
-/** @type { import('@storybook/vue3-webpack5').StorybookConfig } */
+/** @type { import('@storybook/vue3-vite').StorybookConfig } */
 const config = {
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
@@ -7,7 +7,7 @@ const config = {
     "@storybook/addon-interactions",
   ],
   framework: {
-    name: "@storybook/vue3-webpack5",
+    name: "@storybook/vue3-vite",
     options: {},
   },
   docs: {

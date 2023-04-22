@@ -1,6 +1,6 @@
 package com.bump.bumpy.util.dto;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
