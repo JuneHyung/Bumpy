@@ -9,6 +9,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "overrides": {
+    "vue": "latest"
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.21.4",
     "@babel/preset-typescript": "^7.21.4",
@@ -31,11 +34,12 @@
     "@fullcalendar/core": "^6.1.5",
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/interaction": "^6.1.5",
-    "@fullcalendar/vue3": "^6.1.5",
+    "@pinia/nuxt": "^0.4.9",
     "@storybook/vue3-vite": "^7.0.2",
     "apexcharts": "^3.39.0",
     "dayjs": "^1.11.7",
     "lodash": "^4.17.21",
+    "pinia": "^2.0.35",
     "vue3-apexcharts": "^1.4.1"
   }
 }
