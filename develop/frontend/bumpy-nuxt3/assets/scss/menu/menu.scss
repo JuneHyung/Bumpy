@@ -14,6 +14,7 @@
     height: 150px;
     border: 1px solid black;
     margin-bottom: 20px;
+    cursor:pointer;
   }
   
   .menu-list-item {
@@ -24,6 +25,7 @@
     align-items: center;
     text-decoration: none;
     color:$black-color; 
+    cursor: pointer;
     &:hover{
       color: $middle-point-color;
     }
@@ -31,7 +33,8 @@
       color:$high-point-color;
     }
   }
-  .current-list-item{
+
+  .router-link-exact-active{
       border-left: 3px solid $middle-point-color;
       color: $middle-point-color;
   }
