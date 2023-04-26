@@ -34,6 +34,7 @@
     "@fullcalendar/core": "^6.1.5",
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/interaction": "^6.1.5",
+    "@fullcalendar/vue3": "^6.1.6",
     "@pinia/nuxt": "^0.4.9",
     "@storybook/vue3-vite": "^7.0.2",
     "apexcharts": "^3.39.0",
