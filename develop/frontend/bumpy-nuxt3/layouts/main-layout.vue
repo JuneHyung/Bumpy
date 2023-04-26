@@ -13,11 +13,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.main-layout {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
+
 </style>

@@ -2,6 +2,7 @@
 
 @import './variable.scss';
 @import './font.scss';
+@import './layouts.scss';
 @import './main.scss';
 @import './login.scss';
 @import './signup.scss';
@@ -40,7 +41,7 @@
 }
 html,
 body {
-  width: 100%;
+  // width: 100%;
   direction: ltr;
   margin: 0;
   box-sizing: border-box;
@@ -94,6 +95,7 @@ p {
 .full-width {
   width: 100%;
 }
+
 .content-layout {
   width: 940px;
   height: 100%;
