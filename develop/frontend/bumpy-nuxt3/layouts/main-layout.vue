@@ -1,8 +1,10 @@
 <template>
-  <div class="main-layout">
-    <Menu></Menu>
-    <NuxtPage />
-    <UserInfo></UserInfo>
+  <div class="wrapper-layout">
+    <div class="main-layout">
+      <Menu></Menu>
+      <NuxtPage />
+      <UserInfo></UserInfo>
+    </div>
   </div>
 </template>
 <script>

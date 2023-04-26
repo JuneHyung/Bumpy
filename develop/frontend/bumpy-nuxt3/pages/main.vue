@@ -1,5 +1,5 @@
 <template>
-  <main class="main-page">
+  <div class="content-layout main-page">
     <h1 class="content-title">Introduce</h1>
     <div class="content-wrap-box">
       <p>Welcome 준형갓!</p>
@@ -74,7 +74,7 @@
         <div class="last-activity-chart"></div>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 <script setup>
 import SquareList from '~/components/list/SquareList.vue';

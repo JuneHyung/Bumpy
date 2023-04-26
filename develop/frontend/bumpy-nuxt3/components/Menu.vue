@@ -1,9 +1,11 @@
 <template>
-  <nav class="menu-list">
-    <div class="menu-list-logo" @click="moveMain"></div>
-    <template v-for="(item, idx) in menuList" :key="idx">
-      <NuxtLink :to="item.link" class="menu-list-item">{{ item.label }}</NuxtLink>
-    </template>
+  <nav class="menu-wrap-list">
+    <ul class="menu-list">
+      <li class="menu-list-logo" @click="moveMain"></li>
+      <template v-for="(item, idx) in menuList" :key="idx">
+        <li class="menu-list-item"><NuxtLink :to="item.link" class="menu-list-link">{{ item.label }}</NuxtLink></li>
+      </template>
+    </ul>
   </nav>
 </template>
 <script setup lang="ts">
