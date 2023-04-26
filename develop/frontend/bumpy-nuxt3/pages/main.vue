@@ -44,7 +44,7 @@
             <p class="chart-info-item-value">12reps / 5sets</p>
           </li>
         </ul>
-        <div class="last-activity-chart"></div>
+        <LineChart class="last-activity-cahrt"></LineChart>
       </div>
     </div>
 
@@ -71,7 +71,7 @@
             <p class="chart-info-item-value">12reps / 5sets</p>
           </li>
         </ul>
-        <div class="last-activity-chart"></div>
+        <AreaChart class="last-activity-cahrt"></AreaChart>
       </div>
     </div>
   </div>
@@ -79,6 +79,8 @@
 <script setup>
 import SquareList from '~/components/list/SquareList.vue';
 import RectangleList from '../components/list/RectangleList.vue';
+import AreaChart from '~/components/charts/AreaChart';
+import LineChart from '~/components/charts/LineChart';
 definePageMeta({
   layout: 'main-layout',
 });
