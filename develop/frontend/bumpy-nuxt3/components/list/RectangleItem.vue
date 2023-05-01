@@ -1,5 +1,5 @@
 <template>
-  <li class="rectangle-item bp-pa-sm bp-my-sm">
+  <li class="rectangle-item bp-pa-sm bp-ma-sm">
     <p>{{ info.name }}</p>
     <div class="bp-mt-md">
       <p><span>{{ info.startWeight }}kg</span> ~ <span>{{info.endWeight}}kg</span> / <span>{{info.barWeight}}kg</span></p>
