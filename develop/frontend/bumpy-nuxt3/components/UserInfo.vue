@@ -4,18 +4,21 @@
       <li class="logout-button text-button">Logout</li>
       <li class="setting-button text-button" @click="moveUserPage">Setting</li>
     </ul>
+
     <div class="user-profile-wrap-box">
       <Avatar name="jh"></Avatar>
       <p class="user-name bp-mt-sm">준형갓</p>
     </div>
+
     <ul class="user-body-info-box">
       <template v-for="(body, idx) in userBodyInfo" :key="idx">
         <li>
-          <p class="user-body-info-value bp-mb-xs">{{ body.value }} {{ body.unit }}</p>
-          <p class="user-body-info-category">{{ body.category }}</p>
+            <p class="user-body-info-value bp-mb-xs">{{ body.value }} {{ body.unit }}</p>
+            <p class="user-body-info-category">{{ body.category }}</p>
         </li>
       </template>
     </ul>
+
     <ul class="user-activity-info-box">
       <template v-for="(activity, idx) in userActivityInfo" :key="idx">
         <li class="bp-my-sm">
@@ -24,6 +27,7 @@
         </li>
       </template>
     </ul>
+
     <ul class="user-inbody-info-box">
       <p class="user-inbody-title-wrap bp-mb-sm">
         <h4>Your Last Inbody</h4>

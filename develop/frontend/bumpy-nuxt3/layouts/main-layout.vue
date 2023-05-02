@@ -1,8 +1,10 @@
 <template>
-  <div class="main-layout">
-    <Menu></Menu>
-    <NuxtPage />
-    <UserInfo></UserInfo>
+  <div class="wrapper-layout">
+    <div class="main-layout">
+      <Menu></Menu>
+      <NuxtPage />
+      <UserInfo></UserInfo>
+    </div>
   </div>
 </template>
 <script>
@@ -13,11 +15,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.main-layout {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
+
 </style>

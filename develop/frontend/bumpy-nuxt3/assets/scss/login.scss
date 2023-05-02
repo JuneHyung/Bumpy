@@ -1,14 +1,12 @@
 .login-wrap-box {
-  width: 1000px;
-  height: 420px;
   display: flex;
+  flex:0 1 1000px;
   .login-introduce-box {
     display:flex;
     flex-direction: column;
     padding: 30px;
-    flex: 1 1 600px;
-    height: 100%;
-    color: #fff;
+    flex: 7 600px;
+    color: $white-color;
     background: linear-gradient(to bottom, $middle-point-color, $high-point-color);
     justify-content: space-between;
 
@@ -25,7 +23,7 @@
         }
       }
       .contact-info{
-        margin-top:60px;
+        margin-top: 3.75rem;
         font-size:$small-font-size;
       }
     }
@@ -33,29 +31,28 @@
   .login-form-box {
     display: flex;
     flex-direction: column;
-    flex: 1 1 400px;
-    height: 100%;
+    flex: 5 400px;
+    // height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
 
     .login-form-title {
       display: flex;
-      text-align: center;
       align-items: center;
       justify-content: center;
       color: $middle-point-color;
-      height: 78px;
+      height: 5rem;
     }
     .login-form {
       padding-bottom:30px;
-      height: calc(100% - 80px);
       flex-wrap: wrap;
       display: flex;
+      flex:1;
       flex-direction: column;
       justify-content: space-between;
       
       .login-input{
         input{
-          color:#fff;
+          color:$white-color;
         }
       }
       
@@ -64,12 +61,12 @@
       }
 
       .move-sign-up-wrap-box {
-        flex: 1;
         display: flex;
-        color: #fff;
+        flex: 1;
+        color: $white-color;
         justify-content: center;
         align-items: center;
-        font-size:$small-font-size
+        font-size:$small-font-size;
       }
     }
   }

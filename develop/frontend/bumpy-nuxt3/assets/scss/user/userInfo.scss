@@ -1,51 +1,41 @@
-.user-info-box {
-  display: flex;
+.user-info-box{
+  display:flex;
   flex-direction: column;
-
-  /* align-items: center; */
-  height: 100%;
-  width: 300px;
+  flex: 0 2 300px;
+  align-self:stretch;
   box-sizing: border-box;
+  padding: 1.25rem 10px;
   border: 1px solid $border-color;
-  padding: 20px 10px;
-
-  .user-info-button-list {
-    display: flex;
-    height: auto;
+  
+  .user-info-button-list{
+    display:flex;
+    justify-content:space-between;
     .logout-button, .setting-button{
       font-size:$small-font-size;
     }
-    .logout-button {
-      font-weight: 500;
-    }
-    .setting-button {
-      margin-left: auto;
-    }
   }
 
-  .user-profile-wrap-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .user-profile-wrap-box{
+    display:flex;
+    flex:1;
+    flex-direction:column;
+    justify-content:center;
     align-items: center;
-    margin-top:60px;
-
     .user-name{
-      font-size:$middle-font-size;
+      font-size: $middle-font-size;
     }
   }
 
-  .user-body-info-box {
-    margin: 20px 0 60px 0;
+  .user-body-info-box{
+    padding:1.25rem 0 3.75rem 0;
     display:flex;
     li{
       display: flex;
-      flex-direction: column;
       flex:1;
-      p{
-        display: flex;
-        justify-content: center;
-      }
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
       .user-body-info-category{
         font-family: $font-TheJamsil;
       }
@@ -53,16 +43,23 @@
         font-size:$small-font-size;
       }
       &:nth-child(2){
-        border-right:1px solid $black-color;
-        border-left:1px solid $black-color;
+        border-left: 1px solid black;
+        border-right: 1px solid black;  
       }
     }
   }
+
   .user-activity-info-box {
-    margin: 20px 0 60px 0;
+    display:flex;
+    flex:1;
+    flex-direction: column;
+    padding: 1.25rem 0 3.25rem 0;
+    align-content: center;
     li{
       display:flex;
+      flex:0 1;
       justify-content: space-between;
+      align-items: center;
       .user-activity-info-category{
         font-family: $font-TheJamsil;
       }
@@ -71,8 +68,10 @@
       }
     }
   }
+
   .user-inbody-info-box {
-    margin: 0;
+    // margin: 0;
+    flex:0 3;
     .user-inbody-title-wrap{
       display: flex;
       justify-content: space-between;
