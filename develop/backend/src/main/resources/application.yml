@@ -30,9 +30,3 @@ server:
 
 logging:
   config: classpath:log4j2.yml
-
-jwt:
-  private:
-    key: classpath:rsa.private.key
-  public:
-    key: classpath:rsa.public.key
