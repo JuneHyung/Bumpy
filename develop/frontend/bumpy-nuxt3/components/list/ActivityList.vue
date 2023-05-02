@@ -6,7 +6,7 @@
   </ul>
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent } from 'vue';
+import { ref, defineAsyncComponent } from 'vue';
 
 interface ActivityList {
   name: string,
@@ -22,11 +22,15 @@ interface Props {
   type: 'square' | 'rectangle';
   list: ActivityList[]
 }
-
-// const ListItem = defineAsyncComponent(()=>import('./SquareItem.vue'))
-const ListItem = defineAsyncComponent(()=> import('./RectangleItem.vue'))
-
 const props = defineProps<Props>();
+
+const ListItem = defineAsyncComponent(()=>{
+  if(props.type==='square') return import('./SquareItem.vue')
+  else return import ('./RectangleItem.vue')
+})
+// const ListItem = defineAsyncComponent(()=> import('./RectangleItem.vue'))
+
+
 </script>
 <style scoped lang="scss">
 

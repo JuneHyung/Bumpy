@@ -3,7 +3,7 @@
   flex-direction: column;
   flex: 1 1 200;
   border: none;
-  
+
   label {
     display: flex;
     align-items: center;
@@ -29,8 +29,9 @@
   .input-text,
   .input-password,
   .input-number,
-  .input-date, 
-  .select-list-button{
+  .input-date,
+  .select-list-button,
+  .input-textarea {
     flex: 1;
     border: 1px solid $input-border-color;
     outline: none;
@@ -38,7 +39,7 @@
     height: 40px;
     background: none;
     padding: 0 8px;
-    display:flexbox;
+    display: flexbox;
     &:focus {
       border: 1px solid $middle-point-color;
     }
@@ -46,23 +47,32 @@
       border: 1px solid $low-point-color;
     }
   }
-  
-  .select-list-button{
-    text-align:left;
+
+  .select-list-button {
+    text-align: left;
     line-height: 40px;
   }
-  .select-list-box{
-    background-color:$low-point-color;
+  .select-list-box {
+    background-color: $low-point-color;
     margin-top: 2px;
-    border-radius:4px;
-    cursor:pointer;
-    li{
-      transition:all 0.5s ease-out;
-      padding:4px;
-      
-      &:hover{
-        background-color:$middle-point-color;
+    border-radius: 4px;
+    cursor: pointer;
+    li {
+      transition: all 0.5s ease-out;
+      padding: 4px;
+
+      &:hover {
+        background-color: $middle-point-color;
       }
     }
+  }
+
+  .input-textarea {
+    height: auto;
+    white-space: pre-line;
+    resize: none;
+    padding: 4px;
+    outline: none;
+    // https://blossoming-man.tistory.com/entry/textarea에-엔터를-입력했는데-렌더링해보니-줄-바꿈이-안-된다
   }
 }
