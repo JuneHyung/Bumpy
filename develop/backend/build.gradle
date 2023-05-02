@@ -75,7 +75,7 @@ dependencies {
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
 	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.3'
-	
+
 }
 
 def querydslSrcDir = 'src/main/generated'

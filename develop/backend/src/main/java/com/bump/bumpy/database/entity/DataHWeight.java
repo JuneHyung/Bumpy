@@ -1,6 +1,12 @@
 package com.bump.bumpy.database.entity;
 
 import com.bump.bumpy.database.entity.composite.DataHWeightId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,12 +15,6 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -60,17 +60,17 @@ public class DataHWeight implements Serializable {
     @Column(name = "weightEnd", precision = 10)
     private BigDecimal weightEnd;
 
-    @Column(name = "countStart")
-    private Integer countStart;
+    @Column(name = "repsStart")
+    private Integer repsStart;
 
-    @Column(name = "countEnd")
-    private Integer countEnd;
+    @Column(name = "repsEnd")
+    private Integer repsEnd;
 
     @Column(name = "pollWeight", precision = 10)
     private BigDecimal pollWeight;
 
-    @Column(name = "setCount")
-    private Integer setCount;
+    @Column(name = "setReps")
+    private Integer setReps;
 
     @NotNull
     @Column(name = "measure", nullable = false)

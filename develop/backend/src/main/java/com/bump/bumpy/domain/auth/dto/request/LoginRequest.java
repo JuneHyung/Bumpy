@@ -1,9 +1,10 @@
 package com.bump.bumpy.domain.auth.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Data;
 
 @Data
 public class LoginRequest {

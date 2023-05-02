@@ -5,8 +5,6 @@ import com.bump.bumpy.domain.auth.dto.request.LoginRequest;
 import com.bump.bumpy.domain.auth.dto.response.AuthResponse;
 import com.bump.bumpy.util.dto.StringMap;
 import io.swagger.v3.oas.annotations.Operation;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.Cookie;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
