@@ -86,8 +86,8 @@ public class SecurityConfig {
                 // 경로 접근 처리
                 .authorizeRequests(authorize -> authorize
 //                                .antMatchers("/**").permitAll()
-                                .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
+                                .antMatchers("/auth/**").permitAll()
+                                .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
                                 .anyRequest().hasAnyRole("USER")
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)

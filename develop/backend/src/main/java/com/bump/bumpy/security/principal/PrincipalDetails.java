@@ -1,6 +1,8 @@
 package com.bump.bumpy.security.principal;
 
 import com.bump.bumpy.database.entity.UsrMUsr;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +10,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public record PrincipalDetails(UsrMUsr usrMUsr) implements UserDetails {
+@RequiredArgsConstructor
+@Getter
+public class PrincipalDetails implements UserDetails {
     private static final String ROLE_USER = "USER";
+
+    private UsrMUsr usrMUsr;
+
+    public PrincipalDetails(UsrMUsr usrMUsr) {
+        this.usrMUsr = usrMUsr;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
