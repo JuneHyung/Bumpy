@@ -1,4 +1,4 @@
-import Calendar from '/components/Calendar.vue';
+import Calendar from '/components/calendar/Calendar.vue';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/vue/writing-stories/introduction
 export default {
