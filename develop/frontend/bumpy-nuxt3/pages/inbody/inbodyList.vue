@@ -7,7 +7,7 @@
         <button @click="moveEdit">Edit</button>
       </div>
       <div class="inbody-info-wrap-box">
-        <SquareList type="square" :list="testList"></SquareList>
+        <ActivityList type="square" :list="testList"></ActivityList>
         <div class="chart-box">
           <p>chart</p>
         </div>
@@ -19,7 +19,7 @@
   </main>
 </template>
 <script setup>
-import SquareList from '~~/components/list/SquareList.vue';
+import ActivityList from '~~/components/list/ActivityList.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 definePageMeta({

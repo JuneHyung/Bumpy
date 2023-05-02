@@ -6,7 +6,7 @@
         <h3 class="content-title" @click="moveDetail">2022-02-01</h3>
         <button @click="moveEdit">Edit</button>
       </div>
-      <SquareList type="square" :list="testList" @click="moveDetail"></SquareList>
+      <ActivityList type="square" :list="testList" @click="moveDetail"></ActivityList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
       <p>calendar ing</p>
@@ -14,7 +14,7 @@
   </main>
 </template>
 <script setup>
-import SquareList from '~~/components/list/SquareList.vue';
+import ActivityList from '~~/components/list/ActivityList.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 definePageMeta({

@@ -22,7 +22,7 @@
         <tr>
           <template v-for="(day, dIdx) in line" :key="dIdx">
             <td align="center">
-              <div class="day-box" :class="{'hidden-box': !day[1], 'active-box': activeList.includes(day[0])}"></div>
+              <div class="day-box" :class="{'hidden-box': !day[1], 'active-box': checkActiveDay(day[0])}"></div>
             </td>
           </template>
         </tr>
@@ -34,7 +34,7 @@
 import { ref, onMounted} from 'vue';
 import dayjs from 'dayjs';
 const props = defineProps({
-  activeList:[],
+  activeList:{type: Array},
 });
 const thisDate = ref('');
 const displayDate = ref('');
@@ -75,6 +75,10 @@ const makeDateList = (flag) => {
   }
 
   displayDate.value = `${year} ${monthList[month-1]}`
+}
+
+const checkActiveDay = (day) => {
+  if(props.activeList!==undefined && props.activeList.length!==0) return props.activeList.includes(day);
 }
 onMounted(()=>{
   makeDateList('default')
