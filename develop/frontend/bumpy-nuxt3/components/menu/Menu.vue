@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import {useRouter}from 'vue-router';
-import {MenuList} from '~~/types/menu/menu';
+import {MenuList} from '~~/types/menu';
 const router = useRouter();
 
 const menuList: MenuList =[
