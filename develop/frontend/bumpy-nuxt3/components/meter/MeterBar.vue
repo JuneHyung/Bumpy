@@ -1,10 +1,13 @@
 <template>
   <div class="meter-bar">
-    <meter :value="value" :max="max" :min="min" :low="low" :high="high" :optimum="optimum"></meter>
+    <meter :value="info.value" :max="info.max" :min="info.min" :low="info.low" :high="info.high" :optimum="info.optimum"></meter>
   </div>
 </template>
 <script setup lang="ts">
-import { MeterList } from '~~/types/inbody';
-const props = defineProps<MeterList>();
+import { MeterItem } from '~~/types/inbody';
+interface Props {
+  info: MeterItem,
+}
+const props = defineProps<Props>();
 </script>
 <style lang="scss"></style>

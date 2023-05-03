@@ -6,5 +6,8 @@ interface Meal{
   water?: number,
   memo?: number,
 }
-
-export {Meal}
+type MealList = Meal[];
+export {
+  Meal,
+  MealList
+}

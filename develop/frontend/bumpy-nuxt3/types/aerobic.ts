@@ -8,6 +8,9 @@ interface Aerobic{
   speedEnd?: number,
   memo?: string,
 }
+type AerobicList = Aerobic[];
+
 export {
-  Aerobic
+  Aerobic,
+  AerobicList
 }

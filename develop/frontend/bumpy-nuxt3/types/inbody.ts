@@ -8,6 +8,7 @@ interface Inbody {
   bmi?: number,
   fatPercent?: number,
 }
+type InbodyList = Inbody[]
 
 interface UserInfoItem{
   category: string,
@@ -24,19 +25,21 @@ type DegreeList = DegreeItem[];
 
 interface MeterItem {
   value: number,
-  max: number,
-  min: number,
-  low: number,
-  high: number,
-  optimum: number,
-  category: string,
-  unit: string,
+  max?: number,
+  min?: number,
+  low?: number,
+  high?: number,
+  optimum?: number,
+  category?: string,
+  unit?: string,
 }
 type MeterList = MeterItem[];
 
 export {
   Inbody,
+  InbodyList,
   UserInfoList,
   DegreeList,
+  MeterItem,
   MeterList,
 }

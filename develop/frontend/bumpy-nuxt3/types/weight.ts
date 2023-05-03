@@ -5,11 +5,13 @@ interface Weight{
   repsStart?: number,
   repsEnd?: number,
   pollWeight?: number,
-  setCount?: number,
-  measure: 1 | 2,
+  setReps?: number,
+  measure?: 1 | 2,
   memo?: string,
 }
+type WeightList = Weight[];
 
 export {
   Weight,
+  WeightList
 }

@@ -49,7 +49,7 @@
               <h4 class="bp-mr-xs">{{ inbody.category }}</h4>
               <span class="inbody-unit">( {{ inbody.unit }} )</span>
             </p>
-            <MeterBar :value="inbody.value" :max="inbody.max" :min="inbody.min" :low="inbody.low" :high="inbody.high" :optimum="inbody.optimum"></MeterBar>
+            <MeterBar :info="inbody"></MeterBar>
           </li>
         </template>
       </ul>
