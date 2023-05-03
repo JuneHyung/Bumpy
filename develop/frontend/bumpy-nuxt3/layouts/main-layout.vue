@@ -9,7 +9,7 @@
 </template>
 <script>
 import Menu from '~/components/menu/Menu.vue';
-import UserInfo from '~/components/UserInfo.vue';
+import UserInfo from '~/components/user/UserInfo.vue';
 export default {
   name: 'detail-layout',
 };

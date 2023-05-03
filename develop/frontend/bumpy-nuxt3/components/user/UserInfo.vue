@@ -49,19 +49,20 @@
               <h4 class="bp-mr-xs">{{ inbody.category }}</h4>
               <span class="inbody-unit">( {{ inbody.unit }} )</span>
             </p>
-            <MeterBar :value="inbody.value" :max="inbody.max" :min="inbody.min" :low="inbody.low" :high="inbody.high" :optinum="inbody.optinum"></MeterBar>
+            <MeterBar :value="inbody.value" :max="inbody.max" :min="inbody.min" :low="inbody.low" :high="inbody.high" :optimum="inbody.optimum"></MeterBar>
           </li>
         </template>
       </ul>
     </ul>
   </div>
 </template>
-<script setup>
-import MeterBar from './meter/MeterBar.vue';
-import Avatar from '/components/user/Avatar.vue';
+<script setup lang="ts">
+import MeterBar from '~/components/meter/MeterBar.vue';
+import Avatar from '~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
+import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
 const router = useRouter();
-const userBodyInfo = ref([
+const userBodyInfo: Ref<UserInfoList>=ref([
   {
     category: 'Height',
     value: 170,
@@ -78,7 +79,7 @@ const userBodyInfo = ref([
     unit: '',
   },
 ]);
-const userActivityInfo = ref([
+const userActivityInfo: Ref<UserInfoList>=ref([
   {
     category: 'Continuity',
     value: 180,
@@ -96,7 +97,7 @@ const userActivityInfo = ref([
   },
 ]);
 
-const degreeList = ref([
+const degreeList:Ref<DegreeList> = ref([
   {
     name: '표준 이하',
     degree: 'low',
@@ -111,7 +112,7 @@ const degreeList = ref([
   }
 ])
 
-const userInbodyInfo = ref([
+const userInbodyInfo:Ref<MeterList> = ref([
   {
     value: 68.7,
     max: 100,
