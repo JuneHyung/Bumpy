@@ -96,7 +96,6 @@ const userActivityInfo: Ref<UserInfoList>=ref([
     unit: 'L',
   },
 ]);
-
 const degreeList:Ref<DegreeList> = ref([
   {
     name: '표준 이하',
@@ -111,7 +110,6 @@ const degreeList:Ref<DegreeList> = ref([
     degree: 'high',
   }
 ])
-
 const userInbodyInfo:Ref<MeterList> = ref([
   {
     value: 68.7,
