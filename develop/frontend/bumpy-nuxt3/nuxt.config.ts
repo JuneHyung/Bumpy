@@ -9,5 +9,9 @@ export default defineNuxtConfig({
   css:[
     // global scss 파일
     '~/assets/scss/app.scss'
-  ]
+  ],
+  alias:{
+  "components": "~/components",
+  "types": "~/types",
+  }
 })
