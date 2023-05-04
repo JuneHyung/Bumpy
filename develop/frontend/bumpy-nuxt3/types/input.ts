@@ -57,11 +57,7 @@ interface InputDate extends InputCommon {
   step?: string,
 }
 
-enum MatchMessage { 
-  match= 'Correct',
-  misMatch= 'Not Match',
-}
-// type matchMessage = 'Not Match' | 'Correct';
+type MatchMessage = 'Not Match' | 'Correct';
 
 export { 
   InputText,

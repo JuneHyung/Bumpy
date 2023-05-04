@@ -27,7 +27,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const validateMessage: ComputedRef<MatchMessage> = computed(() => (validateFlag.value ? MatchMessage.match : MatchMessage.misMatch));
+const validateMessage: ComputedRef<MatchMessage> = computed(() => (validateFlag.value ? 'Correct' : 'Not Match'));
 const validateFlag = ref(false);
 const isSuffix = ref(false);
 const isPattern = ref(false);
