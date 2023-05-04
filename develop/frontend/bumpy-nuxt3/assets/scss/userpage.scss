@@ -1,0 +1,41 @@
+.userpage-form {
+  .userpage-input-wrap {
+    display: flex;
+    align-items: center;
+    span {
+      display: flex;
+      flex: 3;
+    }
+    .userpage-input {
+      display: flex;
+      flex: 8;
+    }
+  }
+  .email-input-wrap {
+    .userpage-input {
+      flex: 6;
+    }
+    button {
+      display: flex;
+      flex: 2;
+    }
+  }
+  .phone-input-wrap {
+    .userpage-input {
+      flex: 7;
+    }
+    .userpage-phone-input {
+      display: flex;
+      flex: 3;
+    }
+  }
+  .userpage-button-wrap {
+    display: flex;
+    justify-content: flex-end;
+    .cancel-button,
+    .save-button {
+      display: flex;
+      flex: 0;
+    }
+  }
+}

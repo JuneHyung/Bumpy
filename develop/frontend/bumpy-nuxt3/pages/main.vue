@@ -1,5 +1,5 @@
 <template>
-  <main class="main-page">
+  <div class="content-layout main-page">
     <h1 class="content-title">Introduce</h1>
     <div class="content-wrap-box">
       <p>Welcome 준형갓!</p>
@@ -8,51 +8,28 @@
     <div class="activity-meal-wrap-box">
       <div class="content-wrap-box activity-wrap-box">
         <div class="activity-title-box">
-          <p class="activity-title">Your activity</p>
+          <h3 class="activity-title">Your activity</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <div class="calendar"></div>
+        <div class="calendar">
+          <GrassCalendar :activeList="activeList"></GrassCalendar>
+        </div>
       </div>
       <div class="content-wrap-box meal-wrap-box">
         <div class="meal-title-box">
-          <p class="meal-title">Your activity</p>
-          <p class="meal-date">2023.02.07</p>
+          <h3 class="meal-title">Today Meal</h3>
         </div>
+        <ActivityList type="square" :list="testList"></ActivityList>
       </div>
     </div>
 
     <div class="content-wrap-box last-activity-wrap-box">
       <ul class="last-activity-list">
         <div class="activity-title-box">
-          <p class="activity-title">Last activity</p>
+          <h3 class="activity-title">Last Activity</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
+        <ActivityList type="rectangle" :list="testList"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -69,42 +46,17 @@
             <p class="chart-info-item-value">12reps / 5sets</p>
           </li>
         </ul>
-        <div class="last-activity-chart"></div>
+        <LineChart class="last-activity-cahrt"></LineChart>
       </div>
     </div>
 
     <div class="content-wrap-box last-activity-wrap-box">
       <ul class="last-activity-list">
         <div class="activity-title-box">
-          <p class="activity-title">Last activity</p>
+          <h3 class="activity-title">Last Aerobic</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
-        <li class="list-item">
-          <p>벤치 프레스</p>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-          <div>
-            <span>10kg ~ 30kg</span>
-            <span> / </span>
-            <span>20kg</span>
-          </div>
-        </li>
+        <ActivityList type="rectangle" :list="testList"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -121,118 +73,60 @@
             <p class="chart-info-item-value">12reps / 5sets</p>
           </li>
         </ul>
-        <div class="last-activity-chart"></div>
+        <AreaChart class="last-activity-cahrt"></AreaChart>
       </div>
     </div>
-  </main>
+  </div>
 </template>
-<script setup lang="ts">
+<script setup>
+import ActivityList from '~/components/list/ActivityList.vue';
+import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
+
+import AreaChart from '~/components/charts/AreaChart';
+import LineChart from '~/components/charts/LineChart';
 definePageMeta({
   layout: 'main-layout',
 });
+const activeList = [
+  '2023-04-01',
+  '2023-04-05',
+  '2023-04-12',
+  '2023-04-18',
+  '2023-04-25',
+  '2023-05-01',
+  '2023-05-03',
+  '2023-05-05',
+  '2023-05-12',
+  '2023-05-15',
+  '2023-05-27',
+  '2023-05-28',
+  '2023-05-29',
+  '2023-05-30',
+  '2023-05-13',
+  '2023-05-09',
+  '2023-05-18',
+  '2023-06-01',
+  '2023-06-03',
+  '2023-06-12',
+  '2023-06-17',
+  '2023-06-25',
+  '2023-06-26',
+  '2023-06-27',
+  '2023-06-28',
+  '2023-07-01',
+  '2023-07-11',
+  '2023-07-21',
+  '2023-07-31',
+  '2023-08-31',
+]
+const testList = [
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모' },
+  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+];
 </script>
 <style lang="scss">
-.main-page {
-  width: 940px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 30px;
-  background-color: green;
-}
-.content-title {
-  color: #fb8c00;
-}
-.content-wrap-box {
-  background-color: #fff;
-  border-radius: 20px;
-  border: none;
-  padding: 16px;
-  margin: 8px 0;
-}
 
-.activity-meal-wrap-box {
-  display: flex;
-  flex-direction: row;
-
-  .activity-wrap-box,
-  .meal-wrap-box {
-    flex-direction: column;
-
-    .activity-title-box,
-    .meal-title-box {
-      display: flex;
-      /* flex-wrap: wrap; */
-      /* flex-direction: row; */
-      .activity-title,
-      .meal-title {
-        /* justify-self: flex-start; */
-        align-content: flex-start;
-      }
-      .activity-date,
-      .meal-date {
-        justify-content: center;
-        align-items: center;
-        justify-self: flex-end;
-        align-self: end;
-      }
-    }
-  }
-  .activity-wrap-box {
-    flex: 3;
-    margin-right: 8px;
-    .calendar {
-      flex: 1 1 200px;
-      height: 200px;
-      margin-top: 8px;
-      border: 1px solid black;
-    }
-  }
-  .meal-wrap-box {
-    flex: 9;
-    margin-left: 8px;
-  }
-}
-
-.last-activity-wrap-box {
-  display: flex;
-  flex-direction: row;
-  .last-activity-list {
-    flex: 3;
-    .activity-title-box {
-      display: flex;
-      align-items: center;
-    }
-  }
-  .last-activity-chart-box {
-    display: flex;
-    flex-direction: column;
-    flex: 9;
-    padding: 8px;
-    border: 1px solid black;
-    .last-activity-chart-info {
-      display: flex;
-      flex: 1;
-      flex-direction: row;
-      justify-content: center;
-
-      .chart-info-item {
-        flex: 3;
-        justify-content: center;
-        align-items: center;
-        height: 40px;
-        &:nth-child(2) {
-          border-right: 2px solid black;
-          border-left: 2px solid black;
-        }
-        /* .chart-info-item-title {
-        } */
-      }
-    }
-    .last-activity-chart {
-      border: 1px solid black;
-      height: 100px;
-    }
-  }
-}
 </style>

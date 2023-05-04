@@ -1,0 +1,25 @@
+$layout-background-color: #f1f3f5;
+
+// point-color
+$low-point-color: #FFE0B2;
+$middle-point-color: #fb8c00;
+$high-point-color: #e65100;
+
+$meter-background-color: #ffab91;
+$background-gradient : linear-gradient(155deg, $middle-point-color 42.5%, $high-point-color 84%);
+
+$white-color: #fff;
+$black-color: #000;
+
+$border-color: #dbdbdb;
+$input-border-color: #dbdbdb;
+$correct-color: #00C853;
+$incorrect-color: #d50000;
+
+$font-TheJamsil: 'TheJamsil';
+$font-NotoSans : 'Noto Sans KR';
+
+$default-font-size: 16px;
+$large-font-size: 36px;
+$middle-font-size: 24px;
+$small-font-size: 12px;

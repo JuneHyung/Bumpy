@@ -1,7 +1,7 @@
 package com.bump.bumpy.security.jwt;
 
 import com.bump.bumpy.constants.JwtConstants;
-import com.bump.bumpy.database.repository.TokenStoreRepository;
+import com.bump.bumpy.database.repository.CmMTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.joining;
 @RequiredArgsConstructor
 public class JwtProvider {
     private final JwtEncoder jwtEncoder;
-    private TokenStoreRepository tokenStoreRepository;
+    private CmMTokenRepository cmMTokenRepository;
     private static final String ROLES = "roles";
 
     /**
@@ -74,10 +74,10 @@ public class JwtProvider {
      * @return String
      */
     public String getRefreshToken(String subject) {
-        return tokenStoreRepository.findByUserId(subject).orElseThrow(() -> new BadCredentialsException("저장된 토큰 없음")).getToken();
+        return cmMTokenRepository.findByUserId(subject).orElseThrow(() -> new BadCredentialsException("저장된 토큰 없음")).getRefreshToken();
     }
 
     public long removeRefreshToken(String subject) {
-        return tokenStoreRepository.deleteByUserId(subject);
+        return cmMTokenRepository.deleteByUserId(subject);
     }
 }

@@ -1,62 +1,53 @@
 <template>
-  <nav class="menu-list">
-    <NuxtLink to="/main" class="menu-list-logo"></NuxtLink>
-    <template v-for="(item, idx) in menuList" :key="idx">
-      <NuxtLink :to="item.link" class="menu-list-item">{{ item.label }}</NuxtLink>
-    </template>
+  <nav class="menu-wrap-list">
+    <ul class="menu-list">
+      <li class="menu-list-logo" @click="moveMain"></li>
+      <template v-for="(item, idx) in menuList" :key="idx">
+        <li class="menu-list-item"><NuxtLink :to="item.link" class="menu-list-link">{{ item.label }}</NuxtLink></li>
+      </template>
+    </ul>
   </nav>
 </template>
 <script setup lang="ts">
+import {useRouter}from 'vue-router';
+const router = useRouter();
 interface MenuItem {
   link: string;
   label: string;
+  isActive: boolean;
 }
 
-const menuList: MenuItem[] = [
+const menuList: MenuItem[] =[
   {
     link: '/main',
     label: 'Main',
+    isActive: false,
   },
   {
     link: '/weight/weightList',
     label: '웨이트',
+    isActive: false,
   },
   {
     link: '/aerobic/aerobicList',
     label: '유산소',
+    isActive: false,
   },
   {
     link: '/meal/mealList',
     label: '식단',
+    isActive: false,
   },
   {
     link: '/inbody/inbodyList',
     label: '인바디',
+    isActive: false,
   },
-];
+]
+const moveMain = () =>{
+  router.push({path: '/main'})
+}
 </script>
 <style lang="scss" scoped>
-.menu-list {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: start; */
-  align-items: center;
-  height: 100%;
-  width: 200px;
-  box-sizing: border-box;
-  border: 1px solid black;
-  padding: 20px 10px;
-  .menu-list-logo {
-    display: flex;
-    width: 100%;
-    height: 150px;
-    border: 1px solid black;
-    margin-bottom: 20px;
-  }
-  .menu-list-item {
-    height: 100px;
-    display: flex;
-    align-items: center;
-  }
-}
+
 </style>

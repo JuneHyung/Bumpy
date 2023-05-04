@@ -1,0 +1,73 @@
+.login-wrap-box {
+  display: flex;
+  flex:0 1 1000px;
+  .login-introduce-box {
+    display:flex;
+    flex-direction: column;
+    padding: 30px;
+    flex: 7 600px;
+    color: $white-color;
+    background: linear-gradient(to bottom, $middle-point-color, $high-point-color);
+    justify-content: space-between;
+
+    .introduce-title {
+      font-weight: 900;
+      font-size: $large-font-size;
+    }
+    .introduce-box {
+      font-weight: 500;
+      .introduce-message{
+        // margin:16px 0;
+        &:nth-child(3),&:nth-child(4),&:nth-child(5){
+          margin: 0;
+        }
+      }
+      .contact-info{
+        margin-top: 3.75rem;
+        font-size:$small-font-size;
+      }
+    }
+  }
+  .login-form-box {
+    display: flex;
+    flex-direction: column;
+    flex: 5 400px;
+    // height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    .login-form-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $middle-point-color;
+      height: 5rem;
+    }
+    .login-form {
+      padding-bottom:30px;
+      flex-wrap: wrap;
+      display: flex;
+      flex:1;
+      flex-direction: column;
+      justify-content: space-between;
+      
+      .login-input{
+        input{
+          color:$white-color;
+        }
+      }
+      
+      .login-button {
+        font-weight: 900;
+      }
+
+      .move-sign-up-wrap-box {
+        display: flex;
+        flex: 1;
+        color: $white-color;
+        justify-content: center;
+        align-items: center;
+        font-size:$small-font-size;
+      }
+    }
+  }
+}

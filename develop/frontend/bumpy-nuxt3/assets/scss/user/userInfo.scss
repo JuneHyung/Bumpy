@@ -1,0 +1,110 @@
+.user-info-box{
+  display:flex;
+  flex-direction: column;
+  flex: 0 2 300px;
+  align-self:stretch;
+  box-sizing: border-box;
+  padding: 1.25rem 10px;
+  border: 1px solid $border-color;
+  
+  .user-info-button-list{
+    display:flex;
+    justify-content:space-between;
+    .logout-button, .setting-button{
+      font-size:$small-font-size;
+    }
+  }
+
+  .user-profile-wrap-box{
+    display:flex;
+    flex:1;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+    .user-name{
+      font-size: $middle-font-size;
+    }
+  }
+
+  .user-body-info-box{
+    padding:1.25rem 0 3.75rem 0;
+    display:flex;
+    li{
+      display: flex;
+      flex:1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      .user-body-info-category{
+        font-family: $font-TheJamsil;
+      }
+      .user-body-info-value{
+        font-size:$small-font-size;
+      }
+      &:nth-child(2){
+        border-left: 1px solid black;
+        border-right: 1px solid black;  
+      }
+    }
+  }
+
+  .user-activity-info-box {
+    display:flex;
+    flex:1;
+    flex-direction: column;
+    padding: 1.25rem 0 3.25rem 0;
+    align-content: center;
+    li{
+      display:flex;
+      flex:0 1;
+      justify-content: space-between;
+      align-items: center;
+      .user-activity-info-category{
+        font-family: $font-TheJamsil;
+      }
+      .user-activity-info-value{
+        font-size:$small-font-size;
+      }
+    }
+  }
+
+  .user-inbody-info-box {
+    // margin: 0;
+    flex:0 3;
+    .user-inbody-title-wrap{
+      display: flex;
+      justify-content: space-between;
+      .last-inbody-date{
+        font-size:$small-font-size;
+      }
+    }
+    .user-inbody-degree-wrap{
+      display:flex;
+      li{
+        display: flex;
+        align-items: center;
+        .high-degree{background-color: $high-point-color;}
+        .middle-degree{background-color: $middle-point-color;}
+        .low-degree{background-color: $low-point-color;}
+        .degree-box{
+          width:16px;
+          height:16px;
+          // border:1px solid black;
+        }
+        .degree-name{
+          font-size:$small-font-size;
+        }
+      }
+    }
+    .user-inbody-info-wrap{
+      .inbody-title-wrap{
+        display: flex;
+        align-items: center;
+        .inbody-unit{
+          font-size:$small-font-size;
+        }
+      }
+    }
+  }
+}

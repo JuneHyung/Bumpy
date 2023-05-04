@@ -1,44 +1,45 @@
 # https://logging.apache.org/log4j/2.x/manual/layouts.html
-Configuration:
-  name: Default
-  Properties:
-    Property:
-      - name: PATTERN_DEFAULT
-        value: "[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}:%L] - %m%n"
-      - name: PATTERN_CONSOLE
-        value: "%d{DEFAULT} %highlight{%-5level} %magenta{%-4relative} --- [ %thread{10} ] %cyan{%logger{20}} : %X{source_request_url} %red{|} %replace{%replace{%msg}{\\\\r\\\\n}{\n\t}}{\\\\n}{\n\t}%n"
-      - name: SERVICE_NAME
-        value: "bumpy-back"
-      - name: LOG_PATH
-        value: "./logs"
-  Appenders:
-    Console:
-      name: Console_Appender
-      target: SYSTEM_OUT
-      PatternLayout:
-        pattern: "${PATTERN_CONSOLE}"
-    RollingFile:
-      - name: RollingFile_Appender
-        fileName: ${LOG_PATH}/${SERVICE_NAME}.log
-        filePattern: "${LOG_PATH}/archive/${SERVICE_NAME}.log_%d{yyyy-MM-dd}-%i.gz"
-        PatternLayout:
-          pattern: "${PATTERN_CONSOLE}"
-        Policies:
-          SizeBasedTriggeringPolicy:
-            size: 1 MB
-          TimeBasedTriggeringPolicy:
-            Interval: 1
-            modulate: true
-        DefaultRollOverStrategy:
-          max: 30
-          Delete:
-            basePath: "${LOG_PATH}/archive"
-            maxDepth: "1"
-            IfLastModified:
-              age: "1M"
-  Loggers:
-    Root:
-      level: info
-      AppenderRef:
-        - ref: "Console_Appender"
-        - ref: "RollingFile_Appender"
+
+#Configuration:
+#  name: Default
+#  Properties:
+#    Property:
+#      - name: PATTERN_DEFAULT
+#        value: "[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] [%c{1}:%L] - %m%n"
+#      - name: PATTERN_CONSOLE
+#        value: "%d{DEFAULT} %highlight{%-5level} %magenta{%-4relative} --- [ %thread{10} ] %cyan{%logger{20}} : %X{source_request_url} %red{|} %replace{%replace{%msg}{\\\\r\\\\n}{\n\t}}{\\\\n}{\n\t}%n"
+#      - name: SERVICE_NAME
+#        value: "bumpy-back"
+#      - name: LOG_PATH
+#        value: "./logs"
+#  Appenders:
+#    Console:
+#      name: Console_Appender
+#      target: SYSTEM_OUT
+#      PatternLayout:
+#        pattern: "${PATTERN_CONSOLE}"
+#    RollingFile:
+#      - name: RollingFile_Appender
+#        fileName: ${LOG_PATH}/${SERVICE_NAME}.log
+#        filePattern: "${LOG_PATH}/archive/${SERVICE_NAME}.log_%d{yyyy-MM-dd}-%i.gz"
+#        PatternLayout:
+#          pattern: "${PATTERN_CONSOLE}"
+#        Policies:
+#          SizeBasedTriggeringPolicy:
+#            size: 1 MB
+#          TimeBasedTriggeringPolicy:
+#            Interval: 1
+#            modulate: true
+#        DefaultRollOverStrategy:
+#          max: 30
+#          Delete:
+#            basePath: "${LOG_PATH}/archive"
+#            maxDepth: "1"
+#            IfLastModified:
+#              age: "1M"
+#  Loggers:
+#    Root:
+#      level: info
+#      AppenderRef:
+#        - ref: "Console_Appender"
+#        - ref: "RollingFile_Appender"
