@@ -17,20 +17,10 @@
   </div>
 </template>
 <script setup lang="ts">
-interface inputTextarea {
-  value?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  cols?: number;
-  rows?: number;
-  maxlength?: number;
-  minlength?: number;
-  disabled?: boolean;
-  readonly?: boolean;
-}
+import { InputTextarea } from '~~/types/input';
 
 interface Props {
-  data: inputTextarea;
+  data: InputTextarea;
 }
 const props = defineProps<Props>();
 </script>
