@@ -19,7 +19,7 @@
         <div class="meal-title-box">
           <h3 class="meal-title">Today Meal</h3>
         </div>
-        <ActivityList type="square" :list="testList"></ActivityList>
+        <ActivityList type="square" listType="weight" :list="testList"></ActivityList>
       </div>
     </div>
 
@@ -29,7 +29,8 @@
           <h3 class="activity-title">Last Activity</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <ActivityList type="rectangle" :list="testList"></ActivityList>
+
+        <ActivityList type="rectangle" listType="weight" :list="testList"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -56,7 +57,7 @@
           <h3 class="activity-title">Last Aerobic</h3>
           <p class="activity-date">2023.02.07</p>
         </div>
-        <ActivityList type="rectangle" :list="testList"></ActivityList>
+        <ActivityList type="rectangle" listType="weight" :list="testList"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -118,15 +119,13 @@ const activeList = [
   '2023-07-21',
   '2023-07-31',
   '2023-08-31',
-]
+];
 const testList = [
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모' },
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
+  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
 ];
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

@@ -1,3 +1,7 @@
+enum Measure { 
+  m1= 'kg',
+  m2= 'pd'
+}
 interface Weight{
   name: string,
   weightStart?: number,
@@ -6,7 +10,7 @@ interface Weight{
   repsEnd?: number,
   pollWeight?: number,
   setReps?: number,
-  measure?: 1 | 2,
+  measure?: Measure,
   memo?: string,
 }
 type WeightList = Weight[];
