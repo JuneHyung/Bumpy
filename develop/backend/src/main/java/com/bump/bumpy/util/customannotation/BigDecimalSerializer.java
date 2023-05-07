@@ -68,7 +68,8 @@ public class BigDecimalSerializer extends StdSerializer<BigDecimal> implements C
             gen.writeString(result);
         } else {
             String result = String.valueOf(bigDecimalRescale(value, scale, mode));
-            gen.writeString(result);
+//            gen.writeString(result);
+            gen.writeNumber(result);
         }
     }
 }

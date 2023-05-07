@@ -1,4 +1,4 @@
-package com.bump.bumpy.database.entity;
+package com.bump.bumpy.database.entity.usr;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -54,7 +54,7 @@ public class UsrMUsr implements Serializable {
 
     @NotNull
     @Column(name = "birth", nullable = false)
-    private LocalDate birth;
+    private Date birth;
 
     @Size(max = 20)
     @Column(name = "phoneNumber", length = 20)

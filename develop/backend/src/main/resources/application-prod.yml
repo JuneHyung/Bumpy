@@ -7,5 +7,10 @@ spring:
     username: "bumpyapp"
     password: "@bumpy123!"
 
-cookie:
-  domain: www.bumpy.co.kr
+cors:
+  origins:
+    - "*"
+
+springfox:
+  documentation:
+    enabled: false

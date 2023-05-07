@@ -1,4 +1,4 @@
-package com.bump.bumpy.database.entity;
+package com.bump.bumpy.database.entity.cm;
 
 import lombok.Getter;
 import lombok.Setter;

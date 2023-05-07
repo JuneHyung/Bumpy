@@ -1,6 +1,6 @@
-package com.bump.bumpy.database.repository;
+package com.bump.bumpy.database.repository.cm;
 
-import com.bump.bumpy.database.entity.CmMToken;
+import com.bump.bumpy.database.entity.cm.CmMToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

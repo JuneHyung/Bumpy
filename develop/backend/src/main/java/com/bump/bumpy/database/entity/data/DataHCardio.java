@@ -1,4 +1,4 @@
-package com.bump.bumpy.database.entity;
+package com.bump.bumpy.database.entity.data;
 
 import com.bump.bumpy.database.entity.composite.DataHCardioId;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -36,7 +36,7 @@ public class DataHCardio implements Serializable {
     @Id
     @NotNull
     @Column(name = "stdDate", nullable = false)
-    private LocalDate stdDate;
+    private Date stdDate;
 
     @Id
     @Size(max = 20)

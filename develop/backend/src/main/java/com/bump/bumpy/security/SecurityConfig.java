@@ -1,60 +1,80 @@
 package com.bump.bumpy.security;
 
+import com.bump.bumpy.security.principal.PrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final CorsFilter corsFilter;
+    private final AuthenticationEntryPointImpl authenticationEntryPoint;
+    private final AccessDeniedHandlerImpl accessDeniedHandler;
+    private final PrincipalDetailsService principalDetailsService;
+
+    @Value("${cors.origins[0]}")
+    private String origin;
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("ADMIN")
-                .password("password")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         return http
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource))
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
+//                .logout(AbstractHttpConfigurer::disable)
 
-                .httpBasic(Customizer.withDefaults())
-
-                // Filter 섧정
-                .addFilter(corsFilter)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
 
                 // 경로 접근 처리
                 .authorizeRequests(authorize -> authorize
-//                                .antMatchers("/**").permitAll()
                                 .antMatchers("/auth/**").permitAll()
                                 .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
-//                                .anyRequest().hasAnyRole("USER")
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+        // AuthenticationManager 설정 - userDetails구현체, bCryptPasswordEncoder 적용
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(principalDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder)
+                .and()
+                .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.setAllowedOriginPatterns(List.of(origin));
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }

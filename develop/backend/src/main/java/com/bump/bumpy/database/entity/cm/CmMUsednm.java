@@ -1,4 +1,4 @@
-package com.bump.bumpy.database.entity;
+package com.bump.bumpy.database.entity.cm;
 
 import com.bump.bumpy.database.entity.composite.CmMUsednmId;
 import lombok.Getter;

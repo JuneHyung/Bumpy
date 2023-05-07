@@ -1,4 +1,4 @@
-package com.bump.bumpy.database.entity;
+package com.bump.bumpy.database.entity.usr;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,24 +21,26 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "CM_M_TOKEN", schema = "bumpy", indexes = {
+@Table(name = "USR_H_EMAILAUTH", schema = "bumpy", indexes = {
+        @Index(name = "email_UNIQUE", columnList = "email", unique = true),
         @Index(name = "PRIMARY", columnList = "userId", unique = true)
 })
-public class CmMToken implements Serializable {
-    private static final long serialVersionUID = -3178991595208842706L;
+public class UsrHEmailauth implements Serializable {
+    private static final long serialVersionUID = -7101270589484445542L;
     @Id
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
     private String userId;
 
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "email", nullable = false, length = 100)
+    private String email;
+
     @Size(max = 1000)
     @NotNull
-    @Column(name = "refreshToken", nullable = false, length = 1000)
-    private String refreshToken;
-
-    @NotNull
-    @Column(name = "expired", nullable = false)
-    private LocalDate expired;
+    @Column(name = "token", nullable = false, length = 1000)
+    private String token;
 
 }

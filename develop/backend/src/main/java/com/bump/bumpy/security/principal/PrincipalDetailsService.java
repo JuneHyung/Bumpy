@@ -1,7 +1,7 @@
 package com.bump.bumpy.security.principal;
 
-import com.bump.bumpy.database.entity.UsrMUsr;
-import com.bump.bumpy.database.repository.UsrMUsrRepository;
+import com.bump.bumpy.database.entity.usr.UsrMUsr;
+import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

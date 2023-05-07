@@ -1,6 +1,6 @@
 package com.bump.bumpy.security.principal;
 
-import com.bump.bumpy.database.entity.UsrMUsr;
+import com.bump.bumpy.database.entity.usr.UsrMUsr;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
