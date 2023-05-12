@@ -24,6 +24,8 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final AuthenticationEntryPointImpl authenticationEntryPoint;
+    private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final PrincipalDetailsService principalDetailsService;
 
     @Value("${cors.origins[0]}")
@@ -47,6 +49,10 @@ public class SecurityConfig {
                     .logoutSuccessHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
                     .deleteCookies("JSESSIONID")
                 .and()
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
 
                 // 경로 접근 처리
                 .authorizeRequests(authorize -> authorize
