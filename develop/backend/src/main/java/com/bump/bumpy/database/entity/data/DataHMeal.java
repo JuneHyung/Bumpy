@@ -75,4 +75,33 @@ public class DataHMeal implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
+    @Column(name = "food1")
+    private Long food1;
+
+    @Column(name = "food2")
+    private Long food2;
+
+    @Column(name = "food3")
+    private Long food3;
+
+    @Column(name = "food4")
+    private Long food4;
+
+    @Column(name = "food5")
+    private Long food5;
+
+    @Column(name = "food6")
+    private Long food6;
+
+    @Column(name = "food7")
+    private Long food7;
+
+    @Column(name = "food8")
+    private Long food8;
+
+    @Column(name = "food9")
+    private Long food9;
+
+    @Column(name = "food10")
+    private Long food10;
 }
