@@ -9,7 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: ["backend"]
+    branches: ["back/github_actions"]
 
 permissions:
   contents: read
@@ -26,10 +26,14 @@ jobs:
           java-version: "11"
           distribution: "temurin"
 
+      - name: Run chmod to make gradlew executable
+        run: chmod +x ./develop/backend/gradlew
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
+          build-root-directory: ./develop/backend
 
       - name: Deploy Docker to AWS (EC2)
         # You may pin to the exact commit or the version.
