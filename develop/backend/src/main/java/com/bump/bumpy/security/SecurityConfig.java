@@ -17,14 +17,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthenticationEntryPointImpl authenticationEntryPoint;
-    private final AccessDeniedHandlerImpl accessDeniedHandler;
     private final PrincipalDetailsService principalDetailsService;
 
     @Value("${cors.origins[0]}")
@@ -35,16 +34,22 @@ public class SecurityConfig {
         return http
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-//                .logout(AbstractHttpConfigurer::disable)
-
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler))
+                .formLogin()
+                    .loginProcessingUrl("/auth/login")
+                    .usernameParameter("userId")
+                    .passwordParameter("password")
+                    .successHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
+                    .failureHandler((request, response, exception) -> {response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);})
+                    .permitAll()
+                .and()
+                    .logout()
+                    .logoutUrl("/auth/logout")
+                    .logoutSuccessHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
+                    .deleteCookies("JSESSIONID")
+                .and()
 
                 // 경로 접근 처리
                 .authorizeRequests(authorize -> authorize
-                                .antMatchers("/auth/**").permitAll()
                                 .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
                                 .anyRequest().authenticated()
                 )

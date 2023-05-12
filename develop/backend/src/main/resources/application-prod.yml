@@ -15,7 +15,7 @@ spring:
 
 cors:
   origins:
-    - "*"
+    - "bumpy.myddns.me"
 
 springfox:
   documentation:
