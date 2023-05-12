@@ -22,7 +22,7 @@ import java.io.Serializable;
 })
 @IdClass(CmMUsednmId.class)
 public class CmMUsednm implements Serializable {
-    private static final long serialVersionUID = 7456376152041714455L;
+    private static final long serialVersionUID = 74563761520414455L;
     @Id
     @Size(max = 20)
     @NotNull
@@ -35,9 +35,9 @@ public class CmMUsednm implements Serializable {
     private Integer kind;
 
     @Id
-    @Size(max = 1000)
+    @Size(max = 100)
     @NotNull
-    @Column(name = "name", nullable = false, length = 1000)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     @Size(max = 1000)

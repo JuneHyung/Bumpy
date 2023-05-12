@@ -33,9 +33,9 @@ public class UsrMUsr implements Serializable {
     @Column(name = "userId", nullable = false, length = 20)
     private String userId;
 
-    @Size(max = 20)
+    @Size(max = 100)
     @NotNull
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
     @Size(max = 100)

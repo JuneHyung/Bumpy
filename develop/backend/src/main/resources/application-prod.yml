@@ -1,11 +1,17 @@
 spring:
-  profiles:
-    active: prod
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://3.34.143.244:33056/bumpy
     username: "bumpyapp"
     password: "@bumpy123!"
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    open-in-view: false
+
 
 cors:
   origins:
