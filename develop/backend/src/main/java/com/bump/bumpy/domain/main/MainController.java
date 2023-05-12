@@ -16,21 +16,27 @@ public class MainController {
     private MainService mainService;
 
     @Operation(summary = "조회", description = "")
-    @GetMapping("/userInfo")
+    @GetMapping("/userinfo")
     public ResponseEntity<ResultMap> userInfo() {
         return mainService.userInfo();
     }
 
-    @Operation(summary = "추가", description = "")
-    @GetMapping("/mealInfo")
+    @Operation(summary = "식단정보", description = "")
+    @GetMapping("/mealinfo")
     public ResponseEntity<ResultMap> mealInfo() {
         return mainService.mealInfo();
     }
 
-    @Operation(summary = "수정", description = "")
-    @GetMapping("/activityInfo")
+    @Operation(summary = "액티비티정보", description = "")
+    @GetMapping("/activityinfo")
     public ResponseEntity<ResultMap> activityInfo() {
         return mainService.activityInfo();
+    }
+
+    @Operation(summary = "차트 데이터", description = "")
+    @GetMapping("/chart")
+    public ResponseEntity<ResultMap> chart() {
+        return mainService.chart();
     }
 
 }

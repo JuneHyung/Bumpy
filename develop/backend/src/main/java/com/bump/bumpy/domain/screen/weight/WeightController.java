@@ -17,6 +17,18 @@ public class WeightController {
 
     private final WeightService weightService;
 
+    @Operation(summary = "달력 조회", description = "")
+    @GetMapping("/calendar")
+    public ResponseEntity<ResultMap> calendar() {
+        return weightService.calendar();
+    }
+
+    @Operation(summary = "액티비티 조회", description = "")
+    @GetMapping("/activity")
+    public ResponseEntity<ResultMap> activity() {
+        return weightService.activity();
+    }
+
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {

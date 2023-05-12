@@ -10,6 +10,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WeightService {
 
+    public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap());
+    }
+
+    public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap());
+    }
+
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         return ResponseEntity.ok(new ResultMap());
     }
@@ -25,4 +31,6 @@ public class WeightService {
     public ResponseEntity<ResultMap> delete() {
         return ResponseEntity.ok(new ResultMap());
     }
+
+
 }

@@ -16,6 +16,11 @@ public class CardioService {
 
     private final DataHCardioRepository cardioRepository;
 
+
+    public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap()); }
+
+    public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap()); }
+
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         List<DataHCardio> list = cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
         return ResponseEntity.ok(new ResultMap(list));
@@ -32,4 +37,5 @@ public class CardioService {
     public ResponseEntity<ResultMap> delete() {
         return ResponseEntity.ok(new ResultMap());
     }
+
 }

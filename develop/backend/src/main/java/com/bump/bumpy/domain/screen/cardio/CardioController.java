@@ -21,6 +21,18 @@ public class CardioController {
 
     private final CardioService cardioService;
 
+    @Operation(summary = "달력 조회", description = "")
+    @GetMapping("/calendar")
+    public ResponseEntity<ResultMap> calendar() {
+        return cardioService.calendar();
+    }
+
+    @Operation(summary = "액티비티 조회", description = "")
+    @GetMapping("/activity")
+    public ResponseEntity<ResultMap> activity() {
+        return cardioService.activity();
+    }
+
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
     public ResponseEntity<ResultMap> search(HttpServletRequest httpServletRequest, @RequestBody SearchRequestDto request) {

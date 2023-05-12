@@ -20,4 +20,6 @@ public class MainService {
     public ResponseEntity<ResultMap> activityInfo() {
         return ResponseEntity.ok(new ResultMap());
     }
+
+    public ResponseEntity<ResultMap> chart() { return ResponseEntity.ok(new ResultMap()); }
 }
