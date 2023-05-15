@@ -11,7 +11,10 @@ export default defineNuxtConfig({
     '~/assets/scss/app.scss'
   ],
   alias:{
-  "components": "~/components",
-  "types": "~/types",
+    "components": "~/components",
+    "types": "~/types",
+  },
+  runtimeConfig:{
+    API_BASE_URL: process.env.BACKEND_URL,
   }
 })
