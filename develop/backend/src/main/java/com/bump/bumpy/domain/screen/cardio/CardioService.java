@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +23,15 @@ public class CardioService {
     public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap()); }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
-        List<DataHCardio> list = cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+        List<DataHCardio> list = new ArrayList<>();
+        if(request.getSeq() == null) {
+            list = cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+        } else {
+            DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
+            if(dataHCardio != null) {
+                list.add(dataHCardio);
+            }
+        }
         return ResponseEntity.ok(new ResultMap(list));
     }
 

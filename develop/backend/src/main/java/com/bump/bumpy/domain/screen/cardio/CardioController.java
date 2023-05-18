@@ -23,40 +23,47 @@ public class CardioController {
 
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
-    public ResponseEntity<ResultMap> calendar() {
+    public ResponseEntity<ResultMap> calendar(HttpServletRequest httpServletRequest) {
         return cardioService.calendar();
     }
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
-    public ResponseEntity<ResultMap> activity() {
+    public ResponseEntity<ResultMap> activity(HttpServletRequest httpServletRequest) {
         return cardioService.activity();
     }
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
     public ResponseEntity<ResultMap> search(HttpServletRequest httpServletRequest, @RequestBody SearchRequestDto request) {
-        HttpSession session = httpServletRequest.getSession();
-        String userId = (String) session.getAttribute("userId");
-        request.setUserId(userId);
+        String userId = getUserId(httpServletRequest);
+        request.setUserId(getUserId(httpServletRequest));
         return cardioService.search(request);
     }
 
     @Operation(summary = "추가", description = "")
     @PostMapping("/insert")
-    public ResponseEntity<ResultMap> insert() {
+    public ResponseEntity<ResultMap> insert(HttpServletRequest httpServletRequest) {
+        String userId = getUserId(httpServletRequest);
         return cardioService.insert();
     }
 
     @Operation(summary = "수정", description = "")
     @PostMapping("/update")
-    public ResponseEntity<ResultMap> update() {
+    public ResponseEntity<ResultMap> update(HttpServletRequest httpServletRequest) {
+        String userId = getUserId(httpServletRequest);
         return cardioService.update();
     }
 
     @Operation(summary = "삭제", description = "")
     @GetMapping("/delete")
-    public ResponseEntity<ResultMap> delete() {
+    public ResponseEntity<ResultMap> delete(HttpServletRequest httpServletRequest) {
+        String userId = getUserId(httpServletRequest);
         return cardioService.delete();
+    }
+
+    private String getUserId(HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        return String.valueOf(session.getAttribute("userId"));
     }
 }

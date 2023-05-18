@@ -19,6 +19,10 @@ public class SearchRequestDto {
     Date stdDate;
 
     @Builder.Default
+    @ApiModelProperty(example = "시퀀스")
+    Integer seq = null;
+
+    @Builder.Default
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty(example = "완료일자(종료)")
     Date endDate = null;
@@ -27,8 +31,4 @@ public class SearchRequestDto {
     @Hidden
     @ApiModelProperty(example = "유저 아이디 정보")
     String userId;
-
-    @Builder.Default
-    @ApiModelProperty(example = "유저 아이디 정보")
-    Integer seq = null;
 }

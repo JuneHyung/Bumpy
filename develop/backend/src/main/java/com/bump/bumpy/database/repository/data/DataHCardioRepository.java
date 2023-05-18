@@ -7,8 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DataHCardioRepository extends JpaRepository<DataHCardio, DataHCardioId> {
+    Optional<DataHCardio> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
     List<DataHCardio> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
 }
