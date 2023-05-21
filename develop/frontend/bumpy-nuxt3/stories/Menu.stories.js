@@ -1,4 +1,4 @@
-import Menu from '/components/Menu.vue';
+import Menu from '/components/menu/Menu.vue';
 
 export default {
   title: 'Example/Menu',
@@ -30,22 +30,27 @@ export const MenuList = {
       {
         link: '/main',
         label: 'Main',
+        isActive: false,
       },
       {
         link: '/weight/weightList',
         label: '웨이트',
+        isActive: false,
       },
       {
         link: '/aerobic/aerobicList',
         label: '유산소',
+        isActive: false,
       },
       {
         link: '/meal/mealList',
         label: '식단',
+        isActive: false,
       },
       {
         link: '/inbody/inbodyList',
         label: '인바디',
+        isActive: false,
       },
     ]
   }

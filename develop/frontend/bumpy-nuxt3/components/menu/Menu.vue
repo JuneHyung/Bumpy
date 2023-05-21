@@ -10,14 +10,10 @@
 </template>
 <script setup lang="ts">
 import {useRouter}from 'vue-router';
+import {MenuList} from '~~/types/menu';
 const router = useRouter();
-interface MenuItem {
-  link: string;
-  label: string;
-  isActive: boolean;
-}
 
-const menuList: MenuItem[] =[
+const menuList: MenuList =[
   {
     link: '/main',
     label: 'Main',
