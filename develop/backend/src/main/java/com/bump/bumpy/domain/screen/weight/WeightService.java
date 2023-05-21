@@ -5,13 +5,10 @@ import com.bump.bumpy.database.repository.data.DataHWeightRepository;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.util.dto.ResultMap;
-import com.bump.bumpy.util.funtion.FieldValueUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 

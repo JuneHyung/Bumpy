@@ -3,10 +3,7 @@ package com.bump.bumpy.util.funtion;
 import com.bump.bumpy.security.principal.PrincipalDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

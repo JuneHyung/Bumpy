@@ -1,22 +1,18 @@
 package com.bump.bumpy.domain.screen.meal.dto;
 
 import com.bump.bumpy.database.entity.data.DataHMeal;
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A DTO for the {@link com.bump.bumpy.database.entity.data.DataHMeal} entity

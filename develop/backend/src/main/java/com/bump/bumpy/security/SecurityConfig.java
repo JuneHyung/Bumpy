@@ -56,8 +56,9 @@ public class SecurityConfig {
 
                 // 경로 접근 처리
                 .authorizeRequests(authorize -> authorize
-                                .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
-                                .anyRequest().authenticated()
+                        .antMatchers("/signup/**").permitAll()
+                        .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .build();
     }
