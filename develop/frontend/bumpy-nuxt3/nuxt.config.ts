@@ -9,5 +9,12 @@ export default defineNuxtConfig({
   css:[
     // global scss 파일
     '~/assets/scss/app.scss'
-  ]
+  ],
+  alias:{
+    "components": "~/components",
+    "types": "~/types",
+  },
+  runtimeConfig:{
+    API_BASE_URL: process.env.BACKEND_URL,
+  }
 })

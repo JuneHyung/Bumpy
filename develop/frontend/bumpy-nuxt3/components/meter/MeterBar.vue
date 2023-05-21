@@ -1,16 +1,12 @@
 <template>
   <div class="meter-bar">
-    <meter :value="value" :max="max" :min="min" :low="low" :high="high" :optimum="optimum"></meter>
+    <meter :value="info.value" :max="info.max" :min="info.min" :low="info.low" :high="info.high" :optimum="info.optimum"></meter>
   </div>
 </template>
 <script setup lang="ts">
+import { MeterItem } from '~~/types/inbody';
 interface Props {
-  value: number;
-  max?: number;
-  min?: number;
-  low?: number;
-  high?: number;
-  optimum?: number;
+  info: MeterItem,
 }
 const props = defineProps<Props>();
 </script>

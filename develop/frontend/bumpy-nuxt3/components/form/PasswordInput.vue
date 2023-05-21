@@ -20,25 +20,14 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, ComputedRef, onMounted } from 'vue';
+import { InputPassword, MatchMessage } from '~~/types/input';
 
-interface inputPassword {
-  value?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  maxlength?: number;
-  minlength?: number;
-  disabled?: boolean;
-  readonly?: boolean;
-  suffix?: boolean;
-  pattern?: string;
-}
 interface Props {
-  data: inputPassword;
+  data: InputPassword;
 }
-type matchMessage = 'Not Match' | 'Correct';
 const props = defineProps<Props>();
+const validateMessage: ComputedRef<MatchMessage> = computed(() => (validateFlag.value ? 'Correct' : 'Not Match'));
 
-const validateMessage: ComputedRef<matchMessage> = computed(() => (validateFlag.value ? 'Correct' : 'Not Match'));
 const validateFlag = ref(false);
 const isSuffix = ref(false);
 const isPattern = ref(false);

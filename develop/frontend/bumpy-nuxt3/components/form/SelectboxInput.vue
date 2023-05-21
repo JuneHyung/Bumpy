@@ -1,9 +1,7 @@
 <template>
   <div class="input-wrap-box" @click="toggleList">
-    <p class="select-list-button" :class="{'placeholder': isEmpty(props.data.value)}">
-      
-        {{ isEmpty(props.data.value) ? props.data.placeholder : props.data.value }}
-      
+    <p class="select-list-button" :class="{ placeholder: isEmpty(props.data.value) }">
+      {{ isEmpty(props.data.value) ? props.data.placeholder : props.data.value }}
     </p>
     <ul class="select-list-box" :class="{ 'hidden-box': closeFlag }">
       <template v-for="(item, idx) in data.list" :key="idx">
@@ -13,33 +11,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-interface listItem {
-  dtlCd: string;
-  dtlNm: string;
-}
-interface inputSelectbox {
-  value?: string;
-  listname?: string;
-  list: listItem[];
-  placeholder?: string;
-  autofocus?: boolean;
-  disabeld?: boolean;
-  readonly?: boolean;
-}
+import { ref } from 'vue';
+import { InputSelectbox, SelectItem } from '~~/types/input';
 interface Props {
-  data: inputSelectbox;
+  data: InputSelectbox;
 }
 const props = defineProps<Props>();
 const closeFlag = ref(true);
 const toggleList = () => {
   closeFlag.value = !closeFlag.value;
 };
-const setValue = (item: any) => {
+const setValue = (item: SelectItem) => {
   // console.log(item)
   props.data.value = item.dtlCd;
 };
-const isEmpty = (val: any) => {
+const isEmpty = (val?: string) => {
   const arr = props.data.list?.map((el) => el.dtlCd);
   return val === undefined || val === null || !arr.includes(val);
 };

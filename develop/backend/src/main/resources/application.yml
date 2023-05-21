@@ -1,21 +1,16 @@
 spring:
   profiles:
     active: local
+  # Swagger 3.0 설정을 위한 추가설정
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://3.34.143.244:33056/bumpy
+    url: jdbc:mariadb://13.209.96.12:51130/bumpy
     username: "bumpyapp"
     password: "@bumpy123!"
-
-#  redis:
-#    host: localhost
-#    password: fcf832af8f4c5f902b5694a631e2958ad7688b74f1b227d245a95b980e7c22db
-#    port: 6379
-#    lettuce:
-#      pool:
-#        max-active: 100
-#        max-idle: 20
-#        min-idle: 10
 
   jpa:
     hibernate:
@@ -24,19 +19,18 @@ spring:
       ddl-auto: validate
     show-sql: true
 
+    properties:
+      hibernate:
+        format_sql: true
+
 server:
   servlet:
     context-path: /api
   port: 8090
 
-jwt:
-  private:
-    key: classpath:rsa.private.key
-  public:
-    key: classpath:rsa.public.key
+cors:
+  origins:
+    - "*"
 
-cookie:
-  domain: localhost
-
-#logging:
-#  config: classpath:log4j2.yml
+logging:
+  config: classpath:log4j2.yml

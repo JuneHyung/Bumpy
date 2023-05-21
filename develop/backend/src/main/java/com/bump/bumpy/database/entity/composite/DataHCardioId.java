@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class DataHCardioId implements Serializable {
     private static final long serialVersionUID = 8411829661158825352L;
 
-    private LocalDate stdDate;
+    private Date stdDate;
     private String userId;
     private Integer seq;
 }

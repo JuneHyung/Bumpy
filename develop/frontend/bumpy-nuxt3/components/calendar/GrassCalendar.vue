@@ -22,7 +22,7 @@
         <tr>
           <template v-for="(day, dIdx) in line" :key="dIdx">
             <td align="center">
-              <div class="day-box" :class="{'hidden-box': !day[1], 'active-box': checkActiveDay(day[0])}"></div>
+              <div class="day-box" :class="{'hidden-box': !day.flag, 'active-box': checkActiveDay(day.date)}"></div>
             </td>
           </template>
         </tr>
@@ -30,19 +30,20 @@
     </tbody>
   </table>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted} from 'vue';
 import dayjs from 'dayjs';
+import {DateListFlag} from '~~/types/calendar';
 const props = defineProps({
   activeList:{type: Array},
 });
 const thisDate = ref('');
 const displayDate = ref('');
 const dayList= [ 'Sun','Mon','Thu','Wen','Thu','Fri','Sat' ]
-const dateList = ref([]);
 const monthList = ['Jan','Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+const dateList = ref(Array.from({length: 6}, ()=>Array.from({length:7},()=>{return {date: '', flag: false}})));
 
-const updateThisDate = (flag) =>{
+const updateThisDate = (flag: DateListFlag) =>{
   switch(flag){
     case 'default':
       return dayjs().format('YYYY-MM-DD');
@@ -52,7 +53,7 @@ const updateThisDate = (flag) =>{
       return dayjs(thisDate.value).subtract(1, 'M').format('YYYY-MM-DD');
   }
 }
-const makeDateList = (flag) => {
+const makeDateList = (flag: DateListFlag) => {
   thisDate.value = updateThisDate(flag);
   const year = dayjs(thisDate.value).year(); // year
   const month = dayjs(thisDate.value).month()+1 < 10 ? `0${dayjs(thisDate.value).month()+1}` : dayjs(thisDate.value).month()+1; // month
@@ -60,13 +61,13 @@ const makeDateList = (flag) => {
   const firstDay = dayjs(first).day(); // 첫쨰 날 요일
   const last = dayjs(thisDate.value).endOf('month').format('YYYY-MM-DD') // 마지막 날
   const lastDate = dayjs(last).date(); // 마지막날 일수.
-  dateList.value = Array.from({length: 6}, ()=>Array.from({length:7},()=>false)); // 초기화
+  dateList.value = Array.from({length: 6}, ()=>Array.from({length:7},()=>{return {date: '', flag: false}})); // 초기화
   
   let curIdx = firstDay; // 시작 위치
   let cnt = 0; // 반복 횟수
   for(let i=0;i<6;i++){
     for(let j=curIdx;j<7;j++){
-      dateList.value[i][j] = [`${dayjs(first).add(cnt,'d').format('YYYY-MM-DD')}`, true];
+      dateList.value[i][j] = {date:`${dayjs(first).add(cnt,'d').format('YYYY-MM-DD')}`, flag:true};
       cnt++;
       if(j===6) curIdx = 0;
       if(cnt===lastDate) break;
@@ -74,10 +75,10 @@ const makeDateList = (flag) => {
     if(cnt===lastDate) break;
   }
 
-  displayDate.value = `${year} ${monthList[month-1]}`
+  displayDate.value = `${year} ${monthList[Number(month)-1]}`
 }
 
-const checkActiveDay = (day) => {
+const checkActiveDay = (day:string) => {
   if(props.activeList!==undefined && props.activeList.length!==0) return props.activeList.includes(day);
 }
 onMounted(()=>{

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,6 +18,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DataHInbodyId implements Serializable {
     private static final long serialVersionUID = 1183322964940259232L;
-    private LocalDate stdDate;
+    private Date stdDate;
     private String userId;
 }
