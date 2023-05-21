@@ -1,5 +1,6 @@
 package com.bump.bumpy.exception;
 
+import com.bump.bumpy.util.dto.ResultMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,8 @@ public class GlobalUnCheckedExceptionHandler {
     @ExceptionHandler(value = {
             Exception.class
     })
-    public ResponseEntity<String> handleGlobalException(Exception e, HttpStatus status) {
+    public ResponseEntity<ResultMap> handleGlobalException(Exception e) {
         log.error("Unchecked Exception", e);
-        return ResponseEntity.status(status).body("예기치 못한 에러 발생");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", e.getMessage()));
     }
 }
