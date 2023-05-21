@@ -39,12 +39,7 @@ public class JacksonConfig {
             builder.serializersByType(Map.of(BigDecimal.class, new BigDecimalSerializer())); // BigDeciaml Custom Serializer 사용 - Custom Annotation 적용 및 String으로 변환 처리 포함
             builder.serializationInclusion(JsonInclude.Include.NON_NULL); // null이면 해당 필드가 사라짐
 
-            //
             builder.visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-
-            // Big Decimal String 전달
-            // TODO : Deprecated된 설정이므로 수정 필요
-            // builder.featuresToEnable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
 
             builder.failOnUnknownProperties(false);
         };

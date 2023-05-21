@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -21,9 +23,8 @@ public class UserController {
 
     @Operation(summary = "진입 확인용 API", description = "")
     @PostMapping("/check")
-    public ResponseEntity<ResultMap> check(HttpServletRequest httpServletRequest) {
-        HttpSession session = httpServletRequest.getSession();
-        String userId = (String) session.getAttribute("userId");
+    public ResponseEntity<ResultMap> check() {
+        String userId = getUserId();
         return userService.check();
     }
 

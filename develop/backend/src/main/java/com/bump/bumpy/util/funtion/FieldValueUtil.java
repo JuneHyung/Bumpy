@@ -1,5 +1,12 @@
 package com.bump.bumpy.util.funtion;
 
+import com.bump.bumpy.security.principal.PrincipalDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -151,6 +158,37 @@ public class FieldValueUtil {
 		}
 		return dowName;
 	}
-	
+
+	public static boolean isTodayDate(Date date) {
+		Calendar today = Calendar.getInstance();
+		Calendar stdDate = Calendar.getInstance();
+		today.setTime(new Date());
+		stdDate.setTime(date);
+
+		if(today.get(Calendar.YEAR) == stdDate.get(Calendar.YEAR) &&
+				today.get(Calendar.MONTH) == stdDate.get(Calendar.MONTH) &&
+				today.get(Calendar.DATE) == stdDate.get(Calendar.DATE)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static String getUserId() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null) {
+			return null;
+		}
+		else {
+			Object principal = authentication.getPrincipal();
+			if(principal instanceof PrincipalDetails) {
+				return ((PrincipalDetails) principal).getUsername();
+			}
+			else {
+				return principal.toString();
+			}
+		}
+	}
+
 	private FieldValueUtil() {}
 }

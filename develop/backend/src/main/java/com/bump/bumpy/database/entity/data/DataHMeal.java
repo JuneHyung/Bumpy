@@ -59,7 +59,7 @@ public class DataHMeal implements Serializable {
     private Integer order;
 
     @Column(name = "time")
-    private LocalDate time;
+    private Date time;
 
     @Column(name = "kcal", precision = 10)
     private BigDecimal kcal;
@@ -75,33 +75,43 @@ public class DataHMeal implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
-    @Column(name = "food1")
-    private Long food1;
+    @Size(max = 100)
+    @Column(name = "food1", length = 100)
+    private String food1;
 
-    @Column(name = "food2")
-    private Long food2;
+    @Size(max = 100)
+    @Column(name = "food2", length = 100)
+    private String food2;
 
-    @Column(name = "food3")
-    private Long food3;
+    @Size(max = 100)
+    @Column(name = "food3", length = 100)
+    private String food3;
 
-    @Column(name = "food4")
-    private Long food4;
+    @Size(max = 100)
+    @Column(name = "food4", length = 100)
+    private String food4;
 
-    @Column(name = "food5")
-    private Long food5;
+    @Size(max = 100)
+    @Column(name = "food5", length = 100)
+    private String food5;
 
-    @Column(name = "food6")
-    private Long food6;
+    @Size(max = 100)
+    @Column(name = "food6", length = 100)
+    private String food6;
 
-    @Column(name = "food7")
-    private Long food7;
+    @Size(max = 100)
+    @Column(name = "food7", length = 100)
+    private String food7;
 
-    @Column(name = "food8")
-    private Long food8;
+    @Size(max = 100)
+    @Column(name = "food8", length = 100)
+    private String food8;
 
-    @Column(name = "food9")
-    private Long food9;
+    @Size(max = 100)
+    @Column(name = "food9", length = 100)
+    private String food9;
 
-    @Column(name = "food10")
-    private Long food10;
+    @Size(max = 100)
+    @Column(name = "food10", length = 100)
+    private String food10;
 }

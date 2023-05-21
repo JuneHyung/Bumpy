@@ -1,5 +1,6 @@
 package com.bump.bumpy.domain.screen.cardio;
 
+import com.bump.bumpy.domain.screen.cardio.dto.DataHCardioDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Date;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @RestController
 @RequestMapping("/cardio")
@@ -23,47 +26,41 @@ public class CardioController {
 
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
-    public ResponseEntity<ResultMap> calendar(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResultMap> calendar() {
         return cardioService.calendar();
     }
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
-    public ResponseEntity<ResultMap> activity(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ResultMap> activity() {
         return cardioService.activity();
     }
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
-    public ResponseEntity<ResultMap> search(HttpServletRequest httpServletRequest, @RequestBody SearchRequestDto request) {
-        String userId = getUserId(httpServletRequest);
-        request.setUserId(getUserId(httpServletRequest));
+    public ResponseEntity<ResultMap> search(SearchRequestDto request) {
+        request.setUserId(getUserId());
         return cardioService.search(request);
     }
 
     @Operation(summary = "추가", description = "")
     @PostMapping("/insert")
-    public ResponseEntity<ResultMap> insert(HttpServletRequest httpServletRequest) {
-        String userId = getUserId(httpServletRequest);
-        return cardioService.insert();
+    public ResponseEntity<ResultMap> insert(@RequestBody DataHCardioDto request) {
+        String userId = getUserId();
+        return cardioService.insert(request, userId);
     }
 
     @Operation(summary = "수정", description = "")
     @PostMapping("/update")
-    public ResponseEntity<ResultMap> update(HttpServletRequest httpServletRequest) {
-        String userId = getUserId(httpServletRequest);
-        return cardioService.update();
+    public ResponseEntity<ResultMap> update(@RequestBody DataHCardioDto request) {
+        String userId = getUserId();
+        return cardioService.update(request, userId);
     }
 
     @Operation(summary = "삭제", description = "")
     @GetMapping("/delete")
-    public ResponseEntity<ResultMap> delete(HttpServletRequest httpServletRequest) {
-        String userId = getUserId(httpServletRequest);
-        return cardioService.delete();
-    }
-
-    private String getUserId(HttpServletRequest httpServletRequest) {
-        HttpSession session = httpServletRequest.getSession();
-        return String.valueOf(session.getAttribute("userId"));
+    public ResponseEntity<ResultMap> delete(SearchRequestDto request) {
+        request.setUserId(getUserId());
+        return cardioService.delete(request);
     }
 }
