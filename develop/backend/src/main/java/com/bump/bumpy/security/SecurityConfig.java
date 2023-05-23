@@ -40,8 +40,18 @@ public class SecurityConfig {
                     .loginProcessingUrl("/auth/login")
                     .usernameParameter("userId")
                     .passwordParameter("password")
-                    .successHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
-                    .failureHandler((request, response, exception) -> {response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);})
+                    .successHandler((request, response, authentication) -> {
+                        response.setContentType("application/json;charset=UTF-8");
+                        response.getWriter().write("{\"message\":\"로그인 성공\", \"code\":true}");
+                        response.setStatus(HttpServletResponse.SC_OK);
+//                        response.setStatus(HttpServletResponse.SC_OK);
+                    })
+                    .failureHandler((request, response, exception) -> {
+                        response.setContentType("application/json;charset=UTF-8");
+                        response.getWriter().write("{\"message\":\"로그인에 실패하였습니다.\", \"code\":false}");
+                        response.setStatus(HttpServletResponse.SC_OK);
+//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    })
                     .permitAll()
                 .and()
                     .logout()
