@@ -22,6 +22,7 @@
           <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signup" class="text-button bp-ml-sm">Sign up</NuxtLink></p>
         </div>
       </form>
+      <div @click="moveMain(formData)">bbb</div>
     </div>
   </div>
 </template>
@@ -30,38 +31,56 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import TextInput from '../components/form/TextInput.vue';
 import PasswordInput from '../components/form/PasswordInput.vue';
+import { InputPassword, InputText } from '~~/types/input';
+import { fetchLogin } from '~~/api/user/user';
 const router = useRouter();
-interface inputText {
-  value?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  maxlength?: number;
-  minlength?: number;
-  disabled?: boolean;
-  readonly?: boolean;
-  suffix?: boolean;
-  pattern?: string;
-}
-interface inputPassword {
-  value?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  maxlength?: number;
-  minlength?: number;
-  disabeld?: boolean;
-  readonly?: boolean;
-}
+
 interface userFormData {
-  id: inputText;
-  password: inputPassword;
+  id: InputText;
+  password: InputPassword;
 }
+
 const formData: userFormData = {
-  id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 5, pattern: '^[a-z]+[a-z0-9]{5,19}$' },
-  password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 5 },
+  id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 3, pattern: '^[a-z]+[a-z0-9]{3,19}$' },
+  password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 3 },
 };
 const target = ref('#');
-const moveMain = (formData: userFormData) => {
-  target.value = formData.id.value === formData.password.value ? 'main' : '#';
+const moveMain = async (formData: userFormData) => {
+  const {data, refresh} = await useFetch('/auth/login',{
+    baseURL: '222.112.251.124:8899/api',
+    method: 'POST',
+    body: {
+      userId: formData.id.value,
+      passsword: formData.password.value,
+    },
+    onRequest({ request, options }) {
+    // Set the request headers
+    // options.headers = options.headers || {}
+    // options.headers.authorization = '...'
+    console.log('request')
+    console.log(request, options)
+  },
+  onRequestError({ request, options, error }) {
+    // Handle the request errors
+    console.log('requestErr')
+    console.log(request, options)
+  },
+  onResponse({ request, response, options }) {
+    // Process the response data
+    // localStorage.setItem('token', response._data.token)
+    console.log('response')
+    console.log(response, options)
+  },
+  onResponseError({ request, response, options }) {
+    console.log('responseErr')
+    console.log(request)
+    console.log(response)
+  }
+  })
+  console.log(data)
+  console.log(refresh)
+
+  // target.value = formData.id.value === formData.password.value ? 'main' : '#';
   return formData.id === formData.password;
 };
 
