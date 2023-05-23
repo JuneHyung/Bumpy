@@ -46,41 +46,41 @@ const formData: userFormData = {
 };
 const target = ref('#');
 const moveMain = async (formData: userFormData) => {
-  const {data, refresh} = await useFetch('/auth/login',{
-    baseURL: '222.112.251.124:8899/api',
-    method: 'POST',
-    body: {
-      userId: formData.id.value,
-      passsword: formData.password.value,
-    },
-    onRequest({ request, options }) {
-    // Set the request headers
-    // options.headers = options.headers || {}
-    // options.headers.authorization = '...'
-    console.log('request')
-    console.log(request, options)
-  },
-  onRequestError({ request, options, error }) {
-    // Handle the request errors
-    console.log('requestErr')
-    console.log(request, options)
-  },
-  onResponse({ request, response, options }) {
-    // Process the response data
-    // localStorage.setItem('token', response._data.token)
-    console.log('response')
-    console.log(response, options)
-  },
-  onResponseError({ request, response, options }) {
-    console.log('responseErr')
-    console.log(request)
-    console.log(response)
-  }
-  })
-  console.log(data)
-  console.log(refresh)
+  // const {data, refresh} = await useFetch('/auth/login',{
+  //   baseURL: '222.112.251.124:8899/api',
+  //   method: 'POST',
+  //   body: {
+  //     userId: formData.id.value,
+  //     passsword: formData.password.value,
+  //   },
+  //   onRequest({ request, options }) {
+  //   // Set the request headers
+  //   // options.headers = options.headers || {}
+  //   // options.headers.authorization = '...'
+  //   console.log('request')
+  //   console.log(request, options)
+  // },
+  // onRequestError({ request, options, error }) {
+  //   // Handle the request errors
+  //   console.log('requestErr')
+  //   console.log(request, options)
+  // },
+  // onResponse({ request, response, options }) {
+  //   // Process the response data
+  //   // localStorage.setItem('token', response._data.token)
+  //   console.log('response')
+  //   console.log(response, options)
+  // },
+  // onResponseError({ request, response, options }) {
+  //   console.log('responseErr')
+  //   console.log(request)
+  //   console.log(response)
+  // }
+  // })
+  // console.log(data)
+  // console.log(refresh)
 
-  // target.value = formData.id.value === formData.password.value ? 'main' : '#';
+  target.value = formData.id.value === formData.password.value ? 'main' : '#';
   return formData.id === formData.password;
 };
 

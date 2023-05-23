@@ -13,9 +13,14 @@
       display: flex;
       width: 100%;
       flex: none;
-      flex-basis: 150px;
-      border: 1px solid black;
+      flex-basis: 180px;
+      // border: 1px solid black;
       margin-bottom: 1.25rem;
+      background-image: url('~/assets/images/Logo.png');
+      background-size: 90%;
+      background-position: center;
+      background-repeat: no-repeat;
+      
       cursor:pointer;
     }
     
