@@ -21,6 +21,20 @@ public class CardioController {
 
     private final CardioService cardioService;
 
+    /*
+    달력에 나갈 데이터 DTO 형태
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+    {date name}
+     */
+
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
     public ResponseEntity<ResultMap> calendar() {
