@@ -7,22 +7,25 @@
           <p class="introduce-message bp-my-md">{{ message }}</p>
         </template>
 
-        <p class="contact-info"><span class="bp-mr-sm">email : cjh951114@naver.com</span><span>phone: 010-7917-2614</span></p>
+        <p class="contact-info"><span class="bp-mr-sm">email : cjh951114@naver.com</span><span>phone: 010-7917-2614</span>
+        </p>
       </div>
     </div>
     <div class="login-form-box">
       <h2 class="login-form-title">USER LOGIN</h2>
-      <form class="login-form bp-pa-md" :action="target" @submit="moveMain(formData)">
+      <form class="login-form bp-pa-md" :action="target" @submit="moveMain()">
         <div>
           <TextInput :data="formData.id" class="login-input bp-mb-xl"></TextInput>
           <PasswordInput :data="formData.password" class="login-input bp-mb-xl"></PasswordInput>
         </div>
         <div>
           <input type="submit" class="long-filled-button login-button bp-mb-xl" value="Login" />
-          <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signup" class="text-button bp-ml-sm">Sign up</NuxtLink></p>
+          <p class="move-sign-up-wrap-box">not a member? <NuxtLink to="/signup" class="text-button bp-ml-sm">Sign up
+            </NuxtLink>
+          </p>
         </div>
       </form>
-      <div @click="moveMain(formData)">bbb</div>
+      <div @click="moveMain()">bbb</div>
     </div>
   </div>
 </template>
@@ -33,6 +36,7 @@ import TextInput from '../components/form/TextInput.vue';
 import PasswordInput from '../components/form/PasswordInput.vue';
 import { InputPassword, InputText } from '~~/types/input';
 import { fetchLogin } from '~~/api/user/user';
+
 const router = useRouter();
 
 interface userFormData {
@@ -40,48 +44,27 @@ interface userFormData {
   password: InputPassword;
 }
 
-const formData: userFormData = {
+const formData: Ref<userFormData> = ref({
   id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 3, pattern: '^[a-z]+[a-z0-9]{3,19}$' },
   password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 3 },
-};
+});
 const target = ref('#');
-const moveMain = async (formData: userFormData) => {
-  // const {data, refresh} = await useFetch('/auth/login',{
-  //   baseURL: '222.112.251.124:8899/api',
-  //   method: 'POST',
-  //   body: {
-  //     userId: formData.id.value,
-  //     passsword: formData.password.value,
-  //   },
-  //   onRequest({ request, options }) {
-  //   // Set the request headers
-  //   // options.headers = options.headers || {}
-  //   // options.headers.authorization = '...'
-  //   console.log('request')
-  //   console.log(request, options)
-  // },
-  // onRequestError({ request, options, error }) {
-  //   // Handle the request errors
-  //   console.log('requestErr')
-  //   console.log(request, options)
-  // },
-  // onResponse({ request, response, options }) {
-  //   // Process the response data
-  //   // localStorage.setItem('token', response._data.token)
-  //   console.log('response')
-  //   console.log(response, options)
-  // },
-  // onResponseError({ request, response, options }) {
-  //   console.log('responseErr')
-  //   console.log(request)
-  //   console.log(response)
-  // }
-  // })
-  // console.log(data)
+const moveMain = async () => {
+
+  const formD = new FormData();
+  formD.append('userId', formData.value.id.value);
+  formD.append('password', formData.value.password.value);
+
+  try {
+    const { data, refresh } = fetchLogin('POST', formD);
+    target.value = data.value.code ? 'main' : '#';
+    return data.value.code;
+  } catch (e) {
+    console.error(e);
+  }
   // console.log(refresh)
 
-  target.value = formData.id.value === formData.password.value ? 'main' : '#';
-  return formData.id === formData.password;
+  // target.value = formData.id.value === formData.password.value ? 'main' : '#';
 };
 
 const introduceMessageList: string[] = [
