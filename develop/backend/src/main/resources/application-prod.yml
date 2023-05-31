@@ -19,4 +19,4 @@ cors:
 
 springfox:
   documentation:
-    enabled: false
+    enabled: true

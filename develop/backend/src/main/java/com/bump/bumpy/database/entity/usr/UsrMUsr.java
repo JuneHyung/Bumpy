@@ -46,7 +46,7 @@ public class UsrMUsr implements Serializable {
     @NotNull
     @Builder.Default
     @Column(name = "useYn", nullable = false)
-    private Boolean useYn = false;
+    private Boolean useYn = true;
 
     @NotNull
     @Column(name = "gender", nullable = false)

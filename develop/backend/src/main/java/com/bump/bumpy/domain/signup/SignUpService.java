@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,8 @@ public class SignUpService {
 
     private final UsrMUsrRepository usrMUsrRepository;
     private final UsrHEmailauthRepository usrHEmailauthRepository;
-    private final JavaMailSender javaMailSender;
+    private final PasswordEncoder passwordEncoder;
+//    private final JavaMailSender javaMailSender;
 
     public ResponseEntity<ResultMap> userCheck(UserIdRequestDto request) {
         if(usrMUsrRepository.existsByUserId(request.getUserId()) || request.getUserId() == "anonymousUser")
@@ -74,6 +76,7 @@ public class SignUpService {
     public ResponseEntity<ResultMap> submit(UsrMUsrDto request) {
         if(usrMUsrRepository.existsByUserId(request.getUserId()))
             return ResponseEntity.badRequest().body(new ResultMap("message", "이미 존재하는 아이디입니다."));
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         usrMUsrRepository.save(request.toEntity(request));
         return ResponseEntity.ok(new ResultMap("message", "OK"));
     }
