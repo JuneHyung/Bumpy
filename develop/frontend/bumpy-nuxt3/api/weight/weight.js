@@ -1,4 +1,4 @@
-import { CREATE, READ } from "~~/types/method";
+import { GET } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api";
 
