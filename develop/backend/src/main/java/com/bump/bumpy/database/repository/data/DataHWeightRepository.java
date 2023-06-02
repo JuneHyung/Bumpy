@@ -12,4 +12,8 @@ public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHW
     List<DataHWeight> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
 
     Optional<DataHWeight> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
+
+    DataHWeight findFirstByUserIdOrderByStdDateDesc(String userId);
+
+    List<DataHWeight> findByUserIdOrderByStdDateDesc(String userId);
 }

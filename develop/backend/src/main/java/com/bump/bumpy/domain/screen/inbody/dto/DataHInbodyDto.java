@@ -31,7 +31,7 @@ public class DataHInbodyDto implements Serializable {
     private BigDecimal fat;
     private BigDecimal score;
     private BigDecimal bmi;
-    private BigDecimal fatPercent;
+    private BigDecimal fatRate;
     @Size(max = 1000)
     private String picture;
 
@@ -46,7 +46,7 @@ public class DataHInbodyDto implements Serializable {
         entity.setFat(this.fat);
         entity.setScore(this.score);
         entity.setBmi(this.bmi);
-        entity.setFatPercent(this.fatPercent);
+        entity.setFatRate(this.fatRate);
         entity.setPicture(this.picture);
         return entity;
     }
@@ -59,7 +59,7 @@ public class DataHInbodyDto implements Serializable {
         entity.setFat(this.fat);
         entity.setScore(this.score);
         entity.setBmi(this.bmi);
-        entity.setFatPercent(this.fatPercent);
+        entity.setFatRate(this.fatRate);
         entity.setPicture(this.picture);
         return entity;
     }

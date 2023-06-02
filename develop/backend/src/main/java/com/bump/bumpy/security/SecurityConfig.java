@@ -66,7 +66,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/signup/**").permitAll()
                         .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .build();
     }

@@ -13,4 +13,8 @@ import java.util.Optional;
 public interface DataHCardioRepository extends JpaRepository<DataHCardio, DataHCardioId> {
     Optional<DataHCardio> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
     List<DataHCardio> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
+
+    DataHCardio findFirstByUserIdOrderByStdDateDesc(String userId);
+
+    List<DataHCardio> findByUserIdOrderByStdDateDesc(String userId);
 }

@@ -5,12 +5,12 @@ spring:
     username: "bumpyapp"
     password: "@bumpy123!"
 
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-    open-in-view: false
+#  jpa:
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        format_sql: false
+#    open-in-view: false
 
 
 cors:

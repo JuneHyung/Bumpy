@@ -62,8 +62,8 @@ public class DataHInbody implements Serializable {
     @Column(name = "bmi", precision = 10)
     private BigDecimal bmi;
 
-    @Column(name = "fatPercent", precision = 10)
-    private BigDecimal fatPercent;
+    @Column(name = "fatRate", precision = 10)
+    private BigDecimal fatRate;
 
     @Size(max = 1000)
     @Column(name = "picture", length = 1000)
