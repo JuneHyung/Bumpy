@@ -23,10 +23,10 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
     @Size(max = 20)
     @NotNull
     private String userId;
-    @Size(max = 100)
 
     // password 변수는 PasswordDto 클래스에서 상속
 
+    @Size(max = 100)
     @NotNull
     private String email;
     @NotNull

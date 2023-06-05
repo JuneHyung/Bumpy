@@ -69,13 +69,17 @@ public class CardioService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
         }
 
-        DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
+        DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElse(null);
 
-        dataHCardio = request.updateEntity(dataHCardio);
+        if(dataHCardio == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            dataHCardio = request.updateEntity(dataHCardio);
 
-        cardioRepository.save(dataHCardio);
+            cardioRepository.save(dataHCardio);
 
-        return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+            return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)

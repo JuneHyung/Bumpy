@@ -24,9 +24,6 @@ import java.util.List;
 public class DataHMealDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @Size(max = 20)
-    @NotNull
-    private String userId;
     @NotNull
     private Integer seq;
     @Size(max = 100)
@@ -46,7 +43,6 @@ public class DataHMealDto implements Serializable {
     public DataHMeal toEntity() {
         DataHMeal entity = new DataHMeal();
         entity.setStdDate(this.stdDate);
-        entity.setUserId(this.userId);
         entity.setSeq(this.seq);
         entity.setName(this.name);
         entity.setOrder(this.order);
@@ -131,7 +127,6 @@ public class DataHMealDto implements Serializable {
     // to dto method
     public DataHMealDto(DataHMeal entity) {
         this.stdDate = entity.getStdDate();
-        this.userId = entity.getUserId();
         this.seq = entity.getSeq();
         this.name = entity.getName();
         this.order = entity.getOrder();

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 
 @Service
@@ -27,10 +29,14 @@ public class WeightService {
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         if(request.getSeq() == null) {
-            return ResponseEntity.ok(new ResultMap(dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId())));
+            List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+            if(dataHWeightList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
+            } else {
+                return ResponseEntity.ok(new ResultMap(dataHWeightList));
+            }
         } else {
             DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
-
             if(dataHWeight == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
             } else {

@@ -26,15 +26,19 @@ public class MealService {
         if(request.getSeq() == null) {
             List<DataHMeal> dataHMealList = dataHMealRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
             dataHMealList.forEach(dataHMeal -> list.add(new DataHMealDto(dataHMeal)));
+            if(list.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
+            } else {
+                return ResponseEntity.ok(new ResultMap(list));
+            }
         } else {
             DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
             if(dataHMeal != null) {
-                list.add(new DataHMealDto(dataHMeal));
+                return ResponseEntity.ok(new ResultMap(new DataHMealDto(dataHMeal)));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
             }
         }
-        return ResponseEntity.ok(new ResultMap(list));
     }
 
     @Transactional(rollbackFor = Exception.class)

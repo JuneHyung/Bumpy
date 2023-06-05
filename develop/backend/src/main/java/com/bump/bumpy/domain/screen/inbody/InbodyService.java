@@ -21,7 +21,6 @@ public class InbodyService {
         DataHInbody dataHInbody = dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), request.getUserId()).orElse(null);
         if(dataHInbody == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
             return ResponseEntity.ok(new ResultMap(dataHInbody));
         }
@@ -29,26 +28,19 @@ public class InbodyService {
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<ResultMap> insert(DataHInbodyDto request, String userId) {
-        if(request.getStdDate() == null) {
-            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
-        }
-
         if(dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
 
         DataHInbody dataHInbody = request.toEntity();
         dataHInbody.setUserId(userId);
+
         dataHInbodyRepository.save(dataHInbody);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResultMap("message", "저장되었습니다."));
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<ResultMap> update(DataHInbodyDto request, String userId) {
-        if(request.getStdDate() == null) {
-            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
-        }
-
         DataHInbody dataHInbody = dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
 

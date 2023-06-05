@@ -22,9 +22,6 @@ import java.util.Date;
 public class DataHInbodyDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @Size(max = 20)
-    @NotNull
-    private String userId;
     private BigDecimal height;
     private BigDecimal weight;
     private BigDecimal muscle;
@@ -39,7 +36,6 @@ public class DataHInbodyDto implements Serializable {
     public DataHInbody toEntity() {
         DataHInbody entity = new DataHInbody();
         entity.setStdDate(this.stdDate);
-        entity.setUserId(this.userId);
         entity.setHeight(this.height);
         entity.setWeight(this.weight);
         entity.setMuscle(this.muscle);
