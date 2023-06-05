@@ -87,6 +87,8 @@ public class MainService {
                     }
                     lastActiveCal.add(Calendar.DATE, -1);
                 }
+            } else {
+                // 오늘 활동했다면 1일 아니라면 0일
             }
 
             userInfoResponse.setContinuity(continuity);

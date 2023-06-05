@@ -1,6 +1,7 @@
 package com.bump.bumpy.domain.signup.dto;
 
 import com.bump.bumpy.database.entity.usr.UsrMUsr;
+import com.bump.bumpy.util.customannotation.Password;
 import com.bump.bumpy.util.dto.PasswordDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,10 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
     @Size(max = 20)
     @NotNull
     private String userId;
-//    @Size(max = 100)
-//    @NotNull
-//    private String password;
     @Size(max = 100)
+
+    // password 변수는 PasswordDto 클래스에서 상속
+
     @NotNull
     private String email;
     @NotNull
@@ -35,9 +36,11 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
     private Date birth;
     @Size(max = 20)
     private String phoneNumber;
-    private Integer addressMail;
+    private String zipCode;
     @Size(max = 200)
     private String address;
+    @Size(max = 200)
+    private String addressDetail;
     @Size(max = 1000)
     private String picture;
 
@@ -50,8 +53,9 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
         entity.setGender(dto.getGender());
         entity.setBirth(dto.getBirth());
         entity.setPhoneNumber(dto.getPhoneNumber());
-        entity.setAddressMail(dto.getAddressMail());
+        entity.setZipCode(dto.getZipCode());
         entity.setAddress(dto.getAddress());
+        entity.setAddressDetail(dto.getAddressDetail());
         entity.setPicture(dto.getPicture());
         return entity;
     }

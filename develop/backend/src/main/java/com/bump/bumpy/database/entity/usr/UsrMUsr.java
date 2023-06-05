@@ -60,12 +60,17 @@ public class UsrMUsr implements Serializable {
     @Column(name = "phoneNumber", length = 20)
     private String phoneNumber;
 
-    @Column(name = "addressMail")
-    private Integer addressMail;
+    @Size(max = 10)
+    @Column(name = "zipCode", length = 10)
+    private String zipCode;
 
     @Size(max = 200)
     @Column(name = "address", length = 200)
     private String address;
+
+    @Size(max = 200)
+    @Column(name = "addressDetail", length = 200)
+    private String addressDetail;
 
     @Size(max = 1000)
     @Column(name = "picture", length = 1000)
