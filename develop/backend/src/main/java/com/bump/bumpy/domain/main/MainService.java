@@ -13,6 +13,7 @@ import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
 import com.bump.bumpy.domain.main.dto.UserInfoResponse;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.isSameDate;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.isYesterDayDate;
 
 @Service
 @RequiredArgsConstructor
@@ -69,26 +74,17 @@ public class MainService {
 
             userInfoResponse.setLastActive(lastActive);
 
-            // get continuity
-            Calendar nowCal = new Calendar.Builder().setInstant(new Date()).build();
-            Calendar yesterdayCal = new Calendar.Builder().setInstant(new Date()).build();
-            yesterdayCal.add(Calendar.DATE, -1);
             Calendar lastActiveCal = new Calendar.Builder().setInstant(lastActive).build();
 
             int continuity = 0;
 
-            if(nowCal.compareTo(lastActiveCal) == 0 || yesterdayCal.compareTo(lastActiveCal) == 0) {
-                while(nowCal.compareTo(lastActiveCal) >= 0) {
-                    if(dataHWeightList.stream().anyMatch(dataHWeight -> dataHWeight.getStdDate().equals(lastActiveCal.getTime())) ||
-                            dataHCardioList.stream().anyMatch(dataHCardio -> dataHCardio.getStdDate().equals(lastActiveCal.getTime()))) {
-                        continuity++;
-                    } else {
-                        break;
-                    }
+            if(isTodayDate(lastActive) || isYesterDayDate(lastActive)) {
+                while(dataHWeightList.stream().anyMatch(dataHWeight -> isSameDate(dataHWeight.getStdDate(), lastActiveCal.getTime())) ||
+                        dataHCardioList.stream().anyMatch(dataHCardio -> isSameDate(dataHCardio.getStdDate(), lastActiveCal.getTime())))
+                {
+                    continuity++;
                     lastActiveCal.add(Calendar.DATE, -1);
                 }
-            } else {
-                // 오늘 활동했다면 1일 아니라면 0일
             }
 
             userInfoResponse.setContinuity(continuity);
@@ -96,7 +92,7 @@ public class MainService {
 
         // set Age
         if(userData == null) {
-            throw new IllegalArgumentException("사용자 정보가 없습니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("사용자 정보가 없습니다."));
         } else {
             // get age from user.birth
             Date birth = userData.getBirth();
@@ -111,26 +107,6 @@ public class MainService {
 
             userInfoResponse.setAge(age);
         }
-
-        // get last active from dataHCardioRepository and dataHWeightRepository
-        Date lastActive;
-        DataHCardio dataHCardio = dataHCardioRepository.findFirstByUserIdOrderByStdDateDesc(userId);
-        DataHWeight dataHWeight = dataHWeightRepository.findFirstByUserIdOrderByStdDateDesc(userId);
-        Date lastActiveCardio = dataHCardio != null ? dataHCardio.getStdDate() : null;
-        Date lastActiveWeight = dataHWeight != null ? dataHWeight.getStdDate() : null;
-        // check if neither cardio nor weight data exists
-        if(lastActiveCardio == null && lastActiveWeight == null) {
-            lastActive = null;
-        } else if(lastActiveCardio == null) {
-            lastActive = lastActiveWeight;
-        } else if(lastActiveWeight == null) {
-            lastActive = lastActiveCardio;
-        } else if(lastActiveCardio.compareTo(lastActiveWeight) > 0) {
-            lastActive = lastActiveCardio;
-        } else {
-            lastActive = lastActiveWeight;
-        }
-        userInfoResponse.setLastActive(lastActive);
 
         // set average Water
         // get from 30 days ago to yesterday water data from dataHMealRepository
@@ -180,7 +156,7 @@ public class MainService {
             userInfoResponse.setWeight(inbodyData.getWeight());
         }
 
-        return ResponseEntity.ok(new ResultMap());
+        return ResponseEntity.ok(new ResultMap(userInfoResponse));
     }
 
     public ResponseEntity<ResultMap> mealInfo() {

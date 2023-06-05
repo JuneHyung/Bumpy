@@ -20,7 +20,6 @@ public class UserInfoResponse implements Serializable {
     private Integer continuity = null;
     private Date lastActive = null;
     private BigDecimal averageWater = null;
-
     private inbodyData inbodyData = null;
 
     @Builder

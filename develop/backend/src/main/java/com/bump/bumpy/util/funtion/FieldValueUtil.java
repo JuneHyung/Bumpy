@@ -167,6 +167,36 @@ public class FieldValueUtil {
 		}
 	}
 
+	public static boolean isYesterDayDate(Date date) {
+		Calendar yesterDay = Calendar.getInstance();
+		Calendar stdDate = Calendar.getInstance();
+		yesterDay.setTime(new Date());
+		stdDate.setTime(date);
+
+		yesterDay.add(Calendar.DATE, -1);
+
+		if(yesterDay.get(Calendar.YEAR) == stdDate.get(Calendar.YEAR) &&
+				yesterDay.get(Calendar.MONTH) == stdDate.get(Calendar.MONTH) &&
+				yesterDay.get(Calendar.DATE) == stdDate.get(Calendar.DATE)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// isSameDate
+	public static boolean isSameDate(Date date1, Date date2) {
+		Calendar cal1 = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+
+		cal1.setTime(date1);
+		cal2.setTime(date2);
+
+		return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+				cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+				cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE);
+	}
+
 	public static String getUserId() {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //		if(authentication == null) {
