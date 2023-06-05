@@ -1,6 +1,7 @@
 package com.bump.bumpy.database.entity.data;
 
 import com.bump.bumpy.database.entity.composite.DataHInbodyId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class DataHInbody implements Serializable {
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
+    @JsonIgnore
     private String userId;
 
     @Column(name = "height", precision = 10)
