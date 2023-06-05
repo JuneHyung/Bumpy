@@ -1,7 +1,6 @@
 package com.bump.bumpy.domain.signup.dto;
 
 import com.bump.bumpy.database.entity.usr.UsrMUsr;
-import com.bump.bumpy.util.customannotation.Password;
 import com.bump.bumpy.util.dto.PasswordDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;

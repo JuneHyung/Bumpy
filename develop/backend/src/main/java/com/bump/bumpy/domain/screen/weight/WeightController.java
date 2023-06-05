@@ -6,8 +6,10 @@ import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,14 +50,14 @@ public class WeightController {
     }
 
     @Operation(summary = "수정", description = "")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ResultMap> update(@RequestBody DataHWeightDto request) {
         String userId = getUserId();
         return weightService.update(request, userId);
     }
 
     @Operation(summary = "삭제", description = "")
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<ResultMap> delete(SearchRequestDto request) {
         request.setUserId(getUserId());
         return weightService.delete(request);

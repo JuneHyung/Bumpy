@@ -7,11 +7,13 @@ import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,20 +28,31 @@ public class CardioService {
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         if(request.getSeq() == null) {
-            return ResponseEntity.ok(new ResultMap(cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId())));
+            List<DataHCardio> dataHCardioList = cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+            if(dataHCardioList.size() > 0) {
+                return ResponseEntity.ok(new ResultMap(dataHCardioList));
+            } else {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
+            }
         } else {
-            return ResponseEntity.ok(new ResultMap(cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null)));
+            DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
+            if(dataHCardio != null) {
+                return ResponseEntity.ok(new ResultMap(dataHCardio));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+            }
         }
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<ResultMap> insert(DataHCardioDto request, String userId) {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
-            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
+            throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
         }
 
         if(cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
-            throw new IllegalArgumentException("이미 등록된 데이터입니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
 
         DataHCardio dataHCardio = request.toEntity();
@@ -47,13 +60,13 @@ public class CardioService {
 
         cardioRepository.save(dataHCardio);
 
-        return ResponseEntity.ok(new ResultMap("message", "저장되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResultMap("message", "저장되었습니다."));
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<ResultMap> update(@NotNull DataHCardioDto request, String userId) {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
-            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
+            throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
         }
 
         DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
@@ -71,10 +84,13 @@ public class CardioService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
         DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq())
-                .orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
-        cardioRepository.delete(dataHCardio);
+                .orElse(null);
 
-        return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+        if(dataHCardio == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            cardioRepository.delete(dataHCardio);
+            return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+        }
     }
-
 }

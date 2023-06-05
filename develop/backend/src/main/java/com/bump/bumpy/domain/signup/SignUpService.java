@@ -9,10 +9,13 @@ import com.bump.bumpy.domain.signup.dto.UsrMUsrDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 import static com.bump.bumpy.constants.DomainConstants.EMAIL_VERIFY_CODE_CHACTERS;
 import static com.bump.bumpy.constants.DomainConstants.EMAIL_VERIFY_CODE_LENGTH;
@@ -27,8 +30,8 @@ public class SignUpService {
 //    private final JavaMailSender javaMailSender;
 
     public ResponseEntity<ResultMap> userCheck(UserIdRequestDto request) {
-        if(usrMUsrRepository.existsByUserId(request.getUserId()) || request.getUserId() == "anonymousUser")
-            return ResponseEntity.badRequest().body(new ResultMap("message", "이미 존재하는 아이디입니다."));
+        if(usrMUsrRepository.existsByUserId(request.getUserId()) || Objects.equals(request.getUserId(), "anonymousUser"))
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 사용중인 아이디입니다."));
         return ResponseEntity.ok(new ResultMap("message", "사용 가능한 아이디입니다."));
     }
 
@@ -68,13 +71,13 @@ public class SignUpService {
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<ResultMap> validateEmail(EmailRequestDto request) {
         if(!usrHEmailauthRepository.existsByUserIdAndTokenAndEmail(request.getUserId(), request.getVerifyCode(), request.getEmail()))
-            return ResponseEntity.badRequest().body(new ResultMap("message", "인증번호가 일치하지 않습니다."));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", "인증번호가 일치하지 않습니다."));
         return ResponseEntity.ok(new ResultMap("message", "OK"));
     }
 
     public ResponseEntity<ResultMap> submit(UsrMUsrDto request) {
         if(usrMUsrRepository.existsByUserId(request.getUserId()))
-            return ResponseEntity.badRequest().body(new ResultMap("message", "이미 존재하는 아이디입니다."));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 사용중인 아이디입니다."));
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         usrMUsrRepository.save(request.toEntity(request));
         return ResponseEntity.ok(new ResultMap("message", "OK"));

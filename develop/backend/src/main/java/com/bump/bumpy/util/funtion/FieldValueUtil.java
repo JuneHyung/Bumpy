@@ -1,9 +1,5 @@
 package com.bump.bumpy.util.funtion;
 
-import com.bump.bumpy.security.principal.PrincipalDetails;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -7,6 +7,7 @@ import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,13 @@ public class MealService {
         List<DataHMealDto> list = new ArrayList<>();
         if(request.getSeq() == null) {
             List<DataHMeal> dataHMealList = dataHMealRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
-            dataHMealList.forEach(dataHMeal -> {
-                list.add(new DataHMealDto(dataHMeal));
-            });
+            dataHMealList.forEach(dataHMeal -> list.add(new DataHMealDto(dataHMeal)));
         } else {
             DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
             if(dataHMeal != null) {
                 list.add(new DataHMealDto(dataHMeal));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
             }
         }
         return ResponseEntity.ok(new ResultMap(list));
@@ -43,7 +44,7 @@ public class MealService {
         }
 
         if(dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
-            throw new IllegalArgumentException("이미 등록된 데이터입니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
 
         DataHMeal dataHMeal = request.toEntity();
@@ -60,13 +61,17 @@ public class MealService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
 
-        DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
+        DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElse(null);
 
-        dataHMeal = request.updateEntity(dataHMeal);
+        if(dataHMeal == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            dataHMeal = request.updateEntity(dataHMeal);
 
-        dataHMealRepository.save(dataHMeal);
+            dataHMealRepository.save(dataHMeal);
 
-        return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+            return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -74,10 +79,16 @@ public class MealService {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
-        DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq())
-                .orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
-        dataHMealRepository.delete(dataHMeal);
 
-        return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+        DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq())
+                .orElse(null);
+
+        if(dataHMeal == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            dataHMealRepository.delete(dataHMeal);
+
+            return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,13 @@ public class WeightService {
         if(request.getSeq() == null) {
             return ResponseEntity.ok(new ResultMap(dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId())));
         } else {
-            return ResponseEntity.ok(new ResultMap(dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null)));
+            DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
+
+            if(dataHWeight == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+            } else {
+                return ResponseEntity.ok(new ResultMap(dataHWeight));
+            }
         }
     }
 
@@ -39,7 +46,7 @@ public class WeightService {
         }
 
         if(dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
-            throw new IllegalArgumentException("이미 등록된 데이터입니다.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
         }
 
         DataHWeight dataHWeight = request.toEntity();
@@ -56,13 +63,17 @@ public class WeightService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
 
-        DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
+        DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).orElse(null);
 
-        dataHWeight = request.updateEntity(dataHWeight);
+        if(dataHWeight == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            dataHWeight = request.updateEntity(dataHWeight);
 
-        dataHWeightRepository.save(dataHWeight);
+            dataHWeightRepository.save(dataHWeight);
 
-        return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+            return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -72,10 +83,14 @@ public class WeightService {
         }
 
         DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq())
-                .orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
+                .orElse(null);
 
-        dataHWeightRepository.delete(dataHWeight);
+        if(dataHWeight == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
+        } else {
+            dataHWeightRepository.delete(dataHWeight);
 
-        return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+            return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
+        }
     }
 }
