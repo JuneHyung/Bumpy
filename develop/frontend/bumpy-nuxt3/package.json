@@ -42,6 +42,7 @@
     "dotenv": "^16.0.3",
     "lodash": "^4.17.21",
     "pinia": "^2.0.35",
+    "sweetalert2": "^11.7.11",
     "vue3-apexcharts": "^1.4.1"
   }
 }

@@ -15,7 +15,7 @@
       />
       <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ data.suffix }}</span>
     </label>
-    <p class="validate-message bp-mt-xs ellipsis" :class="{ 'correct-message': validateFlag, 'hidden-box': isPattern }">{{ validateMessage }}</p>
+    <p :class="{ 'correct-message': validateFlag, 'hidden-box': isPattern }" class="validate-message bp-mt-xs ellipsis">{{ validateMessage }}</p>
   </div>
 </template>
 <script setup lang="ts">
@@ -33,6 +33,7 @@ const isSuffix = ref(false);
 const isPattern = ref(false);
 
 const handleKeyup = () => {
+  
   const regex = new RegExp(props.data.pattern as string, 'g');
   validateFlag.value = regex.test(props.data.value as string);
 };
