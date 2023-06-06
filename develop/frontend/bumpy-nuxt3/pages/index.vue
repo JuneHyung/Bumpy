@@ -33,16 +33,16 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import TextInput from '../components/form/TextInput.vue';
 import PasswordInput from '../components/form/PasswordInput.vue';
-import { userFormData, LoginResponse } from '~~/types/user';
+import { userLoginFormData } from '~~/types/user';
 import {setErrorMessage} from '~~/api/alert/errorMessage'
 import { fetchLogin } from '~~/api/user/user';
 import { validateValue } from '~~/api/util';
-const { $swal } = useNuxtApp()
+import { ID_PATTERN, PASSWORD_PATTERN } from '~~/api/user/pattern';
 const router = useRouter();
 
-const formData: Ref<userFormData> = ref({
-  id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 5, pattern: '^[a-z]+[a-z0-9]{4,20}$' },
-  password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 3, pattern: '^(?=.*\d)(?=.*[a-z])(?=.*[^\w\d\s:]){7,20}$' },
+const formData: Ref<userLoginFormData> = ref({
+  id: { value: '', placeholder: '아이디를 입력해주세요.', maxlength: 20, minlength: 5, pattern: ID_PATTERN },
+  password: { value: '', placeholder: '비밀번호', maxlength: 20, minlength: 3, pattern: PASSWORD_PATTERN },
 });
 
 const moveMain = async () => {
@@ -54,7 +54,7 @@ const moveMain = async () => {
     formD.append('userId', formData.value.id.value as string);
     formD.append('password', formData.value.password.value as string);
     try {
-      const { data } = await fetchLogin('POST', formD);
+      const { data } = await fetchLogin(formD);
       const dataValue = data.value as {code: boolean, message: string}
       dataValue.code 
         ? router.push({path: 'main'}) 

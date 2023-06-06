@@ -1,4 +1,4 @@
-import { InputPassword, InputText } from "./input";
+import { InputDate, InputNumber, InputPassword, InputText } from "./input";
 
 interface LoginResponse<T> {
   code: string,
@@ -8,6 +8,19 @@ interface LoginResponse<T> {
 interface userFormData {
   id: InputText;
   password: InputPassword;
+  passwordChk: InputPassword;
+  email: InputText;
+  name: InputText;
+  birth: InputDate;
+  phoneFirst: InputNumber;
+  phoneSecond: InputNumber;
+  phoneThird: InputNumber;
+  zipCode: InputNumber;
+  address: InputText;
+  addressDetail: InputText;
 }
 
-export {userFormData, LoginResponse}
+type userLoginFormData = Pick<userFormData, "id" | "password">;
+
+
+export {userLoginFormData, LoginResponse, userFormData}
