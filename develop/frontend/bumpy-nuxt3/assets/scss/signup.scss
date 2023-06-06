@@ -71,6 +71,24 @@
         display:flex;
         align-items:flex-start;
       }
+      .signup-address-wrap{
+        display: flex;
+        flex-direction: column;
+        .signup-zipcode-wrap{
+          display: flex;
+          flex-direction: row;
+          .zipcode-input{
+            display:flex;
+            flex: 0 1 200px;
+          }
+          .find-zipcode-button{
+            display:flex;
+            flex: 0 1 100px;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
     }
 
     .signup-button-wrap{
@@ -80,5 +98,48 @@
         flex: 0
       }
     }
+  }
+}
+
+.check-ok {
+  background-color: lightgreen;
+  color: green;
+}
+
+
+.email-verificate-modal{
+  position:absolute;
+  top:50%; left:50%;
+  width:600px;
+  height:300px;
+  margin-left:-300px;
+  margin-top:-150px;
+  background-color: $white-color;
+  padding:2rem;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius:1.12rem;
+  .email-verificate-content{
+
+    .email-verificate-input-wrap{
+      display:flex;
+      // flex:1;
+      .email-verificate-input{
+        display:flex;
+        flex:8;
+      }
+      .email-verificate-button{
+        flex:0 0 80px;
+      }
+    }
+    .email-verificate-timer-wrap{
+      
+    }
+  }
+  .email-verificate-modal-close-button{
+    display:flex;
+    justify-self:flex-end;
+    flex:0 0 50px;
   }
 }

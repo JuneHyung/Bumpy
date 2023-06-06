@@ -11,45 +11,52 @@
     </div>
     <div class="signup-form-box">
       <h2 class="signup-form-title">SIGN UP</h2>
-      <form class="signup-form" :action="target">
-        <div class="signup-id-wrap">
-          <TextInput :data="userForm.id" class="id-input bp-my-sm bp-mr-sm" />
-          <button class="short-filled-button duplicate-check-button" :class="{ 'check-ok': !duplicateId }" @click="checkDuplicateId">{{ duplicateBtnText }}</button>
+      <form class="signup-form">
+        <div class="signup-id-wrap bp-mb-sm">
+          <TextInput :data="userForm.id" class="id-input bp-mr-sm" />
+          <button type="button" class="short-filled-button duplicate-check-button" :class="{ 'check-ok': !duplicateId }" @click="checkDuplicateId">{{ duplicateBtnText }}</button>
         </div>
-        <PasswordInput :data="userForm.password" class="bp-my-sm" />
-        <PasswordInput :data="userForm.passwordChk" class="bp-my-sm" />
+        <PasswordInput :data="userForm.password" class="bp-mb-sm"/>
+        <PasswordInput :data="userForm.passwordChk" class="bp-mb-sm" />
         <div class="signup-email-wrap">
-          <TextInput :data="userForm.email" class="email-input bp-my-sm bp-mr-sm" />
-          <button class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openModal">인증</button>
+          <TextInput :data="userForm.email" class="email-input bp-mb-sm bp-mr-sm" />
+          <button type="button" class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openModal">인증</button>
         </div>
-        <TextInput :data="userForm.name" class="bp-my-sm" />
-        <DateInput :data="userForm.birth" class="bp-my-sm" />
-        <div class="signup-phone-wrap bp-my-sm">
+        <TextInput :data="userForm.name" class="bp-mb-sm" />
+        <DateInput :data="userForm.birth" class="bp-mb-sm" />
+        <div class="signup-phone-wrap bp-mb-sm">
           <NumberInput :data="userForm.phoneFirst" />
           <NumberInput :data="userForm.phoneSecond" class="bp-mx-sm" />
           <NumberInput :data="userForm.phoneThird" />
         </div>
-        <div>
-          <NumberInput :data="userForm.addressMail"></NumberInput><button @click="opening">우편번호 찾기</button>
-          <TextInput :data="userForm.address" class="bp-my-sm" /> 
-          <TextInput :data="userForm.addressDetail" class="bp-my-sm" /><TextInput :data="userForm.addressExtra" class="bp-my-sm" />
+        <div class="signup-address-wrap">
+          <label class="signup-zipcode-wrap bp-mb-sm">
+            <NumberInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></NumberInput>
+            <button type="button" @click="opening" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
+          </label>
+          <TextInput :data="userForm.address" class="bp-mb-sm" /> 
+          <TextInput :data="userForm.addressDetail" class="bp-mb-sm" />
         </div>
         <div class="signup-button-wrap">
-          <button class="short-ghost-button cancel-button bp-mr-sm" @click="moveLogin">취소</button>
-          <button class="short-filled-button signup-button" @click="signUp">회원가입</button>
+          <button type="button" class="short-ghost-button cancel-button bp-mr-sm" @click="moveLogin">취소</button>
+          <button type="button"  class="short-filled-button signup-button" @click="signUp">회원가입</button>
         </div>
       </form>
     </div>
   </div>
 
   <div v-if="emailModalFlag" class="email-verificate-modal">
-    <h1>이메일 인증입니다.</h1>
-    <label>
-      <input type="text" v-model="emailVerficationCode" />
-      <button @click="checkCertificateEmail">인증확인</button>
-    </label>
-    <span>Timer</span>
-    <button @click="closeModal">닫기</button>
+    <div class="email-verificate-content">
+      <h1 class="email-verificate-title bp-mb-xl">이메일 인증입니다.</h1>
+      <label class="email-verificate-input-wrap">
+        <input type="text" class="email-verificate-input bp-mr-sm" v-model="emailVerficationCode" />
+        <button class="short-filled-button email-verificate-button" @click="checkCertificateEmail">인증확인</button>
+      </label>
+      <div class="email-verificate-timer-wrap bp-my-sm">
+        <span>Timer : {{verifyTime}}</span>
+      </div>
+    </div>
+    <button class="long-filled-button email-verificate-modal-close-button" @click="closeModal">닫기</button>
   </div>
 </template>
 <script setup lang="ts">
@@ -60,43 +67,28 @@ import NumberInput from "../components/form/NumberInput.vue";
 import DateInput from "../components/form/DateInput.vue";
 import { ref, Ref } from "vue";
 import { createCheckDuplicateId, createEmailVerificationCode, createCheckCertificateEmail, createSignUp } from "~/api/user/signup";
-import { InputDate, InputNumber, InputPassword, InputText } from "~~/types/input";
-const target = ref("/");
+import { ID_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN } from '~~/api/user/pattern';
+import { userFormData } from '~~/types/user';
+import { setErrorMessage } from '~~/api/alert/errorMessage';
 const router = useRouter();
-interface userFormData {
-  id: InputText;
-  password: InputPassword;
-  passwordChk: InputPassword;
-  email: InputText;
-  name: InputText;
-  birth: InputDate;
-  phoneFirst: InputNumber;
-  phoneSecond: InputNumber;
-  phoneThird: InputNumber;
-  addressMail: InputNumber;
-  address: InputText;
-  addressDetail: InputText;
-  addressExtra: InputText;
-}
-
+const verifyTime = ref('00 : 00')
 const moveLogin = () => {
   return true;
 };
 
 const userForm: Ref<userFormData> = ref({
   id: { value: "", placeholder: "아이디를 입력해주세요." },
-  password: { placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요." },
-  passwordChk: { placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요." },
-  email: { placeholder: "email형식을 지켜 작성해주세요." },
-  name: { placeholder: "이름을 입력해주세요." },
-  birth: { placeholder: "생일을 입력해주세요" },
+  password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.",},
+  passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", },
+  email: {value: '', placeholder: "email형식을 지켜 작성해주세요.",},
+  name: {value: '', placeholder: "이름을 입력해주세요." },
+  birth: {value: '', placeholder: "생일을 입력해주세요" },
   phoneFirst: { placeholder: "000" },
   phoneSecond: { placeholder: "0000" },
   phoneThird: { placeholder: "0000" },
-  addressMail: { placeholder: "우편번호", disabled:true },
-  address: { placeholder: "주소", disabled:true },
-  addressDetail: { placeholder: "상세주소를 입력해주세요." },
-  addressExtra: { placeholder: "참고항목", disabled: true },
+  zipCode: { placeholder: "우편번호", disabled:true },
+  address: {value: '', placeholder: "주소", disabled:true },
+  addressDetail: {value: '', placeholder: "상세주소를 입력해주세요." },
 });
 
 const introduceMessageList: string[] = ["This is Signup Page", "Please enter your information.", "You can sign up for membership", "If you have any questions", "Please call or email us"];
@@ -106,9 +98,15 @@ const duplicateId = ref(true);
 const checkDuplicateId = (e: Event) => {
   e.preventDefault();
   if (duplicateId.value) {
+    try{
     const { data } = createCheckDuplicateId({ userId: userForm.value.id.value });
-    const duplicateMessage = data.value.message;
+    console.log(data.value)
+    const duplicateMessage = data.value.message
     if (duplicateMessage === "사용 가능한 아이디입니다.") duplicateId.value = false;
+    } catch(e){
+      console.log(e)
+      setErrorMessage(e)
+    }
   }
 };
 
@@ -118,13 +116,14 @@ const emailModalFlag = ref(false);
 const closeModal = () => (emailModalFlag.value = false);
 const openModal = (e: Event) => {
   e.preventDefault();
-  if (duplicateId.value) {
-    alert("아이디 중복검사 먼저해주세요");
-  } else {
+  // if (duplicateId.value) {
+  //   alert("아이디 중복검사 먼저해주세요");
+  // } else {
     emailModalFlag.value = true;
-    sendEmailVerificationCode();
-  }
+    // sendEmailVerificationCode();
+  // }
 };
+
 const sendEmailVerificationCode = () => {
   const { email, id } = userForm.value;
   const { data } = createEmailVerificationCode({ email: email.value, userId: id.value });
@@ -145,6 +144,7 @@ const checkCertificateEmail = () => {
   }
 };
 
+// 우편번호API script 추가
 const addScript = () => {
   const script = document.createElement("script");
   script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -155,6 +155,7 @@ const addScript = () => {
   };
   document.body.appendChild(script);
 };
+// 우편번호 modal open
 const opening = (e: Event) => {
   e.preventDefault();
   new daum.Postcode({
@@ -163,8 +164,8 @@ const opening = (e: Event) => {
 
       // 각 주소의 노출 규칙에 따라 주소를 조합한다.
       // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-      var addr = ""; // 주소 변수
-      var extraAddr = ""; // 참고항목 변수
+      let addr = ""; // 주소 변수
+      let extraAddr = ""; // 참고항목 변수
 
       //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
       if (data.userSelectedType === "R") {
@@ -191,19 +192,18 @@ const opening = (e: Event) => {
           extraAddr = " (" + extraAddr + ")";
         }
         // 조합된 참고항목을 해당 필드에 넣는다.
-        userForm.value.addressExtra.value = extraAddr;
-      } else {
-        userForm.value.addressExtra.value = "";
+        addr += ` ${extraAddr}`;
       }
 
       // 우편번호와 주소 정보를 해당 필드에 넣는다.
-      userForm.value.addressMail.value = data.zonecode;
+      userForm.value.zipCode.value = data.zonecode;
       userForm.value.address.value = addr;
       // 커서를 상세주소 필드로 이동한다.
     },
   }).open();
 };
 
+// 회원가입 버튼 클릭 시 body만들기
 const makeSignUpBody = (body: userFormData) =>{
   
   const result = {
@@ -214,18 +214,20 @@ const makeSignUpBody = (body: userFormData) =>{
     gender :1,
     birth : body.birth.value,
     phoneNumber : `${body.phoneFirst.value}-${body.phoneSecond.value}-${body.phoneThird.value}`,
-    addressMail :body.addressMail.value,
-    address :`${body.address.value} ${body.addressDetail.value} ${body.addressExtra.value}`,
+    zipCode :body.zipCode.value,
+    address :body.address.value,
+    addressDetail: body.addressDetail.value 
   };
   return result;
 }
 
+// 회원가입 버튼 클릭시 api 호출
 const signUp = (e:Event) =>{
   e.preventDefault();
-  console.log(duplicateId.value)
-  console.log(verificateEmail.value)
-  if(duplicateId.value) alert('아이디 중복 확인 바랍니다.');
-  else if(!verificateEmail.value) alert('이메일 인증 확인 바랍니다.');
+  // console.log(duplicateId.value)
+  // console.log(verificateEmail.value)
+  if(duplicateId.value) setErrorMessage('아이디 중복 확인 바랍니다.');
+  else if(!verificateEmail.value) setErrorMessage('이메일 인증 확인 바랍니다.');
   else {
     const body = makeSignUpBody(userForm.value)
     const {data} = createSignUp(body)
@@ -242,12 +244,5 @@ onMounted(() => {
 });
 </script>
 <style scoped lang="scss">
-.login-form {
-  display: flex;
-  flex-direction: column;
-}
-.check-ok {
-  background-color: lightgreen;
-  color: green;
-}
+
 </style>
