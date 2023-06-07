@@ -100,7 +100,7 @@ p {
   margin: 0;
 }
 .hidden-box {
-  display: none;
+  display: none !important;
 }
 .full-width {
   width: 100%;

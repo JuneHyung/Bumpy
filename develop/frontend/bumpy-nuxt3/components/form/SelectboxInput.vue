@@ -1,7 +1,7 @@
 <template>
   <div class="input-wrap-box" @click="toggleList">
     <p class="select-list-button" :class="{ placeholder: isEmpty(props.data.value) }">
-      {{ isEmpty(props.data.value) ? props.data.placeholder : props.data.value }}
+      {{ isEmpty(props.data.value) ? props.data.placeholder : props.data.list.filter(el=>el.dtlCd===props.data.value)[0].dtlNm }}
     </p>
     <ul class="select-list-box" :class="{ 'hidden-box': closeFlag }">
       <template v-for="(item, idx) in data.list" :key="idx">
