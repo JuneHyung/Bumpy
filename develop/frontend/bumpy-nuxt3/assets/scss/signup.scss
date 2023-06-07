@@ -38,6 +38,7 @@
       align-items: center;
       color: $middle-point-color;
     }
+
     .signup-form {
       flex-direction: column;
       
@@ -102,10 +103,9 @@
 }
 
 .check-ok {
-  background-color: lightgreen;
-  color: green;
+  background-color: lightgreen !important;
+  color: green !important;
 }
-
 
 .email-verificate-modal{
   position:absolute;

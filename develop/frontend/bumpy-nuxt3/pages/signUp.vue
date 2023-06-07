@@ -20,7 +20,7 @@
         <PasswordInput :data="userForm.passwordChk" class="bp-mb-sm" />
         <div class="signup-email-wrap">
           <TextInput :data="userForm.email" class="email-input bp-mb-sm bp-mr-sm" />
-          <button type="button" class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openModal">인증</button>
+          <button type="button" class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openEmailVerifyModal">{{ verificateEmailText }}</button>
         </div>
         <TextInput :data="userForm.name" class="bp-mb-sm" />
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
@@ -32,7 +32,7 @@
         <div class="signup-address-wrap">
           <label class="signup-zipcode-wrap bp-mb-sm">
             <NumberInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></NumberInput>
-            <button type="button" @click="opening" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
+            <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
           <TextInput :data="userForm.address" class="bp-mb-sm" /> 
           <TextInput :data="userForm.addressDetail" class="bp-mb-sm" />
@@ -56,7 +56,7 @@
         <span>Timer : {{verifyTime}}</span>
       </div>
     </div>
-    <button class="long-filled-button email-verificate-modal-close-button" @click="closeModal">닫기</button>
+    <button class="long-filled-button email-verificate-modal-close-button" @click="closeEmailVerifyModal">닫기</button>
   </div>
 </template>
 <script setup lang="ts">
@@ -67,20 +67,19 @@ import NumberInput from "../components/form/NumberInput.vue";
 import DateInput from "../components/form/DateInput.vue";
 import { ref, Ref } from "vue";
 import { createCheckDuplicateId, createEmailVerificationCode, createCheckCertificateEmail, createSignUp } from "~/api/user/signup";
-import { ID_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN } from '~~/api/user/pattern';
 import { userFormData } from '~~/types/user';
-import { setErrorMessage } from '~~/api/alert/errorMessage';
+import { setErrorMessage, setWarnMessage, setMessage } from '~~/api/alert/message';
 const router = useRouter();
-const verifyTime = ref('00 : 00')
+
 const moveLogin = () => {
   return true;
 };
 
 const userForm: Ref<userFormData> = ref({
-  id: { value: "", placeholder: "아이디를 입력해주세요." },
+  id: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false },
   password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.",},
   passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", },
-  email: {value: '', placeholder: "email형식을 지켜 작성해주세요.",},
+  email: {value: '', placeholder: "email형식을 지켜 작성해주세요.", disabled: false},
   name: {value: '', placeholder: "이름을 입력해주세요." },
   birth: {value: '', placeholder: "생일을 입력해주세요" },
   phoneFirst: { placeholder: "000" },
@@ -94,60 +93,124 @@ const userForm: Ref<userFormData> = ref({
 const introduceMessageList: string[] = ["This is Signup Page", "Please enter your information.", "You can sign up for membership", "If you have any questions", "Please call or email us"];
 
 const duplicateBtnText = computed(() => (duplicateId.value ? "중복검사" : "✔"));
+const verificateEmailText = computed(() => (verificateEmail.value ? "✔" : "인증"));
+
 const duplicateId = ref(true);
-const checkDuplicateId = (e: Event) => {
-  e.preventDefault();
+const checkDuplicateId = async () => {
   if (duplicateId.value) {
     try{
-    const { data } = createCheckDuplicateId({ userId: userForm.value.id.value });
-    console.log(data.value)
-    const duplicateMessage = data.value.message
-    if (duplicateMessage === "사용 가능한 아이디입니다.") duplicateId.value = false;
+      const {data, error} = await createCheckDuplicateId({ userId: userForm.value.id.value });  
+      if(error.value !== null){
+        const statusCode = error.value.statusCode;
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        const duplicateMessage = data.value.message;
+        if (duplicateMessage === "사용 가능한 아이디입니다."){ 
+          setMessage(data.value.message);
+          duplicateId.value = false;
+          userForm.value.id.disabled = true;
+        }
+      }
     } catch(e){
-      console.log(e)
       setErrorMessage(e)
     }
   }
 };
 
 const emailVerficationCode = ref("");
+
+// 이메일 인증 여부 변수
 const verificateEmail = ref(false);
+// 이메일 인증 Modal
 const emailModalFlag = ref(false);
-const closeModal = () => (emailModalFlag.value = false);
-const openModal = (e: Event) => {
-  e.preventDefault();
-  // if (duplicateId.value) {
-  //   alert("아이디 중복검사 먼저해주세요");
-  // } else {
-    emailModalFlag.value = true;
-    // sendEmailVerificationCode();
-  // }
+// 이메일 인증 타이머
+const verifyTime = ref(0);
+
+let countTimer: any = null; // interval함수 저장할 변수.
+
+
+// 1씩 감소하는 함수
+const countVerifyTime = () =>{
+  verifyTime.value-= 1;
+  if(verifyTime.value===0) verifyTime.value = 5;
+  if(verifyTime.value===5) {
+    sendEmailVerificationCode();
+  }
+}
+
+
+const sendEmailVerificationCode = async () => {
+  try{
+    const { email, id } = userForm.value;
+    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: id.value });
+    const verificationCode = data.value.verificationCode;
+    emailVerficationCode.value = verificationCode;
+  
+  }catch(e){
+    setErrorMessage(e);
+  }
 };
 
-const sendEmailVerificationCode = () => {
-  const { email, id } = userForm.value;
-  const { data } = createEmailVerificationCode({ email: email.value, userId: id.value });
-  const { code } = data.value.verificationCode;
-  emailVerficationCode.value = code;
+
+// Timer 세팅하는 함수
+const setVerifyTimer = () =>{
+  verifyTime.value = 5;
+  emailModalFlag.value = true;
+  countTimer = setInterval(countVerifyTime, 1000);
+  sendEmailVerificationCode();
+}
+
+// 이메일 인증 Modal Open함수
+const openEmailVerifyModal = () => {
+  // e.preventDefault();
+  const emailValue = userForm.value.email.value as string;
+  if (duplicateId.value) {
+    setWarnMessage("아이디 중복검사 먼저해주세요");
+  } else if(emailValue === null || emailValue.length===0){
+    setWarnMessage("이메일 값을 입력해주세요.");
+  } else if(!verificateEmail.value){
+    setVerifyTimer();
+  }
 };
-const checkCertificateEmail = () => {
-  const { email, id } = userForm.value;
-  const body = {
-    email: email.value,
-    userId: id.value,
-    verifyCode: emailVerficationCode.value,
-  };
-  const { data } = createCheckCertificateEmail(body);
-  if (data.value.message === "OK") {
-    verificateEmail.value = true;
-    closeModal();
+
+// 이메일 인증 Modal Close 함수
+const closeEmailVerifyModal = () => {
+  emailModalFlag.value = false;
+  clearInterval(countTimer)
+};
+
+
+// 이메일 인증 확인
+const checkCertificateEmail = async() => {
+  try{
+    const { email, id } = userForm.value;
+    const body = {
+      email: email.value,
+      userId: id.value,
+      verifyCode: emailVerficationCode.value,
+    };
+    const {data, error} = await createCheckCertificateEmail(body);
+    if(error.value !== null){
+        const statusCode = error.value.statusCode;
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      // 성공 후 
+      verificateEmail.value = true; // 변경 필요
+      userForm.value.email.disabled = true;
+      closeEmailVerifyModal();
+    }
+  }catch(e){
+    setErrorMessage(e)
   }
 };
 
 // 우편번호API script 추가
 const addScript = () => {
   const script = document.createElement("script");
-  script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+  // script.src = process.env.ZIPCODE_SCRIPT_URL as string;
+  script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
   script.async = true;
   script.onload = () => {
     // API 로드가 완료되었을 때 실행되는 로직
@@ -156,10 +219,9 @@ const addScript = () => {
   document.body.appendChild(script);
 };
 // 우편번호 modal open
-const opening = (e: Event) => {
-  e.preventDefault();
+const openAddressModal = () => {
   new daum.Postcode({
-    oncomplete: function (data) {
+    oncomplete: function (data: any) {
       // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
       // 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -222,21 +284,25 @@ const makeSignUpBody = (body: userFormData) =>{
 }
 
 // 회원가입 버튼 클릭시 api 호출
-const signUp = (e:Event) =>{
-  e.preventDefault();
-  // console.log(duplicateId.value)
-  // console.log(verificateEmail.value)
-  if(duplicateId.value) setErrorMessage('아이디 중복 확인 바랍니다.');
-  else if(!verificateEmail.value) setErrorMessage('이메일 인증 확인 바랍니다.');
+const signUp = async () =>{
+  if(duplicateId.value) setWarnMessage('아이디 중복 확인 바랍니다.');
+  else if(userForm.value.password.value !== userForm.value.passwordChk.value) setWarnMessage('비밀번호를 확인 바랍니다.')
+  else if(!verificateEmail.value) setWarnMessage('이메일 인증 확인 바랍니다.');
   else {
-    const body = makeSignUpBody(userForm.value)
-    const {data} = createSignUp(body)
-    const message = data.value.message;
-    // console.log(message)
-    if(message === 'OK') router.push({ path: '/' });
+    try{
+      const {data, error} = await createSignUp(makeSignUpBody(userForm.value))
+      if(error.value !==null){
+        const errorMessage = error.value.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        const message = data.value.message;
+        router.push({path:'/'});
+      }
+    }catch(e){
+      setErrorMessage(e);
+    }
   }
 }
-
 
 
 onMounted(() => {

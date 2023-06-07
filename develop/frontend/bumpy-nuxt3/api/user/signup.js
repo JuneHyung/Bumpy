@@ -1,7 +1,7 @@
 import { POST } from "~~/types/method";
 
 const baseURL = 'http://222.112.251.124:8899/api';
-function createCheckDuplicateId(body){
+async function createCheckDuplicateId(body){
   return useFetch('/signup/user/check', {
     baseURL,
     method: POST,
@@ -9,8 +9,8 @@ function createCheckDuplicateId(body){
   })
 }
 // email 발송
-function createEmailVerificationCode(body){
-  return useFetch('/signup/email/send', {
+async function createEmailVerificationCode(body){
+  return await useFetch('/signup/email/send', {
     baseURL,
     method: POST,
     body,
@@ -18,8 +18,8 @@ function createEmailVerificationCode(body){
 }
 
 // email 인증
-function createCheckCertificateEmail(body){
-  return useFetch('/signup/email/validate', {
+async function createCheckCertificateEmail(body){
+  return await useFetch('/signup/email/validate', {
     baseURL,
     method: POST,
     body,
@@ -27,8 +27,8 @@ function createCheckCertificateEmail(body){
 }
 
 // email 인증
-function createSignUp(body){
-  return useFetch('/signup/submit', {
+async function createSignUp(body){
+  return await useFetch('/signup/submit', {
     baseURL,
     method: POST,
     body,

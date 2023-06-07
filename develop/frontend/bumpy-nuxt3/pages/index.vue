@@ -34,7 +34,7 @@ import { useRouter } from 'vue-router';
 import TextInput from '../components/form/TextInput.vue';
 import PasswordInput from '../components/form/PasswordInput.vue';
 import { userLoginFormData } from '~~/types/user';
-import {setErrorMessage} from '~~/api/alert/errorMessage'
+import {setErrorMessage} from '~~/api/alert/message'
 import { fetchLogin } from '~~/api/user/user';
 import { validateValue } from '~~/api/util';
 import { ID_PATTERN, PASSWORD_PATTERN } from '~~/api/user/pattern';
