@@ -24,6 +24,7 @@
         </div>
         <TextInput :data="userForm.name" class="bp-mb-sm" />
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
+        <SelectboxInput :data="userForm.gender"></SelectboxInput>
         <div class="signup-phone-wrap bp-mb-sm">
           <NumberInput :data="userForm.phoneFirst" />
           <NumberInput :data="userForm.phoneSecond" class="bp-mx-sm" />
@@ -64,6 +65,7 @@ import _ from 'lodash';
 import TextInput from "../components/form/TextInput.vue";
 import PasswordInput from "../components/form/PasswordInput.vue";
 import NumberInput from "../components/form/NumberInput.vue";
+import SelectboxInput from "../components/form/SelectboxInput.vue";
 import DateInput from "../components/form/DateInput.vue";
 import { ref, Ref } from "vue";
 import { createCheckDuplicateId, createEmailVerificationCode, createCheckCertificateEmail, createSignUp } from "~/api/user/signup";
@@ -82,6 +84,7 @@ const userForm: Ref<userFormData> = ref({
   email: {value: '', placeholder: "email형식을 지켜 작성해주세요.", disabled: false},
   name: {value: '', placeholder: "이름을 입력해주세요." },
   birth: {value: '', placeholder: "생일을 입력해주세요" },
+  gender: {value:0, list:[{dtlCd: 0, dtlNm: '남'},{dtlCd: 1, dtlNm: '여'}]},
   phoneFirst: { placeholder: "000" },
   phoneSecond: { placeholder: "0000" },
   phoneThird: { placeholder: "0000" },
@@ -272,7 +275,7 @@ const makeSignUpBody = (body: userFormData) =>{
     userId : body.id.value,
     password : body.password.value,
     email : body.email.value,
-    // gender :body.gender.value,
+    gender :body.gender.value,
     gender :1,
     birth : body.birth.value,
     phoneNumber : `${body.phoneFirst.value}-${body.phoneSecond.value}-${body.phoneThird.value}`,

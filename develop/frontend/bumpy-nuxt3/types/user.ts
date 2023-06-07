@@ -1,4 +1,4 @@
-import { InputDate, InputNumber, InputPassword, InputText } from "./input";
+import { InputDate, InputNumber, InputPassword, InputSelectbox, InputText } from "./input";
 
 interface LoginResponse<T> {
   code: string,
@@ -12,6 +12,7 @@ interface userFormData {
   email: InputText;
   name: InputText;
   birth: InputDate;
+  gender: InputSelectbox;
   phoneFirst: InputNumber;
   phoneSecond: InputNumber;
   phoneThird: InputNumber;

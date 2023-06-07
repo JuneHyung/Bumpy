@@ -5,6 +5,10 @@ export const validateValue = (value?: string, pattern?: string): boolean => {
   }else return false;
 }
 
+export const inRange = (value: string, min: number ,max: number): boolean =>{
+  const len = value.length;
+  return len>=min && len <=max;
+}
 // const baseURL = 'http://222.112.251.124:8899/api';
 // // import { useFetch } from '@nuxtjs/composition-api';
 // export const useCustomFetch = () =>{
