@@ -26,13 +26,13 @@
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
         <SelectboxInput :data="userForm.gender"></SelectboxInput>
         <div class="signup-phone-wrap bp-mb-sm">
-          <NumberInput :data="userForm.phoneFirst" />
-          <NumberInput :data="userForm.phoneSecond" class="bp-mx-sm" />
-          <NumberInput :data="userForm.phoneThird" />
+          <TextInput :data="userForm.phoneFirst" />
+          <TextInput :data="userForm.phoneSecond" class="bp-mx-sm" />
+          <TextInput :data="userForm.phoneThird" />
         </div>
         <div class="signup-address-wrap">
           <label class="signup-zipcode-wrap bp-mb-sm">
-            <NumberInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></NumberInput>
+            <TextInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></TextInput>
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
           <TextInput :data="userForm.address" class="bp-mb-sm" /> 
@@ -64,7 +64,6 @@
 import _ from 'lodash';
 import TextInput from "../components/form/TextInput.vue";
 import PasswordInput from "../components/form/PasswordInput.vue";
-import NumberInput from "../components/form/NumberInput.vue";
 import SelectboxInput from "../components/form/SelectboxInput.vue";
 import DateInput from "../components/form/DateInput.vue";
 import { ref, Ref } from "vue";
@@ -79,15 +78,15 @@ const moveLogin = () => {
 
 const userForm: Ref<userFormData> = ref({
   id: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false },
-  password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.",},
-  passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", },
+  password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20},
+  passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20 },
   email: {value: '', placeholder: "email형식을 지켜 작성해주세요.", disabled: false},
-  name: {value: '', placeholder: "이름을 입력해주세요." },
+  name: {value: '', placeholder: "이름을 입력해주세요.", maxlength: 20},
   birth: {value: '', placeholder: "생일을 입력해주세요" },
-  gender: {value:0, list:[{dtlCd: 0, dtlNm: '남'},{dtlCd: 1, dtlNm: '여'}]},
-  phoneFirst: { placeholder: "000" },
-  phoneSecond: { placeholder: "0000" },
-  phoneThird: { placeholder: "0000" },
+  gender: {value:'0', list:[{dtlCd: '0', dtlNm: '남'},{dtlCd: '1', dtlNm: '여'}]},
+  phoneFirst: { placeholder: "000", minlength: 3, maxlength: 3 },
+  phoneSecond: { placeholder: "0000", minlength: 4, maxlength: 4 },
+  phoneThird: { placeholder: "0000", minlength: 4, maxlength: 4 },
   zipCode: { placeholder: "우편번호", disabled:true },
   address: {value: '', placeholder: "주소", disabled:true },
   addressDetail: {value: '', placeholder: "상세주소를 입력해주세요." },
@@ -136,8 +135,8 @@ let countTimer: any = null; // interval함수 저장할 변수.
 // 1씩 감소하는 함수
 const countVerifyTime = () =>{
   verifyTime.value-= 1;
-  if(verifyTime.value===0) verifyTime.value = 5;
-  if(verifyTime.value===5) {
+  if(verifyTime.value===0) verifyTime.value = 300;
+  if(verifyTime.value===300) {
     sendEmailVerificationCode();
   }
 }
@@ -149,7 +148,6 @@ const sendEmailVerificationCode = async () => {
     const { data, error } = await createEmailVerificationCode({ email: email.value, userId: id.value });
     const verificationCode = data.value.verificationCode;
     emailVerficationCode.value = verificationCode;
-  
   }catch(e){
     setErrorMessage(e);
   }
@@ -158,7 +156,7 @@ const sendEmailVerificationCode = async () => {
 
 // Timer 세팅하는 함수
 const setVerifyTimer = () =>{
-  verifyTime.value = 5;
+  verifyTime.value = 300;
   emailModalFlag.value = true;
   countTimer = setInterval(countVerifyTime, 1000);
   sendEmailVerificationCode();
@@ -276,7 +274,6 @@ const makeSignUpBody = (body: userFormData) =>{
     password : body.password.value,
     email : body.email.value,
     gender :body.gender.value,
-    gender :1,
     birth : body.birth.value,
     phoneNumber : `${body.phoneFirst.value}-${body.phoneSecond.value}-${body.phoneThird.value}`,
     zipCode :body.zipCode.value,
@@ -298,7 +295,8 @@ const signUp = async () =>{
         const errorMessage = error.value.data.message;
         setErrorMessage(errorMessage);
       }else if(data.value !== null){
-        const message = data.value.message;
+        // const message = data.value.message;
+        setMessage('회원가입이 완료되었습니다.')
         router.push({path:'/'});
       }
     }catch(e){

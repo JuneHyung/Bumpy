@@ -13,10 +13,10 @@ interface userFormData {
   name: InputText;
   birth: InputDate;
   gender: InputSelectbox;
-  phoneFirst: InputNumber;
-  phoneSecond: InputNumber;
-  phoneThird: InputNumber;
-  zipCode: InputNumber;
+  phoneFirst: InputText;
+  phoneSecond: InputText;
+  phoneThird: InputText;
+  zipCode: InputText;
   address: InputText;
   addressDetail: InputText;
 }
