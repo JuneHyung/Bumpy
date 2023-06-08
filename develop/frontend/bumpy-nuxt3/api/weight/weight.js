@@ -7,7 +7,7 @@ const baseURL = "http://222.112.251.124:8899/api";
  * @param {{stdDate: string}} params
  * @returns
  */
-function readWeightList(params) {
+function readWeightItem(params) {
   return useFetch("/weight/search", {
     baseURL,
     method: GET,
@@ -29,7 +29,7 @@ function readWeightCalendarList() {
  * Activity 조회 - GET
  * @returns
  */
-function readActivityList() {
+function readWeightList() {
   return useFetch("/weight/activity", {
     method: GET,
   });
@@ -93,9 +93,9 @@ function updateWeightItem(body) {
   });
 }
 export {
-  readWeightList, 
+  readWeightItem, 
   readWeightCalendarList, 
-  readActivityList, 
+  readWeightList, 
   createWeightItem, 
   deleteWeightItem, 
   updateWeightItem

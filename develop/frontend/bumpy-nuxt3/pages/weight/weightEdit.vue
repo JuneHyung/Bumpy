@@ -21,7 +21,7 @@
               <label class="number-input-wrap">
                 <span class="bp-mr-sm">{{ item.label }}</span>
                 <div class="number-input">
-                  <NumberInput :data="item.data"></NumberInput>
+                  <NumberInput :data="form[item.key]"></NumberInput>
                 </div>
               </label>
             </template>
@@ -33,9 +33,9 @@
         <textarea></textarea>
       </label>
       <div class="weightEdit-button-wrap">
-        <button class="short-ghost-button">취소</button>
-        <button class="short-ghost-button bp-mx-sm">초기화</button>
-        <button class="short-filled-button">저장</button>
+        <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
+        <button type="button" class="short-ghost-button bp-mx-sm" @click="resetWeightItem">초기화</button>
+        <button type="button" class="short-filled-button" @click="saveWeightItem">저장</button>
       </div>
     </form>
   </main>
@@ -45,30 +45,97 @@ import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
 import {useCommonStore} from '~/store/common'
+import { setErrorMessage } from '~~/api/alert/message';
+import { useWeightStore } from '~~/store/weight';
 const commonStore = useCommonStore();
+const weightStore = useWeightStore();
+const router = useRouter();
 
 const info = { name: '벤치프레스' };
 const form = ref({
   name: { value: '', placeholder: '잠온다' },
+  weightStart: { value: '', },
+  repsStart: { value: '', },
+  weightEnd: { value: '', },
+  repsEnd: { value: '', },
+  pollWeight: { value: '', },
+  setReps: { value: '', },
+  measure: { value: '', },
+  // memo: {value: '', placeholder: ''},
+  // picture: {value: '', placeholder: ''},
 });
 
-const numberList = [
+const numberList = ref([
   [
-    { key: 'startWeight', label: '시작 무게', data: { value: '', placeholder: '' } },
-    { key: 'startReps', label: '시작 횟수', data: { value: '', placeholder: '' } },
+    { key: 'weightStart', label: '시작 무게',  },
+    { key: 'repsStart', label: '시작 횟수', },
   ],
   [
-    { key: 'endWeight', label: '종료 무게', data: { value: '', placeholder: '' } },
-    { key: 'endReps', label: '종료 횟수', data: { value: '', placeholder: '' } },
+    { key: 'weightEnd', label: '종료 무게',  },
+    { key: 'repsEnd', label: '종료 횟수',  },
   ],
   [
-    { key: 'barWeight', label: '봉 무게', data: { value: '', placeholder: '' } },
-    { key: 'setReps', label: '세트 횟수', data: { value: '', placeholder: '' } },
+    { key: 'pollWeight', label: '봉 무게',  },
+    { key: 'setReps', label: '세트 횟수',  },
   ],
-  [{ key: 'barWeight', label: '단위', data: { value: '', placeholder: '' } }],
-];
+  [{ key: 'measure', label: '단위', }],
+]);
+
+const makeBody = () =>{
+  const result = {
+    stdDate: weightStore.getFocusDate,
+    // seq: seq,
+    seq: 1,
+    name: form.value.name.value,
+    weightStart: form.value.weightStart.value,
+    weightEnd: form.value.weightEnd.value,
+    repsStart: form.value.repsStart.value,
+    repsEnd: form.value.repsEnd.value,
+    pollWeight: form.value.pollWeight.value,
+    setReps: form.value.setReps.value,
+    measure: form.value.measure.value,
+    // memo: form.value.memo.value,
+    // picture: form.value.picture.value,
+
+
+  }
+  return result;
+}
+
+// 저장 버튼
+const saveWeightItem = async () =>{
+  const body = makeBody()
+  console.log(body)
+  try{
+    const {data, error} = await createWeightItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/weight/weightList'})
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
+}
+
+// 초기화 버튼
+const resetWeightItem = () =>{
+  const keys = Object.keys(form.value);
+  for(let i=0;i<keys.length;i++){
+    const key = keys[i];
+    form.value[key].value = '';
+  }
+}
+
+// 취소 버튼
+const cancelWeightEdit = () =>{
+  router.back();
+}
 onMounted(()=>{
   console.log(commonStore.getToday);
+  console.log(weightStore.getFocusDate);
 })
 
 definePageMeta({

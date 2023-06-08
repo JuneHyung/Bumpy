@@ -9,6 +9,7 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 // import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import dayjs from 'dayjs';
 const calendar:Ref  = ref(null);
 
 interface EventListItem{
@@ -21,10 +22,12 @@ interface Props {
   list?: EventList;
 }
 const props = defineProps<Props>();
-// const emits= defineEmits(['getDate'])
-
+const emits= defineEmits(['focusDate'])
+const focusDate = (v: any) =>{
+  emits('focusDate', dayjs(v.date).format('YYYY-MM-DD'))
+}
 const setDate = (v:any) =>{
-  console.log(v)
+  console.log(dayjs(v.date).format('YYYY-MM-DD'))
 // console.log(calendar.value.getDate())
 }
 const calendarOptions = ref({
@@ -55,7 +58,7 @@ const calendarOptions = ref({
   // weekends: false,
   // select: this.handleDateSelect,
   // eventClick: setDate,
-  dateClick: setDate,
+  dateClick: focusDate,
   // eventsSet: handleEvents,
   /* you can update a remote database when these fire:
   eventAdd:
