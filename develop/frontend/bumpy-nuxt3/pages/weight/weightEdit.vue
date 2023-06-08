@@ -35,7 +35,8 @@
       <div class="weightEdit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
         <button type="button" class="short-ghost-button bp-mx-sm" @click="resetWeightItem">초기화</button>
-        <button type="button" class="short-filled-button" @click="saveWeightItem">저장</button>
+        <button type="button" class="short-filled-button" @click="saveWeightItem" v-if="editFlag">저장</button>
+        <button type="button" class="short-filled-button" @click="modifyWeightItem" v-else>수정</button>
       </div>
     </form>
   </main>
@@ -47,10 +48,11 @@ import NumberInput from '~/components/form/NumberInput.vue';
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage } from '~~/api/alert/message';
 import { useWeightStore } from '~~/store/weight';
+import { updateWeightItem } from '~~/api/weight/weight';
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
-
+const editFlag = computed(()=>weightStore.getSelectItem.seq===undefined)
 const info = { name: '벤치프레스' };
 const form = ref({
   name: { value: '', placeholder: '잠온다' },
@@ -96,8 +98,6 @@ const makeBody = () =>{
     measure: form.value.measure.value,
     // memo: form.value.memo.value,
     // picture: form.value.picture.value,
-
-
   }
   return result;
 }
@@ -118,6 +118,24 @@ const saveWeightItem = async () =>{
   }catch (e){
     setErrorMessage(e);
   }
+}
+
+// 수정 버튼
+const modifyWeightItem = async () =>{
+  const body = makeBody()
+  // console.log(body)
+  // try{
+  //   const {data, error} = await updateWeightItem(body)
+  //   if(error.value!==null){
+  //     const errorMessage = error.value?.data.message;
+  //     setErrorMessage(errorMessage);
+  //   }else if(data.value !== null){
+  //     setMessage(data.value.message);
+  //     router.push({path: '/weight/weightList'})
+  //   }
+  // }catch (e){
+  //   setErrorMessage(e);
+  // }
 }
 
 // 초기화 버튼

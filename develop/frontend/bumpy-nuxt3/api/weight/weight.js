@@ -1,4 +1,4 @@
-import { GET } from "~~/types/method";
+import { DELETE, GET, POST, PUT } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api";
 
@@ -62,7 +62,7 @@ function createWeightItem(body) {
 }
 
 /**
- * 근력운동 삭제 - GET
+ * 근력운동 삭제 - DELETE
  * @param {{
  * stdDate: string,
  * seq: number,
@@ -70,15 +70,15 @@ function createWeightItem(body) {
  * @returns
  */
 function deleteWeightItem(body) {
-  return useFetch("/weight/insert", {
+  return useFetch("/weight/delete", {
     baseURL,
-    method: GET,
+    method: DELETE,
     body,
   });
 }
 
 /**
- * 근력운동 수정 - POST
+ * 근력운동 수정 - PUT
  * @param {{
  * stdDate: string,
  * seq: number,
@@ -86,9 +86,9 @@ function deleteWeightItem(body) {
  * @returns
  */
 function updateWeightItem(body) {
-  return useFetch("/weight/insert", {
+  return useFetch("/weight/update", {
     baseURL,
-    method: POST,
+    method: PUT,
     body,
   });
 }

@@ -4,7 +4,7 @@
       <ListItem :info="item"></ListItem>
     </template>
     <template v-else>
-      <div class="bp-py-sm">No List Date</div>
+      <div class="bp-py-sm">등록된 데이터가 없습니다</div>
     </template>
   </ul>
 </template>

@@ -3,6 +3,7 @@ enum Measure {
   m2= 'pd'
 }
 interface Weight{
+  seq: number,
   name: string,
   weightStart?: number,
   weightEnd?: number,

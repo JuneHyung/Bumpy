@@ -3,13 +3,13 @@
     <h1 class="content-title">Your Activity List</h1>
     <div class="content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
-        <h3 class="content-title" @click="moveDetail">{{ weightStore.getFocusDate }}</h3>
+        <h3 class="content-title">{{ weightStore.getFocusDate }}</h3>
         <button @click="moveEdit" v-if="editFlag">Edit</button>
       </div>
-      <ActivityList type="square" listType="weight" :list="weightList" @click="moveDetail"></ActivityList>
+      <ActivityList type="square" listType="weight" :list="weightList"></ActivityList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
-      <Calendar :list="calendarList" @focusDate="getFocusDate"></Calendar>
+      <Calendar @focusDate="getFocusDate"></Calendar>
     </div>
   </main>
 </template>
@@ -29,26 +29,11 @@ const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(()=>commonStore.getToday===weightStore.getFocusDate)
 const weightList = ref([])
-const calendarList = ref([
-  { title: '운동 01', date: '2023-06-05' },
-  { title: '운동 02', date: '2023-06-05' },
-  { title: '운동 03', date: '2023-06-05' },
-  { title: '운동 04', date: '2023-06-05' },
-  { title: '운동 05', date: '2023-06-05' },
-  { title: '운동 06', date: '2023-06-15' },
-  { title: '운동 07', date: '2023-06-25' },
-  { title: '운동 08', date: '2023-06-11' },
-  { title: '운동 09', date: '2023-06-24' },
-])
-
-
 
 definePageMeta({
   layout: 'main-layout',
 });
-const moveDetail = () => {
-  router.push({ path: 'weightDetail' });
-};
+
 const moveEdit = () => {
   router.push({ path: 'weightEdit' });
 };
@@ -62,42 +47,69 @@ const getFocusDate = (v) => {
 
 // weightList 조회
 const getWeightList = async() => {
-  try {
-    const { data, error } = await readWeightList({ stdDate: weightStore.getFocusDate });
-    if(error.value !== null){
-    }else if(data.value!==null){
-      weightList.value = data
+  weightList.value = [
+    {
+      seq: 1,
+      name:'벤치프레스01',
+      weightStart: 10,
+      weightEnd: 20,
+      repsStart: 10,
+      repsEnd: 20,
+      pollWeight: 10,
+      setReps: 20,
+      measure: 'kg',
+      memo: 'memo test01',
+    },
+    {
+      seq: 2,
+      name:'벤치프레스02',
+      weightStart: 10,
+      weightEnd: 20,
+      repsStart: 10,
+      repsEnd: 20,
+      pollWeight: 10,
+      setReps: 20,
+      measure: 'kg',
+      memo: 'memo test02',
     }
-  } catch (e) {
-    console.error(e)
-  }
+  ]
+  // try {
+  //   const { data, error } = await readWeightList({ stdDate: weightStore.getFocusDate });
+  //   if(error.value !== null){
+  //   }else if(data.value!==null){
+  //     weightList.value = data
+  //   }
+  // } catch (e) {
+  //   console.error(e)
+  // }
 }
 
 // calendarList 조회
 const getCalendarList = async () =>{
-  try{
-    const {data, error} = await readWeightCalendarList();
-    if(error.value !== null){
+  weightStore.setCalendarlist([
+  { title: '운동 01', date: '2023-06-05' },
+  { title: '운동 02', date: '2023-06-05' },
+  { title: '운동 03', date: '2023-06-05' }
+  ])
+  // try{
+  //   const {data, error} = await readWeightCalendarList();
+  //   if(error.value !== null){
 
-    }else if(data.value!==null){
-      weightList.value = data
-    }
-  }catch(e){
-    setErrorMessage(e)
-  }
+  //   }else if(data.value!==null){
+  //     weightStore.setCalendarlist(data);
+  //     // weightList.value = data
+  //   }
+  // }catch(e){
+  //   setErrorMessage(e)
+  // }
 }
+
 onMounted(()=>{
   const today = commonStore.getToday;
   weightStore.setFocusDate(today);
+  // weightStore.resetSelectItem();
+  console.log(weightStore.getSelectItem)
   getWeightList();
   getCalendarList();
 })
 </script>
-<style scoped lang="scss">
-.weight-list-wrap-box {
-  .title-wrap-box {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-</style>

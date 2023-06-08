@@ -7,7 +7,6 @@
 @import './login.scss';
 @import './signup.scss';
 @import './userpage.scss';
-
 @import './common/common.scss';
 @import './common/button.scss';
 @import './common/input.scss';
@@ -19,6 +18,7 @@
 @import './user/avatar.scss';
 @import './user/userInfo.scss';
 
+@import './weight/weightList.scss';
 @import './weight/weightDetail.scss';
 @import './weight/weightEdit.scss';
 @import './aerobic/aerobicDetail.scss';
@@ -28,11 +28,10 @@
 @import './inbody/inbodyDetail.scss';
 @import './inbody/inbodyEdit.scss';
 
+@import './calendar/calendar.scss';
 @import './calendar/grassCalendar.scss';
 
-*,
-*:before,
-*:after {
+*{
   box-sizing: inherit;
   // font-family: 'D2';
   font-family: $font-NotoSans, sans-serif;
