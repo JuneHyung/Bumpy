@@ -44,6 +44,9 @@
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
+import {useCommonStore} from '~/store/common'
+const commonStore = useCommonStore();
+
 const info = { name: '벤치프레스' };
 const form = ref({
   name: { value: '', placeholder: '잠온다' },
@@ -64,6 +67,10 @@ const numberList = [
   ],
   [{ key: 'barWeight', label: '단위', data: { value: '', placeholder: '' } }],
 ];
+onMounted(()=>{
+  console.log(commonStore.getToday);
+})
+
 definePageMeta({
   layout: 'main-layout',
 });

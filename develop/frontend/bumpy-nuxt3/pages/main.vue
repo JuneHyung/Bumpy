@@ -85,6 +85,8 @@ import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
 
 import AreaChart from '~/components/charts/AreaChart';
 import LineChart from '~/components/charts/LineChart';
+import {useCommonStore} from '~/store/common'
+const commonStore = useCommonStore();
 definePageMeta({
   layout: 'main-layout',
 });
@@ -127,5 +129,8 @@ const testList = [
   { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
   { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
 ];
+onMounted(()=>{
+  commonStore.setToday();
+})
 </script>
 <style lang="scss"></style>
