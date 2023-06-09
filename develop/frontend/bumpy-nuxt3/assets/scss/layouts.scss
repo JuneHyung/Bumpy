@@ -14,6 +14,8 @@
   display:flex;
   justify-content: center;
   align-items: center;
+  background-color:$layout-outter-background-color;
+  color:#fff;
   .main-layout {
     height:100%;
     display: flex;
@@ -28,7 +30,7 @@
   flex-direction: column;
   padding: 2rem;
   align-self: stretch;
-  background-color: $layout-background-color;
+  background-color: $layout-inner-background-color;
 }
 .content-title {
   color: $middle-point-color;
@@ -37,7 +39,7 @@
 .content-wrap-box {
   display:flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: $layout-outter-background-color;
   border-radius: 1.2rem;
   border: none;
   padding: 16px;

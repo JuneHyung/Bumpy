@@ -11,9 +11,13 @@ const options = ref({
     zoom: {
       enabled: false,
     },
+    foreColor: '#FFFFFF',
   },
   // dataLabels: {
   //   enabled: true,
+  // },
+  // tooltip:{
+  //   shared: false,
   // },
   stroke: {
     curve: 'straight',
@@ -33,3 +37,5 @@ const series = ref([
   },
 ]);
 </script>
+<style>
+</style>
