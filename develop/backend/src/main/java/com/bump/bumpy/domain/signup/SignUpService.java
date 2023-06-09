@@ -79,6 +79,11 @@ public class SignUpService {
         if(usrMUsrRepository.existsByUserId(request.getUserId()))
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 사용중인 아이디입니다."));
         request.setPassword(passwordEncoder.encode(request.getPassword()));
+        
+        // TODO : 아이디 5~20글자 확인
+        
+        // TODO : 이메일 인증 여부 확인 
+        
         usrMUsrRepository.save(request.toEntity(request));
         return ResponseEntity.ok(new ResultMap("message", "OK"));
     }
