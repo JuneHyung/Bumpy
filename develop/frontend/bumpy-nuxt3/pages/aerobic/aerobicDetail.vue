@@ -12,7 +12,7 @@
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ item.value }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ aerobicStore.getSelectItem[item.key] }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
@@ -29,13 +29,40 @@
         </div>
       </div>
       <div class="aerobicDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm">취소</button>
-        <button class="short-filled-button">수정</button>
+        <button class="short-ghost-button" @click="moveAerobicList">취소</button>
+        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday" @click="removeAerobicItem">삭제</button>
+        <button class="short-filled-button" v-if="aerobicStore.getIsToday">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup>
+import { useAerobicStore } from '~~/store/aerobic';
+
+const router= useRouter();
+const aerobicStore = useAerobicStore();
+
+const removeAerobicItem = () =>{
+  setMessage('삭제')
+  // try{
+  //   const body = {
+  //     stdDate: aerobicStore.focusDate,
+  //     seq: aerobicStore.getSelectItem.seq
+  //   }
+  //   const {data, error} = deleteCardioItem(body);
+  //   if(error.value!==null){
+  //     setErrorMessage(error.value.messaage)
+  //   }else if(data.value!==null){
+  //     setMessage('삭제 완료하였습니다.');
+  //     moveAerobicList();
+  //   }
+  // }catch(e){
+  //   setErrorMessage(e)
+  // }
+}
+const moveAerobicList = () =>{
+  router.back();
+}
 definePageMeta({
   layout: 'main-layout',
 });

@@ -7,7 +7,7 @@ const baseURL = "http://222.112.251.124:8899/api";
  * @param {{stdDate: string}} params
  * @returns
  */
-function readCardioList(params) {
+function readCardioItem(params) {
   return useFetch("/cardio/search", {
     baseURL,
     method: GET,
@@ -29,7 +29,7 @@ function readCardioCalendarList() {
  * Activity 조회 - GET
  * @returns
  */
-function readActivityList() {
+function readCardioList() {
   return useFetch("/cardio/activity", {
     method: GET,
   });
@@ -101,9 +101,9 @@ function updateCardioItem(body) {
   });
 }
 export {
-  readCardioList, 
+  readCardioItem, 
   readCardioCalendarList, 
-  readActivityList, 
+  readCardioList, 
   createCardioItem, 
   deleteCardioItem, 
   updateCardioItem

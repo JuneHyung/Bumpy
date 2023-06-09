@@ -1,4 +1,5 @@
 interface Aerobic{
+  seq: number,
   name: string,
   kcal?: number,
   time?: number,
