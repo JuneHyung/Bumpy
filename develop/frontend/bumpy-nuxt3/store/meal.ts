@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {defineStore} from 'pinia';
 
 export const useMealStore = defineStore({
-  id:'weight-store',
+  id:'meal-store',
   state:()=>{
     return {
       focusDate: '',

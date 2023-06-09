@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {defineStore} from 'pinia';
 
 export const useAerobicStore = defineStore({
-  id:'weight-store',
+  id:'aerobic-store',
   state:()=>{
     return {
       focusDate: '',
