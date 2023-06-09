@@ -1,4 +1,5 @@
 interface Inbody {
+  seq: number,
   height?: number,
   weight?: number,
   age?: number,

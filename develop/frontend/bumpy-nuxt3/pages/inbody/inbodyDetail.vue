@@ -12,7 +12,7 @@
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ item.value }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ inbodyStore.setSelectItem[item.key] }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
@@ -26,13 +26,42 @@
         </div>
       </div>
       <div class="inbodyDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm">취소</button>
-        <button class="short-filled-button">수정</button>
+        <button class="short-ghost-button" @click="moveInbodyList">취소</button>
+        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday" @click="removeInbodyItem">삭제</button>
+        <button class="short-filled-button" v-if="inbodyStore.getIsToday">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup>
+import { useInbodyStore } from '~~/store/inbody';
+
+const router= useRouter();
+const inbodyStore = useInbodyStore();
+
+
+const removeInbodyItem = () =>{
+  setMessage('삭제')
+  // try{
+  //   const body = {
+  //     stdDate: inbodyStore.focusDate,
+  //     seq: inbodyStore.getSelectItem.seq
+  //   }
+  //   const {data, error} = deleteCardioItem(body);
+  //   if(error.value!==null){
+  //     setErrorMessage(error.value.messaage)
+  //   }else if(data.value!==null){
+  //     setMessage('삭제 완료하였습니다.');
+  //     moveInbodyList();
+  //   }
+  // }catch(e){
+  //   setErrorMessage(e)
+  // }
+}
+const moveInbodyList = () =>{
+  router.back();
+}
+
 definePageMeta({
   layout: 'main-layout',
 });
