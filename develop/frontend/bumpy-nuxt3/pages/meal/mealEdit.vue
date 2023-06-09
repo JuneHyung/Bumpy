@@ -14,7 +14,7 @@
                 <label class="number-input-wrap">
                   <span class="bp-mr-sm">{{ item.label }}</span>
                   <div class="number-input">
-                    <NumberInput :data="item.data"></NumberInput>
+                    <NumberInput :data="form[item.key]"></NumberInput>
                   </div>
                 </label>
               </template>
@@ -29,9 +29,10 @@
         <textarea></textarea>
       </label>
       <div class="mealEdit-button-wrap">
-        <button class="short-ghost-button">취소</button>
-        <button class="short-ghost-button bp-mx-sm">초기화</button>
-        <button class="short-filled-button">저장</button>
+        <button class="short-ghost-button" @click="cancelMealEdit">취소</button>
+        <button class="short-ghost-button bp-mx-sm" @click="resetMealItem">초기화</button>
+        <button class="short-filled-button" @click="saveMealItem" v-if="editFlag">저장</button>
+        <button class="short-filled-button" @click="modifyMealItem" v-else>수정</button>
       </div>
     </form>
   </main>
@@ -40,20 +41,104 @@
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
-const info = { name: '벤치프레스' };
+import { useMealStore } from '~~/store/meal';
+import { useCommonStore } from '~~/store/common';
+import { setMessage } from '~~/api/alert/message';
+const commonStore = useCommonStore();
+const mealStore = useMealStore();
+const router = useRouter();
+const editFlag = computed(()=>mealStore.getSelectItem.seq===undefined);
 const form = ref({
-  name: { value: '', placeholder: '잠온다' },
+  name: { value: '' },
+  order: { value: '',  },
+  time: { value: '',  },
+  kcal: { value: '',  },
+  water: { value: '',  },
 });
 
 const numberList = [
   [
-    { key: 'name', label: '이름', data: { value: '', placeholder: '' } },
-    { key: 'order', label: '차례', data: { value: '', placeholder: '' } },
-    { key: 'time', label: 'Time', data: { value: '', placeholder: '' } },
-    { key: 'kcal', label: 'Kcal', data: { value: '', placeholder: '' } },
-    { key: 'water', label: 'Water', data: { value: '', placeholder: '' } },
+    { key: 'name', label: '이름'},
+    { key: 'order', label: '차례'},
+    { key: 'time', label: 'Time'},
+    { key: 'kcal', label: 'Kcal'},
+    { key: 'water', label: 'Water'},
   ],
 ];
+
+
+const makeBody = () =>{
+  const result = {
+    stdDate: mealStore.getFocusDate,
+    // seq: seq,
+    seq: 1,
+    name: form.value.name.value,
+    order: form.value.order.value,
+    time: form.value.time.value,
+    kcal: form.value.kcal.value,
+    water: form.value.water.value,
+    // memo: form.value.memo.value,
+    // picture: form.value.picture.value,
+  }
+  return result;
+}
+
+
+// 저장 버튼
+const saveMealItem = async () =>{
+  const body = makeBody()
+  console.log(body)
+  try{
+    const {data, error} = await createMealItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/meal/mealList'});
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
+}
+
+// 수정 버튼
+const modifyMealItem = async () =>{
+  const body = makeBody()
+  // console.log(body)
+  // try{
+  //   const {data, error} = await updateMealItem(body)
+  //   if(error.value!==null){
+  //     const errorMessage = error.value?.data.message;
+  //     setErrorMessage(errorMessage);
+  //   }else if(data.value !== null){
+  //     setMessage(data.value.message);
+  //     router.push({path: '/meal/mealList'});
+  //   }
+  // }catch (e){
+  //   setErrorMessage(e);
+  // }
+}
+
+// 초기화 버튼
+const resetMealItem = () =>{
+  const keys = Object.keys(form.value);
+  for(let i=0;i<keys.length;i++){
+    const key = keys[i];
+    form.value[key].value = '';
+  }
+}
+
+// 취소 버튼
+const cancelMealEdit = () =>{
+  router.back();
+}
+
+
+onMounted(()=>{
+  
+})
+
 definePageMeta({
   layout: 'main-layout',
 });

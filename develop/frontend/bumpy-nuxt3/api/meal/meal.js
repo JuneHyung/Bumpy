@@ -7,7 +7,7 @@ import { GET, POST } from "~~/types/method";
  * }} params
  * @returns
  */
-function readMealList(params) {
+function readMealItem(params) {
   return useFetch("/meal/search", {
     baseURL,
     method: GET,
@@ -79,4 +79,4 @@ function updateMealItem(body) {
   });
 }
 
-export { readMealList, createMealItem, deleteMealItem, updateMealItem };
+export { readMealItem, createMealItem, deleteMealItem, updateMealItem };

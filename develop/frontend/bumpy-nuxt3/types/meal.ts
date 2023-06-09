@@ -1,4 +1,5 @@
 interface Meal{
+  seq: number,
   name: string,
   order?: number,
   time?: string,
