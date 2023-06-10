@@ -1,0 +1,49 @@
+.intro-wrap-box{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .intro-main-title{
+    font-size:10em;
+    font-family: 'Raleway' !important;
+    color:rgba(0,0,0,0.01);
+    background: url('@/assets/images/intro-bg.jpg') no-repeat;
+    -webkit-background-clip:text;
+    animation: intro-bg-effect 15s ease-in-out infinite;
+    background-size:cover;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+  .intro-sub-title{
+    display:flex;
+    justify-content: center;
+    font-size: 3.5rem;
+    margin-top:1.7rem;
+    a{
+      color:rgba(0,0,0,0.01);
+      -webkit-background-clip:text;
+    }
+    a:hover{
+      transition: 0.7s all;
+      color: $high-point-color;
+      opacity:1;
+    }
+  }
+}
+@keyframes intro-bg-effect {
+    0%, 100% {
+      background-position: left 41%;
+    }
+    25%{
+      background-position: right 93%;
+     }
+    50% {
+      background-position: left 93%;
+    }
+    75% {
+      background-position: right 41%;
+    }   
+}

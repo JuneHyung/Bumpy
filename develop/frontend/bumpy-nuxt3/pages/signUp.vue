@@ -305,6 +305,9 @@ const signUp = async () =>{
   }
 }
 
+definePageMeta({
+  layout: 'start-layout',
+});
 
 onMounted(() => {
   addScript();
