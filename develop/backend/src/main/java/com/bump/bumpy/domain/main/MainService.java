@@ -1,11 +1,11 @@
 package com.bump.bumpy.domain.main;
 
-import com.bump.bumpy.database.entity.data.DataHCardio;
+import com.bump.bumpy.database.entity.data.DataHAerobic;
 import com.bump.bumpy.database.entity.data.DataHInbody;
 import com.bump.bumpy.database.entity.data.DataHMeal;
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import com.bump.bumpy.database.entity.usr.UsrMUsr;
-import com.bump.bumpy.database.repository.data.DataHCardioRepository;
+import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
 import com.bump.bumpy.database.repository.data.DataHInbodyRepository;
 import com.bump.bumpy.database.repository.data.DataHMealRepository;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
@@ -36,7 +36,7 @@ public class MainService {
     private final UsrMUsrRepository usrMUsrRepository;
     private final DataHInbodyRepository dataHInbodyRepository;
     private final DataHWeightRepository dataHWeightRepository;
-    private final DataHCardioRepository dataHCardioRepository;
+    private final DataHAerobicRepository dataHAerobicRepository;
     private final DataHMealRepository dataHMealRepository;
 
     public ResponseEntity<ResultMap> userInfo(String userId) {
@@ -52,17 +52,17 @@ public class MainService {
 
         // get continuity from dataHWeightRepository and dataHCardioRepository
         List<DataHWeight> dataHWeightList = dataHWeightRepository.findByUserIdOrderByStdDateDesc(userId);
-        List<DataHCardio> dataHCardioList = dataHCardioRepository.findByUserIdOrderByStdDateDesc(userId);
+        List<DataHAerobic> dataHAerobicList = dataHAerobicRepository.findByUserIdOrderByStdDateDesc(userId);
 
-        // check if neither weight nor cardio data exists
-        if(dataHWeightList.isEmpty() && dataHCardioList.isEmpty()) {
+        // check if neither weight nor aerobic data exists
+        if(dataHWeightList.isEmpty() && dataHAerobicList.isEmpty()) {
             userInfoResponse.setContinuity(0);
             userInfoResponse.setLastActive(null);
         } else {
             // get last active from dataHWeightRepository and dataHCardioRepository
             Date lastActive;
             Date lastActiveWeight = dataHWeightList.isEmpty() ? null : dataHWeightList.get(0).getStdDate();
-            Date lastActiveCardio = dataHCardioList.isEmpty() ? null : dataHCardioList.get(0).getStdDate();
+            Date lastActiveCardio = dataHAerobicList.isEmpty() ? null : dataHAerobicList.get(0).getStdDate();
 
             if(lastActiveWeight == null) {
                 lastActive = lastActiveCardio;
@@ -80,7 +80,7 @@ public class MainService {
 
             if(isTodayDate(lastActive) || isYesterDayDate(lastActive)) {
                 while(dataHWeightList.stream().anyMatch(dataHWeight -> isSameDate(dataHWeight.getStdDate(), lastActiveCal.getTime())) ||
-                        dataHCardioList.stream().anyMatch(dataHCardio -> isSameDate(dataHCardio.getStdDate(), lastActiveCal.getTime())))
+                        dataHAerobicList.stream().anyMatch(dataHCardio -> isSameDate(dataHCardio.getStdDate(), lastActiveCal.getTime())))
                 {
                     continuity++;
                     lastActiveCal.add(Calendar.DATE, -1);

@@ -1,6 +1,6 @@
-package com.bump.bumpy.domain.screen.cardio;
+package com.bump.bumpy.domain.screen.aerobic;
 
-import com.bump.bumpy.domain.screen.cardio.dto.DataHCardioDto;
+import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,9 +21,9 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 @RestController
 @RequestMapping("/cardio")
 @RequiredArgsConstructor
-public class CardioController {
+public class AerobicController {
 
-    private final CardioService cardioService;
+    private final AerobicService aerobicService;
 
     /*
     달력에 나갈 데이터 DTO 형태
@@ -42,40 +42,40 @@ public class CardioController {
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
     public ResponseEntity<ResultMap> calendar() {
-        return cardioService.calendar();
+        return aerobicService.calendar();
     }
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
     public ResponseEntity<ResultMap> activity() {
-        return cardioService.activity();
+        return aerobicService.activity();
     }
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
     public ResponseEntity<ResultMap> search(@Valid SearchRequestDto request) {
         request.setUserId(getUserId());
-        return cardioService.search(request);
+        return aerobicService.search(request);
     }
 
     @Operation(summary = "추가", description = "")
     @PostMapping("/insert")
-    public ResponseEntity<ResultMap> insert(@RequestBody DataHCardioDto request) {
+    public ResponseEntity<ResultMap> insert(@RequestBody DataHAerobicDto request) {
         String userId = getUserId();
-        return cardioService.insert(request, userId);
+        return aerobicService.insert(request, userId);
     }
 
     @Operation(summary = "수정", description = "")
     @PutMapping("/update")
-    public ResponseEntity<ResultMap> update(@RequestBody DataHCardioDto request) {
+    public ResponseEntity<ResultMap> update(@RequestBody DataHAerobicDto request) {
         String userId = getUserId();
-        return cardioService.update(request, userId);
+        return aerobicService.update(request, userId);
     }
 
     @Operation(summary = "삭제", description = "")
     @DeleteMapping("/delete")
     public ResponseEntity<ResultMap> delete(SearchRequestDto request) {
         request.setUserId(getUserId());
-        return cardioService.delete(request);
+        return aerobicService.delete(request);
     }
 }

@@ -26,12 +26,12 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "DATA_H_CARDIO", schema = "bumpy", indexes = {
+@Table(name = "DATA_H_AEROBIC", schema = "bumpy", indexes = {
         @Index(name = "PRIMARY", columnList = "stdDate, userId, seq", unique = true),
         @Index(name = "CARDIO_USER_ID_idx", columnList = "userId")
 })
 @IdClass(DataHCardioId.class)
-public class DataHCardio implements Serializable {
+public class DataHAerobic implements Serializable {
     private static final long serialVersionUID = -3260140188077884176L;
 
     @Id

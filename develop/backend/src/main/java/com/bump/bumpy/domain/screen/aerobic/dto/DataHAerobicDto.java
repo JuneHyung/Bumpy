@@ -1,6 +1,6 @@
-package com.bump.bumpy.domain.screen.cardio.dto;
+package com.bump.bumpy.domain.screen.aerobic.dto;
 
-import com.bump.bumpy.database.entity.data.DataHCardio;
+import com.bump.bumpy.database.entity.data.DataHAerobic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * A DTO for the {@link com.bump.bumpy.database.entity.data.DataHCardio} entity
+ * A DTO for the {@link DataHAerobic} entity
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class DataHCardioDto implements Serializable {
+public class DataHAerobicDto implements Serializable {
     @NotNull
     private Date stdDate;
     @NotNull
@@ -40,8 +40,8 @@ public class DataHCardioDto implements Serializable {
 
 
     // to entity method for insert
-    public DataHCardio toEntity() {
-        DataHCardio entity = new DataHCardio();
+    public DataHAerobic toEntity() {
+        DataHAerobic entity = new DataHAerobic();
         entity.setStdDate(this.stdDate);
         entity.setSeq(this.seq);
         entity.setName(this.name);
@@ -57,7 +57,7 @@ public class DataHCardioDto implements Serializable {
     }
 
     // to entity method for update
-    public DataHCardio updateEntity(DataHCardio entity) {
+    public DataHAerobic updateEntity(DataHAerobic entity) {
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);
