@@ -11,10 +11,13 @@ import java.util.Optional;
 
 @Repository
 public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, DataHCardioId> {
+    List<DataHAerobic> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);
     Optional<DataHAerobic> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
     List<DataHAerobic> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
 
     DataHAerobic findFirstByUserIdOrderByStdDateDesc(String userId);
 
     List<DataHAerobic> findByUserIdOrderByStdDateDesc(String userId);
+
+    List<DataHAerobic> findByStdDateBetweenAndUserIdOrderBySeqAsc(Date firstDateOfMonth, Date lastDateOfMonth, String userId);
 }

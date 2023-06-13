@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.aerobic;
 
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,24 +27,11 @@ public class AerobicController {
 
     private final AerobicService aerobicService;
 
-    /*
-    달력에 나갈 데이터 DTO 형태
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-    {date name}
-     */
-
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
-    public ResponseEntity<ResultMap> calendar() {
-        return aerobicService.calendar();
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        request.setUserId(getUserId());
+        return aerobicService.calendar(request);
     }
 
     @Operation(summary = "액티비티 조회", description = "")

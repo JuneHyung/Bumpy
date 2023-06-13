@@ -5,6 +5,7 @@ import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
 import com.bump.bumpy.domain.screen.aerobic.dto.AerobicActivityResponseDto;
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
@@ -15,8 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +32,47 @@ public class AerobicService {
 
     private final DataHAerobicRepository aerobicRepository;
 
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        /*
+            달력에 나갈 데이터 DTO 형태
+            { data : [ {date: name}, {date: name}, {date: name} ] }
+         */
 
-    public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap()); }
+        // find first date and last date based on request.getStdDate()
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.setTime(request.getStdDate());
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        firstDate = setZeroTime(firstDate);
+
+        Date firstDateOfMonth = firstDate.getTime();
+
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.setTime(request.getStdDate());
+        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        lastDate = setZeroTime(lastDate);
+
+        Date lastDateOfMonth = lastDate.getTime();
+
+        // find data from first date to last date
+        List<DataHAerobic> DataHAerobicList = aerobicRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+
+        if(DataHAerobicList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // make calendar map data
+        List<Map<String, String>> calendarList = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (DataHAerobic aerobic : DataHAerobicList) {
+            // aerobic.getStdDate() to yyyy-MM-dd
+            Map<String, String> calendarData = new HashMap<>();
+            String date = simpleDateFormat.format(aerobic.getStdDate());
+            calendarData.put(date, aerobic.getName());
+            calendarList.add(calendarData);
+        }
+
+        return ResponseEntity.ok(new ResultMap(calendarList));
+    }
 
     public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
         List<DataHAerobic> DataHAerobicList = aerobicRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
