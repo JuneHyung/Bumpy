@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @RestController
-@RequestMapping("/cardio")
+@RequestMapping("/aerobic")
 @RequiredArgsConstructor
 public class AerobicController {
 
