@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @RestController
@@ -37,7 +39,7 @@ public class WeightController {
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
-    public ResponseEntity<ResultMap> search(SearchRequestDto request) {
+    public ResponseEntity<ResultMap> search(@Valid SearchRequestDto request) {
         request.setUserId(getUserId());
         return weightService.search(request);
     }

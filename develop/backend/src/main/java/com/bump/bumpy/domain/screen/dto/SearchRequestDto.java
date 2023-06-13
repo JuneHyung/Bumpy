@@ -18,6 +18,7 @@ public class SearchRequestDto {
     @ApiModelProperty(example = "기준일자(시작)")
     Date stdDate;
 
+    @NotNull
     @Builder.Default
     @ApiModelProperty(example = "시퀀스")
     Integer seq = null;
