@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -76,43 +77,8 @@ public class DataHMeal implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
-    @Size(max = 100)
-    @Column(name = "food1", length = 100)
-    private String food1;
+    @Lob
+    @Column(name = "food")
+    private String food;
 
-    @Size(max = 100)
-    @Column(name = "food2", length = 100)
-    private String food2;
-
-    @Size(max = 100)
-    @Column(name = "food3", length = 100)
-    private String food3;
-
-    @Size(max = 100)
-    @Column(name = "food4", length = 100)
-    private String food4;
-
-    @Size(max = 100)
-    @Column(name = "food5", length = 100)
-    private String food5;
-
-    @Size(max = 100)
-    @Column(name = "food6", length = 100)
-    private String food6;
-
-    @Size(max = 100)
-    @Column(name = "food7", length = 100)
-    private String food7;
-
-    @Size(max = 100)
-    @Column(name = "food8", length = 100)
-    private String food8;
-
-    @Size(max = 100)
-    @Column(name = "food9", length = 100)
-    private String food9;
-
-    @Size(max = 100)
-    @Column(name = "food10", length = 100)
-    private String food10;
 }
