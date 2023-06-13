@@ -28,7 +28,6 @@ public class SearchRequestDto {
     @ApiModelProperty(example = "완료일자(종료)")
     Date endDate = null;
 
-    @NotNull
     @Hidden
     @ApiModelProperty(example = "유저 아이디 정보")
     String userId;
