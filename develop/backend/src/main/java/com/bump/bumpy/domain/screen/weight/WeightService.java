@@ -28,20 +28,11 @@ public class WeightService {
     }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
-        if(request.getSeq() == null) {
-            List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
-            if(dataHWeightList.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
-            } else {
-                return ResponseEntity.ok(new ResultMap(dataHWeightList));
-            }
+        DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
+        if(dataHWeight == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
-            DataHWeight dataHWeight = dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
-            if(dataHWeight == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
-            } else {
-                return ResponseEntity.ok(new ResultMap(dataHWeight));
-            }
+            return ResponseEntity.ok(new ResultMap(dataHWeight));
         }
     }
 

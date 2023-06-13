@@ -27,21 +27,11 @@ public class CardioService {
     public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap()); }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
-        if(request.getSeq() == null) {
-            List<DataHCardio> dataHCardioList = cardioRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
-            if(dataHCardioList.size() > 0) {
-                return ResponseEntity.ok(new ResultMap(dataHCardioList));
-            } else {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResultMap("message", "데이터가 없습니다."));
-            }
+        DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
+        if(dataHCardio != null) {
+            return ResponseEntity.ok(new ResultMap(dataHCardio));
         } else {
-            DataHCardio dataHCardio = cardioRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
-            if(dataHCardio != null) {
-                return ResponseEntity.ok(new ResultMap(dataHCardio));
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
-            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         }
     }
 
