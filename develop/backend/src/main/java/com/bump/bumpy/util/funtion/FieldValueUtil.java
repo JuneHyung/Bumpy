@@ -152,6 +152,19 @@ public class FieldValueUtil {
 		return dowName;
 	}
 
+	public static Date getTodayDate() {
+		Calendar today = Calendar.getInstance();
+		today.setTime(new Date());
+
+		// 00시 00분 00초
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		today.set(Calendar.MILLISECOND, 0);
+
+		return today.getTime();
+	}
+
 	public static boolean isTodayDate(Date date) {
 		Calendar today = Calendar.getInstance();
 		Calendar stdDate = Calendar.getInstance();

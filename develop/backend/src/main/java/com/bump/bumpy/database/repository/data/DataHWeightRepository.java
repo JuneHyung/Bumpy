@@ -2,6 +2,7 @@ package com.bump.bumpy.database.repository.data;
 
 import com.bump.bumpy.database.entity.composite.DataHWeightId;
 import com.bump.bumpy.database.entity.data.DataHWeight;
+import com.bump.bumpy.domain.main.dto.WeightResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;

@@ -10,8 +10,12 @@ import com.bump.bumpy.database.repository.data.DataHInbodyRepository;
 import com.bump.bumpy.database.repository.data.DataHMealRepository;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
 import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
+import com.bump.bumpy.domain.main.dto.AerobicResponseDto;
 import com.bump.bumpy.domain.main.dto.UserInfoResponse;
+import com.bump.bumpy.domain.main.dto.WeightResponseDto;
+import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +23,15 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getTodayDate;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isSameDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isYesterDayDate;
@@ -160,11 +167,66 @@ public class MainService {
     }
 
     public ResponseEntity<ResultMap> mealInfo() {
-        return ResponseEntity.ok(new ResultMap());
+        List<DataHMeal> mealList = dataHMealRepository.findByUserIdAndStdDateOrderBySeqAsc(getUserId(), getTodayDate());
+        List<DataHMealDto> mealDtoList = new ArrayList<>();
+
+        // convert to dto
+        for (DataHMeal meal : mealList) {
+            DataHMealDto mealDto = null;
+            try {
+                mealDto = new DataHMealDto(meal);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            mealDtoList.add(mealDto);
+        }
+
+        if(mealDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(new ResultMap(mealDtoList));
     }
 
     public ResponseEntity<ResultMap> activityInfo() {
-        return ResponseEntity.ok(new ResultMap());
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // find latest stdDate in dataHWeightRepository by userId
+        DataHWeight weightStdDate = dataHWeightRepository.findFirstByUserIdOrderByStdDateDesc(getUserId());
+        Date latestWeightStdDate = weightStdDate == null ? null : weightStdDate.getStdDate();
+
+        if(latestWeightStdDate != null) {
+            List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(latestWeightStdDate, getUserId());
+
+            List<WeightResponseDto> weightResponseDtoList = new ArrayList<>();
+            // convert to dto
+            for (DataHWeight dataHWeight : dataHWeightList) {
+                WeightResponseDto weightResponseDto = new WeightResponseDto(dataHWeight);
+                weightResponseDtoList.add(weightResponseDto);
+            }
+            resultMap.put("weight", weightResponseDtoList);
+        } else {
+            resultMap.put("weight", null);
+        }
+
+        // find latest stdDate in dataHAerobicRepository by userId
+        DataHAerobic aerobicStdDate = dataHAerobicRepository.findFirstByUserIdOrderByStdDateDesc(getUserId());
+        Date latestAerobicStdDate = aerobicStdDate == null ? null : aerobicStdDate.getStdDate();
+
+        if(latestAerobicStdDate != null) {
+            List<DataHAerobic> dataHAerobicList = dataHAerobicRepository.findByStdDateAndUserIdOrderBySeqAsc(latestAerobicStdDate, getUserId());
+
+            List<AerobicResponseDto> aerobicResponseDtoList = new ArrayList<>();
+            // convert to dto
+            for (DataHAerobic dataHAerobic : dataHAerobicList) {
+                AerobicResponseDto aerobicResponseDto = new AerobicResponseDto(dataHAerobic);
+                aerobicResponseDtoList.add(aerobicResponseDto);
+            }
+            resultMap.put("aerobic", aerobicResponseDtoList);
+        } else {
+            resultMap.put("aerobic", null);
+        }
+
+        return ResponseEntity.ok(new ResultMap(resultMap));
     }
 
     public ResponseEntity<ResultMap> chart() { return ResponseEntity.ok(new ResultMap()); }
