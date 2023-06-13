@@ -2,7 +2,9 @@ package com.bump.bumpy.domain.screen.aerobic;
 
 import com.bump.bumpy.database.entity.data.DataHAerobic;
 import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
+import com.bump.bumpy.domain.screen.aerobic.dto.AerobicActivityResponseDto;
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +27,21 @@ public class AerobicService {
 
     public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap()); }
 
-    public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap()); }
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        List<DataHAerobic> DataHAerobicList = aerobicRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+
+        if(DataHAerobicList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        List<AerobicActivityResponseDto> aerobicActivityResponseDtoList = new ArrayList<>();
+
+        for(DataHAerobic aerobicData : DataHAerobicList) {
+            aerobicActivityResponseDtoList.add(new AerobicActivityResponseDto(aerobicData));
+        }
+
+        return ResponseEntity.ok(new ResultMap(aerobicActivityResponseDtoList));
+    }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         DataHAerobic dataHAerobic = aerobicRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);

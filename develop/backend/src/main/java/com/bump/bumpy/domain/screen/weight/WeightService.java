@@ -2,14 +2,19 @@ package com.bump.bumpy.domain.screen.weight;
 
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
+import com.bump.bumpy.domain.screen.weight.dto.WeightActivityResponseDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 
@@ -22,7 +27,20 @@ public class WeightService {
     public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap());
     }
 
-    public ResponseEntity<ResultMap> activity() { return ResponseEntity.ok(new ResultMap());
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateAndUserIdOrderBySeqAsc(request.getStdDate(), request.getUserId());
+
+        if(dataHWeightList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        List<WeightActivityResponseDto> weightActivityResponseDtoList = new ArrayList<>();
+
+        for(DataHWeight weightData : dataHWeightList) {
+            weightActivityResponseDtoList.add(new WeightActivityResponseDto(weightData));
+        }
+
+        return ResponseEntity.ok(new ResultMap(weightActivityResponseDtoList));
     }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {

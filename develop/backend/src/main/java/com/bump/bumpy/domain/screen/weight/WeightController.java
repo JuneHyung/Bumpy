@@ -1,5 +1,6 @@
 package com.bump.bumpy.domain.screen.weight;
 
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.util.dto.ResultMap;
@@ -33,8 +34,9 @@ public class WeightController {
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
-    public ResponseEntity<ResultMap> activity() {
-        return weightService.activity();
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        request.setUserId(getUserId());
+        return weightService.activity(request);
     }
 
     @Operation(summary = "조회", description = "")

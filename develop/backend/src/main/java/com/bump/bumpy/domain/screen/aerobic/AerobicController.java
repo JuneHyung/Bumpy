@@ -1,6 +1,7 @@
 package com.bump.bumpy.domain.screen.aerobic;
 
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,8 +48,9 @@ public class AerobicController {
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
-    public ResponseEntity<ResultMap> activity() {
-        return aerobicService.activity();
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        request.setUserId(getUserId());
+        return aerobicService.activity(request);
     }
 
     @Operation(summary = "조회", description = "")
