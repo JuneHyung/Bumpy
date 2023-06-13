@@ -8,4 +8,8 @@ public interface UsrHEmailauthRepository extends JpaRepository<UsrHEmailauth, St
     long deleteByUserId(String userId);
     boolean existsByUserId(String userId);
     boolean existsByToken(String token);
+
+    UsrHEmailauth findByUserIdAndTokenAndEmail(String userId, String verifyCode, String email);
+
+    UsrHEmailauth findByUserIdAndEmail(String userId, String email);
 }

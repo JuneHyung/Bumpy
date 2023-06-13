@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -44,5 +45,17 @@ public class UsrHEmailauth implements Serializable {
     @NotNull
     @Column(name = "token", nullable = false, length = 1000)
     private String token;
+
+    @NotNull
+    @Column(name = "tokenIsuDate", nullable = false)
+    private Date tokenIsuDate;
+
+    @NotNull
+    @Builder.Default
+    @Column(name = "isValid", nullable = false)
+    private Boolean isValid = false;
+
+    @Column(name = "validationDate")
+    private Date validationDate;
 
 }
