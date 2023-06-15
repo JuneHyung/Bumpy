@@ -48,14 +48,20 @@ public class MainController {
 
     // 요청하면 알아서 최근날짜랑 데이터 같이 보내기 (액티비티랑, 에어로빅)
     // API 두개로 쪼개기
-    @Operation(summary = "액티비티정보", description = "")
-    @GetMapping("/activityinfo")
-    public ResponseEntity<ResultMap> activityInfo() {
-        return mainService.activityInfo();
+    @Operation(summary = "액티비티정보 - 근력", description = "")
+    @GetMapping("/activityinfo/weight")
+    public ResponseEntity<ResultMap> activityInfoWeight() {
+        return mainService.activityInfoWeight();
+    }
+
+    @Operation(summary = "액티비티정보 - 유산소", description = "")
+    @GetMapping("/activityinfo/aerobic")
+    public ResponseEntity<ResultMap> activityInfoAerobic() {
+        return mainService.activityInfoAerobic();
     }
 
     /*
-        My Bset, Month Avg, Reps Avg
+        My Best, Month Avg, Reps Avg
         {
             categories : 운동을 한 날짜들
             series : 날짜들에 대응되는 데이터

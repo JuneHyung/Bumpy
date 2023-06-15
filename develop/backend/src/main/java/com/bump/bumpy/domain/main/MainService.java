@@ -187,9 +187,7 @@ public class MainService {
         return ResponseEntity.ok(new ResultMap(mealDtoList));
     }
 
-    public ResponseEntity<ResultMap> activityInfo() {
-        Map<String, Object> resultMap = new HashMap<>();
-
+    public ResponseEntity<ResultMap> activityInfoWeight() {
         // find latest stdDate in dataHWeightRepository by userId
         DataHWeight weightStdDate = dataHWeightRepository.findFirstByUserIdOrderByStdDateDesc(getUserId());
         Date latestWeightStdDate = weightStdDate == null ? null : weightStdDate.getStdDate();
@@ -203,11 +201,14 @@ public class MainService {
                 WeightResponseDto weightResponseDto = new WeightResponseDto(dataHWeight);
                 weightResponseDtoList.add(weightResponseDto);
             }
-            resultMap.put("weight", weightResponseDtoList);
-        } else {
-            resultMap.put("weight", null);
-        }
 
+            return ResponseEntity.ok(new ResultMap(weightResponseDtoList));
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    public ResponseEntity<ResultMap> activityInfoAerobic() {
         // find latest stdDate in dataHAerobicRepository by userId
         DataHAerobic aerobicStdDate = dataHAerobicRepository.findFirstByUserIdOrderByStdDateDesc(getUserId());
         Date latestAerobicStdDate = aerobicStdDate == null ? null : aerobicStdDate.getStdDate();
@@ -221,12 +222,10 @@ public class MainService {
                 AerobicResponseDto aerobicResponseDto = new AerobicResponseDto(dataHAerobic);
                 aerobicResponseDtoList.add(aerobicResponseDto);
             }
-            resultMap.put("aerobic", aerobicResponseDtoList);
+            return ResponseEntity.ok(new ResultMap(aerobicResponseDtoList));
         } else {
-            resultMap.put("aerobic", null);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-
-        return ResponseEntity.ok(new ResultMap(resultMap));
     }
 
     public ResponseEntity<ResultMap> chart() { return ResponseEntity.ok(new ResultMap()); }
