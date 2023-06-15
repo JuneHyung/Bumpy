@@ -3,6 +3,7 @@ package com.bump.bumpy.domain.screen.weight;
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.domain.screen.weight.dto.WeightActivityResponseDto;
@@ -13,10 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +31,39 @@ public class WeightService {
 
     private final DataHWeightRepository dataHWeightRepository;
 
-    public ResponseEntity<ResultMap> calendar() { return ResponseEntity.ok(new ResultMap());
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.setTime(request.getStdDate());
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        firstDate = setZeroTime(firstDate);
+
+        Date firstDateOfMonth = firstDate.getTime();
+
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.setTime(request.getStdDate());
+        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        lastDate = setZeroTime(lastDate);
+
+        Date lastDateOfMonth = lastDate.getTime();
+
+        // find data from first date to last date
+        List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+
+        if(dataHWeightList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // make calendar map data
+        List<Map<String, String>> calendarList = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (DataHWeight weight : dataHWeightList) {
+            Map<String, String> calendarData = new HashMap<>();
+            String date = simpleDateFormat.format(weight.getStdDate());
+            calendarData.put(date, weight.getName());
+            calendarList.add(calendarData);
+        }
+
+        return ResponseEntity.ok(new ResultMap(calendarList));
     }
 
     public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
