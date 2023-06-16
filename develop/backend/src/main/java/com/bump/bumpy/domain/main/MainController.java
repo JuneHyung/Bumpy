@@ -1,5 +1,7 @@
 package com.bump.bumpy.domain.main;
 
+import com.bump.bumpy.domain.main.dto.ChartRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
@@ -40,6 +44,13 @@ public class MainController {
         return mainService.userInfo(userId);
     }
 
+    @Operation(summary = "조회", description = "")
+    @GetMapping("/grassinfo")
+    public ResponseEntity<ResultMap> grassInfo(SearchMonthRequestDto request) {
+        request.setUserId(getUserId());
+        return mainService.grassInfo(request);
+    }
+
     @Operation(summary = "식단정보", description = "")
     @GetMapping("/mealinfo")
     public ResponseEntity<ResultMap> mealInfo() {
@@ -69,9 +80,15 @@ public class MainController {
     */
     // API 두개로 쪼개기
     @Operation(summary = "차트 데이터", description = "")
-    @GetMapping("/chart")
-    public ResponseEntity<ResultMap> chart() {
-        return mainService.chart();
+    @GetMapping("/chart/weight")
+    public ResponseEntity<ResultMap> WeightChart(@Valid ChartRequestDto request) {
+        return mainService.WeightChart(request);
+    }
+
+    @Operation(summary = "차트 데이터", description = "")
+    @GetMapping("/chart/aerobic")
+    public ResponseEntity<ResultMap> AerobicChart(@Valid ChartRequestDto request) {
+        return mainService.AerobicChart(request);
     }
 
 }

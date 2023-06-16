@@ -18,6 +18,4 @@ public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, Data
     DataHAerobic findFirstByUserIdOrderByStdDateDesc(String userId);
 
     List<DataHAerobic> findByUserIdOrderByStdDateDesc(String userId);
-
-    List<DataHAerobic> findByStdDateBetweenAndUserIdOrderBySeqAsc(Date firstDateOfMonth, Date lastDateOfMonth, String userId);
 }

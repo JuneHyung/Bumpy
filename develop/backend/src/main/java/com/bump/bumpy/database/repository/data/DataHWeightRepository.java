@@ -4,11 +4,14 @@ import com.bump.bumpy.database.entity.composite.DataHWeightId;
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHWeightId> {
+    DataHWeight findFirstByUserIdAndNameOrderByWeightEndDesc(String userId, String name);
+    DataHWeight findFirstByUserIdAndNameOrderByWeightStartDesc(String userId, String name);
     List<DataHWeight> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);
     List<DataHWeight> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
 
@@ -17,4 +20,6 @@ public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHW
     DataHWeight findFirstByUserIdOrderByStdDateDesc(String userId);
 
     List<DataHWeight> findByUserIdOrderByStdDateDesc(String userId);
+
+    List<DataHWeight> findTop10ByUserIdAndNameOrderByStdDateDesc(String userId, String name);
 }
