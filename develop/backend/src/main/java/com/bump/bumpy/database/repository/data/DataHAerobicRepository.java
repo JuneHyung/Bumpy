@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, DataHCardioId> {
+    DataHAerobic findFirstByUserIdAndNameOrderByKcalDescStdDateDesc(String userId, String name);
     List<DataHAerobic> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);
     Optional<DataHAerobic> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
     List<DataHAerobic> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
@@ -18,4 +19,8 @@ public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, Data
     DataHAerobic findFirstByUserIdOrderByStdDateDesc(String userId);
 
     List<DataHAerobic> findByUserIdOrderByStdDateDesc(String userId);
+
+    List<DataHAerobic> findTop10ByUserIdAndNameOrderByStdDateDesc(String userId, String name);
+
+    List<DataHAerobic> findByUserIdAndStdDateBetweenOrderByStdDateAsc(String userId, Date time, Date time1);
 }

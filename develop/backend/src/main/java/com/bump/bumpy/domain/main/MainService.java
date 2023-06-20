@@ -11,6 +11,7 @@ import com.bump.bumpy.database.repository.data.DataHMealRepository;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
 import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
 import com.bump.bumpy.domain.main.dto.AerobicResponseDto;
+import com.bump.bumpy.domain.main.dto.ChartAerobicResponseDto;
 import com.bump.bumpy.domain.main.dto.ChartRequestDto;
 import com.bump.bumpy.domain.main.dto.ChartWeightResponseDto;
 import com.bump.bumpy.domain.main.dto.UserInfoResponse;
@@ -19,7 +20,6 @@ import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.dateToString;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getTodayDate;
@@ -41,6 +43,7 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isSameDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isYesterDayDate;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,6 @@ public class MainService {
     private final DataHWeightRepository dataHWeightRepository;
     private final DataHAerobicRepository dataHAerobicRepository;
     private final DataHMealRepository dataHMealRepository;
-    private final JPAQueryFactory queryFactory;
 
     public ResponseEntity<ResultMap> userInfo(String userId) {
         // height, weight, age
@@ -173,9 +175,7 @@ public class MainService {
         return ResponseEntity.ok(new ResultMap(userInfoResponse));
     }
 
-    public ResponseEntity<ResultMap> grassInfo(SearchMonthRequestDto request) {
-        // TODO : 잔디 데이터 출력하기
-        /*
+    /*
         [
             [{date: string , {date: string , flag: false},...] // 1주차, 7개 있어야됨
             [{date: string , {date: string , flag: false},...] // 2주차,
@@ -183,8 +183,57 @@ public class MainService {
             [{date: string , {date: string , flag: false},...] // 4주차,
             [{date: string , {date: string , flag: false},...] // 5주차,
         ]
-         */
-            return ResponseEntity.ok(new ResultMap());
+     */
+    public ResponseEntity<ResultMap> grassInfo(SearchMonthRequestDto request) {
+        List<List<Map<Date, Boolean>>> grassList = new ArrayList<>();
+
+        // set Calendar this month
+        Calendar cal = new Calendar.Builder().setInstant(request.getStdDate()).build();
+        cal.set(Calendar.DATE, 1);
+        cal = setZeroTime(cal);
+
+        // set Calendar last day of this month
+        Calendar lastDayCal = new Calendar.Builder().setInstant(request.getStdDate()).build();
+        lastDayCal.set(Calendar.DATE, lastDayCal.getActualMaximum(Calendar.DATE));
+        lastDayCal = setZeroTime(lastDayCal);
+
+        // get data from dataHWeightRepository, dataHAerobicRepository
+        List<DataHWeight> weightList = dataHWeightRepository.findByUserIdAndStdDateBetweenOrderByStdDateAsc(getUserId(), cal.getTime(), lastDayCal.getTime());
+        List<DataHAerobic> aerobicList = dataHAerobicRepository.findByUserIdAndStdDateBetweenOrderByStdDateAsc(getUserId(), cal.getTime(), lastDayCal.getTime());
+        // get date Set from weightList, aerobicList
+        Set<Date> dateSet = new HashSet<>();
+        for (DataHWeight weight : weightList) {
+            dateSet.add(weight.getStdDate());
+        }
+        for (DataHAerobic aerobic : aerobicList) {
+            dateSet.add(aerobic.getStdDate());
+        }
+
+        // set grass
+        int firstWeekOfYear = cal.get(Calendar.WEEK_OF_YEAR);
+        int lastWeekOfYear = lastDayCal.get(Calendar.WEEK_OF_YEAR);
+
+        // for each week
+        for(int week = firstWeekOfYear; week <= lastWeekOfYear; week++) {
+            List<Map<Date, Boolean>> weekList = new ArrayList<>();
+            // for each day
+            for(int day = 1; day <= 7; day++) {
+                // get date from week and day
+                Calendar dayCal = new Calendar.Builder().setInstant(request.getStdDate()).build();
+                dayCal.set(Calendar.WEEK_OF_YEAR, week);
+                dayCal.set(Calendar.DAY_OF_WEEK, day);
+
+                // is today is in the dateSet?
+                if(dateSet.contains(dayCal.getTime())) {
+                    weekList.add(Map.of(dayCal.getTime(), true));
+                } else {
+                    weekList.add(Map.of(dayCal.getTime(), false));
+                }
+            }
+            grassList.add(weekList);
+        }
+
+        return ResponseEntity.ok(new ResultMap(grassList));
     }
 
     public ResponseEntity<ResultMap> mealInfo() {
@@ -268,9 +317,9 @@ public class MainService {
         // 1. best weight data & 3. reps and sets when best
         BigDecimal weightStartBestValue = null;
         BigDecimal weightEndBestValue = null;
-        DataHWeight weightStartBest = dataHWeightRepository.findFirstByUserIdAndNameOrderByWeightStartDesc(getUserId(), request.getName());
+        DataHWeight weightStartBest = dataHWeightRepository.findFirstByUserIdAndNameOrderByWeightStartDescStdDateDesc(getUserId(), request.getName());
         if(weightStartBest != null) { weightStartBestValue = weightStartBest.getWeightStart(); }
-        DataHWeight weightEndBest = dataHWeightRepository.findFirstByUserIdAndNameOrderByWeightEndDesc(getUserId(), request.getName());
+        DataHWeight weightEndBest = dataHWeightRepository.findFirstByUserIdAndNameOrderByWeightEndDescStdDateDesc(getUserId(), request.getName());
         if(weightEndBest != null) { weightEndBestValue = weightEndBest.getWeightEnd(); }
 
         // find bigger weight & set reps and sets
@@ -324,14 +373,11 @@ public class MainService {
 
         responseDto.setXAxis(new ArrayList<>());
 
-        // get 10 datas from dataHWeightRepository by userId and name
-        List<DataHWeight> dataHWeightListByName = dataHWeightRepository.findTop10ByUserIdAndNameOrderByStdDateDesc(getUserId(), request.getName());
-
         // 날짜 과거 -> 현재 순으로 정렬
-        Collections.reverse(dataHWeightListByName);
+        Collections.reverse(top10Weight);
 
         List<BigDecimal> weightList = new ArrayList<>();
-        for (DataHWeight dataHWeight : dataHWeightListByName) {
+        for (DataHWeight dataHWeight : top10Weight) {
             BigDecimal biggerWeight = findBiggerWeight(dataHWeight);
             if(biggerWeight != null) {
                 responseDto.getXAxis().add(dateToString(dataHWeight.getStdDate()));
@@ -346,18 +392,67 @@ public class MainService {
     // TODO : Aerobic 차트 데이터 출력 ( 10일치 데이터 )
     // 1. Best Kcal : 전체 기간 중 최대 Kcal 값
     // 2. Best Time : Best Kcal 일때의 시간값
-    // 3. Month Averager : Incline / Speed (최근 10개에 대한 평균)
+    // 3. Month Average : Incline / Speed (최근 10개에 대한 평균)
 
     public ResponseEntity<ResultMap> AerobicChart(ChartRequestDto request) {
-        // find latest stdDate in dataHAerobicRepository by userId
-        DataHAerobic aerobicStdDate = dataHAerobicRepository.findFirstByUserIdOrderByStdDateDesc(getUserId());
-        Date latestAerobicStdDate = aerobicStdDate == null ? null : aerobicStdDate.getStdDate();
+        ChartAerobicResponseDto responseDto = new ChartAerobicResponseDto();
 
-        if(latestAerobicStdDate != null) {
+        // 1. best kcal data & 2. best time when best kcal
+        DataHAerobic bestKcal = dataHAerobicRepository.findFirstByUserIdAndNameOrderByKcalDescStdDateDesc(getUserId(), request.getName());
 
+        if(bestKcal != null) {
+            responseDto.setBestKcal(bestKcal.getKcal());
+            responseDto.setBestTime(bestKcal.getTime());
         }
 
-        return ResponseEntity.ok(new ResultMap());
+        // 3. average from latest 10 data
+        List<DataHAerobic> top10Aerobic = dataHAerobicRepository.findTop10ByUserIdAndNameOrderByStdDateDesc(getUserId(), request.getName());
+
+        BigDecimal averageIncline = null;
+        BigDecimal averageSpeed = null;
+
+        if(!top10Aerobic.isEmpty()) {
+            BigDecimal sumIncline = new BigDecimal(0);
+            BigDecimal sumSpeed = new BigDecimal(0);
+            for (DataHAerobic dataHAerobic : top10Aerobic) {
+                BigDecimal biggerIncline = findBiggerIncline(dataHAerobic);
+                if(biggerIncline != null) {
+                    sumIncline = sumIncline.add(biggerIncline);
+                }
+
+                BigDecimal biggerSpeed = findBiggerSpeed(dataHAerobic);
+                if(biggerSpeed != null) {
+                    sumSpeed = sumSpeed.add(biggerSpeed);
+                }
+            }
+            // 평균값 소수점 2자리 반올림
+            averageIncline = sumIncline.divide(new BigDecimal(top10Aerobic.size()), 2, RoundingMode.HALF_UP);
+            averageSpeed = sumSpeed.divide(new BigDecimal(top10Aerobic.size()), 2, RoundingMode.HALF_UP);
+        }
+
+        responseDto.setAverageIncline(averageIncline);
+        responseDto.setAverageSpeed(averageSpeed);
+
+        // Chart Data
+
+        responseDto.setXAxis(new ArrayList<>());
+
+        // 날짜 과거 -> 현재 순으로 정렬
+        Collections.reverse(top10Aerobic);
+
+        List<BigDecimal> kcalList = new ArrayList<>();
+
+        for (DataHAerobic dataHAerobic : top10Aerobic) {
+            BigDecimal biggerKcal = dataHAerobic.getKcal();
+            if(biggerKcal != null) {
+                responseDto.getXAxis().add(dateToString(dataHAerobic.getStdDate()));
+                kcalList.add(biggerKcal);
+            }
+        }
+
+        responseDto.setSeries(List.of(Map.of(request.getName(), kcalList)));
+
+        return ResponseEntity.ok(new ResultMap(responseDto));
     }
 
     // find bigger weight from dataHWeight
@@ -365,16 +460,34 @@ public class MainService {
         BigDecimal weightStart = dataHWeight.getWeightStart();
         BigDecimal weightEnd = dataHWeight.getWeightEnd();
 
-        if (weightStart != null && weightEnd != null) {
-            if (weightStart.compareTo(weightEnd) > 0) {
-                return weightStart;
+        return NullCheckCompare(weightStart, weightEnd);
+    }
+
+    private BigDecimal findBiggerIncline(DataHAerobic dataHAerobic) {
+        BigDecimal inclineStart = dataHAerobic.getInclineStart();
+        BigDecimal inclineEnd = dataHAerobic.getInclineEnd();
+
+        return NullCheckCompare(inclineStart, inclineEnd);
+    }
+
+    private BigDecimal findBiggerSpeed(DataHAerobic dataHAerobic) {
+        BigDecimal speedStart = dataHAerobic.getSpeedStart();
+        BigDecimal speedEnd = dataHAerobic.getSpeedEnd();
+
+        return NullCheckCompare(speedStart, speedEnd);
+    }
+
+    private BigDecimal NullCheckCompare(BigDecimal value1, BigDecimal value2) {
+        if (value1 != null && value2 != null) {
+            if (value1.compareTo(value2) > 0) {
+                return value1;
             } else {
-                return weightEnd;
+                return value2;
             }
-        } else if (weightStart != null) {
-            return weightStart;
-        } else if (weightEnd != null) {
-            return weightEnd;
+        } else if (value1 != null) {
+            return value1;
+        } else if (value2 != null) {
+            return value2;
         } else {
             return null;
         }
