@@ -31,7 +31,7 @@
       <div class="weightDetail-button-wrap">
         <button class="short-ghost-button" @click="moveWeightList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="weightStore.getIsToday" @click="removeWeightItem">삭제</button>
-        <button class="short-filled-button" v-if="weightStore.getIsToday">수정</button>
+        <button class="short-filled-button" v-if="weightStore.getIsToday" @click="moveModifyItem">수정</button>
       </div>
     </div>
   </main>
@@ -42,32 +42,32 @@ import { deleteWeightItem } from '~~/api/weight/weight';
 import { useWeightStore } from '~~/store/weight';
 const router= useRouter();
 const weightStore = useWeightStore();
-const removeWeightItem = () =>{
-  setMessage('삭제')
-  // try{
-  //   const body = {
-  //     stdDate: weightStore.focusDate,
-  //     seq: weightStore.getSelectItem.seq
-  //   }
-  //   const {data, error} = deleteWeightItem(body);
-  //   if(error.value!==null){
-  //     setErrorMessage(error.value.messaage)
-  //   }else if(data.value!==null){
-  //     setMessage('삭제 완료하였습니다.');
-  //     moveWeightList();
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
+const removeWeightItem = async () =>{
+  try{
+    const params = {
+      stdDate: weightStore.focusDate,
+      seq: weightStore.getSelectItem.seq
+    }
+    const {data, error} = await deleteWeightItem(params);
+    if(error.value!==null){
+      await setErrorMessage(error.value.messaage)
+    }else if(data.value!==null){
+      const message = data.value.message
+      await setMessage(message);
+      await moveWeightList();
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
 }
-const moveWeightList = () =>{
-  router.back();
+const moveWeightList = async () =>{
+  await router.push({path: 'weightList'});
 }
+const moveModifyItem = () =>{
+  router.push({path: 'weightEdit'})
+}
+
 definePageMeta({
   layout: 'main-layout',
 });
-onMounted(()=>{
-  console.log(weightStore.getSelectItem)
-})
-// const weightStore.getSelectItem =ref({})
 </script>

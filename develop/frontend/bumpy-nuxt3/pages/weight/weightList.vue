@@ -35,6 +35,7 @@ definePageMeta({
 });
 
 const moveEdit = () => {
+  weightStore.resetSelectItem()
   router.push({ path: 'weightEdit' });
 };
 
@@ -47,69 +48,46 @@ const getFocusDate = (v) => {
 
 // weightList 조회
 const getWeightList = async() => {
-  weightList.value = [
-    {
-      seq: 1,
-      name:'벤치프레스01',
-      weightStart: 10,
-      weightEnd: 20,
-      repsStart: 10,
-      repsEnd: 20,
-      pollWeight: 10,
-      setReps: 20,
-      measure: 'kg',
-      memo: 'memo test01',
-    },
-    {
-      seq: 2,
-      name:'벤치프레스02',
-      weightStart: 10,
-      weightEnd: 20,
-      repsStart: 10,
-      repsEnd: 20,
-      pollWeight: 10,
-      setReps: 20,
-      measure: 'kg',
-      memo: 'memo test02',
+  try {
+    const { data, error } = await readWeightList({ stdDate: weightStore.getFocusDate });
+    if(error.value !== null){
+    }else if(data.value!==null){
+      const list = data.value.data;
+      weightList.value = list
     }
-  ]
-  // try {
-  //   const { data, error } = await readWeightList({ stdDate: weightStore.getFocusDate });
-  //   if(error.value !== null){
-  //   }else if(data.value!==null){
-  //     weightList.value = data
-  //   }
-  // } catch (e) {
-  //   console.error(e)
-  // }
+  } catch (e) {
+    setErrorMessage(e)
+  }
 }
 
 // calendarList 조회
 const getCalendarList = async () =>{
-  weightStore.setCalendarlist([
-  { title: '운동 01', date: '2023-06-05' },
-  { title: '운동 02', date: '2023-06-05' },
-  { title: '운동 03', date: '2023-06-05' }
-  ])
-  // try{
-  //   const {data, error} = await readWeightCalendarList();
-  //   if(error.value !== null){
+  const focusDate = weightStore.getFocusDate
+  
+  try{
+    const {data, error} = await readWeightCalendarList({stdDate: focusDate});
+    if(error.value !== null){
 
-  //   }else if(data.value!==null){
-  //     weightStore.setCalendarlist(data);
-  //     // weightList.value = data
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
+    }else if(data.value.data!==null){
+      const list = data.value.data
+      .map((el, i)=> {
+        const keys = Object.keys(el);
+        const key = keys[0];
+        return  {title: el[key], date: key}
+      })
+      weightStore.setCalendarlist(list);
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
 }
 
 onMounted(()=>{
   const today = commonStore.getToday;
   weightStore.setFocusDate(today);
-  // weightStore.resetSelectItem();
-  console.log(weightStore.getSelectItem)
-  getWeightList();
   getCalendarList();
+  getWeightList();
+  // weightStore.resetSelectItem();
+
 })
 </script>

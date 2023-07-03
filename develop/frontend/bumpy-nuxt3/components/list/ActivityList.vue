@@ -1,6 +1,6 @@
 <template>
   <ul :class="{ 'square-list-wrap-box': type === 'square', 'rectangle-list-wrap-box': type === 'rectangle' }">
-    <template v-for="(item, idx) in list" :key="idx" v-if="list.length>0">
+    <template v-for="(item, idx) in list" :key="idx" v-if="list!==undefined && list.length>0">
       <ListItem :info="item"></ListItem>
     </template>
     <template v-else>

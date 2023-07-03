@@ -13,7 +13,8 @@ import dayjs from 'dayjs';
 import { useWeightStore } from '~~/store/weight';
 import { readWeightCalendarList } from '~~/api/weight/weight';
 import { setErrorMessage } from '~~/api/alert/message';
-const calendar = ref(null);
+
+const calendar = ref(null) ;
 const weightStore = useWeightStore();
 interface EventListItem{
   title:string,
@@ -30,32 +31,11 @@ const focusDate = (v: any) =>{
   emits('focusDate', dayjs(v.date).format('YYYY-MM-DD'))
 }
 
-const getCalendarList = async () =>{
-  weightStore.setCalendarlist([{ title: '운동 01', date: '2023-06-05' },
-  { title: '운동 02', date: '2023-06-05' },
-  { title: '운동 03', date: '2023-06-05' },])
-  // try{
-  //   const {data, error} = await readWeightCalendarList();
-  //   if(error.value !== null){
-
-  //   }else if(data.value!==null){
-  //     weightStore.setCalendarlist(data);
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
-}
-
-
 const clickPrevYear = () =>{
   const focusDate = weightStore.getFocusDate;
   const newDate = dayjs(focusDate).subtract(1, 'year').format('YYYY-MM-DD');
   weightStore.setFocusDate(newDate);
   calendar.value.getApi().prevYear();
-  // getCalendarList()
-  weightStore.setCalendarlist([{ title: '운동 01', date: '2022-06-05' },
-  { title: '운동 02', date: '2022-06-05' },
-  { title: '운동 03', date: '2022-06-05' },])
   calendar.value.getApi().setOption('events', weightStore.getCalendarList)
 }
 const clickPrevMonth = () =>{
@@ -63,10 +43,6 @@ const clickPrevMonth = () =>{
   const newDate = dayjs(focusDate).subtract(1, 'month').format('YYYY-MM-DD');
   weightStore.setFocusDate(newDate);
   calendar.value.getApi().prev();
-  weightStore.setCalendarlist([{ title: '운동 05', date: '2022-05-05' },
-  { title: '운동 06', date: '2022-05-15' },
-  { title: '운동 07', date: '2022-05-25' },
-  { title: '운동 08', date: '2022-05-11' },])
   calendar.value.getApi().setOption('events', weightStore.getCalendarList)
 }
 const clickNextYear = () =>{
@@ -74,9 +50,6 @@ const clickNextYear = () =>{
   const newDate = dayjs(focusDate).add(1, 'year').format('YYYY-MM-DD');
   weightStore.setFocusDate(newDate);
   calendar.value.getApi().nextYear();
-  weightStore.setCalendarlist([{ title: '운동 01', date: '2024-06-05' },
-  { title: '운동 02', date: '2024-06-05' },
-  { title: '운동 03', date: '2024-06-05' },])
   calendar.value.getApi().setOption('events', weightStore.getCalendarList)
 }
 const clickNextMonth = () =>{
@@ -84,10 +57,6 @@ const clickNextMonth = () =>{
   const newDate = dayjs(focusDate).add(1, 'month').format('YYYY-MM-DD');
   weightStore.setFocusDate(newDate);
   calendar.value.getApi().next();
-  weightStore.setCalendarlist([{ title: '운동 05', date: '2024-07-05' },
-  { title: '운동 06', date: '2024-07-15' },
-  { title: '운동 07', date: '2024-07-25' },
-  { title: '운동 08', date: '2024-07-11' },])
   calendar.value.getApi().setOption('events', weightStore.getCalendarList)
 }
 const clickToday = () => {

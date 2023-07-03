@@ -1,7 +1,9 @@
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api";
-
+const headers = {
+  "Content-Type": "application/json"
+}
 /**
  * weight 운동 조회 (근력 운동 조회) - GET
  * @param {{stdDate: string}} params
@@ -11,6 +13,7 @@ function readWeightItem(params) {
   return useFetch("/weight/search", {
     baseURL,
     method: GET,
+    headers,
     params,
   });
 }
@@ -19,9 +22,12 @@ function readWeightItem(params) {
  * weight 달력 조회 - GET
  * @returns
  */
-function readWeightCalendarList() {
+function readWeightCalendarList(params) {
   return useFetch("/weight/calendar", {
+    baseURL,
     method: GET,
+    headers,
+    params,
   });
 }
 
@@ -29,9 +35,12 @@ function readWeightCalendarList() {
  * Activity 조회 - GET
  * @returns
  */
-function readWeightList() {
+function readWeightList(params) {
   return useFetch("/weight/activity", {
+    baseURL,
     method: GET,
+    headers,
+    params,
   });
 }
 
@@ -57,6 +66,7 @@ function createWeightItem(body) {
   return useFetch("/weight/insert", {
     baseURL,
     method: POST,
+    headers,
     body,
   });
 }
@@ -69,11 +79,12 @@ function createWeightItem(body) {
  * }} body
  * @returns
  */
-function deleteWeightItem(body) {
+function deleteWeightItem(params) {
   return useFetch("/weight/delete", {
     baseURL,
     method: DELETE,
-    body,
+    headers,
+    params,
   });
 }
 
@@ -89,6 +100,7 @@ function updateWeightItem(body) {
   return useFetch("/weight/update", {
     baseURL,
     method: PUT,
+    headers,
     body,
   });
 }

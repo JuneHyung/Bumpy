@@ -30,7 +30,7 @@
       </div>
       <label>
         <p>메모</p>
-        <textarea></textarea>
+        <textarea v-model="form.memo.value"></textarea>
       </label>
       <div class="weightEdit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
@@ -46,9 +46,9 @@ import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
 import {useCommonStore} from '~/store/common'
-import { setErrorMessage } from '~~/api/alert/message';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { useWeightStore } from '~~/store/weight';
-import { updateWeightItem } from '~~/api/weight/weight';
+import { createWeightItem, updateWeightItem } from '~~/api/weight/weight';
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
@@ -63,7 +63,7 @@ const form = ref({
   pollWeight: { value: '', },
   setReps: { value: '', },
   measure: { value: '', },
-  // memo: {value: '', placeholder: ''},
+  memo: {value: '', placeholder: ''},
   // picture: {value: '', placeholder: ''},
 });
 
@@ -85,9 +85,8 @@ const numberList = ref([
 
 const makeBody = () =>{
   const result = {
-    stdDate: weightStore.getFocusDate,
-    // seq: seq,
-    seq: 1,
+    stdDate: weightStore.getFocusDate===null || weightStore.getFocusDate.length===0 ? commonStore.getToday : weightStore.getFocusDate,
+    seq: 2,
     name: form.value.name.value,
     weightStart: form.value.weightStart.value,
     weightEnd: form.value.weightEnd.value,
@@ -96,7 +95,7 @@ const makeBody = () =>{
     pollWeight: form.value.pollWeight.value,
     setReps: form.value.setReps.value,
     measure: form.value.measure.value,
-    // memo: form.value.memo.value,
+    memo: form.value.memo.value,
     // picture: form.value.picture.value,
   }
   return result;
@@ -105,7 +104,6 @@ const makeBody = () =>{
 // 저장 버튼
 const saveWeightItem = async () =>{
   const body = makeBody()
-  console.log(body)
   try{
     const {data, error} = await createWeightItem(body)
     if(error.value!==null){
@@ -123,19 +121,19 @@ const saveWeightItem = async () =>{
 // 수정 버튼
 const modifyWeightItem = async () =>{
   const body = makeBody()
-  // console.log(body)
-  // try{
-  //   const {data, error} = await updateWeightItem(body)
-  //   if(error.value!==null){
-  //     const errorMessage = error.value?.data.message;
-  //     setErrorMessage(errorMessage);
-  //   }else if(data.value !== null){
-  //     setMessage(data.value.message);
-  //     router.push({path: '/weight/weightList'})
-  //   }
-  // }catch (e){
-  //   setErrorMessage(e);
-  // }
+  
+  try{
+    const {data, error} = await updateWeightItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/weight/weightList'})
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
 }
 
 // 초기화 버튼
@@ -151,9 +149,21 @@ const resetWeightItem = () =>{
 const cancelWeightEdit = () =>{
   router.back();
 }
+
+const initSelectedItem = () =>{
+  const keys = Object.keys(form.value);
+  for(let i=0;i<keys.length;i++){
+    const key = keys[i];
+    form.value[key].value = weightStore.getSelectItem[key]
+  }
+}
+
 onMounted(()=>{
-  console.log(commonStore.getToday);
-  console.log(weightStore.getFocusDate);
+  if(!editFlag.value){
+    initSelectedItem()
+  }else{
+    weightStore.resetSelectItem()
+  }
 })
 
 definePageMeta({
