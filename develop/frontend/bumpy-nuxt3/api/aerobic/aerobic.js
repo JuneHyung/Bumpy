@@ -1,16 +1,21 @@
 // import { CREATE, READ } from "~~/types/method";
 
-const baseURL = "http://222.112.251.124:8899/api";
+import { GET, POST, PUT, DELETE } from "~~/types/method";
 
+const baseURL = "http://222.112.251.124:8899/api";
+const headers = {
+  "Content-Type": "application/json"
+}
 /**
  * 유산소 운동 조회 (근력 운동 조회) - GET
  * @param {{stdDate: string}} params
  * @returns
  */
-function readCardioItem(params) {
-  return useFetch("/cardio/search", {
+function readAerobicItem(params) {
+return useFetch("/aerobic/search", {
     baseURL,
     method: GET,
+    headers,
     params,
   });
 }
@@ -19,9 +24,12 @@ function readCardioItem(params) {
  * 유산소 달력 조회 - GET
  * @returns
  */
-function readCardioCalendarList() {
-  return useFetch("/cardio/calendar", {
+function readAerobicCalendarList(params) {
+  return useFetch("/aerobic/calendar", {
+    baseURL,
     method: GET,
+    headers,
+    params
   });
 }
 
@@ -29,9 +37,12 @@ function readCardioCalendarList() {
  * Activity 조회 - GET
  * @returns
  */
-function readCardioList() {
-  return useFetch("/cardio/activity", {
+function readAerobicList(params) {
+  return useFetch("/aerobic/activity", {
+    baseURL,
     method: GET,
+    headers,
+    params
   });
 }
 
@@ -52,10 +63,11 @@ function readCardioList() {
  * }} body
  * @returns
  */
-function createCardioItem(body) {
-  return useFetch("/cardio/insert", {
+function createAerobicItem(body) {
+  return useFetch("/aerobic/insert", {
     baseURL,
     method: POST,
+    headers,
     body,
   });
 }
@@ -68,10 +80,11 @@ function createCardioItem(body) {
  * }} body
  * @returns
  */
-function deleteCardioItem(params) {
-  return useFetch("/cardio/delete", {
+function deleteAerobicItem(params) {
+  return useFetch("/aerobic/delete", {
     baseURL,
-    method: GET,
+    method: DELETE,
+    headers,
     params,
   });
 }
@@ -93,18 +106,19 @@ function deleteCardioItem(params) {
 * }} body
  * @returns
  */
-function updateCardioItem(body) {
-  return useFetch("/cardio/udpate", {
+function updateAerobicItem(body) {
+  return useFetch("/aerobic/update", {
     baseURL,
-    method: POST,
+    method: PUT,
+    headers,
     body,
   });
 }
 export {
-  readCardioItem, 
-  readCardioCalendarList, 
-  readCardioList, 
-  createCardioItem, 
-  deleteCardioItem, 
-  updateCardioItem
+  readAerobicItem, 
+  readAerobicCalendarList, 
+  readAerobicList, 
+  createAerobicItem, 
+  deleteAerobicItem, 
+  updateAerobicItem
 };

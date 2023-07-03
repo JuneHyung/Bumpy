@@ -9,7 +9,7 @@
       <ActivityList type="square" listType="aerobic" :list="aerobicList"></ActivityList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
-      <Calendar @focusDate="getFocusDate"></Calendar>
+      <Calendar @focusDate="getFocusDate" type="aerobic"></Calendar>
     </div>
   </main>
 </template>
@@ -21,6 +21,7 @@ import { useRouter } from 'vue-router';
 import { setErrorMessage } from '~~/api/alert/message';
 import { useCommonStore } from '~~/store/common';
 import { useAerobicStore } from '~~/store/aerobic';
+import { readAerobicCalendarList, readAerobicList } from '~~/api/aerobic/aerobic';
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
@@ -39,62 +40,43 @@ const getFocusDate = (v) => {
 
 // aerobic List 조회
 const getAerobicList = async() => {
-  aerobicList.value = [
-    {
-      seq: 1,
-      name:'벤치프레스01',
-      kcal: 900,
-      time: 20,
-      inclineStart: 20,
-      inclineEnd: 20,
-      speedStart: 5.5,
-      speedEnd: 5.5,
-      memo: 'memo test01',
-    },
-    {
-      seq: 1,
-      name:'벤치프레스01',
-      kcal: 900,
-      time: 20,
-      inclineStart: 20,
-      inclineEnd: 20,
-      speedStart: 5.5,
-      speedEnd: 5.5,
-      memo: 'memo test01',
-    },
-  ]
-  // try {
-  //   const { data, error } = await readAerobicList({ stdDate: aerobicStore.getFocusDate });
-  //   if(error.value !== null){
-  //   }else if(data.value!==null){
-  //     aerobicList.value = data
-  //   }
-  // } catch (e) {
-  //   console.error(e)
-  // }
+  const focusDate = aerobicStore.getFocusDate;
+  try {
+    const { data, error } = await readAerobicList({ stdDate: focusDate });
+    if(error.value !== null){
+      setErrorMessage(error.value)
+    }else if(data.value!==null){
+      const list = data.value.data
+      aerobicList.value = list;
+    }
+  } catch (e) {
+    setErrorMessage(e)
+  }
 }
 
 // calendarList 조회
 const getCalendarList = async () =>{
-  aerobicStore.setCalendarlist([
-  { title: '운동 01', date: '2023-06-05' },
-  { title: '운동 02', date: '2023-06-05' },
-  { title: '운동 03', date: '2023-06-05' }
-  ])
-  // try{
-  //   const {data, error} = await readWeightCalendarList();
-  //   if(error.value !== null){
-
-  //   }else if(data.value!==null){
-  //     weightStore.setCalendarlist(data);
-  //     // weightList.value = data
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
+  const focusDate = aerobicStore.getFocusDate;
+  try{
+    const {data, error} = await readAerobicCalendarList({stdDate: focusDate});
+    if(error.value !== null){
+      setErrorMessage(error.value)
+    }else if(data.value!==null){
+      const list = data.value.data
+      .map((el, i)=> {
+        const keys = Object.keys(el);
+        const key = keys[0];
+        return  {title: el[key], date: key}
+      })
+      aerobicStore.setCalendarlist(list);
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
 }
 
 const moveEdit = () => {
+  aerobicStore.resetSelectItem()
   router.push({ path: 'aerobicEdit' });
 };
 onMounted(()=>{

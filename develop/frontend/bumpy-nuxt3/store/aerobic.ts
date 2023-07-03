@@ -21,7 +21,9 @@ export const useAerobicStore = defineStore({
       this.isToday = this.focusDate===dayjs().format('YYYY-MM-DD');
     },
     setCalendarlist(list: any){
-      this.calendarList = list.slice();
+      if(list !== undefined){
+        this.calendarList = list.slice();
+      }
     },
     setSelectItem(item: any) {
       this.selectItem = _.cloneDeep(item);

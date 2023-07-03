@@ -31,37 +31,42 @@
       <div class="aerobicDetail-button-wrap">
         <button class="short-ghost-button" @click="moveAerobicList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday" @click="removeAerobicItem">삭제</button>
-        <button class="short-filled-button" v-if="aerobicStore.getIsToday">수정</button>
+        <button class="short-filled-button" v-if="aerobicStore.getIsToday" @click="moveModifyItem">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup>
+import { deleteAerobicItem } from '~~/api/aerobic/aerobic';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { useAerobicStore } from '~~/store/aerobic';
 
 const router= useRouter();
 const aerobicStore = useAerobicStore();
 
-const removeAerobicItem = () =>{
-  setMessage('삭제')
-  // try{
-  //   const body = {
-  //     stdDate: aerobicStore.focusDate,
-  //     seq: aerobicStore.getSelectItem.seq
-  //   }
-  //   const {data, error} = deleteCardioItem(body);
-  //   if(error.value!==null){
-  //     setErrorMessage(error.value.messaage)
-  //   }else if(data.value!==null){
-  //     setMessage('삭제 완료하였습니다.');
-  //     moveAerobicList();
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
+const removeAerobicItem = async () =>{
+  try{
+    const body = {
+      stdDate: aerobicStore.focusDate,
+      seq: aerobicStore.getSelectItem.seq
+    }
+    const {data, error} = await deleteAerobicItem(body);
+    if(error.value!==null){
+      await setErrorMessage(error.value.messaage)
+    }else if(data.value!==null){
+      await setMessage(data.value.message);
+      await moveAerobicList();
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
 }
-const moveAerobicList = () =>{
-  router.back();
+const moveAerobicList = async () =>{
+  await router.push({path:'aerobicList'});
+}
+
+const moveModifyItem = async () =>{
+  await router.push({path: 'aerobicEdit'})
 }
 definePageMeta({
   layout: 'main-layout',
@@ -69,12 +74,12 @@ definePageMeta({
 const infoName = { key: 'name', label: '', value: 'Walking' };
 const infoList = [
   [
-    { key: 'startIncline', label: '시작 Incline', value: '0', unit: '' },
-    { key: 'startSpeed', label: '시작 Speed', value: '12', unit: '' },
+    { key: 'inclineStart', label: '시작 Incline', value: '0', unit: '' },
+    { key: 'speedStart', label: '시작 Speed', value: '12', unit: '' },
   ],
   [
-    { key: 'endIncline', label: '종료 Incline', value: '20', unit: '' },
-    { key: 'endSpeed', label: '종료 Speed', value: '8', unit: '' },
+    { key: 'inclineEnd', label: '종료 Incline', value: '20', unit: '' },
+    { key: 'speedEnd', label: '종료 Speed', value: '8', unit: '' },
   ],
   [
     { key: 'time', label: '시간', value: '63:28', unit: '' },

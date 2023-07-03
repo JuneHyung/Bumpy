@@ -9,7 +9,7 @@
       <ActivityList type="square" listType="weight" :list="weightList"></ActivityList>
     </div>
     <div class="content-wrap-box bp-mt-xl">
-      <Calendar @focusDate="getFocusDate"></Calendar>
+      <Calendar @focusDate="getFocusDate" type="weight"></Calendar>
     </div>
   </main>
 </template>
@@ -82,11 +82,11 @@ const getCalendarList = async () =>{
   }
 }
 
-onMounted(()=>{
+onMounted(async()=>{
   const today = commonStore.getToday;
   weightStore.setFocusDate(today);
-  getCalendarList();
-  getWeightList();
+  await getCalendarList();
+  await getWeightList();
   // weightStore.resetSelectItem();
 
 })

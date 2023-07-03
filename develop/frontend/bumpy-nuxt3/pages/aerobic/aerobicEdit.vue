@@ -43,50 +43,50 @@ import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
 
 import {useCommonStore} from '~/store/common'
-import { setErrorMessage } from '~~/api/alert/message';
-import { useWeightStore } from '~~/store/weight';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
+import { createAerobicItem, updateAerobicItem } from '~~/api/aerobic/aerobic';
+import { useAerobicStore } from '~~/store/aerobic';
 const commonStore = useCommonStore();
-const weightStore = useWeightStore();
+const aerobicStore = useAerobicStore();
 const router = useRouter();
-const editFlag = computed(()=>weightStore.getSelectItem.seq===undefined)
-const info = { name: '벤치프레스' };
+const editFlag = computed(()=>aerobicStore.getSelectItem.seq===undefined)
+
 const form = ref({
   name: { value: '', placeholder: '잠온다' },
   kcal: {value:''}, 
-  startIncline: {value:''}, 
-  startSpeed: {value:''}, 
+  inclineStart: {value:''}, 
+  speedStart: {value:''}, 
   time: {value:''}, 
-  endIncline: {value:''}, 
-  endSpeed: {value:''}, 
+  inclineEnd: {value:''}, 
+  speedEnd: {value:''}, 
+  memo: {value:''}
 });
 
 const numberList = [
   [
     { key: 'kcal', label: 'Kcal', },
-    { key: 'startIncline', label: '시작 Incline', },
-    { key: 'startSpeed', label: '시작 Speed', },
+    { key: 'inclineStart', label: '시작 Incline', },
+    { key: 'speedStart', label: '시작 Speed', },
   ],
   [
     { key: 'time', label: 'Time', },
-    { key: 'endIncline', label: '종료 Incline', },
-    { key: 'endSpeed', label: '종료 Speed', },
+    { key: 'inclineEnd', label: '종료 Incline', },
+    { key: 'speedEnd', label: '종료 Speed', },
   ],
 ];
 
 const makeBody = () =>{
   const result = {
-    stdDate: weightStore.getFocusDate,
-    // seq: seq,
-    seq: 1,
+    stdDate: aerobicStore.getFocusDate===null || aerobicStore.getFocusDate.length===0 ? commonStore.getToday : aerobicStore.getFocusDate,
+    seq: 2,
     name: form.value.name.value,
-    weightStart: form.value.weightStart.value,
-    weightEnd: form.value.weightEnd.value,
-    repsStart: form.value.repsStart.value,
-    repsEnd: form.value.repsEnd.value,
-    pollWeight: form.value.pollWeight.value,
-    setReps: form.value.setReps.value,
-    measure: form.value.measure.value,
-    // memo: form.value.memo.value,
+    kcal: form.value.kcal.value,
+    inclineStart: form.value.inclineStart.value,
+    speedStart: form.value.speedStart.value,
+    time: form.value.time.value,
+    inclineEnd: form.value.inclineEnd.value,
+    speedEnd: form.value.speedEnd.value,
+    memo: form.value.memo.value,
     // picture: form.value.picture.value,
   }
   return result;
@@ -94,9 +94,8 @@ const makeBody = () =>{
 // 저장 버튼
 const saveAerobicItem = async () =>{
   const body = makeBody()
-  console.log(body)
   try{
-    const {data, error} = await createCardioItem(body)
+    const {data, error} = await createAerobicItem(body)
     if(error.value!==null){
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
@@ -112,19 +111,18 @@ const saveAerobicItem = async () =>{
 // 수정 버튼
 const modifyAerobicItem = async () =>{
   const body = makeBody()
-  // console.log(body)
-  // try{
-  //   const {data, error} = await updateCardioItem(body)
-  //   if(error.value!==null){
-  //     const errorMessage = error.value?.data.message;
-  //     setErrorMessage(errorMessage);
-  //   }else if(data.value !== null){
-  //     setMessage(data.value.message);
-  //     router.push({path: '/aerobic/aerobicList'})
-  //   }
-  // }catch (e){
-  //   setErrorMessage(e);
-  // }
+  try{
+    const {data, error} = await updateAerobicItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/aerobic/aerobicList'})
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
 }
 // 초기화 버튼
 const resetAerobicItem = () =>{
@@ -139,6 +137,21 @@ const resetAerobicItem = () =>{
 const cancelAerobicEdit = () =>{
   router.back();
 }
+
+const initSelectedItem = () =>{
+  const keys = Object.keys(form.value);
+  for(let i=0;i<keys.length;i++){
+    const key = keys[i];
+    form.value[key].value = aerobicStore.getSelectItem[key]
+  }
+}
+onMounted(()=>{
+  if(!editFlag.value){
+    initSelectedItem()
+  }else{
+    aerobicStore.resetSelectItem()
+  }
+})
 definePageMeta({
   layout: 'main-layout',
 });
