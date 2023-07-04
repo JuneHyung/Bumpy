@@ -13,6 +13,7 @@ type InbodyList = Inbody[]
 
 interface UserInfoItem{
   category: string,
+  key: string,
   value: string | number,
   unit: string,
 }
@@ -31,6 +32,7 @@ interface MeterItem {
   low?: number,
   high?: number,
   optimum?: number,
+  key: string,
   category?: string,
   unit?: string,
 }

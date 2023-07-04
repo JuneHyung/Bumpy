@@ -61,19 +61,24 @@ import MeterBar from '~/components/meter/MeterBar.vue';
 import Avatar from '~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
 import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
+import { getUserInfoForMain } from '~~/api/main';
+import { setErrorMessage } from '~~/api/alert/message';
 const router = useRouter();
 const userBodyInfo: Ref<UserInfoList>=ref([
   {
+    key: 'height',
     category: 'Height',
     value: 170,
     unit: 'cm',
   },
   {
+    key: 'weight',
     category: 'Weight',
     value: 68,
     unit: 'kg',
   },
   {
+    key: 'age',
     category: 'Age',
     value: 27,
     unit: '',
@@ -81,16 +86,19 @@ const userBodyInfo: Ref<UserInfoList>=ref([
 ]);
 const userActivityInfo: Ref<UserInfoList>=ref([
   {
+    key: 'continuity',
     category: 'Continuity',
     value: 180,
     unit: 'days',
   },
   {
+    key: 'lastActive',
     category: 'Last Active',
     value: '2023-04-05',
     unit: '',
   },
   {
+    key: 'averageWater',
     category: 'Average Water',
     value: 3.2,
     unit: 'L',
@@ -118,6 +126,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     low: 50,
     high: 75,
     optimum: 100,
+    key: 'weight',
     category: '체중',
     unit: 'kg',
   },
@@ -128,6 +137,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     low: 20,
     high: 50,
     optimum: 70,
+    key:'muscle',
     category: '골격근량',
     unit: 'kg',
   },
@@ -138,6 +148,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     low: 10,
     high: 30,
     optimum: 100,
+    key:'fat',
     category: '체지방량',
     unit: 'kg',
   },
@@ -148,6 +159,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     low: 10,
     high: 40,
     optimum: 100,
+    key:'bmi',
     category: 'BMI',
     unit: 'kg/m2',
   },
@@ -158,13 +170,51 @@ const userInbodyInfo:Ref<MeterList> = ref([
     low: 10,
     high: 40,
     optimum: 70,
+    key: 'fat',
     category: '체지방률',
     unit: '%',
   },
 ]);
 
+const initUserInfo = async (list: any) =>{
+  const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
+  const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
+  const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
+  for(const key of bodyInfoKeys){
+    const target = userBodyInfo.value.find(el=>el.key===key);
+    target.value = list[key];
+  }
+  for(const key of userActivityInfoKeys){
+    const target = userActivityInfo.value.find(el=>el.key===key);
+    target.value = list[key];
+  }
+  for(const key of userInbodyInfoKeys){
+    const target = userInbodyInfo.value.find(el=>el.key===key);
+    target.value = list.inbodyData[key];
+  }
+}
+
+const getUserInfo = async () => {
+try{
+    const {data, error} = await getUserInfoForMain();
+    if(error.value!==null){
+      setErrorMessage(error.value);
+    }else if(data.value!==null){
+
+      const list = data.value.data
+      await initUserInfo(list);
+    }
+  }catch(e){
+    setErrorMessage(e);
+  }
+}
+
 const moveUserPage = () => { 
   router.push({path:'/userPage'})
 }
+
+onMounted(async ()=>{
+  await getUserInfo()
+})
 </script>
 <style scoped lang="scss"></style>

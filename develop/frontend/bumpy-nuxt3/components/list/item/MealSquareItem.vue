@@ -3,10 +3,10 @@
     <p>{{ info.name }}</p>
     <div class="bp-mt-md bp-mb-lg">
       <p>
-        <span>{{ info.order }}번째 식사</span> - <span>{{ info.time }}kg</span> / <span>{{ info.kcal }}kcal</span>
+        <span>{{ info.order }}번째 식사</span> | <span>{{ info.time }}</span> / <span>{{ info.kcal }}kcal</span>
       </p>
       <p>
-        <span>{{ info.water }}L</span> 섭취
+        <span>물 : {{ info.water }}L</span> 섭취
       </p>
     </div>
     <p class="ellipsis-3 item-memo">{{ info.memo }}</p>
