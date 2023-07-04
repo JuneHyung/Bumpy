@@ -1,7 +1,7 @@
 <template>
   <div class="user-info-box">
     <ul class="user-info-button-list">
-      <li class="logout-button text-button">Logout</li>
+      <li class="logout-button text-button" @click="Logout">Logout</li>
       <li class="setting-button text-button" @click="moveUserPage">Setting</li>
     </ul>
 
@@ -60,6 +60,7 @@
 import MeterBar from '~/components/meter/MeterBar.vue';
 import Avatar from '~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
+import {fetchLogout} from '~~/api/user/user';
 import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
 import { getUserInfoForMain } from '~~/api/main';
 import { setErrorMessage } from '~~/api/alert/message';
@@ -211,6 +212,11 @@ try{
 
 const moveUserPage = () => { 
   router.push({path:'/userPage'})
+}
+
+const Logout = async () =>{
+  await fetchLogout();
+  router.push({path:'/'})
 }
 
 onMounted(async ()=>{
