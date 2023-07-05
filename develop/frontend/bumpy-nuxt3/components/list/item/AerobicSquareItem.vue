@@ -2,14 +2,14 @@
   <li class="square-item bp-pa-sm bp-ma-sm" @click="moveDetail">
     <p>{{ info.name }}</p>
     <div class="bp-mt-md bp-mb-lg">
-      <p>
-        <span>{{ info.time }}</span> / <span>{{ info.kcal }}</span>
+      <p class="bp-my-md">
+        <span>Time : {{ info.time }} m</span> / <span>Kcal : {{ info.kcal }} kcal</span>
       </p>
-      <p>
-        <span>{{ info.inclineStart }}</span> ~ <span>{{ info.inclineEnd }}</span>
+      <p class="bp-my-md">
+        Incline : <span>{{ info.inclineStart }}</span> ~ <span>{{ info.inclineEnd }}</span>
       </p>
-      <p>
-        <span>{{ info.speedStart }}</span> ~ <span>{{ info.speedEnd }}</span>
+      <p class="bp-my-md">
+        Speed : <span>{{ info.speedStart }}</span> ~ <span>{{ info.speedEnd }}</span>
       </p>
     </div>
     <p class="ellipsis-3 item-memo">{{ info.memo }}</p>

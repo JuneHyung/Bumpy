@@ -1,52 +1,55 @@
-.aerobic-info-box{
-  margin-top:30px;
+.aerobic-info-box {
+  margin-top: 30px;
   display: flex;
-  .chart-wrap{
+  justify-content: flex-start;
+
+  .aerobic-chart-wrap{
     display:flex;
-    flex: 5;
-    justify-content: cneter;
+    flex:6;
+    justify-content:center;
     align-items: center;
-    p{
-      width:100%;
-    }
   }
-  .info-list-wrap{
-    display:flex;
+  .info-list-out-wrap{
+    display:flex; flex:6;
     flex-direction: column;
-    flex: 7;
-    .info-item{
+    .info-list-wrap {
       display: flex;
-      flex:1;
-      flex-direction: row;
-      p{
-        display:flex;
-        flex:1;
+      flex: 1;
+      p {
+        display: flex;
+        flex: 1;
         flex-direction: column;
-        span{
-          margin-bottom:20px;
+        span {
+          margin-bottom: 20px;
         }
       }
     }
   }
 }
 
-.chart-wrap-box{
-  margin-top:60px;
-  .chart-wrap{
-    display:flex;
+.chart-wrap-box {
+  // margin-top: 60px;
+  .chart-wrap {
+    display: flex;
+    flex:1;
     border: 1px solid black;
-    height:500px;
-    margin-top:8px;
-    justify-content:center;
+    // max-height: 500px;
+    margin-top: 8px;
+    justify-content: center;
     align-items: center;
   }
 }
 
-.aerobicDetail-button-wrap{
-  display:flex;
+.aerobicDetail-button-wrap {
+  display: flex;
   justify-content: flex-end;
-  margin-top:20px;
-  button{
-    flex:0;
+  margin-top: 20px;
+  button {
+    flex: 0;
   }
+}
+
+.info-memo-box{
+  display:flex;
+  align-items: center;
 }

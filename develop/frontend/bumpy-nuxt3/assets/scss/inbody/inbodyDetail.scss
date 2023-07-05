@@ -31,11 +31,12 @@
 }
 
 .chart-wrap-box{
-  margin-top:60px;
+  // margin-top:60px;
   .chart-wrap{
     display:flex;
     border: 1px solid black;
-    height:500px;
+    // height:500px;
+    flex:1;
     margin-top:8px;
     justify-content:center;
     align-items: center;

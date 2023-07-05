@@ -20,16 +20,14 @@
 
 .square-list-wrap-box {
   flex-direction: row;
-  // width: 100%;
-  flex: 0 1 300px;
-  // width:300px;
-  // max-height:300px;
+  flex: 1;
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 8px;
   }
   
   .square-item {
+    max-width:200px;
     flex: 4 0 200px;
     &:first-child {
       margin-left: 0;

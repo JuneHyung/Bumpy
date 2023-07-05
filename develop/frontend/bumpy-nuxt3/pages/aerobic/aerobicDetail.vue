@@ -4,21 +4,24 @@
     <div class="content-wrap-box">
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
-        <div class="chart-wrap">
-          <p>image</p>
+        <div class="aerobic-chart-wrap">
+          <p>Chart</p>
         </div>
-        <div class="info-list-wrap">
-          <div class="info-item">
-            <template v-for="(info, idx) in infoList" :key="idx">
-              <p class="bp-mr-sm">
-                <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ aerobicStore.getSelectItem[item.key] }} {{ item.unit }}</span>
-                </template>
-              </p>
-            </template>
+        <div class="info-list-out-wrap">
+          <div class="info-list-wrap">
+            <p class="bp-mr-sm">
+              <span>시작 Incline : {{ aerobicStore.getSelectItem.inclineStart }} </span>
+              <span>시작 Speed : {{ aerobicStore.getSelectItem.speedStart }} </span>
+              <span>시간 : {{ aerobicStore.getSelectItem.time }} m</span>
+            </p>
+            <p class="bp-mr-sm">
+              <span>종료 Incline : {{ aerobicStore.getSelectItem.inclineEnd }} </span>
+              <span>종료 Speed : {{ aerobicStore.getSelectItem.speedEnd }} </span>
+              <span>Kcal : {{ aerobicStore.getSelectItem.kcal }}</span>
+            </p>
           </div>
           <div class="info-memo-box">
-            <textarea stype="width:100%;"></textarea>
+            <textarea style="width: 100%" :rows="10"></textarea>
           </div>
         </div>
       </div>
@@ -37,54 +40,54 @@
   </main>
 </template>
 <script setup>
-import { deleteAerobicItem } from '~~/api/aerobic/aerobic';
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { useAerobicStore } from '~~/store/aerobic';
+import { deleteAerobicItem } from "~~/api/aerobic/aerobic";
+import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { useAerobicStore } from "~~/store/aerobic";
 
-const router= useRouter();
+const router = useRouter();
 const aerobicStore = useAerobicStore();
 
-const removeAerobicItem = async () =>{
-  try{
+const removeAerobicItem = async () => {
+  try {
     const body = {
       stdDate: aerobicStore.focusDate,
-      seq: aerobicStore.getSelectItem.seq
-    }
-    const {data, error} = await deleteAerobicItem(body);
-    if(error.value!==null){
-      await setErrorMessage(error.value.messaage)
-    }else if(data.value!==null){
+      seq: aerobicStore.getSelectItem.seq,
+    };
+    const { data, error } = await deleteAerobicItem(body);
+    if (error.value !== null) {
+      await setErrorMessage(error.value.messaage);
+    } else if (data.value !== null) {
       await setMessage(data.value.message);
       await moveAerobicList();
     }
-  }catch(e){
-    setErrorMessage(e)
+  } catch (e) {
+    setErrorMessage(e);
   }
-}
-const moveAerobicList = async () =>{
-  await router.push({path:'aerobicList'});
-}
+};
+const moveAerobicList = async () => {
+  await router.push({ path: "aerobicList" });
+};
 
-const moveModifyItem = async () =>{
-  await router.push({path: 'aerobicEdit'})
-}
+const moveModifyItem = async () => {
+  await router.push({ path: "aerobicEdit" });
+};
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
 });
-const infoName = { key: 'name', label: '', value: 'Walking' };
+const infoName = { key: "name", label: "", value: "Walking" };
 const infoList = [
   [
-    { key: 'inclineStart', label: '시작 Incline', value: '0', unit: '' },
-    { key: 'speedStart', label: '시작 Speed', value: '12', unit: '' },
+    { key: "inclineStart", label: "시작 Incline", value: "0", unit: "" },
+    { key: "speedStart", label: "시작 Speed", value: "12", unit: "" },
   ],
   [
-    { key: 'inclineEnd', label: '종료 Incline', value: '20', unit: '' },
-    { key: 'speedEnd', label: '종료 Speed', value: '8', unit: '' },
+    { key: "inclineEnd", label: "종료 Incline", value: "20", unit: "" },
+    { key: "speedEnd", label: "종료 Speed", value: "8", unit: "" },
   ],
   [
-    { key: 'time', label: '시간', value: '63:28', unit: '' },
-    { key: 'kcal', label: 'Kcal', value: '5', unit: '' },
+    { key: "time", label: "시간", value: "63:28", unit: "" },
+    { key: "kcal", label: "Kcal", value: "5", unit: "" },
   ],
 ];
-const infoMemo = { key: 'memo', label: '', value: 'memomemomemeomeoemo' };
+const infoMemo = { key: "memo", label: "", value: "memomemomemeomeoemo" };
 </script>

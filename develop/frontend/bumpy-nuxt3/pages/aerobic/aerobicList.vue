@@ -1,14 +1,14 @@
 <template>
   <main class="content-layout aerobic-list-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
-    <div class="content-wrap-box bp-my-lg">
+    <div class="aerobic-list-box content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
         <h3 class="content-title" @click="moveDetail">{{ aerobicStore.getFocusDate }}</h3>
-        <button @click="moveEdit" v-if="editFlag">Edit</button>
+        <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
       </div>
       <ActivityList type="square" listType="aerobic" :list="aerobicList"></ActivityList>
     </div>
-    <div class="content-wrap-box bp-mt-xl">
+    <div class="content-wrap-box bp-mt-xl aerobic-calendar">
       <Calendar @focusDate="getFocusDate" type="aerobic"></Calendar>
     </div>
   </main>

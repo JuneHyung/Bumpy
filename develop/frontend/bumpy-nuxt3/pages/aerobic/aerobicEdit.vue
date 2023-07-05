@@ -64,14 +64,14 @@ const form = ref({
 
 const numberList = [
   [
-    { key: 'kcal', label: 'Kcal', },
     { key: 'inclineStart', label: '시작 Incline', },
     { key: 'speedStart', label: '시작 Speed', },
+    { key: 'kcal', label: 'Kcal', },
   ],
   [
-    { key: 'time', label: 'Time', },
     { key: 'inclineEnd', label: '종료 Incline', },
     { key: 'speedEnd', label: '종료 Speed', },
+    { key: 'time', label: 'Time', },
   ],
 ];
 
