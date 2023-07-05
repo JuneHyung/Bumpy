@@ -48,8 +48,7 @@
     width: 8px;
   }
   .rectangle-item {
-    flex: 1 0 100px;
-    max-width: 100px;
+    flex: 1;
     max-height:100px;
     // font-size: 14px;
     &:first-child {

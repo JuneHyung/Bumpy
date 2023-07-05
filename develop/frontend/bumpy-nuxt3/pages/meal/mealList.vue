@@ -1,15 +1,15 @@
 <template>
   <main class="content-layout meal-list-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
-    <div class="content-wrap-box bp-my-lg">
+    <div class="meal-list-box content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
         <h3 class="content-title" @click="moveDetail">{{ mealStore.getFocusDate }}</h3>
-        <button @click="moveEdit" v-if="editFlag">Edit</button>
+        <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
       </div>
       <ActivityList type="square" listType="meal" :list="mealList"></ActivityList>
     </div>
-    <div class="content-wrap-box bp-mt-xl">
-      <Calendar @focusDate="getFocusDate"></Calendar>
+    <div class="content-wrap-box bp-mt-xl meal-calendar">
+      <Calendar @focusDate="getFocusDate" type="meal"></Calendar>
     </div>
   </main>
 </template>
