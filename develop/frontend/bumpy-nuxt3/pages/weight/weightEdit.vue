@@ -18,8 +18,8 @@
         <template v-for="(list, idx) in numberList" :key="idx">
           <div class="weightEdit-input-label">
             <template v-for="(item, nIdx) in list" :key="nIdx">
-              <label class="number-input-wrap">
-                <span class="bp-mr-sm">{{ item.label }}</span>
+              <label class="number-input-wrap bp-mr-sm">
+                <span class="number-label bp-mr-sm">{{ item.label }}</span>
                 <div class="number-input">
                   <NumberInput :data="form[item.key]"></NumberInput>
                 </div>
@@ -28,10 +28,26 @@
           </div>
         </template>
       </div>
-      <label>
-        <p>메모</p>
-        <textarea v-model="form.memo.value"></textarea>
-      </label>
+      <div class="weightEdit-input-label-wrap">
+        <div class="weightEdit-input-label">
+          <label class="number-input-wrap">
+            <span class="number-label">단위</span>
+            <div class="number-input">
+              <NumberInput :data="form.measure"></NumberInput>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="weightEdit-input-label-wrap">
+        <div class="weightEdit-input-label">
+          <label class="number-input-wrap">
+            <span class="number-label">메모</span>
+            <div class="number-input">
+              <textarea ></textarea>
+            </div>
+          </label>
+        </div>
+      </div>
       <div class="weightEdit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
         <button type="button" class="short-ghost-button bp-mx-sm" @click="resetWeightItem">초기화</button>
@@ -42,50 +58,49 @@
   </main>
 </template>
 <script setup>
-import LoadList from '~/components/list/LoadList.vue';
-import TextInput from '~/components/form/TextInput.vue';
-import NumberInput from '~/components/form/NumberInput.vue';
-import {useCommonStore} from '~/store/common'
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { useWeightStore } from '~~/store/weight';
-import { createWeightItem, updateWeightItem } from '~~/api/weight/weight';
+import LoadList from "~/components/list/LoadList.vue";
+import TextInput from "~/components/form/TextInput.vue";
+import NumberInput from "~/components/form/NumberInput.vue";
+import { useCommonStore } from "~/store/common";
+import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { useWeightStore } from "~~/store/weight";
+import { createWeightItem, updateWeightItem } from "~~/api/weight/weight";
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
-const editFlag = computed(()=>weightStore.getSelectItem.seq===undefined)
-const info = { name: '벤치프레스' };
+const editFlag = computed(() => weightStore.getSelectItem.seq === undefined);
+const info = { name: "벤치프레스" };
 const form = ref({
-  name: { value: '', placeholder: '잠온다' },
-  weightStart: { value: '', },
-  repsStart: { value: '', },
-  weightEnd: { value: '', },
-  repsEnd: { value: '', },
-  pollWeight: { value: '', },
-  setReps: { value: '', },
-  measure: { value: '', },
-  memo: {value: '', placeholder: ''},
+  name: { value: "", placeholder: "잠온다" },
+  weightStart: { value: "" },
+  repsStart: { value: "" },
+  weightEnd: { value: "" },
+  repsEnd: { value: "" },
+  pollWeight: { value: "" },
+  setReps: { value: "" },
+  measure: { value: "" },
+  memo: { value: "", placeholder: "" },
   // picture: {value: '', placeholder: ''},
 });
 
 const numberList = ref([
   [
-    { key: 'weightStart', label: '시작 무게',  },
-    { key: 'repsStart', label: '시작 횟수', },
+    { key: "weightStart", label: "시작 무게", type: "number" },
+    { key: "weightEnd", label: "종료 무게", type: "number" },
+    { key: "pollWeight", label: "봉 무게", type: "number" },
   ],
   [
-    { key: 'weightEnd', label: '종료 무게',  },
-    { key: 'repsEnd', label: '종료 횟수',  },
+    { key: "repsStart", label: "시작 횟수", type: "number" },
+    { key: "repsEnd", label: "종료 횟수", type: "number" },
+    { key: "setReps", label: "세트 횟수", type: "number" },
   ],
-  [
-    { key: 'pollWeight', label: '봉 무게',  },
-    { key: 'setReps', label: '세트 횟수',  },
-  ],
-  [{ key: 'measure', label: '단위', }],
 ]);
 
-const makeBody = () =>{
+const measure = ref({ key: "memo", label: "메모", type: "textarea" });
+const memo = ref({});
+const makeBody = () => {
   const result = {
-    stdDate: weightStore.getFocusDate===null || weightStore.getFocusDate.length===0 ? commonStore.getToday : weightStore.getFocusDate,
+    stdDate: weightStore.getFocusDate === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate,
     seq: 2,
     name: form.value.name.value,
     weightStart: form.value.weightStart.value,
@@ -97,77 +112,77 @@ const makeBody = () =>{
     measure: form.value.measure.value,
     memo: form.value.memo.value,
     // picture: form.value.picture.value,
-  }
+  };
   return result;
-}
+};
 
 // 저장 버튼
-const saveWeightItem = async () =>{
-  const body = makeBody()
-  try{
-    const {data, error} = await createWeightItem(body)
-    if(error.value!==null){
+const saveWeightItem = async () => {
+  const body = makeBody();
+  try {
+    const { data, error } = await createWeightItem(body);
+    if (error.value !== null) {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
-    }else if(data.value !== null){
+    } else if (data.value !== null) {
       setMessage(data.value.message);
-      router.push({path: '/weight/weightList'})
+      router.push({ path: "/weight/weightList" });
     }
-  }catch (e){
+  } catch (e) {
     setErrorMessage(e);
   }
-}
+};
 
 // 수정 버튼
-const modifyWeightItem = async () =>{
-  const body = makeBody()
-  
-  try{
-    const {data, error} = await updateWeightItem(body)
-    if(error.value!==null){
+const modifyWeightItem = async () => {
+  const body = makeBody();
+
+  try {
+    const { data, error } = await updateWeightItem(body);
+    if (error.value !== null) {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
-    }else if(data.value !== null){
+    } else if (data.value !== null) {
       setMessage(data.value.message);
-      router.push({path: '/weight/weightList'})
+      router.push({ path: "/weight/weightList" });
     }
-  }catch (e){
+  } catch (e) {
     setErrorMessage(e);
   }
-}
+};
 
 // 초기화 버튼
-const resetWeightItem = () =>{
+const resetWeightItem = () => {
   const keys = Object.keys(form.value);
-  for(let i=0;i<keys.length;i++){
+  for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = '';
+    form.value[key].value = "";
   }
-}
+};
 
 // 취소 버튼
-const cancelWeightEdit = () =>{
+const cancelWeightEdit = () => {
   router.back();
-}
+};
 
-const initSelectedItem = () =>{
+const initSelectedItem = () => {
   const keys = Object.keys(form.value);
-  for(let i=0;i<keys.length;i++){
+  for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = weightStore.getSelectItem[key]
+    form.value[key].value = weightStore.getSelectItem[key];
   }
-}
+};
 
-onMounted(()=>{
-  if(!editFlag.value){
-    initSelectedItem()
-  }else{
-    weightStore.resetSelectItem()
+onMounted(() => {
+  if (!editFlag.value) {
+    initSelectedItem();
+  } else {
+    weightStore.resetSelectItem();
   }
-})
+});
 
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
 });
 </script>
 <style scoped lang="scss"></style>

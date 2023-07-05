@@ -1,21 +1,23 @@
 .weightEdit-input-label-wrap {
   display: flex;
+  flex-wrap: wrap;
   .weightEdit-input-label {
-    display: flex;
-    flex-direction: column;
+    display:flex;
+    flex:6;
     margin: 20px 0;
-    flex: 3;
+    
     .number-input-wrap {
       display: flex;
-      /* justify-content: flex-start; */
+      flex:1;
       align-items: center;
       span {
         display: flex;
-        width: 100%;
+        flex:3;
+        // width: 100%;
+        justify-content:flex-start;
       }
-      .number-input {
-        width: 100px;
-        overflow: hidden;
+      .number-input{
+        flex:9;
       }
     }
   }
@@ -44,4 +46,7 @@
     display: flex;
     flex: 0;
   }
+}
+.text-area{
+  display:flex;
 }
