@@ -1,7 +1,7 @@
 .main-page {
   .activity-meal-wrap-box {
     display: flex;
-    flex: 3;
+    flex: 2;
     flex-direction: row;
     .activity-wrap-box,
     .meal-wrap-box {
@@ -35,10 +35,13 @@
   }
 
   .last-activity-wrap-box {
-    flex: 0 3 300px;
+    display:flex;height:300px;
+    flex: 0 2 400px;
 
     flex-direction: row;
     .last-activity-list {
+      display:flex;
+      flex-direction:column;
       flex: 4;
       padding-right: 16px;
       .activity-title-box {
@@ -52,11 +55,12 @@
     }
     .last-activity-chart-box {
       display: flex;
+      min-height:200px;
       flex: 8;
       flex-direction: column;
       align-self: stretch;
       padding: 8px;
-      border: 1px solid black;
+      // border: 1px solid black;
       .last-activity-chart-info {
         display: flex;
         text-align: center;
@@ -71,9 +75,9 @@
         }
       }
       .last-activity-chart {
-        flex: 1;
+        display:flex;
+        flex:1;
         margin-top: 8px;
-        border: 1px solid black;
       }
     }
   }

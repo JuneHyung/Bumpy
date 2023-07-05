@@ -46,6 +46,7 @@
 }
 .content-wrap-box {
   display:flex;
+  flex:1;
   flex-direction: column;
   background-color: $layout-outter-background-color;
   border-radius: 1.2rem;

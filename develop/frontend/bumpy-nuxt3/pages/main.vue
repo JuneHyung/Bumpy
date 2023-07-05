@@ -47,7 +47,7 @@
             <p class="chart-info-item-value">{{weightInfo.reos}} reps / {{weightInfo.sets}} sets</p>
           </li>
         </ul>
-        <LineChart class="last-activity-cahrt" :xAxis="weightChartInfo.xAxis" :series="weightChartInfo.series"></LineChart>
+        <LineChart class="last-activity-chart" :xAxis="weightChartInfo.xAxis" :series="weightChartInfo.series"></LineChart>
       </div>
     </div>
 
