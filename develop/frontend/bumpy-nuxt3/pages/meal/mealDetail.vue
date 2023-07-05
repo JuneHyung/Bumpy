@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="meal-info-box">
         <div class="chart-wrap">
-          <p>image</p>
+          <ImageList :list="testImageList"></ImageList>
         </div>
         <div class="info-list-wrap">
           <div class="info-item">
@@ -36,6 +36,7 @@
   </main>
 </template>
 <script setup>
+import ImageList from "~~/components/list/ImageList.vue";
 definePageMeta({
   layout: 'main-layout',
 });
@@ -48,4 +49,13 @@ const infoList = [
   ],
 ];
 const infoMemo = { key: 'memo', label: '', value: 'memomemomemeomeoemo' };
+
+
+const testImageList = [
+  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
+]
 </script>

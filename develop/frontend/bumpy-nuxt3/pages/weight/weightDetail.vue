@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ weightStore.getSelectItem.name }}</h2>
       <div class="weight-info-box">
         <div class="photo-list-wrap">
-          <p>image</p>
+          <ImageList :list="testImageList"></ImageList>
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -43,6 +43,7 @@
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { deleteWeightItem } from "~~/api/weight/weight";
 import { useWeightStore } from "~~/store/weight";
+import ImageList from "~~/components/list/ImageList.vue";
 const router = useRouter();
 const weightStore = useWeightStore();
 const removeWeightItem = async () => {
@@ -63,6 +64,18 @@ const removeWeightItem = async () => {
     setErrorMessage(e);
   }
 };
+
+
+const testImageList = [
+  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
+]
+// const testImageList = [
+// ]
+
 const moveWeightList = async () => {
   await router.push({ path: "weightList" });
 };

@@ -1,0 +1,48 @@
+<template>
+  <div class="image-list-outter-wrap">
+    <div class="cur-image-box">
+      <img :src="curUrl" class="cur-image-box" v-if="props.list.length !== 0" />
+      <p v-else>No Image</p>
+    </div>
+    <ul class="image-list-box" ref="imageList">
+      <template v-for="(url, idx) in list">
+        <li class="image-item" @click="changeCurIdx(idx)" :class="{'active-item': curIdx===idx}" ref="imageItem">
+          <img :src="url" alt="test 사진" />
+        </li>
+      </template>
+    </ul>
+  </div>
+</template>
+<script setup>
+const props = defineProps({
+  list: Array,
+});
+
+const curIdx = ref(0);
+const curUrl = computed(() => props.list[curIdx.value]);
+const imageList = ref(null);
+const imageItem = ref(null);
+const startPos = ref({x:0, y:0})
+
+const changeCurIdx = (idx) => {
+  curIdx.value = idx;
+  
+  const nextPos = imageItem.value[idx].getBoundingClientRect();
+  const nextX = nextPos.x - startPos.value.x;
+  
+  imageList.value.scrollTo({
+    top:0,
+    left: nextX,
+    behavior: 'smooth'
+  });
+};
+
+const initStartPos = () =>{
+  const rect = imageList.value.getBoundingClientRect();
+  startPos.value = {x: rect.x, y: rect.y};
+}
+
+onMounted(() => {
+  initStartPos();
+});
+</script>
