@@ -20,7 +20,10 @@
 
 .square-list-wrap-box {
   flex-direction: row;
-  width: 100%;
+  // width: 100%;
+  flex: 0 1 300px;
+  // width:300px;
+  // max-height:300px;
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 8px;
@@ -48,6 +51,7 @@
   }
   .rectangle-item {
     flex: 1 0 100px;
+    max-width: 100px;
     max-height:100px;
     // font-size: 14px;
     &:first-child {

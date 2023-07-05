@@ -1,14 +1,14 @@
 <template>
   <main class="content-layout weight-list-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
-    <div class="content-wrap-box bp-my-lg">
+    <div class="weight-list-box content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
         <h3 class="content-title">{{ weightStore.getFocusDate }}</h3>
-        <button @click="moveEdit" v-if="editFlag">Edit</button>
+        <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
       </div>
       <ActivityList type="square" listType="weight" :list="weightList"></ActivityList>
     </div>
-    <div class="content-wrap-box bp-mt-xl">
+    <div class="content-wrap-box bp-mt-xl weight-calendar">
       <Calendar @focusDate="getFocusDate" type="weight"></Calendar>
     </div>
   </main>
