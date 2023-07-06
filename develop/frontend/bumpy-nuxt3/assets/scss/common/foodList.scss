@@ -1,0 +1,36 @@
+.food-item-list{
+  overflow-y:auto;
+  display:flex;
+  flex-direction: column;
+  flex:1;
+  padding:0.25rem;
+  background-color:$middle-point-color;
+  
+  .food-item{
+    position:relative;
+    display:flex;
+    flex:0 1 2.5rem;
+    margin: 0.25rem;
+    background-color: $white-color;
+    color:$black-color;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+    cursor:pointer;
+    &:hover{
+      color:$white-color;
+      background-color:$middle-point-color;
+    }
+  }
+  .delete-button{
+    position:absolute;
+    top:4px;
+    right:4px;
+    width:12px;
+    height:12px; 
+    cursor:pointer;
+    border-radius:4px;
+    text-align: center;
+    // line-height:4px;
+  }
+}

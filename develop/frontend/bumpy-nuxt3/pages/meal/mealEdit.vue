@@ -21,7 +21,9 @@
             </div>
           </template>
         </div>
-        <div class="food-list-wrap-box"></div>
+        <div class="food-list-wrap-box">
+          <FoodList :list="form.food.value" @remove="removeItem"></FoodList>
+        </div>
       </div>
 
       <label>
@@ -44,6 +46,8 @@ import NumberInput from '~/components/form/NumberInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
 import { setMessage } from '~~/api/alert/message';
+import FoodList from '~~/components/list/FoodList.vue';
+
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
@@ -54,6 +58,7 @@ const form = ref({
   time: { value: '',  },
   kcal: { value: '',  },
   water: { value: '',  },
+  food: {value: ['닭가슴살01', '닭가슴살02', '닭가슴살03'],}
 });
 
 const numberList = [
@@ -83,6 +88,12 @@ const makeBody = () =>{
   return result;
 }
 
+
+const removeItem = (idx) => {
+  const arr = form.value.food.value.slice();
+  arr.splice(idx, 1);
+  form.value.food.value = arr;
+}
 
 // 저장 버튼
 const saveMealItem = async () =>{
