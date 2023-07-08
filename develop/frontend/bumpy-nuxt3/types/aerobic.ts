@@ -1,6 +1,8 @@
+import { InputNumber, InputText, InputTextarea } from "./input";
+
 interface Aerobic{
-  seq: number,
-  name: string,
+  seq?: number,
+  name?: string,
   kcal?: number,
   time?: number,
   inclineStart?: number,
@@ -11,7 +13,33 @@ interface Aerobic{
 }
 type AerobicList = Aerobic[];
 
+type AerobicFormData = {
+  name: InputText,
+  kcal: InputNumber,
+  time: InputNumber,
+  inclineStart: InputNumber,
+  inclineEnd: InputNumber,
+  speedStart: InputNumber,
+  speedEnd: InputNumber,
+  memo: InputTextarea,
+}
+
+interface AerobicRequestBody extends Aerobic{
+  stdDate?: string
+}
+
+type AerobicReadRequestParam {
+  stdDate: string,
+}
+type AerobicDeleteRequestParam{
+  stdDate: string,
+  seq: string
+}
 export {
   Aerobic,
-  AerobicList
+  AerobicList,
+  AerobicFormData,
+  AerobicReadRequestParam,
+  AerobicDeleteRequestParam,
+  AerobicRequestBody
 }

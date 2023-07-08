@@ -1,5 +1,6 @@
 // import { CREATE, READ } from "~~/types/method";
 
+import { AerobicDeleteRequestParam, AerobicReadRequestParam, AerobicRequestBody } from "~~/types/aerobic";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api";
@@ -11,7 +12,7 @@ const headers = {
  * @param {{stdDate: string}} params
  * @returns
  */
-function readAerobicItem(params) {
+function readAerobicItem(params: AerobicReadRequestParam) {
 return useFetch("/aerobic/search", {
     baseURL,
     method: GET,
@@ -24,7 +25,7 @@ return useFetch("/aerobic/search", {
  * 유산소 달력 조회 - GET
  * @returns
  */
-function readAerobicCalendarList(params) {
+function readAerobicCalendarList(params: AerobicReadRequestParam) {
   return useFetch("/aerobic/calendar", {
     baseURL,
     method: GET,
@@ -37,7 +38,7 @@ function readAerobicCalendarList(params) {
  * Activity 조회 - GET
  * @returns
  */
-function readAerobicList(params) {
+function readAerobicList(params: AerobicReadRequestParam) {
   return useFetch("/aerobic/activity", {
     baseURL,
     method: GET,
@@ -63,7 +64,7 @@ function readAerobicList(params) {
  * }} body
  * @returns
  */
-function createAerobicItem(body) {
+function createAerobicItem(body: AerobicRequestBody) {
   return useFetch("/aerobic/insert", {
     baseURL,
     method: POST,
@@ -80,7 +81,7 @@ function createAerobicItem(body) {
  * }} body
  * @returns
  */
-function deleteAerobicItem(params) {
+function deleteAerobicItem(params: AerobicDeleteRequestParam) {
   return useFetch("/aerobic/delete", {
     baseURL,
     method: DELETE,
@@ -106,7 +107,7 @@ function deleteAerobicItem(params) {
 * }} body
  * @returns
  */
-function updateAerobicItem(body) {
+function updateAerobicItem(body: AerobicRequestBody) {
   return useFetch("/aerobic/update", {
     baseURL,
     method: PUT,

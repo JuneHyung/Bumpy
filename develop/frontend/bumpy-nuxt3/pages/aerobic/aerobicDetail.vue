@@ -39,17 +39,19 @@
     </div>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import { deleteAerobicItem } from "~~/api/aerobic/aerobic";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useAerobicStore } from "~~/store/aerobic";
+import { AerobicDeleteRequestParam } from "~~/types/aerobic";
+import { ResponseBody } from "~~/types/common";
 
 const router = useRouter();
 const aerobicStore = useAerobicStore();
 
 const removeAerobicItem = async () => {
   try {
-    const body = {
+    const body: AerobicDeleteRequestParam = {
       stdDate: aerobicStore.focusDate,
       seq: aerobicStore.getSelectItem.seq,
     };
@@ -57,6 +59,7 @@ const removeAerobicItem = async () => {
     if (error.value !== null) {
       await setErrorMessage(error.value.messaage);
     } else if (data.value !== null) {
+      const result = data.value as ResponseBody<any>;
       await setMessage(data.value.message);
       await moveAerobicList();
     }

@@ -13,7 +13,7 @@
     </div>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import Calendar from '/components/calendar/Calendar.vue';
 
 import ActivityList from '~~/components/list/ActivityList.vue';
@@ -41,7 +41,7 @@ const moveEdit = () => {
 
 
 // Calendar 클릭시 focusdate변경
-const getFocusDate = (v) => {
+const getFocusDate = (v: string) => {
   weightStore.setFocusDate(v);
   getWeightList();
 }

@@ -57,7 +57,7 @@
     </form>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import LoadList from "~/components/list/LoadList.vue";
 import TextInput from "~/components/form/TextInput.vue";
 import NumberInput from "~/components/form/NumberInput.vue";
@@ -65,20 +65,21 @@ import { useCommonStore } from "~/store/common";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { createWeightItem, updateWeightItem } from "~~/api/weight/weight";
+import {WeightFormData, WeightRequestBody} from '~~/types/weight';
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem.seq === undefined);
 const info = { name: "벤치프레스" };
-const form = ref({
+const form:Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  weightStart: { value: "" },
-  repsStart: { value: "" },
-  weightEnd: { value: "" },
-  repsEnd: { value: "" },
-  pollWeight: { value: "" },
-  setReps: { value: "" },
-  measure: { value: "" },
+  weightStart: {  },
+  repsStart: {  },
+  weightEnd: {  },
+  repsEnd: {  },
+  pollWeight: {  },
+  setReps: {  },
+  measure: {  },
   memo: { value: "", placeholder: "" },
   // picture: {value: '', placeholder: ''},
 });
@@ -99,7 +100,7 @@ const numberList = ref([
 const measure = ref({ key: "memo", label: "메모", type: "textarea" });
 const memo = ref({});
 const makeBody = () => {
-  const result = {
+  const result: WeightRequestBody = {
     stdDate: weightStore.getFocusDate === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate,
     seq: 2,
     name: form.value.name.value,

@@ -3,7 +3,7 @@
     <h1 class="content-title">Your Activity List</h1>
     <div class="aerobic-list-box content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
-        <h3 class="content-title" @click="moveDetail">{{ aerobicStore.getFocusDate }}</h3>
+        <h3 class="content-title">{{ aerobicStore.getFocusDate }}</h3>
         <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
       </div>
       <ActivityList type="square" listType="aerobic" :list="aerobicList"></ActivityList>
@@ -13,7 +13,7 @@
     </div>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import Calendar from '/components/calendar/Calendar.vue';
 
 import ActivityList from '~~/components/list/ActivityList.vue';
@@ -33,7 +33,7 @@ definePageMeta({
 });
 
 // Calendar 클릭시 focusdate변경
-const getFocusDate = (v) => {
+const getFocusDate = (v: string) => {
   aerobicStore.setFocusDate(v);
   getAerobicList();
 }

@@ -39,16 +39,17 @@
     </div>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { deleteWeightItem } from "~~/api/weight/weight";
 import { useWeightStore } from "~~/store/weight";
 import ImageList from "~~/components/list/ImageList.vue";
+import { WeightRemoveRequestParams } from "~~/types/weight";
 const router = useRouter();
 const weightStore = useWeightStore();
 const removeWeightItem = async () => {
   try {
-    const params = {
+    const params: WeightRemoveRequestParams = {
       stdDate: weightStore.focusDate,
       seq: weightStore.getSelectItem.seq,
     };

@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export const setErrorMessage = (message) =>{
+export const setErrorMessage = (message: FetchError<any>) =>{
   return Swal.fire({
     title:'Error!',
     text: message,
@@ -9,7 +9,7 @@ export const setErrorMessage = (message) =>{
   })
 }
 
-export const setWarnMessage = (message) =>{
+export const setWarnMessage = (message: string) =>{
   return Swal.fire({
     // title:'Error!',
     text: message,
@@ -18,7 +18,7 @@ export const setWarnMessage = (message) =>{
   })
 }
 
-export const setMessage = (message) =>{
+export const setMessage = (message: string) =>{
   return Swal.fire({
     // title:'Error!',
     text: message,

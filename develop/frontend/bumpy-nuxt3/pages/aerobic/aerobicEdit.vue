@@ -37,7 +37,7 @@
     </form>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
@@ -46,20 +46,21 @@ import {useCommonStore} from '~/store/common'
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { createAerobicItem, updateAerobicItem } from '~~/api/aerobic/aerobic';
 import { useAerobicStore } from '~~/store/aerobic';
+import { AerobicFormData, AerobicRequestBody } from '~~/types/aerobic';
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
 const editFlag = computed(()=>aerobicStore.getSelectItem.seq===undefined)
 
-const form = ref({
+const form: Ref<AerobicFormData> = ref({
   name: { value: '', placeholder: '잠온다' },
-  kcal: {value:''}, 
-  inclineStart: {value:''}, 
-  speedStart: {value:''}, 
-  time: {value:''}, 
-  inclineEnd: {value:''}, 
-  speedEnd: {value:''}, 
-  memo: {value:''}
+  kcal: {}, 
+  inclineStart: {}, 
+  speedStart: {}, 
+  time: {}, 
+  inclineEnd: {}, 
+  speedEnd: {}, 
+  memo: {}
 });
 
 const numberList = [
@@ -76,7 +77,7 @@ const numberList = [
 ];
 
 const makeBody = () =>{
-  const result = {
+  const result: AerobicRequestBody = {
     stdDate: aerobicStore.getFocusDate===null || aerobicStore.getFocusDate.length===0 ? commonStore.getToday : aerobicStore.getFocusDate,
     seq: 2,
     name: form.value.name.value,

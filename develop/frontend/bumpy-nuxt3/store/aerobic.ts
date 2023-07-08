@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {defineStore} from 'pinia';
+import { Aerobic } from '~~/types/aerobic';
 
 export const useAerobicStore = defineStore({
   id:'aerobic-store',
@@ -9,7 +10,7 @@ export const useAerobicStore = defineStore({
       focusDate: '',
       isToday: true,
       calendarList: [],
-      selectItem: {},
+      selectItem: {} as Aerobic,
     }
   },
   actions:{
@@ -25,7 +26,7 @@ export const useAerobicStore = defineStore({
         this.calendarList = list.slice();
       }
     },
-    setSelectItem(item: any) {
+    setSelectItem(item: Aerobic) {
       this.selectItem = _.cloneDeep(item);
     },
     resetSelectItem(){

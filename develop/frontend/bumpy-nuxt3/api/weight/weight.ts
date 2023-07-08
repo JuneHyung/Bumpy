@@ -1,4 +1,5 @@
 import { DELETE, GET, POST, PUT } from "~~/types/method";
+import { WeightReadRequestParam, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
 const baseURL = "http://222.112.251.124:8899/api";
 const headers = {
@@ -9,7 +10,7 @@ const headers = {
  * @param {{stdDate: string}} params
  * @returns
  */
-function readWeightItem(params) {
+function readWeightItem(params: any) {
   return useFetch("/weight/search", {
     baseURL,
     method: GET,
@@ -22,7 +23,7 @@ function readWeightItem(params) {
  * weight 달력 조회 - GET
  * @returns
  */
-function readWeightCalendarList(params) {
+function readWeightCalendarList(params: WeightReadRequestParam) {
   return useFetch("/weight/calendar", {
     baseURL,
     method: GET,
@@ -35,7 +36,7 @@ function readWeightCalendarList(params) {
  * Activity 조회 - GET
  * @returns
  */
-function readWeightList(params) {
+function readWeightList(params: WeightReadRequestParam) {
   return useFetch("/weight/activity", {
     baseURL,
     method: GET,
@@ -62,7 +63,7 @@ function readWeightList(params) {
  * }} body
  * @returns
  */
-function createWeightItem(body) {
+function createWeightItem(body: WeightRequestBody) {
   return useFetch("/weight/insert", {
     baseURL,
     method: POST,
@@ -79,7 +80,7 @@ function createWeightItem(body) {
  * }} body
  * @returns
  */
-function deleteWeightItem(params) {
+function deleteWeightItem(params: WeightRemoveRequestParams) {
   return useFetch("/weight/delete", {
     baseURL,
     method: DELETE,

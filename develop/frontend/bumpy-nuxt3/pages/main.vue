@@ -44,7 +44,7 @@
           </li>
           <li class="chart-info-item">
             <p class="chart-info-item-title">Reps Average</p>
-            <p class="chart-info-item-value">{{weightInfo.reos}} reps / {{weightInfo.sets}} sets</p>
+            <p class="chart-info-item-value">{{weightInfo.reps}} reps / {{weightInfo.sets}} sets</p>
           </li>
         </ul>
         <LineChart class="last-activity-chart" :xAxis="weightChartInfo.xAxis" :series="weightChartInfo.series"></LineChart>
@@ -79,7 +79,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import ActivityList from '~/components/list/ActivityList.vue';
 import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
 
@@ -88,6 +88,7 @@ import LineChart from '~/components/charts/LineChart';
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage } from '~~/api/alert/message';
 import { getAerobicActivityForMain, getAerobicChartInfoForMain, getMealInfoForMain, getWeightActivityForMain, getWeightChartInfoForMain } from '~~/api/main';
+import {MainWeightInfo, MainAerobicInfo, ChartInfo} from '~~/types/main';
 const commonStore = useCommonStore();
 definePageMeta({
   layout: 'main-layout',
@@ -137,23 +138,24 @@ const lastWeightList = ref([]);
 const lastAerobicList = ref([]);
 const weightStdDate = ref('')
 const aerobicStdDate = ref('')
-const weightInfo = ref({
+
+const weightInfo: Ref<MainWeightInfo> = ref({
   myBest: 0,
   reps: 0,
   sets: 0,
   monthAverage: 0,
 })
-const weightChartInfo = ref({
+const weightChartInfo: Ref<ChartInfo> = ref({
   series: [],
   xAxis: [],
 })
-const aerobicInfo = ref({
+const aerobicInfo: Ref<MainAerobicInfo> = ref({
   bestKcal: 0,
   bestTime: 0,
   averageIncline: 0,
   averageSpeed: 0,
 })
-const aerobicChartInfo = ref({
+const aerobicChartInfo: Ref<ChartInfo> = ref({
   series: [],
   xAxis: [],
 })
@@ -171,6 +173,7 @@ try{
     setErrorMessage(e);
   }
 }
+
 const getLastWeightActivityInfo = async () =>{
 try{
     const {data, error} = await getWeightActivityForMain();
@@ -199,6 +202,7 @@ try{
     setErrorMessage(e);
   }
 }
+
 const getWeightChartInfo = async () =>{
 try{
     // const {data, error} = await getWeightChartInfoForMain({name: lastWeightList.value[0].name});
@@ -213,7 +217,7 @@ try{
       // for(const key of chartKeys) weightChartInfo.value[key] = result[key];
       // console.log(result)
       weightChartInfo.value.xAxis = result.xAxis;
-      const series = result.series.map(el=>{
+      const series = result.series.map((el: any)=>{
         const key = Object.keys(el)[0];
         const value = el[key].slice();
         const result = {
