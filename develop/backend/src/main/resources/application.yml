@@ -28,6 +28,10 @@ server:
     context-path: /api
   port: 8090
 
+file:
+  upload:
+    path: c:/uploadFiles/
+
 cors:
   origins:
     - "*"

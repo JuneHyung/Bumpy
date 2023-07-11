@@ -12,6 +12,9 @@ spring:
 #        format_sql: false
 #    open-in-view: false
 
+file:
+  upload:
+    path: /home/server1/bumpy/back/uploadFiles/
 
 cors:
   origins:
