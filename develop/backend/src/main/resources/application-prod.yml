@@ -14,7 +14,7 @@ spring:
 
 file:
   upload:
-    path: /home/server1/bumpy/back/uploadFiles/
+    path: /uploadFiles/
 
 cors:
   origins:
