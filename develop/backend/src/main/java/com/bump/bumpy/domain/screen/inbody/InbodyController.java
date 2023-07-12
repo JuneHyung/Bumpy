@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.inbody;
 
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.inbody.dto.DataHInbodyDto;
+import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class InbodyController {
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
-    public ResponseEntity<ResultMap> search(@Valid SearchRequestDto request) {
+    public ResponseEntity<ResultMap> search(@Valid SearchInbodyDto request) {
         request.setUserId(getUserId());
         return inbodyService.search(request);
     }

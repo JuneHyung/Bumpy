@@ -106,10 +106,11 @@ public class MainService {
             userInfoResponse.setContinuity(continuity);
         }
 
-        // set Age
+        // set Age & Id
         if(userData == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("사용자 정보가 없습니다."));
         } else {
+            userInfoResponse.setUserId(userData.getUserId());
             // get age from user.birth
             Date birth = userData.getBirth();
             Calendar nowCal = new Calendar.Builder().setInstant(new Date()).build();

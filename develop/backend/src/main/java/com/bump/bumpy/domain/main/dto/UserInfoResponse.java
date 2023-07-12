@@ -14,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserInfoResponse implements Serializable {
 
+    private String userId = null;
     private BigDecimal height = null;
     private BigDecimal weight = null;
     private Integer age = null;

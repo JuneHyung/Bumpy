@@ -22,9 +22,13 @@ import java.util.Date;
 public class DataHInbodyDto implements Serializable {
     @NotNull
     private Date stdDate;
+    @NotNull
     private BigDecimal height;
+    @NotNull
     private BigDecimal weight;
+    @NotNull
     private BigDecimal muscle;
+    @NotNull
     private BigDecimal fat;
     private BigDecimal score;
     private BigDecimal bmi;
