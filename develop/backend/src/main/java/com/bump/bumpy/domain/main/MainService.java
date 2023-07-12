@@ -313,7 +313,7 @@ public class MainService {
         }
     */
 
-    // TODO : Weight 차트 데이터 출력 ( 10일치 데이터 )
+    // Weight 차트 데이터 출력 ( 10일치 데이터 )
     // 1. My Best : 전체 기간 중 무게 최고값
     // 2. Chart Average : 10개 데이터의 평균값
     // 3. Reps When Best : My Best 때의 Reps와 Set값
@@ -396,7 +396,7 @@ public class MainService {
         return ResponseEntity.ok(new ResultMap(responseDto));
     }
     
-    // TODO : Aerobic 차트 데이터 출력 ( 10일치 데이터 )
+    // Aerobic 차트 데이터 출력 ( 10일치 데이터 )
     // 1. Best Kcal : 전체 기간 중 최대 Kcal 값
     // 2. Best Time : Best Kcal 일때의 시간값
     // 3. Month Average : Incline / Speed (최근 10개에 대한 평균)

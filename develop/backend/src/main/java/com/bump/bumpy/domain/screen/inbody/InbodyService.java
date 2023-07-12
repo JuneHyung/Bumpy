@@ -2,6 +2,8 @@ package com.bump.bumpy.domain.screen.inbody;
 
 import com.bump.bumpy.database.entity.data.DataHInbody;
 import com.bump.bumpy.database.repository.data.DataHInbodyRepository;
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.inbody.dto.DataHInbodyDto;
 import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
@@ -14,12 +16,71 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
 @RequiredArgsConstructor
 public class InbodyService {
 
     private final DataHInbodyRepository dataHInbodyRepository;
+
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        ResultMap resultMap = new ResultMap();
+
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.setTime(request.getStdDate());
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        firstDate = setZeroTime(firstDate);
+
+        Date firstDateOfMonth = firstDate.getTime();
+
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.setTime(request.getStdDate());
+        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        lastDate = setZeroTime(lastDate);
+
+        Date lastDateOfMonth = lastDate.getTime();
+
+        // find data from first date to last date
+        List<DataHInbody> dataHInbodyList = dataHInbodyRepository.findByStdDateBetweenAndUserId(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+
+        if(dataHInbodyList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // make calendar map data
+        List<Map<String, String>> calendarList = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (DataHInbody inbody : dataHInbodyList) {
+            Map<String, String> calendarData = new HashMap<>();
+            String date = simpleDateFormat.format(inbody.getStdDate());
+            // TODO : title에 표시할 데이터 정하기
+            calendarData.put("title", inbody.getWeight().toString());
+            calendarData.put("date", date);
+            calendarList.add(calendarData);
+        }
+
+        return ResponseEntity.ok(new ResultMap(calendarList));
+    }
+
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        // find data from first date to last date
+        DataHInbody inbody = dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), request.getUserId()).orElse(null);
+
+        if(inbody == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        return ResponseEntity.ok(new ResultMap(List.of(inbody)));
+    }
 
     public ResponseEntity<ResultMap> search(SearchInbodyDto request) {
         DataHInbody dataHInbody = dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), request.getUserId()).orElse(null);

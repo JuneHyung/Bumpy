@@ -32,7 +32,6 @@ public class DataHMealDto implements Serializable {
     @Size(max = 100)
     @NotNull
     private String name;
-    private Integer order;
     private LocalTime time;
     private BigDecimal kcal;
     private BigDecimal water;
@@ -49,7 +48,6 @@ public class DataHMealDto implements Serializable {
         entity.setStdDate(this.stdDate);
         entity.setSeq(this.seq);
         entity.setName(this.name);
-        entity.setOrder(this.order);
         entity.setTime(this.time);
         entity.setKcal(this.kcal);
         entity.setWater(this.water);
@@ -63,7 +61,6 @@ public class DataHMealDto implements Serializable {
     public DataHMeal updateEntity(DataHMeal entity) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         entity.setName(this.name);
-        entity.setOrder(this.order);
         entity.setTime(this.time);
         entity.setKcal(this.kcal);
         entity.setWater(this.water);
@@ -79,7 +76,6 @@ public class DataHMealDto implements Serializable {
         this.stdDate = entity.getStdDate();
         this.seq = entity.getSeq();
         this.name = entity.getName();
-        this.order = entity.getOrder();
         this.time = entity.getTime();
         this.kcal = entity.getKcal();
         this.water = entity.getWater();

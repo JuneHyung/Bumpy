@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DataHMealRepository extends JpaRepository<DataHMeal, DataHMealId> {
+    List<DataHMeal> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);
     List<DataHMeal> findByUserIdAndStdDateOrderBySeqAsc(String userId, Date stdDate);
     Optional<DataHMeal> findByStdDateAndUserIdAndSeq(Date stdDate, String userId, Integer seq);
 

@@ -58,9 +58,6 @@ public class DataHMeal implements Serializable {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "`order`")
-    private Integer order;
-
     @Column(name = "time")
     private LocalTime time;
 

@@ -16,7 +16,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChartWeightResponseDto {
-    // TODO : Weight 차트 데이터 출력 ( 10일치 데이터 )
+    //  Weight 차트 데이터 출력 ( 10일치 데이터 )
     // 1. My Best : 전체 기간 중 무게 최고값
     // 2. Chart Average : 10개 데이터의 평균값
     // 3. Reps When Best : My Best 때의 Reps와 Set값

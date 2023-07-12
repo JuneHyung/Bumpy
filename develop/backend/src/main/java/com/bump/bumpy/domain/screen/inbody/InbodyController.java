@@ -1,5 +1,7 @@
 package com.bump.bumpy.domain.screen.inbody;
 
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.inbody.dto.DataHInbodyDto;
 import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
@@ -25,6 +27,20 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 public class InbodyController {
 
     private final InbodyService inbodyService;
+
+    @Operation(summary = "달력 조회", description = "")
+    @GetMapping("/calendar")
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        request.setUserId(getUserId());
+        return inbodyService.calendar(request);
+    }
+
+    @Operation(summary = "액티비티 조회", description = "")
+    @GetMapping("/activity")
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        request.setUserId(getUserId());
+        return inbodyService.activity(request);
+    }
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")

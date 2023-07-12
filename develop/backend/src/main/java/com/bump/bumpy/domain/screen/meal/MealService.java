@@ -2,6 +2,8 @@ package com.bump.bumpy.domain.screen.meal;
 
 import com.bump.bumpy.database.entity.data.DataHMeal;
 import com.bump.bumpy.database.repository.data.DataHMealRepository;
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.util.dto.ResultMap;
@@ -13,11 +15,77 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
+
 @Service
 @RequiredArgsConstructor
 public class MealService {
 
     private final DataHMealRepository dataHMealRepository;
+
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.setTime(request.getStdDate());
+        firstDate.set(Calendar.DAY_OF_MONTH, 1);
+        firstDate = setZeroTime(firstDate);
+
+        Date firstDateOfMonth = firstDate.getTime();
+
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.setTime(request.getStdDate());
+        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        lastDate = setZeroTime(lastDate);
+
+        Date lastDateOfMonth = lastDate.getTime();
+
+        // find data from first date to last date
+        List<DataHMeal> dataHMealList = dataHMealRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+
+        if(dataHMealList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // make calendar map data
+        List<Map<String, String>> calendarList = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (DataHMeal meal : dataHMealList) {
+            Map<String, String> calendarData = new HashMap<>();
+            String date = simpleDateFormat.format(meal.getStdDate());
+            calendarData.put("title", meal.getName());
+            calendarData.put("date", date);
+            calendarList.add(calendarData);
+        }
+
+        return ResponseEntity.ok(new ResultMap(calendarList));
+    }
+
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        List<DataHMeal> dataHMealList = dataHMealRepository.findByUserIdAndStdDateOrderBySeqAsc(request.getUserId(), request.getStdDate());
+
+        if(dataHMealList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        List<DataHMealDto> mealActivityResponseDtoList = new ArrayList<>();
+
+        for(DataHMeal meal : dataHMealList) {
+            try {
+                mealActivityResponseDtoList.add(new DataHMealDto(meal));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return ResponseEntity.ok(new ResultMap(mealActivityResponseDtoList));
+    }
 
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
