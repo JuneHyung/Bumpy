@@ -67,7 +67,8 @@ public class AerobicService {
             // aerobic.getStdDate() to yyyy-MM-dd
             Map<String, String> calendarData = new HashMap<>();
             String date = simpleDateFormat.format(aerobic.getStdDate());
-            calendarData.put(date, aerobic.getName());
+            calendarData.put("title", aerobic.getName());
+            calendarData.put("date", date);
             calendarList.add(calendarData);
         }
 

@@ -59,7 +59,8 @@ public class WeightService {
         for (DataHWeight weight : dataHWeightList) {
             Map<String, String> calendarData = new HashMap<>();
             String date = simpleDateFormat.format(weight.getStdDate());
-            calendarData.put(date, weight.getName());
+            calendarData.put("title", weight.getName());
+            calendarData.put("date", date);
             calendarList.add(calendarData);
         }
 
