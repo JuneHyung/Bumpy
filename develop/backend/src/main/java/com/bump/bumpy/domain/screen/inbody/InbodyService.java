@@ -63,7 +63,7 @@ public class InbodyService {
             Map<String, String> calendarData = new HashMap<>();
             String date = simpleDateFormat.format(inbody.getStdDate());
             // TODO : title에 표시할 데이터 정하기
-            calendarData.put("title", inbody.getWeight().toString());
+            calendarData.put("title", date + " Inbody");
             calendarData.put("date", date);
             calendarList.add(calendarData);
         }
