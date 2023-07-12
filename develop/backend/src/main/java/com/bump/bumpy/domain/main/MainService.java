@@ -391,7 +391,7 @@ public class MainService {
                 weightList.add(biggerWeight);
             }
         }
-        responseDto.setSeries(List.of(Map.of(request.getName(), weightList)));
+        responseDto.setSeries(List.of(Map.of("name", request.getName(), "data", weightList)));
 
         return ResponseEntity.ok(new ResultMap(responseDto));
     }
@@ -457,7 +457,7 @@ public class MainService {
             }
         }
 
-        responseDto.setSeries(List.of(Map.of(request.getName(), kcalList)));
+        responseDto.setSeries(List.of(Map.of("name", request.getName(), "data", kcalList)));
 
         return ResponseEntity.ok(new ResultMap(responseDto));
     }

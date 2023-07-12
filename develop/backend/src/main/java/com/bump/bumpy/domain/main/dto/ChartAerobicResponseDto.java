@@ -41,5 +41,5 @@ public class ChartAerobicResponseDto {
     @Getter(onMethod_ = {@JsonGetter("xAxis")}) // 소문자 뒤에 바로 대문자가 오는 경우 올바르게 인식하지 못함
     private List<String> xAxis;
     // 차트 Y축 값( List<BigDecimal>의 원소 개수는 X축 값 개수와 동일 )
-    private List<Map<String, List<BigDecimal>>> series;
+    private List<Map<String, Object>> series;
 }
