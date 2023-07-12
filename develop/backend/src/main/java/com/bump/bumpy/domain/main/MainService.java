@@ -186,7 +186,7 @@ public class MainService {
         ]
      */
     public ResponseEntity<ResultMap> grassInfo(SearchMonthRequestDto request) {
-        List<List<Map<Date, Boolean>>> grassList = new ArrayList<>();
+        List<List<Map<String, Object>>> grassList = new ArrayList<>();
 
         // set Calendar this month
         Calendar cal = new Calendar.Builder().setInstant(request.getStdDate()).build();
@@ -216,7 +216,7 @@ public class MainService {
 
         // for each week
         for(int week = firstWeekOfYear; week <= lastWeekOfYear; week++) {
-            List<Map<Date, Boolean>> weekList = new ArrayList<>();
+            List<Map<String, Object>> weekList = new ArrayList<>();
             // for each day
             for(int day = 1; day <= 7; day++) {
                 // get date from week and day
@@ -224,11 +224,17 @@ public class MainService {
                 dayCal.set(Calendar.WEEK_OF_YEAR, week);
                 dayCal.set(Calendar.DAY_OF_WEEK, day);
 
+                // check if the date is in this month
+                if(dayCal.get(Calendar.MONTH) != cal.get(Calendar.MONTH)) {
+                    weekList.add(Map.of("date", dayCal.getTime(), "visible", false, "active", false));
+                    continue;
+                }
+
                 // is today is in the dateSet?
                 if(dateSet.contains(dayCal.getTime())) {
-                    weekList.add(Map.of(dayCal.getTime(), true));
+                    weekList.add(Map.of("date", dayCal.getTime(), "visible", true, "active", true));
                 } else {
-                    weekList.add(Map.of(dayCal.getTime(), false));
+                    weekList.add(Map.of("date", dayCal.getTime(), "visible", true, "active", false));
                 }
             }
             grassList.add(weekList);
