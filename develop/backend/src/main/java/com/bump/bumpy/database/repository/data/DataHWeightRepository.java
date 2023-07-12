@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHWeightId> {
+    DataHWeight findFirstByStdDateAndUserIdOrderBySeqDesc(Date stdDate, String userId);
+    Optional<DataHWeight> findByStdDateAndUserIdAndName(Date stdDate, String userId, String name);
     List<DataHWeight> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);
     List<DataHWeight> findByStdDateAndUserIdOrderBySeqAsc(Date stdDate, String userId);
 

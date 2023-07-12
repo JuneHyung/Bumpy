@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
@@ -106,11 +107,19 @@ public class AerobicService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
         }
 
-        if(aerobicRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
+        if(aerobicRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
 
-        DataHAerobic dataHAerobic = request.toEntity();
+        // get seq from db
+        DataHAerobic maxSeqData = aerobicRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+
+        int seq = 1;
+        if(maxSeqData != null) {
+            seq = maxSeqData.getSeq() + 1;
+        }
+
+        DataHAerobic dataHAerobic = request.toEntity(seq);
         dataHAerobic.setUserId(userId);
 
         aerobicRepository.save(dataHAerobic);

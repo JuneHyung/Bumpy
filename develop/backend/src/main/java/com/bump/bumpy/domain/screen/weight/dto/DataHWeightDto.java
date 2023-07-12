@@ -22,7 +22,6 @@ import java.util.Date;
 public class DataHWeightDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @NotNull
     private Integer seq;
     @Size(max = 100)
     @NotNull
@@ -41,10 +40,10 @@ public class DataHWeightDto implements Serializable {
     private String picture;
 
     // to entity method for insert
-    public DataHWeight toEntity() {
+    public DataHWeight toEntity(int seq) {
         DataHWeight entity = new DataHWeight();
         entity.setStdDate(this.stdDate);
-        entity.setSeq(this.seq);
+        entity.setSeq(seq);
         entity.setName(this.name);
         entity.setWeightStart(this.weightStart);
         entity.setWeightEnd(this.weightEnd);

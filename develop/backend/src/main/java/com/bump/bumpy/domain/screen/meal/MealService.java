@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
@@ -106,13 +107,21 @@ public class MealService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
 
-        if(dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
+        if(dataHMealRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
+        }
+
+        // get max seq from data
+        DataHMeal maxSeqData = dataHMealRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+
+        int seq = 1;
+        if(maxSeqData != null) {
+            seq = maxSeqData.getSeq() + 1;
         }
 
         DataHMeal dataHMeal = null;
         try {
-            dataHMeal = request.toEntity();
+            dataHMeal = request.toEntity(seq);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

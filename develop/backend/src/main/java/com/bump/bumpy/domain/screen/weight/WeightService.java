@@ -98,11 +98,19 @@ public class WeightService {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
 
-        if(dataHWeightRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), userId, request.getSeq()).isPresent()) {
+        if(dataHWeightRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
         }
 
-        DataHWeight dataHWeight = request.toEntity();
+        // get max seq
+        DataHWeight maxSeqData = dataHWeightRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+
+        int maxSeq = 1;
+        if(maxSeqData != null) {
+            maxSeq = maxSeqData.getSeq() + 1;
+        }
+
+        DataHWeight dataHWeight = request.toEntity(maxSeq);
         dataHWeight.setUserId(userId);
 
         dataHWeightRepository.save(dataHWeight);

@@ -22,7 +22,6 @@ import java.util.Date;
 public class DataHAerobicDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @NotNull
     private Integer seq;
     @Size(max = 100)
     @NotNull
@@ -40,10 +39,10 @@ public class DataHAerobicDto implements Serializable {
 
 
     // to entity method for insert
-    public DataHAerobic toEntity() {
+    public DataHAerobic toEntity(int seq) {
         DataHAerobic entity = new DataHAerobic();
         entity.setStdDate(this.stdDate);
-        entity.setSeq(this.seq);
+        entity.setSeq(seq);
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);

@@ -27,7 +27,6 @@ import java.util.List;
 public class DataHMealDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @NotNull
     private Integer seq;
     @Size(max = 100)
     @NotNull
@@ -42,11 +41,11 @@ public class DataHMealDto implements Serializable {
     private List<String> food;
 
     // to entity method for insert
-    public DataHMeal toEntity() throws JsonProcessingException {
+    public DataHMeal toEntity(int seq) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         DataHMeal entity = new DataHMeal();
         entity.setStdDate(this.stdDate);
-        entity.setSeq(this.seq);
+        entity.setSeq(seq);
         entity.setName(this.name);
         entity.setTime(this.time);
         entity.setKcal(this.kcal);
