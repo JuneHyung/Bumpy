@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DataHMealDto implements Serializable {
     @NotNull
     private String name;
     private Integer order;
-    private Date time;
+    private LocalTime time;
     private BigDecimal kcal;
     private BigDecimal water;
     @Size(max = 1000)

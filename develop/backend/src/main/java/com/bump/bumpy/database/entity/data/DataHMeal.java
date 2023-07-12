@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -61,7 +62,7 @@ public class DataHMeal implements Serializable {
     private Integer order;
 
     @Column(name = "time")
-    private Date time;
+    private LocalTime time;
 
     @Column(name = "kcal", precision = 10)
     private BigDecimal kcal;
