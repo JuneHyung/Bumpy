@@ -3,7 +3,7 @@
     <p>{{ info.name }}</p>
     <div class="bp-mt-md bp-mb-lg">
       <p class="bp-my-md">
-        <span>{{ info.order }}번째 식사</span>
+        <span>{{ info.seq }}번째 식사</span>
         <span>{{ info.time }} m</span>
       </p>
       <p class="bp-my-md">
@@ -18,6 +18,7 @@
 </template>
 <script setup lang="ts">
 import { setErrorMessage } from '~~/api/alert/message';
+import { readMealItem } from '~~/api/meal/meal';
 import { useMealStore } from '~~/store/meal';
 import { Meal } from '~~/types/meal';
 
@@ -32,17 +33,16 @@ const getDetailItem = async () =>{
     stdDate: mealStore.getFocusDate,
     seq: props.info.seq,
   }
-  // try{
-  //   const { data, error } = await readMealItem(params)
-  //   if(error.value!==null){
-      // setErrorMessage(error.value.message)
-  //   }else if(data.value!==null){
-  //     console.log(data.value)
-  //      mealStore.setSelectItem(data.value)
-  //   }
-  // } catch(e){
-  //   setErrorMessage(e)
-  // }
+  try{
+    const { data, error } = await readMealItem(params)
+    if(error.value!==null){
+      setErrorMessage(error.value.message)
+    }else if(data.value!==null){
+      mealStore.setSelectItem(data.value.data)
+    }
+  } catch(e){
+    setErrorMessage(e)
+  }
 }
 
 const moveDetail = async () =>{

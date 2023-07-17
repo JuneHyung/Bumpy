@@ -14,7 +14,7 @@
                 <label class="number-input-wrap">
                   <span class="bp-mr-sm">{{ item.label }}</span>
                   <div class="number-input">
-                    <NumberInput :data="form[item.key]"></NumberInput>
+                    <TextInput :data="form[item.key]"></TextInput>
                   </div>
                 </label>
               </template>
@@ -31,40 +31,41 @@
         <textarea></textarea>
       </label>
       <div class="mealEdit-button-wrap">
-        <button class="short-ghost-button" @click="cancelMealEdit">취소</button>
-        <button class="short-ghost-button bp-mx-sm" @click="resetMealItem">초기화</button>
-        <button class="short-filled-button" @click="saveMealItem" v-if="editFlag">저장</button>
-        <button class="short-filled-button" @click="modifyMealItem" v-else>수정</button>
+        <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>
+        <button type="button" class="short-ghost-button bp-mx-sm" @click="resetSelectItem">초기화</button>
+        <button type="button" class="short-filled-button" @click="saveMealItem" v-if="editFlag">저장</button>
+        <button type="button" class="short-filled-button" @click="modifyMealItem" v-else>수정</button>
       </div>
     </form>
   </main>
 </template>
-<script setup>
-import LoadList from '~/components/list/LoadList.vue';
+<script setup lang="ts">
+// import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
-import NumberInput from '~/components/form/NumberInput.vue';
+// import Te from '~/components/form/NumberInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
-import { setMessage } from '~~/api/alert/message';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import FoodList from '~~/components/list/FoodList.vue';
+import { MealFormData, MealItemRequestBody } from '~~/types/meal';
+import { createMealItem, updateMealItem } from '~~/api/meal/meal';
+import { MessageResponse } from '~~/types/common';
 
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
 const editFlag = computed(()=>mealStore.getSelectItem.seq===undefined);
-const form = ref({
+const form: Ref<MealFormData> = ref({
   name: { value: '' },
-  order: { value: '',  },
-  time: { value: '',  },
-  kcal: { value: '',  },
-  water: { value: '',  },
+  time: {   },
+  kcal: {   },
+  water: {   },
   food: {value: ['닭가슴살01', '닭가슴살02', '닭가슴살03'],}
 });
 
 const numberList = [
   [
     { key: 'name', label: '이름'},
-    { key: 'order', label: '차례'},
     { key: 'time', label: 'Time'},
     { key: 'kcal', label: 'Kcal'},
     { key: 'water', label: 'Water'},
@@ -73,17 +74,19 @@ const numberList = [
 
 
 const makeBody = () =>{
-  const result = {
-    stdDate: mealStore.getFocusDate,
-    // seq: seq,
-    seq: 1,
-    name: form.value.name.value,
-    order: form.value.order.value,
-    time: form.value.time.value,
-    kcal: form.value.kcal.value,
-    water: form.value.water.value,
+  const result: MealItemRequestBody = {
+    stdDate: mealStore.getFocusDate === null || mealStore.getFocusDate.length===0 ? commonStore.getToday : mealStore.getFocusDate,
+    name: form.value.name.value as string,
+    time: form.value.time?.value as string,
+    kcal: form.value.kcal?.value as string,
+    water: form.value.water?.value as string,
+    food: form.value.food?.value as string[],
     // memo: form.value.memo.value,
     // picture: form.value.picture.value,
+  }
+  console.log(mealStore.getSelectItem)
+  if(mealStore.getSelectItem.seq){
+    result.seq= mealStore.getSelectItem.seq
   }
   return result;
 }
@@ -117,25 +120,25 @@ const saveMealItem = async () =>{
 const modifyMealItem = async () =>{
   const body = makeBody()
   // console.log(body)
-  // try{
-  //   const {data, error} = await updateMealItem(body)
-  //   if(error.value!==null){
-  //     const errorMessage = error.value?.data.message;
-  //     setErrorMessage(errorMessage);
-  //   }else if(data.value !== null){
-  //     setMessage(data.value.message);
-  //     router.push({path: '/meal/mealList'});
-  //   }
-  // }catch (e){
-  //   setErrorMessage(e);
-  // }
+  try{
+    const {data, error} = await updateMealItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/meal/mealList'});
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
 }
 
 // 초기화 버튼
-const resetMealItem = () =>{
+const resetSelectItem = () =>{
   const keys = Object.keys(form.value);
   for(let i=0;i<keys.length;i++){
-    const key = keys[i];
+    const key = keys[i] as keyof MealFormData;
     form.value[key].value = '';
   }
 }
@@ -145,10 +148,24 @@ const cancelMealEdit = () =>{
   router.back();
 }
 
+const initSelectItem = () =>{
+  const keys = Object.keys(form.value);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    form.value[key].value = mealStore.getSelectItem[key];
+  }
+}
 
-onMounted(()=>{
-  
-})
+
+
+onMounted(() => {
+  if (!editFlag.value) {
+    initSelectItem();
+  } else {
+    mealStore.resetSelectItem();
+  }
+  console.log(mealStore.getSelectItem)
+});
 
 definePageMeta({
   layout: 'main-layout',
