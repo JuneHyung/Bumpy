@@ -33,9 +33,9 @@ definePageMeta({
 });
 
 // Calendar 클릭시 focusdate변경
-const getFocusDate = (v: string) => {
-  aerobicStore.setFocusDate(v);
-  getAerobicList();
+const getFocusDate = async (v: string) => {
+  await aerobicStore.setFocusDate(v);
+  await getAerobicList();
 }
 
 // aerobic List 조회
@@ -63,11 +63,6 @@ const getCalendarList = async () =>{
       setErrorMessage(error.value)
     }else if(data.value!==null){
       const list = data.value.data
-      .map((el, i)=> {
-        const keys = Object.keys(el);
-        const key = keys[0];
-        return  {title: el[key], date: key}
-      })
       aerobicStore.setCalendarlist(list);
     }
   }catch(e){

@@ -16,6 +16,8 @@
   </li>
 </template>
 <script setup lang="ts">
+import { readAerobicItem } from '~~/api/aerobic/aerobic';
+import { setErrorMessage } from '~~/api/alert/message';
 import { useAerobicStore } from '~~/store/aerobic';
 import { Aerobic } from '~~/types/aerobic';
 interface Props {
@@ -29,18 +31,16 @@ const getDetailItem = async () =>{
     stdDate: aerobicStore.focusDate,
     seq: props.info.seq,
   }
-  aerobicStore.setSelectItem(props.info);
-  // try{
-  //   const { data, error } = await readCardioItem(params)
-  //   if(error.value!==null){
-  //     setErrorMessage(error.value.message)
-  //   }else if(data.value!==null){
-  //     console.log(data.value)
-  //      aerobicStore.setSelectItem(data.value)
-  //   }
-  // } catch(e){
-  //   setErrorMessage(e)
-  // }
+  try{
+    const { data, error } = await readAerobicItem(params)
+    if(error.value!==null){
+      setErrorMessage(error.value.message)
+    }else if(data.value.data!==null){
+      aerobicStore.setSelectItem(data.value.data)
+    }
+  } catch(e){
+    setErrorMessage(e)
+  }
 }
 const moveDetail = async () => {
   await getDetailItem();

@@ -78,19 +78,5 @@ definePageMeta({
   layout: "main-layout",
 });
 const infoName = { key: "name", label: "", value: "Walking" };
-const infoList = [
-  [
-    { key: "inclineStart", label: "시작 Incline", value: "0", unit: "" },
-    { key: "speedStart", label: "시작 Speed", value: "12", unit: "" },
-  ],
-  [
-    { key: "inclineEnd", label: "종료 Incline", value: "20", unit: "" },
-    { key: "speedEnd", label: "종료 Speed", value: "8", unit: "" },
-  ],
-  [
-    { key: "time", label: "시간", value: "63:28", unit: "" },
-    { key: "kcal", label: "Kcal", value: "5", unit: "" },
-  ],
-];
-const infoMemo = { key: "memo", label: "", value: "memomemomemeomeoemo" };
+
 </script>
