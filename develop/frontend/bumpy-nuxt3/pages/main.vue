@@ -12,7 +12,7 @@
           <p class="activity-date">2023.02.07</p>
         </div>
         <div class="calendar">
-          <GrassCalendar :activeList="activeList"></GrassCalendar>
+          <GrassCalendar></GrassCalendar>
         </div>
       </div>
       <div class="content-wrap-box meal-wrap-box">
@@ -83,60 +83,24 @@
 import ActivityList from '~/components/list/ActivityList.vue';
 import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
 
-import AreaChart from '~/components/charts/AreaChart';
+import AreaChart from '~/components/charts/AreaChart'; // 컴포넌트 선언파일 추가 필요
 import LineChart from '~/components/charts/LineChart';
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage } from '~~/api/alert/message';
 import { getAerobicActivityForMain, getAerobicChartInfoForMain, getMealInfoForMain, getWeightActivityForMain, getWeightChartInfoForMain } from '~~/api/main';
 import {MainWeightInfo, MainAerobicInfo, ChartInfo} from '~~/types/main';
+import { MealList } from '~~/types/meal';
+import { WeightList } from '~~/types/weight';
+import { AerobicList } from '~~/types/aerobic';
 const commonStore = useCommonStore();
 definePageMeta({
   layout: 'main-layout',
 });
-const activeList = [
-  '2023-04-01',
-  '2023-04-05',
-  '2023-04-12',
-  '2023-04-18',
-  '2023-04-25',
-  '2023-05-01',
-  '2023-05-03',
-  '2023-05-05',
-  '2023-05-12',
-  '2023-05-15',
-  '2023-05-27',
-  '2023-05-28',
-  '2023-05-29',
-  '2023-05-30',
-  '2023-05-13',
-  '2023-05-09',
-  '2023-05-18',
-  '2023-06-01',
-  '2023-06-03',
-  '2023-06-12',
-  '2023-06-17',
-  '2023-06-25',
-  '2023-06-26',
-  '2023-06-27',
-  '2023-06-28',
-  '2023-07-01',
-  '2023-07-11',
-  '2023-07-21',
-  '2023-07-31',
-  '2023-08-31',
-];
-const testList = [
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-];
 
-const todayMealList = ref([]);
-const lastWeightList = ref([]);
-const lastAerobicList = ref([]);
-const weightStdDate = ref('')
+const todayMealList: Ref<MealList> = ref([]);
+const lastWeightList: Ref<WeightList> = ref([]);
+const lastAerobicList: Ref<AerobicList> = ref([]);
+const weightStdDate: Ref<string> = ref('')
 const aerobicStdDate = ref('')
 
 const weightInfo: Ref<MainWeightInfo> = ref({
@@ -166,7 +130,8 @@ try{
     if(error.value!==null){
       setErrorMessage(error.value);
     }else if(data.value!==null){
-      const list = data.value.data
+      
+      const list = data.value.data;
       todayMealList.value = list;
     }
   }catch(e){
@@ -182,7 +147,7 @@ try{
     }else if(data.value!==null){
       const list = data.value.data
       lastWeightList.value = list;
-      weightStdDate.value = list[0].stdDate;
+      weightStdDate.value = list[0].stdDate as string;
     }
   }catch(e){
     setErrorMessage(e);
@@ -195,8 +160,8 @@ try{
       setErrorMessage(error.value);
     }else if(data.value!==null){
       const list = data.value.data
-      lastAerobicList.value = list
-      aerobicStdDate.value = list[0].stdDate;
+      lastAerobicList.value = list as AerobicList
+      aerobicStdDate.value = list[0].stdDate as string;
     }
   }catch(e){
     setErrorMessage(e);
@@ -205,8 +170,8 @@ try{
 
 const getWeightChartInfo = async () =>{
 try{
-    // const {data, error} = await getWeightChartInfoForMain({name: lastWeightList.value[0].name});
-    const {data, error} = await getWeightChartInfoForMain({name: '벤치프레스22'});
+    const {data, error} = await getWeightChartInfoForMain({name: lastWeightList.value[0].name as string});
+    // const {data, error} = await getWeightChartInfoForMain({name: 'TEST-4'});
     if(error.value!==null){
       setErrorMessage(error.value);
     }else if(data.value!==null){
@@ -235,7 +200,7 @@ try{
 }
 const getAerobicChartInfo = async () =>{
 try{
-    const {data, error} = await getAerobicChartInfoForMain({name:lastAerobicList.value[0].name});
+    const {data, error} = await getAerobicChartInfoForMain({name:lastAerobicList.value[0].name as string});
     // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
     if(error.value!==null){
       setErrorMessage(error.value);

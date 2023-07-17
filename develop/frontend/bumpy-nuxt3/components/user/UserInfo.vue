@@ -7,7 +7,7 @@
 
     <div class="user-profile-wrap-box">
       <Avatar name="jh"></Avatar>
-      <p class="user-name bp-mt-sm">준형갓</p>
+      <p class="user-name bp-mt-sm">{{ userName }}</p>
     </div>
 
     <ul class="user-body-info-box">
@@ -176,8 +176,9 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: '%',
   },
 ]);
-
+const userName = ref('')
 const initUserInfo = async (list: any) =>{
+  userName.value = list.username;
   const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
   const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
   const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
@@ -201,7 +202,6 @@ try{
     if(error.value!==null){
       setErrorMessage(error.value);
     }else if(data.value!==null){
-
       const list = data.value.data
       await initUserInfo(list);
     }

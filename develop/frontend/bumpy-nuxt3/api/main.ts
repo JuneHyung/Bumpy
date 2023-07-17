@@ -1,3 +1,6 @@
+import { AsyncData, FetchResult } from "nuxt/app";
+import { AerobicChartInfoResponseBody, AerobicInfoReasponseBody, ChartRequestParams, GrassInfoRequestParams, GrassInfoResponseBody, MealInfoResponseBody, WeightChartInfoResponseBody, WeightInfoResponseBody } from "~~/types/main";
+import { MealList } from "~~/types/meal";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api/main";
@@ -6,8 +9,8 @@ const headers = {
 }
 
 // 잔디조회
-function getGrassInfo(params){
-  return useFetch('/grassinfo', {
+function getGrassInfo(params: GrassInfoRequestParams){
+  return useFetch<GrassInfoResponseBody>('/grassinfo', {
     baseURL,
     method: GET,
     headers,
@@ -24,7 +27,7 @@ function getUserInfoForMain(){
 }
 // 식단정보(메인페이지용)
 function getMealInfoForMain(){
-  return useFetch('/mealinfo', {
+  return useFetch<MealInfoResponseBody>('/mealinfo', {
     baseURL,
     method: GET,
     headers,
@@ -32,7 +35,7 @@ function getMealInfoForMain(){
 }
 // 근력액티비티정보(메인페이지용)
 function getWeightActivityForMain(){
-  return useFetch('/activityinfo/weight', {
+  return useFetch<WeightInfoResponseBody>('/activityinfo/weight', {
     baseURL,
     method: GET,
     headers,
@@ -40,15 +43,15 @@ function getWeightActivityForMain(){
 }
 // 유산소액티비티정보(메인페이지용)
 function getAerobicActivityForMain(){
-  return useFetch('/activityinfo/aerobic', {
+  return useFetch<AerobicInfoReasponseBody>('/activityinfo/aerobic', {
     baseURL,
     method: GET,
     headers,
   })
 }
 // 근력차트데이터
-function getWeightChartInfoForMain(params){
-  return useFetch('/chart/weight', {
+function getWeightChartInfoForMain(params: ChartRequestParams){
+  return useFetch<WeightChartInfoResponseBody>('/chart/weight', {
     baseURL,
     method: GET,
     headers,
@@ -56,8 +59,8 @@ function getWeightChartInfoForMain(params){
   })
 }
 // 유산소차트데이터
-function getAerobicChartInfoForMain(params){
-  return useFetch('/chart/aerobic', {
+function getAerobicChartInfoForMain(params: ChartRequestParams){
+  return useFetch<AerobicChartInfoResponseBody>('/chart/aerobic', {
     baseURL,
     method: GET,
     headers,

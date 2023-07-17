@@ -10,6 +10,7 @@ interface Aerobic{
   speedStart?: number,
   speedEnd?: number,
   memo?: string,
+  stdDate?: string,
 }
 type AerobicList = Aerobic[];
 

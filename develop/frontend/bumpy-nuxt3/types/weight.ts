@@ -16,6 +16,7 @@ interface Weight{
   setReps?: number,
   measure?: 0 | 1,
   memo?: string,
+  stdDate?: string,
 }
 type WeightList = Weight[];
 
@@ -41,7 +42,7 @@ interface WeightRemoveRequestParams {
   seq?: number
 }
 
-type WeightReadRequestParam{
+type WeightReadRequestParam={
   stdDate: string,
 }
 
