@@ -5,6 +5,7 @@ import com.bump.bumpy.util.customannotation.BigDecimalSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
@@ -43,6 +44,9 @@ public class JacksonConfig {
             builder.serializationInclusion(JsonInclude.Include.NON_NULL); // null이면 해당 필드가 사라짐
 
             builder.visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+            // number to String
+            builder.featuresToEnable(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
 
             builder.failOnUnknownProperties(false);
         };
