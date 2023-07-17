@@ -45,6 +45,10 @@ public class UsrMUsr implements Serializable {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    @Size(max = 100)
+    @Column(name = "username", length = 100)
+    private String username;
+
     @NotNull
     @Builder.Default
     @Column(name = "useYn", nullable = false)

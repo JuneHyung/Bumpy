@@ -23,6 +23,8 @@ public class UserUpdateDto {
 //    @Size(max = 100)
 //    @Builder.Default
 //    private String email = null;
+    @Size(max = 100)
+    private String username = null;
     private Byte gender = null;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birth = null;
@@ -42,6 +44,10 @@ public class UserUpdateDto {
 //        if (this.getEmail() != null) entity.setEmail(this.getEmail());
         if(this.getGender() != null) entity.setGender(this.getGender());
         if(this.getBirth() != null) entity.setBirth(this.getBirth());
+        if(this.getUsername() != null) {
+            if(this.getUsername().equals("")) entity.setUsername(null);
+            else entity.setUsername(this.getUsername());
+        }
         if(this.getPhoneNumber() != null){
             if(this.getPhoneNumber().equals("")) entity.setPhoneNumber(null);
             else entity.setPhoneNumber(this.getPhoneNumber());

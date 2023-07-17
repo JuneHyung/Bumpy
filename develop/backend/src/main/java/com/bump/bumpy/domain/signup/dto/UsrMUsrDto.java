@@ -30,6 +30,8 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
     @Size(max = 100)
     @NotNull
     private String email;
+    @Size(max = 100)
+    private String username;
     @NotNull
     private Byte gender;
     @NotNull
@@ -51,6 +53,7 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
         entity.setUserId(dto.getUserId());
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
+        entity.setUsername(dto.getUsername());
         entity.setGender(dto.getGender());
         entity.setBirth(dto.getBirth());
         entity.setPhoneNumber(dto.getPhoneNumber());

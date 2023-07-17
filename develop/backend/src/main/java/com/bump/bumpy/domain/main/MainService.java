@@ -110,7 +110,7 @@ public class MainService {
         if(userData == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("사용자 정보가 없습니다."));
         } else {
-            userInfoResponse.setUserId(userData.getUserId());
+            userInfoResponse.setUsername(userData.getUsername());
             // get age from user.birth
             Date birth = userData.getBirth();
             Calendar nowCal = new Calendar.Builder().setInstant(new Date()).build();
