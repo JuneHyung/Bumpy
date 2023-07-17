@@ -1,3 +1,4 @@
+import { ResponseBody } from "./common";
 import { InputNumber, InputText, InputTextarea } from "./input";
 
 // enum Measure { 
@@ -32,25 +33,36 @@ type WeightFormData = {
   memo: InputTextarea
 }
 
-
-interface WeightRequestBody extends Weight{
-  stdDate?: string
-}
-
 interface WeightRemoveRequestParams {
   stdDate?: string,
   seq?: number
 }
 
+interface CalendarData {
+  title:string,
+  date: string,
+}
+
+type WeightRequestBody = Weight;
+type WeightItemRequestParam = {
+  stdDate?: string,
+  seq?: number,
+}
 type WeightReadRequestParam={
   stdDate: string,
 }
-
+type WeightItemResponseBody = ResponseBody<Weight>
+type WeightCalendarResponseBody = ResponseBody<CalendarData>
+type WeightReadResponseBody = ResponseBody<WeightList>
 export {
   Weight,
   WeightList,
   WeightFormData,
   WeightRequestBody,
+  WeightItemRequestParam,
   WeightReadRequestParam,
-  WeightRemoveRequestParams
+  WeightRemoveRequestParams,
+  WeightItemResponseBody,
+  WeightCalendarResponseBody,
+  WeightReadResponseBody,
 }

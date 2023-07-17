@@ -24,23 +24,22 @@ interface Props {
 const props = defineProps<Props>();
 const router=  useRouter();
 const weightStore = useWeightStore();
+
 const getDetailItem = async () =>{
+  try{
   const params = {
     stdDate: weightStore.getFocusDate,
-    seq: props.info.seq,
+    seq: props.info.seq, 
   }
-  weightStore.setSelectItem(props.info)
-  // try{
-  //   const { data, error } = await readWeightItem(params)
-  //   if(error.value!==null){
-  //     setErrorMessage(error.value.message)
-  //   }else if(data.value!==null){
-  //     console.log(data.value)
-  //      weightStore.setSelectItem(data.value)
-  //   }
-  // } catch(e){
-  //   setErrorMessage(e)
-  // }
+  const {data, error} = await readWeightItem(params);
+  if(error.value!==null){
+    setErrorMessage(error.value)
+  }else if(data.value.data !==null){
+    weightStore.setSelectItem(data.value.data)
+  }
+  }catch(e){
+    setErrorMessage(e)
+  }
 } 
 
 const moveDetail = async () => {

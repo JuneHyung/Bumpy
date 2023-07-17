@@ -41,7 +41,7 @@
 </template>
 <script setup lang="ts">
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
-import { deleteWeightItem } from "~~/api/weight/weight";
+import { deleteWeightItem, readWeightItem } from "~~/api/weight/weight";
 import { useWeightStore } from "~~/store/weight";
 import ImageList from "~~/components/list/ImageList.vue";
 import { WeightRemoveRequestParams } from "~~/types/weight";
@@ -83,6 +83,9 @@ const moveWeightList = async () => {
 const moveModifyItem = () => {
   router.push({ path: "weightEdit" });
 };
+
+onMounted(()=>{
+})
 
 definePageMeta({
   layout: "main-layout",

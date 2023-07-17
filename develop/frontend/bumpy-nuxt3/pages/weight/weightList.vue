@@ -23,12 +23,13 @@ import { useCommonStore } from '~~/store/common';
 import { setErrorMessage } from '~~/api/alert/message';
 import { readWeightCalendarList } from '~/api/weight/weight';
 import { useWeightStore } from '~~/store/weight';
+import { WeightList } from '~~/types/weight';
 
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(()=>commonStore.getToday===weightStore.getFocusDate)
-const weightList = ref([])
+const weightList: Ref<WeightList> = ref([])
 
 definePageMeta({
   layout: 'main-layout',
@@ -67,14 +68,9 @@ const getCalendarList = async () =>{
   try{
     const {data, error} = await readWeightCalendarList({stdDate: focusDate});
     if(error.value !== null){
-
-    }else if(data.value.data!==null){
-      const list = data.value.data
-      .map((el, i)=> {
-        const keys = Object.keys(el);
-        const key = keys[0];
-        return  {title: el[key], date: key}
-      })
+      setErrorMessage(error.value);
+    }else if(data.value?.data!==null){
+      const list = data.value?.data;
       weightStore.setCalendarlist(list);
     }
   }catch(e){
