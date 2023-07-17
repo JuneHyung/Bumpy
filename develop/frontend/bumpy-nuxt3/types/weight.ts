@@ -1,4 +1,4 @@
-import { ResponseBody } from "./common";
+import { CommonCalendarData, ResponseBody } from "./common";
 import { InputNumber, InputText, InputTextarea } from "./input";
 
 // enum Measure { 
@@ -38,10 +38,7 @@ interface WeightRemoveRequestParams {
   seq?: number
 }
 
-interface CalendarData {
-  title:string,
-  date: string,
-}
+
 
 type WeightRequestBody = Weight;
 type WeightItemRequestParam = {
@@ -52,7 +49,7 @@ type WeightReadRequestParam={
   stdDate: string,
 }
 type WeightItemResponseBody = ResponseBody<Weight>
-type WeightCalendarResponseBody = ResponseBody<CalendarData>
+type WeightCalendarResponseBody = ResponseBody<CommonCalendarData>
 type WeightReadResponseBody = ResponseBody<WeightList>
 export {
   Weight,

@@ -1,14 +1,33 @@
-interface Meal{
+import { CommonCalendarData, ResponseBody } from "./common";
+import { InputNumber, InputText, InputTextarea } from "./input";
+
+export interface Meal{
   seq: number,
   name: string,
-  order?: number,
-  time?: string,
-  kcal?: number,
-  water?: number,
-  memo?: number,
+  time: string,
+  kcal: string,
+  water: string,
+  memo?: string,
+  stdDate?: string,
+  picture?: string[],
+  food?: string[],
 }
-type MealList = Meal[];
-export {
-  Meal,
-  MealList
+export type MealList = Meal[];
+export type MealFormData = {
+  name: InputText,
+  order?: InputNumber,
+  time?: InputText,
+  kcal?: InputText,
+  water?: InputText,
+  memo?: InputTextarea,
+  food?: {value: string[]}
+  // picture?: string[],
+  // food?: string[],
 }
+
+export type MealItemRequestParam = Pick<Meal, 'stdDate' | 'seq'>
+export type MealListRequestParam = Pick<Meal, 'stdDate'>
+export type MealItemRequestBody = Meal
+export type MealItemResposneBody = ResponseBody<Meal>
+export type MealCalendarResponseBody = ResponseBody<CommonCalendarData>
+export type MealListResponseBody = ResponseBody<MealList>
