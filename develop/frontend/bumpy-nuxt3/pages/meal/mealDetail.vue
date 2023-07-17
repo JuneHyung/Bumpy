@@ -29,8 +29,8 @@
         </div>
       </div>
       <div class="mealDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm" @click="moveWeightList">취소</button>
-        <button class="short-ghost-button bp-mr-sm" @click="removeMealItem">삭제</button>
+        <button class="short-ghost-button bp-mr-sm" v-if="mealStore.getIsToday" @click="moveWeightList">취소</button>
+        <button class="short-ghost-button bp-mr-sm" v-if="mealStore.getIsToday" @click="removeMealItem">삭제</button>
         <button class="short-filled-button" @click="moveModifyItem">수정</button>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <p>{{ info.name }}</p>
     <div class="bp-mt-md">
       <p>
-        <span>{{ info.order }}번째 식사</span> - <span>{{ info.time }}</span> / <span>{{ info.kcal }}kcal</span>
+        <span>{{ info.seq }}번째 식사</span> - <span>{{ info.time }}</span> / <span>{{ info.kcal }}kcal</span>
       </p>
       <p>
         <span>{{ info.water }} L </span>섭취

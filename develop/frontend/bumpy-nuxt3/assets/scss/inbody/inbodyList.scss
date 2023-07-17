@@ -2,21 +2,27 @@
   .title-wrap-box{
     display: flex;
     justify-content: space-between;
-  }
-  .inbody-info-wrap-box{
-    display:flex;
-    // flex-direction: row;
-    margin-top:20px;
-    justify-content: center;
     align-items: center;
+  }
+  .inbody-list-box{
+    max-height:300px;
+  }
+  .edit-button{
+    max-width:120px;
+  }
+  .inbody-calendar{
+    justify-content:center
+  }
+  .inbody-info-box{
+
     .chart-box{
-      // width: calc(100% - 200px);
+      display:flex;
+      flex:2;
       width: 100%;
       height:200px;
       border:1px solid black;
-      display:flex;
       justify-content: center;
       align-items: center;
-    }
+  }
   }
 }

@@ -1,103 +1,84 @@
 <template>
   <main class="content-layout inbody-list-wrap-box">
     <h1 class="content-title">About My Body</h1>
-    <div class="content-wrap-box bp-my-lg">
+    <div class="inbody-list-box content-wrap-box bp-my-lg">
       <div class="title-wrap-box">
-        <h3 class="content-title">{{ inbodyStore.focusDate }}</h3>
-        <button @click="moveEdit" v-if="editFlag">Edit</button>
+        <h3 class="content-title">{{ inbodyStore.getFocusDate }}</h3>
+        <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
       </div>
-      <div class="inbody-info-wrap-box">
+      <div class="inbody-info-box">
         <ActivityList type="square" listType="inbody" :list="inbodyList"></ActivityList>
         <div class="chart-box">
           <p>chart</p>
         </div>
       </div>
     </div>
-    <div class="content-wrap-box bp-mt-xl">
-      <Calendar @focusDate="getFocusDate"></Calendar>
+    <div class="content-wrap-box bp-mt-xl inbody-calendar">
+      <Calendar @focusDate="getFocusDate" type="inbody"></Calendar>
     </div>
   </main>
 </template>
-<script setup>
-import ActivityList from '~~/components/list/ActivityList.vue';
-import { useRouter } from 'vue-router';
-import { useInbodyStore } from '~~/store/inbody';
-import { useCommonStore } from '~~/store/common';
+<script setup lang="ts">
+import ActivityList from "~~/components/list/ActivityList.vue";
+import { useRouter } from "vue-router";
+import { useInbodyStore } from "~~/store/inbody";
+import { useCommonStore } from "~~/store/common";
+import { readInbodyActivityList, readInbodyCalendarList } from "~~/api/inbody/inbody";
+import { InbodyList } from "~~/types/inbody";
+import { setErrorMessage } from "~~/api/alert/message";
 
 const commonStore = useCommonStore();
 const inbodyStore = useInbodyStore();
-
 const router = useRouter();
-const editFlag = computed(()=>commonStore.getToday===inbodyStore.getFocusDate);
-const inbodyList = ref([]);
-
+const editFlag = computed(() => commonStore.getToday === inbodyStore.getFocusDate);
+const inbodyList: Ref<InbodyList> = ref([]);
 
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
 });
 
-const moveEdit = ()=>{
-  router.push({path: 'inbodyEdit'})
-}
-
-// Calendar 클릭시 focusdate변경
-const getFocusDate = (v) => {
-  inbodyStore.setFocusDate(v);
-  getInbodyList();
-}
+const moveEdit = () => {
+  router.push({ path: "inbodyEdit" });
+};
 
 // inbody List 조회
-const getInbodyList = async() => {
-  inbodyList.value = [
-    {
-      seq: 1,
-      height: 170,
-      weight: 70,
-      age: 27,
-      muscle: 10,
-      fat: 20,
-      score: 10,
-      bmi: 20,
-      fatPercent: 20,
-    },
-  ]
-  // try {
-  //   const { data, error } = await readInbodyList({ stdDate: inbodyStore.getFocusDate });
-  //   if(error.value !== null){
-  //   }else if(data.value!==null){
-  //     inbodyList.value = data
-  //   }
-  // } catch (e) {
-  //   console.error(e)
-  // }
-}
-
+const getInbodyList = async () => {
+  try {
+    const { data, error } = await readInbodyActivityList({ stdDate: inbodyStore.getFocusDate });
+    if (error.value !== null) {
+      setErrorMessage(error.value);
+    } else if (data.value !== null) {
+      inbodyList.value = data.value.data;
+    }
+  } catch (e) {
+    setErrorMessage(e);
+  }
+};
 // calendarList 조회
-const getCalendarList = async () =>{
-  inbodyStore.setCalendarlist([
-  { title: '운동 01', date: '2023-06-05' },
-  { title: '운동 02', date: '2023-06-05' },
-  { title: '운동 03', date: '2023-06-05' }
-  ])
-  // try{
-  //   const {data, error} = await readInobdyCalendarList();
-  //   if(error.value !== null){
+const getCalendarList = async () => {
+  try {
+    const { data, error } = await readInbodyCalendarList({ stdDate: inbodyStore.getFocusDate });
+    if (error.value !== null) {
+      setErrorMessage(error.value);
+    } else if (data.value !== null) {
+      inbodyStore.setCalendarlist(data.value.data);
+    }
+  } catch (e) {
+    setErrorMessage(e);
+  }
+};
 
-  //   }else if(data.value!==null){
-  //     inbodyStore.setCalendarlist(data);
-  //     // inbodyList.value = data
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
-}
-
-onMounted(()=>{
-  const today= commonStore.getToday;
-  inbodyStore.setFocusDate(today);
+// Calendar 클릭시 focusdate변경
+const getFocusDate = (v: string) => {
+  inbodyStore.setFocusDate(v);
   getInbodyList();
-  getCalendarList();
-})
+};
+
+onMounted(async () => {
+  const today = commonStore.getToday;
+  await inbodyStore.setFocusDate(today);
+  await getCalendarList();
+  await getInbodyList();
+});
 </script>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

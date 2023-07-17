@@ -1,31 +1,53 @@
-interface Inbody {
-  seq: number,
-  height?: number,
-  weight?: number,
-  age?: number,
-  muscle?: number,
-  fat?: number,
-  score?: number,
-  bmi?: number,
-  fatPercent?: number,
-}
-type InbodyList = Inbody[]
+import { CommonCalendarData, ResponseBody } from "./common";
+import { InputText } from "./input";
 
-interface UserInfoItem{
+export interface Inbody {
+  seq: number,
+  height?: string,
+  weight?: string,
+  age?: string,
+  muscle?: string,
+  fat?: string,
+  score?: string,
+  bmi?: string,
+  fatRate?: string,
+  stdDate?: string,
+}
+export type InbodyList = Inbody[]
+export type InbodyFormData = {
+  seq: InputText,
+  height?: InputText,
+  weight?: InputText,
+  age?: InputText,
+  muscle?: InputText,
+  fat?: InputText,
+  score?: InputText,
+  bmi?: InputText,
+  fatRate?: InputText,
+}
+export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>
+export type InbodyListRequestParam = Pick<Inbody, 'stdDate'>
+export type InbodyItemRequestBody = Inbody;
+export type InbodyItemResponseBody = ResponseBody<Inbody>;
+export type InbodyCalendarItemResponseBody = ResponseBody<CommonCalendarData>;
+export type InbodyListResponseBody = ResponseBody<InbodyList>;
+
+
+// UserInfo
+export interface UserInfoItem{
   category: string,
   key: string,
   value: string | number,
   unit: string,
 }
-type UserInfoList = UserInfoItem[];
-
-interface DegreeItem {
+export type UserInfoList = UserInfoItem[];
+export interface DegreeItem {
   name: string,
   degree: string
 }
-type DegreeList = DegreeItem[];
+export type DegreeList = DegreeItem[];
 
-interface MeterItem {
+export interface MeterItem {
   value: number,
   max?: number,
   min?: number,
@@ -36,13 +58,4 @@ interface MeterItem {
   category?: string,
   unit?: string,
 }
-type MeterList = MeterItem[];
-
-export {
-  Inbody,
-  InbodyList,
-  UserInfoList,
-  DegreeList,
-  MeterItem,
-  MeterList,
-}
+export type MeterList = MeterItem[];

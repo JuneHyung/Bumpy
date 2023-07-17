@@ -14,11 +14,13 @@ import { useWeightStore } from '~~/store/weight';
 import { setErrorMessage } from '~~/api/alert/message';
 import { useAerobicStore } from '~~/store/aerobic';
 import { useMealStore } from '~~/store/meal';
+import { useInbodyStore } from '~~/store/inbody';
 
 const calendar = ref(null) ;
 const weightStore = useWeightStore();
 const aerobicStore = useAerobicStore();
 const mealStore = useMealStore();
+const inbodyStore = useInbodyStore();
 interface EventListItem{
   title:string,
   date: string,
@@ -29,7 +31,7 @@ interface Props {
   type?: String; 
   list?: EventList;
 }
-const store = computed(()=>props.type==='weight' ? weightStore : props.type==='aerobic' ? aerobicStore : props.type==='meal' ? mealStore : weightStore);
+const store = computed(()=>props.type==='weight' ? weightStore : props.type==='aerobic' ? aerobicStore : props.type==='meal' ? mealStore : props.type==='inbody' ? inbodyStore : weightStore);
 const props = defineProps<Props>();
 const emits= defineEmits(['focusDate']);
 const focusDate = (v: any) =>{
@@ -113,9 +115,6 @@ const calendarOptions = ref({
   dateClick: focusDate,
 });
 
-onMounted(()=>{
-  console.log(store.value)
-})
 </script>
 <style scoped>
 

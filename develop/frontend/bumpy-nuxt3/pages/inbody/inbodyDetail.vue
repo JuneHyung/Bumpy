@@ -1,18 +1,18 @@
 <template>
   <main class="content-layout">
-    <h1 class="content-title q-mb-lg">About Last Inbody</h1>
+    <h1 class="content-title q-mb-lg">About Your Inbody</h1>
     <div class="content-wrap-box">
-      <h2 class="content-title">{{ infoName.value }}</h2>
-      <div class="inbody-info-box">
+      <h2 class="content-title">{{ inbodyStore.getFocusDate }} Inbody</h2>
+    <div class="inbody-info-box">
         <div class="chart-wrap">
-          <p>image</p>
+          <ImageList :list="testImageList"></ImageList>
         </div>
         <div class="info-list-wrap">
           <div class="info-item">
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ inbodyStore.setSelectItem[item.key] }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ inbodyStore.selectItem[item.key] }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
@@ -28,54 +28,67 @@
       <div class="inbodyDetail-button-wrap">
         <button class="short-ghost-button" @click="moveInbodyList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday" @click="removeInbodyItem">삭제</button>
-        <button class="short-filled-button" v-if="inbodyStore.getIsToday">수정</button>
+        <button class="short-filled-button" v-if="inbodyStore.getIsToday" @click="moveModifyItem">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup>
+import { deleteInbodyItem } from '~~/api/inbody/inbody';
 import { useInbodyStore } from '~~/store/inbody';
-
+import ImageList from "~~/components/list/ImageList.vue";
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 const router= useRouter();
 const inbodyStore = useInbodyStore();
+const testImageList = [
+  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
+]
 
 
-const removeInbodyItem = () =>{
-  setMessage('삭제')
-  // try{
-  //   const body = {
-  //     stdDate: inbodyStore.focusDate,
-  //     seq: inbodyStore.getSelectItem.seq
-  //   }
-  //   const {data, error} = deleteCardioItem(body);
-  //   if(error.value!==null){
-  //     setErrorMessage(error.value.messaage)
-  //   }else if(data.value!==null){
-  //     setMessage('삭제 완료하였습니다.');
-  //     moveInbodyList();
-  //   }
-  // }catch(e){
-  //   setErrorMessage(e)
-  // }
+const removeInbodyItem = async () =>{
+  // setMessage('삭제')
+  try{
+    const param = {
+      stdDate: inbodyStore.focusDate,
+    }
+    const {data, error} = await deleteInbodyItem(param);
+    if(error.value!==null){
+      await setErrorMessage(error.value.messaage)
+    }else if(data.value!==null){
+      await setMessage('삭제 완료하였습니다.');
+      await moveInbodyList();
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
 }
-const moveInbodyList = () =>{
-  router.back();
+const moveInbodyList = async () =>{
+  await router.push({path: 'inbodyList'});
+}
+
+const moveModifyItem = async () =>{
+  console.log('asdf')
+  await router.push({path: 'inbodyEdit'})
 }
 
 definePageMeta({
   layout: 'main-layout',
 });
-const infoName = { key: 'name', label: '', value: '준형갓' };
+
 const infoList = [
   [
-    { key: 'kcal', label: '검사 날짜', value: '2023-01-05', unit: '' },
-    { key: 'time', label: '키', value: 170, unit: 'cm' },
-    { key: 'water', label: '체중', value: 67.3, unit: 'kg' },
-    { key: 'kcal', label: '골격근량', value: 31.5, unit: 'kg' },
-    { key: 'time', label: '체지방량', value: 21.1, unit: 'kg' },
-    { key: 'water', label: '인바디 점수', value: 78, unit: '점' },
-    { key: 'kcal', label: 'BMI', value: 26.5, unit: 'kg/m2' },
-    { key: 'time', label: '체지방률', value: 28.5, unit: '%' },
+    { key: 'stdDate', label: '검사 날짜', unit: '' },
+    { key: 'height', label: '키',unit: 'cm' },
+    { key: 'weight', label: '체중', unit: 'kg' },
+    { key: 'muscle', label: '골격근량',  unit: 'kg' },
+    { key: 'fat', label: '체지방량',  unit: 'kg' },
+    { key: 'score', label: '인바디 점수',  unit: '점' },
+    { key: 'bmi', label: 'BMI',  unit: 'kg/m2' },
+    { key: 'fatRate', label: '체지방률',  unit: '%' },
   ],
 ];
 </script>

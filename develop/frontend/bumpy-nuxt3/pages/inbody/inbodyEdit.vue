@@ -15,7 +15,7 @@
                   <label class="number-input-wrap">
                     <span class="bp-mr-sm">{{ item.label }}</span>
                     <div class="number-input">
-                      <NumberInput :data="form[item.key]"></NumberInput>
+                      <TextInput :data="form[item.key]"></TextInput>
                     </div>
                   </label>
                 </template>
@@ -33,28 +33,29 @@
     </form>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
 import { useInbodyStore } from '~~/store/inbody';
 import { useCommonStore } from '~~/store/common';
+import { createInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 const info = { name: '벤치프레스' };
 const commonStore = useCommonStore();
 const inbodyStore = useInbodyStore();
 const router = useRouter();
-const editFlag = computed(()=>inbodyStore.getSelectItem.seq===undefined)
+const editFlag = computed(()=>inbodyStore.getSelectItem.height===undefined)
 const form = ref({
   name: { value: ''},
   height: {value:'',},
   weight: {value:'',},
   kcal: {value:''},
-  age: {value:'',},
   muscle: {value:'',},
   fat: {value:'',},
   score: {value:'',},
   bmi: {value:'',},
-  fatPercent: {value:'',},
+  fatRate: {value:'',},
 });
 
 const numberList = ref([
@@ -63,25 +64,24 @@ const numberList = ref([
     { key: 'height', label: '키'},
     { key: 'weight', label: '체중'},
     { key: 'muscle', label: '골격근량'},
-    { key: 'age', label: '나이'},
     { key: 'fat', label: '체지방량'},
     { key: 'score', label: '인바디점수'},
     { key: 'bmi', label: 'BMI'},
-    { key: 'fatPercent', label: '체지방률'},
+    { key: 'fatRate', label: '체지방률'},
   ],
 ]);
 
 
 const makeBody = () =>{
   const result = {
-    stdDate: weightStore.getFocusDate,
+    stdDate: inbodyStore.getFocusDate,
     height: form.value.height.value,
     weight: form.value.weight.value,
     muscle: form.value.muscle.value,
     fat: form.value.fat.value,
     score: form.value.score.value,
     bmi: form.value.bmi.value,
-    fatPercent: form.value.measure.value,
+    fatRate: form.value.fatRate.value,
     // memo: form.value.memo.value,
     // picture: form.value.picture.value,
   }
@@ -91,7 +91,6 @@ const makeBody = () =>{
 // 저장 버튼
 const saveInbodyItem = async () =>{
   const body = makeBody()
-  console.log(body)
   try{
     const {data, error} = await createInbodyItem(body)
     if(error.value!==null){
@@ -110,18 +109,18 @@ const saveInbodyItem = async () =>{
 const modifyInbodyItem = async () =>{
   const body = makeBody()
   // console.log(body)
-  // try{
-  //   const {data, error} = await updateInbodyItem(body)
-  //   if(error.value!==null){
-  //     const errorMessage = error.value?.data.message;
-  //     setErrorMessage(errorMessage);
-  //   }else if(data.value !== null){
-  //     setMessage(data.value.message);
-  //     router.push({path: '/inbody/inbodyList'})
-  //   }
-  // }catch (e){
-  //   setErrorMessage(e);
-  // }
+  try{
+    const {data, error} = await updateInbodyItem(body)
+    if(error.value!==null){
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    }else if(data.value !== null){
+      setMessage(data.value.message);
+      router.push({path: '/inbody/inbodyList'})
+    }
+  }catch (e){
+    setErrorMessage(e);
+  }
 }
 
 // 초기화 버튼
@@ -133,11 +132,26 @@ const resetInbodyItem = () =>{
   }
 }
 
+const initSelectItem = () =>{
+  const keys = Object.keys(form.value);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    form.value[key].value = inbodyStore.getSelectItem[key];
+  }
+}
+
 // 취소 버튼
 const cancelInbodyEdit = () =>{
   router.back();
 }
 
+onMounted(()=>{
+  if (!editFlag.value) {
+    initSelectItem();
+  } else {
+    inbodyStore.resetSelectItem();
+  }
+})
 
 definePageMeta({
   layout: 'main-layout',

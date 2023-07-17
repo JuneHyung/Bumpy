@@ -1,6 +1,6 @@
 <template>
   <ul :class="{ 'square-list-wrap-box': type === 'square', 'rectangle-list-wrap-box': type === 'rectangle' }">
-    <template v-for="(item, idx) in list" :key="idx" v-if="list!==undefined && list.length>0">
+    <template v-for="(item, idx) in list" :key="item.seq" v-if="list!==undefined && list.length>0">
       <ListItem :info="item"></ListItem>
     </template>
     <template v-else>
@@ -11,13 +11,14 @@
 <script setup lang="ts">
 import { ref, defineAsyncComponent } from 'vue';
 import { AerobicList } from '~~/types/aerobic';
+import { InbodyList } from '~~/types/inbody';
 import { MealList } from '~~/types/meal';
 import { WeightList } from '~~/types/weight';
 
 interface Props {
   type: 'square' | 'rectangle';
-  listType: 'weight' | 'aerobic' | 'meal';
-  list: WeightList | AerobicList | MealList;
+  listType: 'weight' | 'aerobic' | 'meal' | 'inbody';
+  list: WeightList | AerobicList | MealList | InbodyList;
 }
 const props = defineProps<Props>();
 
@@ -32,6 +33,9 @@ const switchComponent = () => {
     case 'meal':
       if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/MealSquareItem.vue'));
       else return defineAsyncComponent(() => import('components/list/item/MealRectangleItem.vue'));
+    case 'inbody':
+      if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/InbodySquareItem.vue'));
+      else return defineAsyncComponent(() => import('components/list/item/InbodyRectangleItem.vue'));
   }
 };
 const ListItem = switchComponent();
