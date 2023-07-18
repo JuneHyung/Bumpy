@@ -12,7 +12,7 @@
       </label>
       <label class="weightEdit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <div class="photo-wrap"></div>
+        <FileUploader></FileUploader>
       </label>
       <div class="weightEdit-input-label-wrap">
         <template v-for="(list, idx) in numberList" :key="idx">
@@ -21,7 +21,7 @@
               <label class="number-input-wrap bp-mr-sm">
                 <span class="number-label bp-mr-sm">{{ item.label }}</span>
                 <div class="number-input">
-                  <NumberInput :data="form[item.key]"></NumberInput>
+                  <TextInput :data="form[item.key]"></TextInput>
                 </div>
               </label>
             </template>
@@ -33,7 +33,7 @@
           <label class="number-input-wrap">
             <span class="number-label">단위</span>
             <div class="number-input">
-              <NumberInput :data="form.measure"></NumberInput>
+              <TextInput :data="form.measure"></TextInput>
             </div>
           </label>
         </div>
@@ -43,7 +43,7 @@
           <label class="number-input-wrap">
             <span class="number-label">메모</span>
             <div class="number-input">
-              <textarea ></textarea>
+              <TextareaInput :data="form.memo"></TextareaInput>
             </div>
           </label>
         </div>
@@ -60,12 +60,15 @@
 <script setup lang="ts">
 import LoadList from "~/components/list/LoadList.vue";
 import TextInput from "~/components/form/TextInput.vue";
+import TextareaInput from "~/components/form/TextareaInput.vue";
 import NumberInput from "~/components/form/NumberInput.vue";
+import FileUploader from "~/components/form/FileUploader.vue";
 import { useCommonStore } from "~/store/common";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { createWeightItem, updateWeightItem } from "~~/api/weight/weight";
 import {WeightFormData, WeightRequestBody} from '~~/types/weight';
+
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
@@ -73,14 +76,14 @@ const editFlag = computed(() => weightStore.getSelectItem.seq === undefined);
 const info = { name: "벤치프레스" };
 const form:Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  weightStart: {  },
-  repsStart: {  },
-  weightEnd: {  },
-  repsEnd: {  },
-  pollWeight: {  },
-  setReps: {  },
-  measure: {  },
-  memo: { value: "", placeholder: "" },
+  weightStart: {value: "",  },
+  repsStart: {value: "",  },
+  weightEnd: { value: "", },
+  repsEnd: {value: "",  },
+  pollWeight: {value: "",  },
+  setReps: {value: "",  },
+  measure: {value: "",  },
+  memo: { value: "" },
   // picture: {value: '', placeholder: ''},
 });
 

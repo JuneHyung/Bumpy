@@ -5,9 +5,9 @@
       <div class="inbodyEdit-content-wrap">
         <label class="inbodyEdit-input-label photo-wrap-box bp-mt-sm">
           <p class="bp-mb-sm">사진 및 비디오</p>
-          <div class="photo-wrap"></div>
+          <FileUploader></FileUploader>
         </label>
-        <div class="inbodyEdit-input-wrap-box">
+        <div class="inbodyEdit-input-wrap-box bp-pa-sm">
           <div class="inbodyEdit-input-label-wrap">
             <template v-for="(list, idx) in numberList" :key="idx">
               <div class="inbodyEdit-input-label">
@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
+import FileUploader from '~/components/form/FileUploader.vue';
 import NumberInput from '~/components/form/NumberInput.vue';
 import { useInbodyStore } from '~~/store/inbody';
 import { useCommonStore } from '~~/store/common';

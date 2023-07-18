@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="mealEdit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <div class="photo-wrap"></div>
+        <FileUploader></FileUploader>
       </label>
       <div class="mealEdit-input-wrap-box">
         <div class="mealEdit-input-label-wrap">
@@ -28,7 +28,7 @@
 
       <label>
         <p>메모</p>
-        <textarea></textarea>
+        <TextareaInput :data="form.memo"></TextareaInput>
       </label>
       <div class="mealEdit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 // import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
+import TextareaInput from '~/components/form/TextareaInput.vue';
 // import Te from '~/components/form/NumberInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
@@ -50,7 +51,7 @@ import FoodList from '~~/components/list/FoodList.vue';
 import { MealFormData, MealItemRequestBody } from '~~/types/meal';
 import { createMealItem, updateMealItem } from '~~/api/meal/meal';
 import { MessageResponse } from '~~/types/common';
-
+import FileUploader from '~~/components/form/FileUploader.vue'
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
@@ -60,7 +61,8 @@ const form: Ref<MealFormData> = ref({
   time: {   },
   kcal: {   },
   water: {   },
-  food: {value: ['닭가슴살01', '닭가슴살02', '닭가슴살03'],}
+  food: {value: ['닭가슴살01', '닭가슴살02', '닭가슴살03'],},
+  memo: {},
 });
 
 const numberList = [
@@ -81,7 +83,7 @@ const makeBody = () =>{
     kcal: form.value.kcal?.value as string,
     water: form.value.water?.value as string,
     food: form.value.food?.value as string[],
-    // memo: form.value.memo.value,
+    memo: form.value.memo?.value,
     // picture: form.value.picture.value,
   }
   console.log(mealStore.getSelectItem)

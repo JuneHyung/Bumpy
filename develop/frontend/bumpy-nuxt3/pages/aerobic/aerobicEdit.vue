@@ -17,7 +17,7 @@
               <label class="number-input-wrap">
                 <span class="bp-mr-sm">{{ item.label }}</span>
                 <div class="number-input">
-                  <NumberInput :data="form[item.key]"></NumberInput>
+                  <TextInput :data="form[item.key]"></TextInput>
                 </div>
               </label>
             </template>
@@ -26,7 +26,7 @@
       </div>
       <label>
         <p>메모</p>
-        <textarea></textarea>
+        <TextareaInput :data="form.memo"></TextareaInput>
       </label>
       <div class="aerobicEdit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelAerobicEdit">취소</button>
@@ -40,7 +40,8 @@
 <script setup lang="ts">
 import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~/components/form/TextInput.vue';
-import NumberInput from '~/components/form/NumberInput.vue';
+import TextareaInput from '~/components/form/TextareaInput.vue';
+// import NumberInput from '~/components/form/NumberInput.vue';
 
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage, setMessage } from '~~/api/alert/message';

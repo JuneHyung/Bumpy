@@ -22,7 +22,6 @@ export type MealFormData = {
   memo?: InputTextarea,
   food?: {value: string[]}
   // picture?: string[],
-  // food?: string[],
 }
 
 export type MealItemRequestParam = Pick<Meal, 'stdDate' | 'seq'>
