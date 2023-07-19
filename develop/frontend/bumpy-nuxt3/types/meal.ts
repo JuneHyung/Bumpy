@@ -1,8 +1,13 @@
 import { CommonCalendarData, ResponseBody } from "./common";
 import { InputNumber, InputText, InputTextarea } from "./input";
 
+interface FoodItem {
+  value: string
+}
+type FoodListType = FoodItem[];
+
 export interface Meal{
-  seq: number,
+  seq?: number,
   name: string,
   time: string,
   kcal: string,
@@ -13,6 +18,7 @@ export interface Meal{
   food?: string[],
 }
 export type MealList = Meal[];
+
 export type MealFormData = {
   name: InputText,
   order?: InputNumber,
@@ -20,7 +26,7 @@ export type MealFormData = {
   kcal?: InputText,
   water?: InputText,
   memo?: InputTextarea,
-  food?: {value: string[]}
+  food?: {value: FoodListType}
   // picture?: string[],
 }
 

@@ -22,7 +22,7 @@
           </template>
         </div>
         <div class="food-list-wrap-box">
-          <FoodList :list="form.food.value" @remove="removeItem"></FoodList>
+          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem"></FoodList>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import FoodList from '~~/components/list/FoodList.vue';
-import { MealFormData, MealItemRequestBody } from '~~/types/meal';
+import { MealFormData, MealItemRequestBody} from '~~/types/meal';
 import { createMealItem, updateMealItem } from '~~/api/meal/meal';
 import { MessageResponse } from '~~/types/common';
 import FileUploader from '~~/components/form/FileUploader.vue'
@@ -56,12 +56,13 @@ const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
 const editFlag = computed(()=>mealStore.getSelectItem.seq===undefined);
+
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
   time: {   },
   kcal: {   },
   water: {   },
-  food: {value: ['닭가슴살01', '닭가슴살02', '닭가슴살03'],},
+  food: {value: []},
   memo: {},
 });
 
@@ -76,25 +77,27 @@ const numberList = [
 
 
 const makeBody = () =>{
+  const foodList = form.value.food?.value.map(item=> item.value);
   const result: MealItemRequestBody = {
     stdDate: mealStore.getFocusDate === null || mealStore.getFocusDate.length===0 ? commonStore.getToday : mealStore.getFocusDate,
     name: form.value.name.value as string,
     time: form.value.time?.value as string,
     kcal: form.value.kcal?.value as string,
     water: form.value.water?.value as string,
-    food: form.value.food?.value as string[],
+    food: foodList as string[],
     memo: form.value.memo?.value,
     // picture: form.value.picture.value,
   }
-  console.log(mealStore.getSelectItem)
   if(mealStore.getSelectItem.seq){
     result.seq= mealStore.getSelectItem.seq
   }
   return result;
 }
 
-
-const removeItem = (idx) => {
+const plusItem = () =>{
+  form.value.food.value.push({value: ''})
+}
+const removeItem = (idx: number) => {
   const arr = form.value.food.value.slice();
   arr.splice(idx, 1);
   form.value.food.value = arr;
@@ -155,6 +158,10 @@ const initSelectItem = () =>{
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     form.value[key].value = mealStore.getSelectItem[key];
+    if(key==='food'){
+      const result = mealStore.getSelectItem[key].map(el=>{return{value: el}});
+      form.value[key].value = result;
+    }
   }
 }
 
