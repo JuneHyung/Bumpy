@@ -80,11 +80,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import ActivityList from '~/components/list/ActivityList.vue';
-import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
+import ActivityList from '~~/components/list/ActivityList.vue';
+import GrassCalendar from '~~/components/calendar/GrassCalendar.vue';
 
-import AreaChart from '~/components/charts/AreaChart'; // 컴포넌트 선언파일 추가 필요
-import LineChart from '~/components/charts/LineChart';
+import AreaChart from '~~/components/charts/AreaChart.vue'; // 컴포넌트 선언파일 추가 필요
+import LineChart from '~~/components/charts/LineChart.vue';
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage } from '~~/api/alert/message';
 import { getAerobicActivityForMain, getAerobicChartInfoForMain, getMealInfoForMain, getWeightActivityForMain, getWeightChartInfoForMain } from '~~/api/main';

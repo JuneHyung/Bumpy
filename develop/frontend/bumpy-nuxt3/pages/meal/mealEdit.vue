@@ -41,8 +41,8 @@
 </template>
 <script setup lang="ts">
 // import LoadList from '~/components/list/LoadList.vue';
-import TextInput from '~/components/form/TextInput.vue';
-import TextareaInput from '~/components/form/TextareaInput.vue';
+import TextInput from '~~/components/form/TextInput.vue';
+import TextareaInput from '~~/components/form/TextareaInput.vue';
 // import Te from '~/components/form/NumberInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';

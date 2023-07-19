@@ -38,9 +38,9 @@
   </main>
 </template>
 <script setup lang="ts">
-import LoadList from '~/components/list/LoadList.vue';
-import TextInput from '~/components/form/TextInput.vue';
-import TextareaInput from '~/components/form/TextareaInput.vue';
+import LoadList from '~~/components/list/LoadList.vue';
+import TextInput from '~~/components/form/TextInput.vue';
+import TextareaInput from '~~/components/form/TextareaInput.vue';
 // import NumberInput from '~/components/form/NumberInput.vue';
 
 import {useCommonStore} from '~/store/common'

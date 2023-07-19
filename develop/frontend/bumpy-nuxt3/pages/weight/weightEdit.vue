@@ -58,11 +58,11 @@
   </main>
 </template>
 <script setup lang="ts">
-import LoadList from "~/components/list/LoadList.vue";
-import TextInput from "~/components/form/TextInput.vue";
-import TextareaInput from "~/components/form/TextareaInput.vue";
-import NumberInput from "~/components/form/NumberInput.vue";
-import FileUploader from "~/components/form/FileUploader.vue";
+import LoadList from "~~/components/list/LoadList.vue";
+import TextInput from "~~/components/form/TextInput.vue";
+import TextareaInput from "~~/components/form/TextareaInput.vue";
+// import NumberInput from "~/components/form/NumberInput.vue";
+import FileUploader from "~~/components/form/FileUploader.vue";
 import { useCommonStore } from "~/store/common";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";

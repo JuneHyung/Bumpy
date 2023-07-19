@@ -57,8 +57,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import MeterBar from '~/components/meter/MeterBar.vue';
-import Avatar from '~/components/user/Avatar.vue';
+import MeterBar from '~~/components/meter/MeterBar.vue';
+import Avatar from '~~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
 import {fetchLogout} from '~~/api/user/user';
 import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';

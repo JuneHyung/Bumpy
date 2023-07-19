@@ -14,7 +14,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import Calendar from '/components/calendar/Calendar.vue';
+import Calendar from '~~/components/calendar/Calendar.vue';
 
 import ActivityList from '~~/components/list/ActivityList.vue';
 import { useRouter } from 'vue-router';

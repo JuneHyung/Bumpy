@@ -34,10 +34,10 @@
   </main>
 </template>
 <script setup lang="ts">
-import LoadList from '~/components/list/LoadList.vue';
-import TextInput from '~/components/form/TextInput.vue';
-import FileUploader from '~/components/form/FileUploader.vue';
-import NumberInput from '~/components/form/NumberInput.vue';
+// import LoadList from '~/components/list/LoadList.vue';
+import TextInput from '~~/components/form/TextInput.vue';
+import FileUploader from '~~/components/form/FileUploader.vue';
+// import NumberInput from '~/components/form/NumberInput.vue';
 import { useInbodyStore } from '~~/store/inbody';
 import { useCommonStore } from '~~/store/common';
 import { createInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
