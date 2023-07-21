@@ -36,8 +36,7 @@ public class DataHMealDto implements Serializable {
     private BigDecimal water;
     @Size(max = 1000)
     private String memo;
-    @Size(max = 1000)
-    private String picture;
+    private List<String> picture;
     private List<String> food;
 
     // to entity method for insert

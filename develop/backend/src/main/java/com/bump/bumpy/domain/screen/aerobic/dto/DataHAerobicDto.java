@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A DTO for the {@link DataHAerobic} entity
@@ -34,8 +35,7 @@ public class DataHAerobicDto implements Serializable {
     private BigDecimal speedEnd;
     @Size(max = 1000)
     private String memo;
-    @Size(max = 1000)
-    private String picture;
+    private List<String> picture;
 
 
     // to entity method for insert

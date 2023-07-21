@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -78,5 +79,14 @@ public class DataHMeal implements Serializable {
     @Lob
     @Column(name = "food")
     private String food;
+
+    // set and get picture method for CRUD API split by ',' and join by ','
+    public List<String> getPicture() {
+        return List.of(this.picture.split(","));
+    }
+
+    public void setPicture(List<String> picture) {
+        this.picture = String.join(",", picture);
+    }
 
 }

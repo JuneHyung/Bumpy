@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -82,4 +83,12 @@ public class DataHAerobic implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
+    // set and get picture method for CRUD API split by ',' and join by ','
+    public List<String> getPicture() {
+        return List.of(this.picture.split(","));
+    }
+
+    public void setPicture(List<String> picture) {
+        this.picture = String.join(",", picture);
+    }
 }
