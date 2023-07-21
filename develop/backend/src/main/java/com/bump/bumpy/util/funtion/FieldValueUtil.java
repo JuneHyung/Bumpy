@@ -235,5 +235,15 @@ public class FieldValueUtil {
 		return cal;
 	}
 
+	public static boolean isStartWithKorean(String str) {
+		if(str == null || str.length() == 0) {
+			return false;
+		}
+		else {
+			char ch = str.charAt(0);
+			return ch >= 0xAC00 && ch <= 0xD7A3;
+		}
+	}
+
 	private FieldValueUtil() {}
 }

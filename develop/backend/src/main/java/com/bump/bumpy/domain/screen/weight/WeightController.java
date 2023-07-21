@@ -27,6 +27,13 @@ public class WeightController {
 
     private final WeightService weightService;
 
+    @Operation(summary = "운동 이름 즐겨찾기 리스트 조회", description = "")
+    @GetMapping("/favorite")
+    public ResponseEntity<ResultMap> favorite() {
+        String userId = getUserId();
+        return weightService.favorite(userId);
+    }
+
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {

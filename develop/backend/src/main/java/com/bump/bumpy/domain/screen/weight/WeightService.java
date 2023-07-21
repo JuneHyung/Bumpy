@@ -7,7 +7,9 @@ import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.domain.screen.weight.dto.WeightActivityResponseDto;
+import com.bump.bumpy.domain.screen.weight.projection.DataHWeightInfo;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.bump.bumpy.util.funtion.FieldValueUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
@@ -30,6 +33,41 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class WeightService {
 
     private final DataHWeightRepository dataHWeightRepository;
+
+    public ResponseEntity<ResultMap> favorite(String userId) {
+        Set<DataHWeightInfo> nameSet = dataHWeightRepository.findByUserIdOrderByNameAsc(userId);
+
+        if(nameSet.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // Set to List
+        List<String> nameList = new ArrayList<>();
+        for(DataHWeightInfo dataHWeightInfo : nameSet) {
+            nameList.add(dataHWeightInfo.getName());
+        }
+
+        // separate by languages that kor or eng
+        List<String> koreanList = new ArrayList<>();
+        List<String> englishList = new ArrayList<>();
+
+        for(String name : nameList) {
+            if(FieldValueUtil.isStartWithKorean(name)) {
+                koreanList.add(name);
+            } else {
+                englishList.add(name);
+            }
+        }
+
+        return ResponseEntity.ok(
+                new ResultMap(
+                        List.of(
+                                Map.of("title", "korean", "list", koreanList),
+                                Map.of("title", "english", "list", englishList)
+                        )
+                )
+        );
+    }
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
         Calendar firstDate = Calendar.getInstance();

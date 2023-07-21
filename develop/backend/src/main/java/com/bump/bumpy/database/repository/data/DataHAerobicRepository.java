@@ -2,15 +2,18 @@ package com.bump.bumpy.database.repository.data;
 
 import com.bump.bumpy.database.entity.composite.DataHCardioId;
 import com.bump.bumpy.database.entity.data.DataHAerobic;
+import com.bump.bumpy.domain.screen.aerobic.projection.DataHAerobicInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, DataHCardioId> {
+    Set<DataHAerobicInfo> findByUserIdOrderByNameAsc(String userId);
     Optional<DataHAerobic> findByStdDateAndUserIdAndName(Date stdDate, String userId, String name);
     DataHAerobic findFirstByStdDateAndUserIdOrderBySeqDesc(Date stdDate, String userId);
     DataHAerobic findFirstByUserIdAndNameOrderByKcalDescStdDateDesc(String userId, String name);

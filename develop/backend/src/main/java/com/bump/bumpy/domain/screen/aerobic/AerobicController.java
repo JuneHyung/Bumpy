@@ -26,6 +26,12 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 public class AerobicController {
 
     private final AerobicService aerobicService;
+    @Operation(summary = "운동 이름 즐겨찾기 리스트 조회", description = "")
+    @GetMapping("/favorite")
+    public ResponseEntity<ResultMap> favorite() {
+        String userId = getUserId();
+        return aerobicService.favorite(userId);
+    }
 
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")

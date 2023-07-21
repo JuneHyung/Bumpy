@@ -2,13 +2,16 @@ package com.bump.bumpy.database.repository.data;
 
 import com.bump.bumpy.database.entity.composite.DataHWeightId;
 import com.bump.bumpy.database.entity.data.DataHWeight;
+import com.bump.bumpy.domain.screen.weight.projection.DataHWeightInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHWeightId> {
+    Set<DataHWeightInfo> findByUserIdOrderByNameAsc(String userId);
     DataHWeight findFirstByStdDateAndUserIdOrderBySeqDesc(Date stdDate, String userId);
     Optional<DataHWeight> findByStdDateAndUserIdAndName(Date stdDate, String userId, String name);
     List<DataHWeight> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);

@@ -4,6 +4,7 @@ import com.bump.bumpy.database.entity.data.DataHAerobic;
 import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
 import com.bump.bumpy.domain.screen.aerobic.dto.AerobicActivityResponseDto;
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
+import com.bump.bumpy.domain.screen.aerobic.projection.DataHAerobicInfo;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
@@ -31,6 +33,41 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class AerobicService {
 
     private final DataHAerobicRepository aerobicRepository;
+
+    public ResponseEntity<ResultMap> favorite(String userId) {
+        Set<DataHAerobicInfo> nameSet = aerobicRepository.findByUserIdOrderByNameAsc(userId);
+
+        if(nameSet.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        // Set to List
+        List<String> nameList = new ArrayList<>();
+        for(DataHAerobicInfo dataHAerobicInfo : nameSet) {
+            nameList.add(dataHAerobicInfo.getName());
+        }
+
+        // separate by languages that kor or eng
+        List<String> koreanList = new ArrayList<>();
+        List<String> englishList = new ArrayList<>();
+
+        for(String name : nameList) {
+            if(FieldValueUtil.isStartWithKorean(name)) {
+                koreanList.add(name);
+            } else {
+                englishList.add(name);
+            }
+        }
+
+        return ResponseEntity.ok(
+            new ResultMap(
+                List.of(
+                        Map.of("title", "korean", "list", koreanList),
+                        Map.of("title", "english", "list", englishList)
+                )
+            )
+        );
+    }
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
         /*
