@@ -11,7 +11,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface DataHWeightRepository extends JpaRepository<DataHWeight, DataHWeightId> {
-    Set<DataHWeightInfo> findByUserIdOrderByNameAsc(String userId);
+
+    List<DataHWeightInfo> findByUserIdOrderByNameAsc(String userId);
     DataHWeight findFirstByStdDateAndUserIdOrderBySeqDesc(Date stdDate, String userId);
     Optional<DataHWeight> findByStdDateAndUserIdAndName(Date stdDate, String userId, String name);
     List<DataHWeight> findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(Date stdDateStart, Date stdDateEnd, String userId);

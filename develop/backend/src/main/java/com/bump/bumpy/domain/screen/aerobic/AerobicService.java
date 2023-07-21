@@ -18,13 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
@@ -35,29 +29,33 @@ public class AerobicService {
     private final DataHAerobicRepository aerobicRepository;
 
     public ResponseEntity<ResultMap> favorite(String userId) {
-        Set<DataHAerobicInfo> nameSet = aerobicRepository.findByUserIdOrderByNameAsc(userId);
+        List<DataHAerobicInfo> nameList = aerobicRepository.findByUserIdOrderByNameAsc(userId);
 
-        if(nameSet.isEmpty()) {
+        if(nameList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
         // Set to List
-        List<String> nameList = new ArrayList<>();
-        for(DataHAerobicInfo dataHAerobicInfo : nameSet) {
-            nameList.add(dataHAerobicInfo.getName());
+        Set<String> nameSet = new HashSet<>();
+        for(DataHAerobicInfo dataHAerobicInfo : nameList) {
+            nameSet.add(dataHAerobicInfo.getName());
         }
 
         // separate by languages that kor or eng
         List<String> koreanList = new ArrayList<>();
         List<String> englishList = new ArrayList<>();
 
-        for(String name : nameList) {
+        for(String name : nameSet) {
             if(FieldValueUtil.isStartWithKorean(name)) {
                 koreanList.add(name);
             } else {
                 englishList.add(name);
             }
         }
+
+        // sort by string
+        Collections.sort(koreanList);
+        Collections.sort(englishList);
 
         return ResponseEntity.ok(
             new ResultMap(

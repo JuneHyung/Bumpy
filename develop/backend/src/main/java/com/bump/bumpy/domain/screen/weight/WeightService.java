@@ -17,13 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
@@ -35,29 +29,33 @@ public class WeightService {
     private final DataHWeightRepository dataHWeightRepository;
 
     public ResponseEntity<ResultMap> favorite(String userId) {
-        Set<DataHWeightInfo> nameSet = dataHWeightRepository.findByUserIdOrderByNameAsc(userId);
+        List<DataHWeightInfo> nameList = dataHWeightRepository.findByUserIdOrderByNameAsc(userId);
 
-        if(nameSet.isEmpty()) {
+        if(nameList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
         // Set to List
-        List<String> nameList = new ArrayList<>();
-        for(DataHWeightInfo dataHWeightInfo : nameSet) {
-            nameList.add(dataHWeightInfo.getName());
+        Set<String> nameSet = new HashSet<>();
+        for(DataHWeightInfo dataHWeightInfo : nameList) {
+            nameSet.add(dataHWeightInfo.getName());
         }
 
         // separate by languages that kor or eng
         List<String> koreanList = new ArrayList<>();
         List<String> englishList = new ArrayList<>();
 
-        for(String name : nameList) {
+        for(String name : nameSet) {
             if(FieldValueUtil.isStartWithKorean(name)) {
                 koreanList.add(name);
             } else {
                 englishList.add(name);
             }
         }
+
+        // sort by string
+        Collections.sort(koreanList);
+        Collections.sort(englishList);
 
         return ResponseEntity.ok(
                 new ResultMap(
