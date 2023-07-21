@@ -13,3 +13,8 @@ export interface CommonCalendarData {
   title:string,
   date: string,
 }
+
+export interface FavoriteListItem{
+  title: string,
+  list: string[],
+}

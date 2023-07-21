@@ -1,6 +1,6 @@
 import { MessageResponse } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
-import { Weight, WeightCalendarResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
+import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
 const baseURL = "http://222.112.251.124:8899/api";
 const headers = {
@@ -106,11 +106,26 @@ function updateWeightItem(body: Weight) {
     body,
   });
 }
+
+
+/**
+ * 즐겨찾기 조회(Weight)
+ * @returns
+ */
+function readFavoritWeightList(){
+  return useFetch<WeightFavoriteListResponseBody>("/weight/favorite",{
+    baseURL,
+    method:GET,
+    headers,
+  })
+}
+
 export {
   readWeightItem, 
   readWeightCalendarList, 
   readWeightList, 
   createWeightItem, 
   deleteWeightItem, 
-  updateWeightItem
+  updateWeightItem,
+  readFavoritWeightList
 };

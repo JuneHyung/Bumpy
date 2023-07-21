@@ -1,4 +1,4 @@
-import { CommonCalendarData, ResponseBody } from "./common";
+import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
 import { InputNumber, InputText, InputTextarea } from "./input";
 
 // enum Measure { 
@@ -51,6 +51,7 @@ type WeightReadRequestParam={
 type WeightItemResponseBody = ResponseBody<Weight>
 type WeightCalendarResponseBody = ResponseBody<CommonCalendarData>
 type WeightReadResponseBody = ResponseBody<WeightList>
+type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem>
 export {
   Weight,
   WeightList,
@@ -62,4 +63,5 @@ export {
   WeightItemResponseBody,
   WeightCalendarResponseBody,
   WeightReadResponseBody,
+  WeightFavoriteListResponseBody,
 }

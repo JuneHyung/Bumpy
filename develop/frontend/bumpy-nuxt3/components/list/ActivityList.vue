@@ -25,17 +25,17 @@ const props = defineProps<Props>();
 const switchComponent = () => {
   switch (props.listType) {
     case 'weight':
-      if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/WeightSquareItem.vue'));
-      else return defineAsyncComponent(() => import('components/list/item/WeightRectangleItem.vue'));
+      if (props.type === 'square') return defineAsyncComponent(() => import('~~/components/list/item/WeightSquareItem.vue'));
+      else return defineAsyncComponent(() => import('~~/components/list/item/WeightRectangleItem.vue'));
     case 'aerobic':
-      if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/AerobicSquareItem.vue'));
-      else return defineAsyncComponent(() => import('components/list/item/AerobicRectangleItem.vue'));
+      if (props.type === 'square') return defineAsyncComponent(() => import('~~/components/list/item/AerobicSquareItem.vue'));
+      else return defineAsyncComponent(() => import('~~/components/list/item/AerobicRectangleItem.vue'));
     case 'meal':
-      if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/MealSquareItem.vue'));
-      else return defineAsyncComponent(() => import('components/list/item/MealRectangleItem.vue'));
+      if (props.type === 'square') return defineAsyncComponent(() => import('~~/components/list/item/MealSquareItem.vue'));
+      else return defineAsyncComponent(() => import('~~/components/list/item/MealRectangleItem.vue'));
     case 'inbody':
-      if (props.type === 'square') return defineAsyncComponent(() => import('components/list/item/InbodySquareItem.vue'));
-      else return defineAsyncComponent(() => import('components/list/item/InbodyRectangleItem.vue'));
+      if (props.type === 'square') return defineAsyncComponent(() => import('~~/components/list/item/InbodySquareItem.vue'));
+      else return defineAsyncComponent(() => import('~~/components/list/item/InbodyRectangleItem.vue'));
   }
 };
 const ListItem = switchComponent();

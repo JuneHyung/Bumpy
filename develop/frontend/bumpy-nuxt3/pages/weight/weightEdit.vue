@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p>불러오기</p>
-        <LoadList></LoadList>
+        <LoadList :list="loadList" @initName="initName"></LoadList>
       </label>
       <label class="weightEdit-input-label bp-mt-sm">
         <span class="bp-mr-sm">이름</span>
@@ -66,7 +66,7 @@ import FileUploader from "~~/components/form/FileUploader.vue";
 import { useCommonStore } from "~/store/common";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
-import { createWeightItem, updateWeightItem } from "~~/api/weight/weight";
+import { createWeightItem, readFavoritWeightList, updateWeightItem } from "~~/api/weight/weight";
 import {WeightFormData, WeightRequestBody} from '~~/types/weight';
 
 const commonStore = useCommonStore();
@@ -74,6 +74,7 @@ const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem.seq === undefined);
 const info = { name: "벤치프레스" };
+const loadList = ref([]);
 const form:Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
   weightStart: {value: "",  },
@@ -169,7 +170,7 @@ const cancelWeightEdit = () => {
   router.back();
 };
 
-const initSelectedItem = () => {
+const initSelectedItem = async () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -177,11 +178,30 @@ const initSelectedItem = () => {
   }
 };
 
-onMounted(() => {
+// 등록된 리스트 조회
+const getFavroiteWeightList = async () =>{
+  try{
+    const {data, error} = await readFavoritWeightList();
+    if(error.value!==null) setErrorMessage(error.value)
+    else if(data.value!==null){
+      const list = data.value.data;
+      console.log(list)
+      loadList.value = list;
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
+}
+
+const initName = (name: string) =>{
+  form.value.name.value = name;
+}
+onMounted(async () => {
+  await getFavroiteWeightList();
   if (!editFlag.value) {
-    initSelectedItem();
+    await initSelectedItem();
   } else {
-    weightStore.resetSelectItem();
+    await weightStore.resetSelectItem();
   }
 });
 

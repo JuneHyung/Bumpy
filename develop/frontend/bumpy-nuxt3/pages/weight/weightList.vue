@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router';
 import { readWeightList } from '~/api/weight/weight'
 import { useCommonStore } from '~~/store/common';
 import { setErrorMessage } from '~~/api/alert/message';
-import { readWeightCalendarList } from '~/api/weight/weight';
+import { readWeightCalendarList, readFavoritWeightList } from '~/api/weight/weight';
 import { useWeightStore } from '~~/store/weight';
 import { WeightList } from '~~/types/weight';
 
