@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p>불러오기</p>
-        <LoadList></LoadList>
+        <LoadList :list="loadList" @initName="initName"></LoadList>
       </label>
       <label class="aerobicEdit-input-label bp-mt-sm">
         <span class="bp-mr-sm">이름</span>
@@ -45,14 +45,15 @@ import TextareaInput from '~~/components/form/TextareaInput.vue';
 
 import {useCommonStore} from '~/store/common'
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { createAerobicItem, updateAerobicItem } from '~~/api/aerobic/aerobic';
+import { createAerobicItem, updateAerobicItem,readFavoritAerobicList } from '~~/api/aerobic/aerobic';
 import { useAerobicStore } from '~~/store/aerobic';
 import { AerobicFormData, AerobicRequestBody } from '~~/types/aerobic';
+import { FavoriteListItem } from '~~/types/common';
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
 const editFlag = computed(()=>aerobicStore.getSelectItem.seq===undefined)
-
+const loadList:Ref<FavoriteListItem[]> = ref([])
 const form: Ref<AerobicFormData> = ref({
   name: { value: '', placeholder: '잠온다' },
   kcal: {}, 
@@ -140,18 +141,38 @@ const cancelAerobicEdit = () =>{
   router.back();
 }
 
-const initSelectedItem = () =>{
+const initSelectedItem = async () =>{
   const keys = Object.keys(form.value);
   for(let i=0;i<keys.length;i++){
     const key = keys[i];
     form.value[key].value = aerobicStore.getSelectItem[key]
   }
 }
-onMounted(()=>{
+
+
+const getFavroiteAerobicList = async () =>{
+  try{
+    const {data, error} = await readFavoritAerobicList();
+    if(error.value!==null) setErrorMessage(error.value)
+    else if(data.value!==null){
+      const list = data.value.data;
+      loadList.value = list;
+    }
+  }catch(e){
+    setErrorMessage(e)
+  }
+}
+
+const initName =(name: string) =>{
+  form.value.name.value = name;
+}
+
+onMounted(async ()=>{
+  await getFavroiteAerobicList();
   if(!editFlag.value){
-    initSelectedItem()
+    await initSelectedItem()
   }else{
-    aerobicStore.resetSelectItem()
+    await aerobicStore.resetSelectItem()
   }
 })
 definePageMeta({

@@ -1,6 +1,6 @@
 // import { CREATE, READ } from "~~/types/method";
 
-import { AerobicDeleteRequestParam, AerobicReadRequestParam, AerobicRequestBody } from "~~/types/aerobic";
+import { AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicReadRequestParam, AerobicRequestBody } from "~~/types/aerobic";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
 
 const baseURL = "http://222.112.251.124:8899/api";
@@ -115,11 +115,21 @@ function updateAerobicItem(body: AerobicRequestBody) {
     body,
   });
 }
+
+
+function readFavoritAerobicList(){
+  return useFetch<AerobicFavoriteListResponseBody>("/aerobic/favorite",{
+    baseURL,
+    method:GET,
+    headers
+  })
+}
 export {
   readAerobicItem, 
   readAerobicCalendarList, 
   readAerobicList, 
   createAerobicItem, 
   deleteAerobicItem, 
-  updateAerobicItem
+  updateAerobicItem,
+  readFavoritAerobicList
 };

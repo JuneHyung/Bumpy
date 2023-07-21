@@ -1,3 +1,4 @@
+import { FavoriteListItem, ResponseBody } from "./common";
 import { InputNumber, InputText, InputTextarea } from "./input";
 
 interface Aerobic{
@@ -36,11 +37,14 @@ type AerobicDeleteRequestParam{
   stdDate: string,
   seq: string
 }
+
+type AerobicFavoriteListResponseBody = ResponseBody<FavoriteListItem>
 export {
   Aerobic,
   AerobicList,
   AerobicFormData,
   AerobicReadRequestParam,
   AerobicDeleteRequestParam,
-  AerobicRequestBody
+  AerobicRequestBody,
+  AerobicFavoriteListResponseBody
 }
