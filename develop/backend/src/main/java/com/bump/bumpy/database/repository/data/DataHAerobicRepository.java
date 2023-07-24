@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface DataHAerobicRepository extends JpaRepository<DataHAerobic, DataHCardioId> {
-    Set<DataHAerobicInfo> findByUserIdOrderByNameAsc(String userId);
+    List<DataHAerobicInfo> findByUserIdOrderByNameAsc(String userId);
     Optional<DataHAerobic> findByStdDateAndUserIdAndName(Date stdDate, String userId, String name);
     DataHAerobic findFirstByStdDateAndUserIdOrderBySeqDesc(Date stdDate, String userId);
     DataHAerobic findFirstByUserIdAndNameOrderByKcalDescStdDateDesc(String userId, String name);
