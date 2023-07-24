@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.weight;
 
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
+import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class WeightService {
 
     private final DataHWeightRepository dataHWeightRepository;
+    private final CommonService commonService;
 
     public ResponseEntity<ResultMap> favorite(String userId) {
         Set<DataHWeightInfo> nameSet = dataHWeightRepository.findByUserIdOrderByNameAsc(userId);
@@ -130,14 +133,48 @@ public class WeightService {
         }
     }
 
+//    @Transactional(rollbackFor = Exception.class)
+//    public ResponseEntity<ResultMap> insert(DataHWeightDto request, String userId) {
+//        if(!isTodayDate(request.getStdDate())) {
+//            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
+//        }
+//
+//        if(dataHWeightRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
+//        }
+//
+//        // get max seq
+//        DataHWeight maxSeqData = dataHWeightRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+//
+//        int maxSeq = 1;
+//        if(maxSeqData != null) {
+//            maxSeq = maxSeqData.getSeq() + 1;
+//        }
+//
+//        DataHWeight dataHWeight = request.toEntity(maxSeq);
+//        dataHWeight.setUserId(userId);
+//
+//        dataHWeightRepository.save(dataHWeight);
+//
+//        return ResponseEntity.ok(new ResultMap("message", "저장되었습니다."));
+//    }
+
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHWeightDto request, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHWeightDto request, MultipartFile[] files, String userId) {
         if(!isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
 
         if(dataHWeightRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
+        }
+
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (MultipartFile file : files) {
+            String uuid = commonService.uploadFileInternal(file, userId);
+            uuidList.add(uuid);
         }
 
         // get max seq
@@ -148,7 +185,7 @@ public class WeightService {
             maxSeq = maxSeqData.getSeq() + 1;
         }
 
-        DataHWeight dataHWeight = request.toEntity(maxSeq);
+        DataHWeight dataHWeight = request.toEntity(maxSeq, uuidList);
         dataHWeight.setUserId(userId);
 
         dataHWeightRepository.save(dataHWeight);

@@ -1,6 +1,7 @@
 package com.bump.bumpy.domain.screen.weight.dto;
 
 import com.bump.bumpy.database.entity.data.DataHWeight;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,10 +38,11 @@ public class DataHWeightDto implements Serializable {
     private Integer measure;
     @Size(max = 1000)
     private String memo;
+    @Hidden
     private List<String> picture;
 
     // to entity method for insert
-    public DataHWeight toEntity(int seq) {
+    public DataHWeight toEntity(int seq, List<String> picture) {
         DataHWeight entity = new DataHWeight();
         entity.setStdDate(this.stdDate);
         entity.setSeq(seq);
@@ -53,7 +55,7 @@ public class DataHWeightDto implements Serializable {
         entity.setSetReps(this.setReps);
         entity.setMeasure(this.measure);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 

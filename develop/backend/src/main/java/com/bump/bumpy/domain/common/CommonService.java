@@ -5,16 +5,12 @@ import com.bump.bumpy.database.repository.cm.CmHFileRepository;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -68,28 +64,74 @@ public class CommonService {
         return ResponseEntity.ok(new ResultMap("fileId", uuid));
     }
 
-    // downloadFile
-    public ResponseEntity<ResultMap> downloadFile(String uuid) {
+    @Transactional(rollbackFor = Exception.class)
+    public String uploadFileInternal(MultipartFile file, String userId) {
         // file null check
-        if (uuid == null) {
-            return ResponseEntity.badRequest().body(new ResultMap("message", "fileId is null"));
+        if (file == null) {
+            return null;
         }
+
+        // create new random UUID
+        String uuid = null;
+
+        // uuid duplication check
+        do {
+            uuid = UUID.randomUUID().toString() + "." + getExtensionByStringHandling(file.getOriginalFilename()).orElse("");
+        } while (cmHFileRepository.existsById(uuid));
 
         // create CmHFile entity with uuid
-        CmHFile cmHFile = cmHFileRepository.findById(uuid).orElseThrow(() -> new RuntimeException("file not found"));
+        CmHFile cmHFile = CmHFile.builder()
+                .fileId(uuid)
+                .originFileName(file.getOriginalFilename())
+                .userId(userId)
+                .build();
 
+        // store file in resources/img folder with uuid as filename
+        // if folder doesn't exist, create one
+        if (!new java.io.File(FILE_PATH).exists()) {
+            new java.io.File(FILE_PATH).mkdirs();
+        }
         try {
-            Resource resource = new UrlResource(Paths.get(FILE_PATH + uuid).toUri());
-            if (!resource.exists()) {
-                throw new RuntimeException("file not found");
-            }
-
-            // make variable for store file
-            return ResponseEntity.ok(new ResultMap("file", resource));
-        } catch (MalformedURLException e) {
+            file.transferTo(new java.io.File(FILE_PATH + uuid));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // save file to database
+        cmHFileRepository.save(cmHFile);
+
+        // return fileId
+        return uuid;
     }
+
+    // downloadFile
+//    public ResponseEntity<Resource> downloadFile(String uuid) {
+//        // file null check
+//        if (uuid == null) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        // create CmHFile entity with uuid
+//        CmHFile cmHFile = cmHFileRepository.findById(uuid).orElseThrow(() -> new RuntimeException("file not found"));
+//
+//        try {
+//            Resource resource = new UrlResource(Paths.get(FILE_PATH + uuid).toUri());
+//            if (!resource.exists()) {
+//                throw new RuntimeException("file not found");
+//            }
+//
+//            InputStreamResource inputStreamResource = new InputStreamResource(resource.getInputStream());
+//
+//            return ResponseEntity.ok()
+//                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                    .header("Content-Disposition", "attachment; filename=\"" + cmHFile.getOriginFileName() + "\"")
+//                    .body(inputStreamResource);
+//        } catch (MalformedURLException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private Optional<String> getExtensionByStringHandling(String filename) {
         return Optional.ofNullable(filename)

@@ -3,6 +3,7 @@ package com.bump.bumpy.domain.common;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +23,5 @@ public class CommonController {
     public ResponseEntity<ResultMap> uploadFile(MultipartFile file) {
         return commonService.uploadFile(file);
     }
-
-    @Operation(summary = "파일 업로드", description = "")
-    @GetMapping("/file/download")
-    public ResponseEntity<ResultMap> downloadFile(String fileId) {
-        return commonService.downloadFile(fileId);
-    }
-
 
 }
