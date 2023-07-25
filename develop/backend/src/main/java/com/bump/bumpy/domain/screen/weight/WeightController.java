@@ -71,8 +71,8 @@ public class WeightController {
     @Operation(summary = "추가", description = "")
     @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHWeightDto request,
-                                            @RequestPart("jpg") MultipartFile[] jpg,
-                                            @RequestPart("png") MultipartFile[] png
+                                            @RequestPart(value = "jpg", required = false) MultipartFile[] jpg,
+                                            @RequestPart(value = "png", required = false) MultipartFile[] png
                                             )
     {
         String userId = getUserId();
