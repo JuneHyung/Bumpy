@@ -15,16 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
-import java.util.List;
-
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.mergeMultipartFile;
 
 @RestController
 @RequestMapping("/weight")
@@ -76,9 +74,7 @@ public class WeightController {
                                             )
     {
         String userId = getUserId();
-        MultipartFile[] files = new MultipartFile[jpg.length + png.length];
-        System.arraycopy(jpg, 0, files, 0, jpg.length);
-        System.arraycopy(png, 0, files, jpg.length, png.length);
+        MultipartFile[] files = mergeMultipartFile(jpg, png);
         return weightService.insert(request, files, userId);
     }
 

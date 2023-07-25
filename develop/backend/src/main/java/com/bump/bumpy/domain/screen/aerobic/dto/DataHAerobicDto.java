@@ -39,7 +39,7 @@ public class DataHAerobicDto implements Serializable {
 
 
     // to entity method for insert
-    public DataHAerobic toEntity(int seq) {
+    public DataHAerobic toEntity(int seq, List<String> picture) {
         DataHAerobic entity = new DataHAerobic();
         entity.setStdDate(this.stdDate);
         entity.setSeq(seq);
@@ -51,7 +51,7 @@ public class DataHAerobicDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 

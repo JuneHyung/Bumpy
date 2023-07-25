@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.meal;
 
 import com.bump.bumpy.database.entity.data.DataHMeal;
 import com.bump.bumpy.database.repository.data.DataHMealRepository;
+import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class MealService {
 
     private final DataHMealRepository dataHMealRepository;
+    private final CommonService commonService;
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
         Calendar firstDate = Calendar.getInstance();
@@ -100,8 +103,39 @@ public class MealService {
         }
     }
 
+//    @Transactional(rollbackFor = Exception.class)
+//    public ResponseEntity<ResultMap> insert(DataHMealDto request, String userId) {
+//        if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
+//            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
+//        }
+//
+//        if(dataHMealRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
+//        }
+//
+//        // get max seq from data
+//        DataHMeal maxSeqData = dataHMealRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+//
+//        int seq = 1;
+//        if(maxSeqData != null) {
+//            seq = maxSeqData.getSeq() + 1;
+//        }
+//
+//        DataHMeal dataHMeal = null;
+//        try {
+//            dataHMeal = request.toEntity(seq);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//        dataHMeal.setUserId(userId);
+//
+//        dataHMealRepository.save(dataHMeal);
+//
+//        return ResponseEntity.ok(new ResultMap("message", "저장되었습니다."));
+//    }
+
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHMealDto request, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHMealDto request, MultipartFile[] files, String userId) {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
@@ -118,9 +152,17 @@ public class MealService {
             seq = maxSeqData.getSeq() + 1;
         }
 
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (MultipartFile file : files) {
+            String uuid = commonService.uploadFileInternal(file, userId);
+            uuidList.add(uuid);
+        }
+
         DataHMeal dataHMeal = null;
         try {
-            dataHMeal = request.toEntity(seq);
+            dataHMeal = request.toEntity(seq, uuidList);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

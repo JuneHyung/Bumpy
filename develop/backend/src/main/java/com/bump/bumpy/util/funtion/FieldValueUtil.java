@@ -1,5 +1,7 @@
 package com.bump.bumpy.util.funtion;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -246,4 +248,18 @@ public class FieldValueUtil {
 	}
 
 	private FieldValueUtil() {}
+
+	public static MultipartFile[] mergeMultipartFile(MultipartFile[] list1, MultipartFile[] list2) {
+		MultipartFile[] files = null;
+		if (list1 != null && list2 != null) {
+			files = new MultipartFile[list1.length + list2.length];
+			System.arraycopy(list1, 0, files, 0, list1.length);
+			System.arraycopy(list2, 0, files, list1.length, list2.length);
+		} else if (list1 != null) {
+			files = list1;
+		} else if (list2 != null) {
+			files = list2;
+		}
+		return files;
+	}
 }

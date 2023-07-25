@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.inbody;
 
 import com.bump.bumpy.database.entity.data.DataHInbody;
 import com.bump.bumpy.database.repository.data.DataHInbodyRepository;
+import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,6 +33,7 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class InbodyService {
 
     private final DataHInbodyRepository dataHInbodyRepository;
+    private final CommonService commonService;
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
         ResultMap resultMap = new ResultMap();
@@ -91,8 +94,31 @@ public class InbodyService {
         }
     }
 
+//    @Transactional(rollbackFor = Exception.class)
+//    public ResponseEntity<ResultMap> insert(DataHInbodyDto request, String userId) {
+//        if(dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId).isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
+//        }
+//
+//        // if fatRate is null, calculate it
+//        if(request.getFatRate() == null) {
+//            request.setFatRate(request.getFat().multiply(new BigDecimal(100)).divide(request.getWeight(), RoundingMode.HALF_UP));
+//        }
+//
+//        // if bmi is null, calculate it
+//        if(request.getBmi() == null) {
+//            request.setBmi(request.getWeight().divide(request.getHeight().divide(new BigDecimal(100), RoundingMode.HALF_UP).pow(2), RoundingMode.HALF_UP));
+//        }
+//
+//        DataHInbody dataHInbody = request.toEntity();
+//        dataHInbody.setUserId(userId);
+//
+//        dataHInbodyRepository.save(dataHInbody);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(new ResultMap("message", "저장되었습니다."));
+//    }
+
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHInbodyDto request, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHInbodyDto request, MultipartFile[] files, String userId) {
         if(dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
@@ -107,7 +133,15 @@ public class InbodyService {
             request.setBmi(request.getWeight().divide(request.getHeight().divide(new BigDecimal(100), RoundingMode.HALF_UP).pow(2), RoundingMode.HALF_UP));
         }
 
-        DataHInbody dataHInbody = request.toEntity();
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (MultipartFile file : files) {
+            String uuid = commonService.uploadFileInternal(file, userId);
+            uuidList.add(uuid);
+        }
+
+        DataHInbody dataHInbody = request.toEntity(uuidList);
         dataHInbody.setUserId(userId);
 
         dataHInbodyRepository.save(dataHInbody);

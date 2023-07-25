@@ -19,7 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
@@ -167,20 +175,20 @@ public class WeightService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
         }
 
-        List<String> uuidList = new ArrayList<>();
-
-        // upload files
-        for (MultipartFile file : files) {
-            String uuid = commonService.uploadFileInternal(file, userId);
-            uuidList.add(uuid);
-        }
-
         // get max seq
         DataHWeight maxSeqData = dataHWeightRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
 
         int maxSeq = 1;
         if(maxSeqData != null) {
             maxSeq = maxSeqData.getSeq() + 1;
+        }
+
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (MultipartFile file : files) {
+            String uuid = commonService.uploadFileInternal(file, userId);
+            uuidList.add(uuid);
         }
 
         DataHWeight dataHWeight = request.toEntity(maxSeq, uuidList);

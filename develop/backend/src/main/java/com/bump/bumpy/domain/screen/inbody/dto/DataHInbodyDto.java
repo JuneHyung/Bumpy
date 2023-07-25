@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -37,7 +36,7 @@ public class DataHInbodyDto implements Serializable {
     private List<String> picture;
 
     // to entity method for insert
-    public DataHInbody toEntity() {
+    public DataHInbody toEntity(List<String> picture) {
         DataHInbody entity = new DataHInbody();
         entity.setStdDate(this.stdDate);
         entity.setHeight(this.height);
@@ -47,7 +46,7 @@ public class DataHInbodyDto implements Serializable {
         entity.setScore(this.score);
         entity.setBmi(this.bmi);
         entity.setFatRate(this.fatRate);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 

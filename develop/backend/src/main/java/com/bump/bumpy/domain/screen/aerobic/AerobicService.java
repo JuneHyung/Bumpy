@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.screen.aerobic;
 
 import com.bump.bumpy.database.entity.data.DataHAerobic;
 import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
+import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.screen.aerobic.dto.AerobicActivityResponseDto;
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.aerobic.projection.DataHAerobicInfo;
@@ -15,10 +16,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
@@ -27,6 +37,7 @@ import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 public class AerobicService {
 
     private final DataHAerobicRepository aerobicRepository;
+    private final CommonService commonService;
 
     public ResponseEntity<ResultMap> favorite(String userId) {
         List<DataHAerobicInfo> nameList = aerobicRepository.findByUserIdOrderByNameAsc(userId);
@@ -135,8 +146,34 @@ public class AerobicService {
         }
     }
 
+//    @Transactional(rollbackFor = Exception.class)
+//    public ResponseEntity<ResultMap> insert(DataHAerobicDto request, String userId) {
+//        if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
+//            throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
+//        }
+//
+//        if(aerobicRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
+//        }
+//
+//        // get seq from db
+//        DataHAerobic maxSeqData = aerobicRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
+//
+//        int seq = 1;
+//        if(maxSeqData != null) {
+//            seq = maxSeqData.getSeq() + 1;
+//        }
+//
+//        DataHAerobic dataHAerobic = request.toEntity(seq);
+//        dataHAerobic.setUserId(userId);
+//
+//        aerobicRepository.save(dataHAerobic);
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(new ResultMap("message", "저장되었습니다."));
+//    }
+
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHAerobicDto request, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHAerobicDto request, MultipartFile[] files, String userId) {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다."); // 400 Bad Request
         }
@@ -153,7 +190,15 @@ public class AerobicService {
             seq = maxSeqData.getSeq() + 1;
         }
 
-        DataHAerobic dataHAerobic = request.toEntity(seq);
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (MultipartFile file : files) {
+            String uuid = commonService.uploadFileInternal(file, userId);
+            uuidList.add(uuid);
+        }
+
+        DataHAerobic dataHAerobic = request.toEntity(seq, uuidList);
         dataHAerobic.setUserId(userId);
 
         aerobicRepository.save(dataHAerobic);

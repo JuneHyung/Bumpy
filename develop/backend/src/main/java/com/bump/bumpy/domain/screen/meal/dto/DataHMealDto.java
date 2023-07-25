@@ -40,7 +40,7 @@ public class DataHMealDto implements Serializable {
     private List<String> food;
 
     // to entity method for insert
-    public DataHMeal toEntity(int seq) throws JsonProcessingException {
+    public DataHMeal toEntity(int seq, List<String> picture) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         DataHMeal entity = new DataHMeal();
         entity.setStdDate(this.stdDate);
@@ -50,7 +50,7 @@ public class DataHMealDto implements Serializable {
         entity.setKcal(this.kcal);
         entity.setWater(this.water);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         entity.setFood(objectMapper.writeValueAsString(this.food));
         return entity;
     }
