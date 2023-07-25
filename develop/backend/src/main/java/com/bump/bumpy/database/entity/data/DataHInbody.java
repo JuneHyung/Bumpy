@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,10 +75,19 @@ public class DataHInbody implements Serializable {
 
     // set and get picture method for CRUD API split by ',' and join by ','
     public List<String> getPicture() {
+        // null check
+        if (this.picture == null) {
+            return new ArrayList<>();
+        }
         return List.of(this.picture.split(","));
     }
 
     public void setPicture(List<String> picture) {
+        // null check
+        if (picture == null) {
+            this.picture = null;
+            return;
+        }
         this.picture = String.join(",", picture);
     }
 
