@@ -62,12 +62,10 @@ public class MealController {
     @Operation(summary = "추가", description = "")
     @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHMealDto request,
-                                            @RequestPart(value = "jpg", required = false) MultipartFile[] jpg,
-                                            @RequestPart(value = "png", required = false) MultipartFile[] png
+                                            @RequestPart(value = "files", required = false) MultipartFile[] files
                                             )
     {
         String userId = getUserId();
-        MultipartFile[] files = mergeMultipartFile(jpg, png);
         return mealService.insert(request, files, userId);
     }
 

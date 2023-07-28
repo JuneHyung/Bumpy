@@ -68,13 +68,10 @@ public class AerobicController {
     @Operation(summary = "추가", description = "")
     @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHAerobicDto request,
-                                            @RequestPart(value = "jpg", required = false) MultipartFile[] jpg,
-                                            @RequestPart(value = "png", required = false) MultipartFile[] png
+                                            @RequestPart(value = "files", required = false) MultipartFile[] files
                                             )
     {
         String userId = getUserId();
-        // jpg and png merge but it can be null
-        MultipartFile[] files = mergeMultipartFile(jpg, png);
         return aerobicService.insert(request, files, userId);
     }
 
