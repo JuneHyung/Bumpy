@@ -8,9 +8,6 @@
       </div>
       <div class="inbody-info-box">
         <ActivityList type="square" listType="inbody" :list="inbodyList"></ActivityList>
-        <div class="chart-box">
-          <p>chart</p>
-        </div>
       </div>
     </div>
     <div class="content-wrap-box bp-mt-xl inbody-calendar">
