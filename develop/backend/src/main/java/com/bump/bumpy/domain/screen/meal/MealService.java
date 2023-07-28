@@ -7,6 +7,7 @@ import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
+import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -94,7 +95,8 @@ public class MealService {
         DataHMeal dataHMeal = dataHMealRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
         if(dataHMeal != null) {
             try {
-                return ResponseEntity.ok(new ResultMap(new DataHMealDto(dataHMeal)));
+                List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHMeal.getPicture());
+                return ResponseEntity.ok(new ResultMap(new MealResponse(dataHMeal, imageList)));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

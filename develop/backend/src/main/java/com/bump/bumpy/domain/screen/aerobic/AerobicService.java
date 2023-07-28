@@ -4,6 +4,7 @@ import com.bump.bumpy.database.entity.data.DataHAerobic;
 import com.bump.bumpy.database.repository.data.DataHAerobicRepository;
 import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.screen.aerobic.dto.AerobicActivityResponseDto;
+import com.bump.bumpy.domain.screen.aerobic.dto.AerobicResponse;
 import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.aerobic.projection.DataHAerobicInfo;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
@@ -140,7 +141,8 @@ public class AerobicService {
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         DataHAerobic dataHAerobic = aerobicRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
         if(dataHAerobic != null) {
-            return ResponseEntity.ok(new ResultMap(dataHAerobic));
+            List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHAerobic.getPicture());
+            return ResponseEntity.ok(new ResultMap(new AerobicResponse(dataHAerobic, imageList)));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         }

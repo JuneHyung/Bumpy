@@ -10,9 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
@@ -104,34 +111,28 @@ public class CommonService {
         return uuid;
     }
 
-    // downloadFile
-//    public ResponseEntity<Resource> downloadFile(String uuid) {
-//        // file null check
-//        if (uuid == null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        // create CmHFile entity with uuid
-//        CmHFile cmHFile = cmHFileRepository.findById(uuid).orElseThrow(() -> new RuntimeException("file not found"));
-//
-//        try {
-//            Resource resource = new UrlResource(Paths.get(FILE_PATH + uuid).toUri());
-//            if (!resource.exists()) {
-//                throw new RuntimeException("file not found");
-//            }
-//
-//            InputStreamResource inputStreamResource = new InputStreamResource(resource.getInputStream());
-//
-//            return ResponseEntity.ok()
-//                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//                    .header("Content-Disposition", "attachment; filename=\"" + cmHFile.getOriginFileName() + "\"")
-//                    .body(inputStreamResource);
-//        } catch (MalformedURLException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public List<Map<String, String>> getFileBase64Internal(List<String> uuidList) {
+        List<CmHFile> cmHFileList = cmHFileRepository.findAllById(uuidList);
+        List<Map<String, String>> returnList = new ArrayList<>();
+        cmHFileList.forEach(cmHFile -> {
+            // get file from FILE_PATH and encode to base64
+            File file = new File(FILE_PATH + cmHFile.getFileId());
+            byte[] fileContent = new byte[(int) file.length()];
+            try {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                fileInputStream.read(fileContent);
+                fileInputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String encoded = Base64.getEncoder().encodeToString(fileContent);
+            int size = (int) file.length();
+
+            returnList.add(Map.of("name", cmHFile.getOriginFileName(), "data", encoded, "size", String.valueOf(size)));
+        });
+
+        return returnList;
+    }
 
     private Optional<String> getExtensionByStringHandling(String filename) {
         return Optional.ofNullable(filename)

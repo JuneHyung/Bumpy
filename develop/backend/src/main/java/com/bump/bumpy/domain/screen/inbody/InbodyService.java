@@ -7,6 +7,7 @@ import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.inbody.dto.DataHInbodyDto;
+import com.bump.bumpy.domain.screen.inbody.dto.InbodyResponse;
 import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
@@ -90,7 +91,8 @@ public class InbodyService {
         if(dataHInbody == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
-            return ResponseEntity.ok(new ResultMap(dataHInbody));
+            List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHInbody.getPicture());
+            return ResponseEntity.ok(new ResultMap(new InbodyResponse(dataHInbody, imageList)));
         }
     }
 

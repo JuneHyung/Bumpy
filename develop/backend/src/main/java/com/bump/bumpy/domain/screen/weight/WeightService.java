@@ -8,6 +8,7 @@ import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.domain.screen.weight.dto.WeightActivityResponseDto;
+import com.bump.bumpy.domain.screen.weight.dto.WeightResponse;
 import com.bump.bumpy.domain.screen.weight.projection.DataHWeightInfo;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
@@ -135,7 +136,9 @@ public class WeightService {
         if(dataHWeight == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
-            return ResponseEntity.ok(new ResultMap(dataHWeight));
+            List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHWeight.getPicture());
+            WeightResponse weightResponse = new WeightResponse(dataHWeight, imageList);
+            return ResponseEntity.ok(new ResultMap(weightResponse));
         }
     }
 
