@@ -1,39 +1,132 @@
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import {defineStore} from 'pinia';
+import dayjs from "dayjs";
+import _ from "lodash";
+import { defineStore } from "pinia";
+import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem } from "~~/api/meal/meal";
+import { CommonCalendarData } from "~~/types/common";
+import { Meal, MealItemRequestParam, MealList } from "~~/types/meal";
 
-export const useMealStore = defineStore({
-  id:'meal-store',
-  state:()=>{
-    return {
-      focusDate: '',
-      isToday: true,
-      calendarList: [],
-      selectItem: {},
+export const useMealStore = defineStore("meal-store", () => {
+  const focusDate = ref("");
+  const isToday = ref(true);
+  const activityList: Ref<MealList> = ref([]);
+  const calendarList: Ref<CommonCalendarData[]> = ref([]);
+  const selectItem: Ref<Meal> = ref({});
+
+  // dispatch
+  const getActivityListByStdDate = async (stdDate: string) => {
+    try {
+      const { data, error } = await readMealActivityList({ stdDate: stdDate });
+      if (error.value !== null) {
+        setErrorMessage(error.value);
+      } else if (data.value !== null) {
+        const list = data.value.data;
+        setActivityList(list);
+      }
+    } catch (e) {
+      setErrorMessage(e);
     }
-  },
-  actions:{
-    setFocusDate(date: string | Date){
-      this.focusDate= dayjs(date).format('YYYY-MM-DD');
-      this.setIsToday();
-    },
-    setIsToday(){
-      this.isToday = this.focusDate===dayjs().format('YYYY-MM-DD');
-    },
-    setCalendarlist(list: any){
-      this.calendarList = list.slice();
-    },
-    setSelectItem(item: any) {
-      this.selectItem = _.cloneDeep(item);
-    },
-    resetSelectItem(){
-      this.selectItem = {};
+  };
+
+  const getCalendarListByStdDate = async (stdDate: string) => {
+    try {
+      const { data, error } = await readMealCalendarList({ stdDate: stdDate });
+      if (error.value !== null) {
+        setErrorMessage(error.value);
+      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+        const list = data.value?.data;
+        setCalendarlist(list);
+      }
+    } catch (e) {
+      setErrorMessage(e);
     }
-  },
-  getters:{
-    getFocusDate: (state) => state.focusDate,
-    getIsToday: (state) => state.isToday,
-    getCalendarList: (state) => state.calendarList,
-    getSelectItem: (state) => state.selectItem,
-  }
-})
+  };
+
+  const getSelectItemByStdDateSeq = async (stdDate: string, seq: number) => {
+    try {
+      const params = {
+        stdDate,
+        seq,
+      };
+      const { data, error } = await readMealItem(params);
+      if (error.value !== null) {
+        setErrorMessage(error.value);
+      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+        setSelectItem(data.value.data);
+      } else {
+        setSelectItem({});
+      }
+    } catch (e) {
+      setErrorMessage(e);
+    }
+  };
+
+  const removeMealItem = async () => {
+    try {
+      const params: MealItemRequestParam = {
+        stdDate: focusDate.value,
+        seq: selectItem.value.seq,
+      };
+      const { data, error } = await deleteMealItem(params);
+      if (error.value !== null) {
+        await setErrorMessage(error.value?.message);
+      } else if (data.value !== null && data.value !==undefined) {
+        const message = data.value?.message;
+        await setMessage(message);
+      }
+    } catch (e) {
+      setErrorMessage(e);
+    }
+  };
+
+  // getter & setter
+  const setFocusDate = async (date: string | Date) => {
+    focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    setIsToday();
+  };
+  const setIsToday = async () => {
+    isToday.value = focusDate.value === dayjs().format("YYYY-MM-DD");
+  };
+  const setActivityList = async (list: MealList) => {
+    if (list !== undefined) {
+      activityList.value = list;
+    } else activityList.value = [];
+  };
+  const setCalendarlist = async (list: CommonCalendarData[]) => {
+    if (list !== undefined) {
+      calendarList.value = list.slice();
+    }
+  };
+  const setSelectItem = async (item: Meal) => {
+    selectItem.value = _.cloneDeep(item);
+  };
+  const resetSelectItem = async () => {
+    selectItem.value = {};
+  };
+
+  const getFocusDate = (): string => focusDate.value;
+  const getIsToday = () => isToday.value;
+  const getActivityList = () => activityList.value;
+  const getCalendarList = () => calendarList.value;
+  const getSelectItem = () => selectItem.value;
+
+  return {
+    getActivityListByStdDate,
+    getCalendarListByStdDate,
+    getSelectItemByStdDateSeq,
+    removeMealItem,
+
+    setFocusDate,
+    setIsToday,
+    setActivityList,
+    setCalendarlist,
+    setSelectItem,
+    resetSelectItem,
+
+    getFocusDate,
+    getIsToday,
+    getActivityList,
+    getCalendarList,
+    getSelectItem,
+  };
+});

@@ -8,10 +8,10 @@ type FoodListType = FoodItem[];
 
 export interface Meal{
   seq?: number,
-  name: string,
-  time: string,
-  kcal: string,
-  water: string,
+  name?: string,
+  time?: string,
+  kcal?: string,
+  water?: string,
   memo?: string,
   stdDate?: string,
   picture?: string[],
@@ -34,5 +34,5 @@ export type MealItemRequestParam = Pick<Meal, 'stdDate' | 'seq'>
 export type MealListRequestParam = Pick<Meal, 'stdDate'>
 export type MealItemRequestBody = Meal
 export type MealItemResposneBody = ResponseBody<Meal>
-export type MealCalendarResponseBody = ResponseBody<CommonCalendarData>
+export type MealCalendarResponseBody = ResponseBody<CommonCalendarData[]>
 export type MealListResponseBody = ResponseBody<MealList>

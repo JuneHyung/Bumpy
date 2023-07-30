@@ -1,84 +1,30 @@
 <template>
-  <main class="content-layout aerobic-list-wrap-box">
+  <main class="content-layout meal-list-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
-    <div class="aerobic-list-box content-wrap-box bp-my-lg">
-      <div class="title-wrap-box">
-        <h3 class="content-title">{{ aerobicStore.getFocusDate }}</h3>
-        <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">Edit</button>
-      </div>
-      <ActivityList type="square" listType="aerobic" :list="aerobicList"></ActivityList>
-    </div>
-    <div class="content-wrap-box bp-mt-xl aerobic-calendar">
-      <Calendar @focusDate="getFocusDate" type="aerobic"></Calendar>
-    </div>
+    <ActivitySection info="aerobic" />
+    <CalendarSection info="aerobic" />
   </main>
 </template>
 <script setup lang="ts">
-import Calendar from '~~/components/calendar/Calendar.vue';
-
-import ActivityList from '~~/components/list/ActivityList.vue';
-import { useRouter } from 'vue-router';
-import { setErrorMessage } from '~~/api/alert/message';
-import { useCommonStore } from '~~/store/common';
+import ActivitySection from '~~/components/section/ActivitySection.vue';
+import CalendarSection from '~~/components/section/CalendarSection.vue';
 import { useAerobicStore } from '~~/store/aerobic';
-import { readAerobicCalendarList, readAerobicList } from '~~/api/aerobic/aerobic';
+import { useCommonStore } from '~~/store/common';
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
-const router = useRouter();
-const editFlag = computed(()=>commonStore.getToday===aerobicStore.getFocusDate)
-const aerobicList = ref([]);
 
 definePageMeta({
   layout: 'main-layout',
 });
 
-// Calendar 클릭시 focusdate변경
-const getFocusDate = async (v: string) => {
-  await aerobicStore.setFocusDate(v);
-  await getAerobicList();
-}
-
-// aerobic List 조회
-const getAerobicList = async() => {
-  const focusDate = aerobicStore.getFocusDate;
-  try {
-    const { data, error } = await readAerobicList({ stdDate: focusDate });
-    if(error.value !== null){
-      setErrorMessage(error.value)
-    }else if(data.value!==null){
-      const list = data.value.data
-      aerobicList.value = list;
-    }
-  } catch (e) {
-    setErrorMessage(e)
-  }
-}
-
-// calendarList 조회
-const getCalendarList = async () =>{
-  const focusDate = aerobicStore.getFocusDate;
-  try{
-    const {data, error} = await readAerobicCalendarList({stdDate: focusDate});
-    if(error.value !== null){
-      setErrorMessage(error.value)
-    }else if(data.value!==null){
-      const list = data.value.data
-      aerobicStore.setCalendarlist(list);
-    }
-  }catch(e){
-    setErrorMessage(e)
-  }
-}
-
-const moveEdit = () => {
-  aerobicStore.resetSelectItem()
-  router.push({ path: 'aerobicEdit' });
-};
-onMounted(()=>{
-  const today = commonStore.getToday;
-  aerobicStore.setFocusDate(today);
-  // aerobicStore.resetSelectItem();
-  getAerobicList();
-  getCalendarList();
+onMounted(async ()=>{
+  const today =commonStore.getToday;
+  await aerobicStore.setFocusDate(today);
+  await aerobicStore.getCalendarListByStdDate(today);
+  await aerobicStore.getActivityListByStdDate(today);
 })
+
 </script>
+<style scoped lang="scss">
+
+</style>

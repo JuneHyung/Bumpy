@@ -22,8 +22,6 @@
   </li>
 </template>
 <script setup lang="ts">
-import { setErrorMessage } from '~~/api/alert/message';
-import { readInbodyItem } from '~~/api/inbody/inbody';
 import { useInbodyStore } from '~~/store/inbody';
 import { Inbody } from '~~/types/inbody';
 
@@ -33,26 +31,11 @@ interface Props {
 const props = defineProps<Props>();
 const router=  useRouter();
 const inbodyStore = useInbodyStore();
-const getDetailItem = async () =>{
-  const params = {
-    stdDate: inbodyStore.getFocusDate,
-  }
-  try{
-    const { data, error } = await readInbodyItem(params)
-    if(error.value!==null){
-      setErrorMessage(error.value.message)
-    }else if(data.value!==null){
-      inbodyStore.setSelectItem(data.value.data)
-    }
-  } catch(e){
-    setErrorMessage(e)
-  }
-}
 
-const moveDetail = async () =>{
-  await getDetailItem();
-  await router.push({path: 'inbodyDetail'});
-}
+const moveDetail = async () => {
+  await inbodyStore.getSelectItemByStdDateSeq(inbodyStore.getFocusDate(), props.info.seq as number)
+  await router.push({ path: 'inbodyDetail' });
+};
 
 </script>
 <style lang="scss" scoped></style>

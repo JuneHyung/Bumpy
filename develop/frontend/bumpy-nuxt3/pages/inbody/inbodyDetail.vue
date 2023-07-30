@@ -2,7 +2,7 @@
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">About Your Inbody</h1>
     <div class="content-wrap-box">
-      <h2 class="content-title">{{ inbodyStore.getFocusDate }} Inbody</h2>
+      <h2 class="content-title">{{ inbodyStore.getFocusDate() }} Inbody</h2>
     <div class="inbody-info-box">
         <div class="chart-wrap">
           <ImageList :list="testImageList"></ImageList>
@@ -12,7 +12,7 @@
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ inbodyStore.selectItem[item.key] }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ inbodyStore.getSelectItem()[item.key] }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
@@ -27,57 +27,21 @@
       </div>
       <div class="inbodyDetail-button-wrap">
         <button class="short-ghost-button" @click="moveInbodyList">취소</button>
-        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday" @click="removeInbodyItem">삭제</button>
-        <button class="short-filled-button" v-if="inbodyStore.getIsToday" @click="moveModifyItem">수정</button>
+        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday()" @click="inbodyStore.removeInbodyItem()">삭제</button>
+        <button class="short-filled-button" v-if="inbodyStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup>
-import { deleteInbodyItem } from '~~/api/inbody/inbody';
 import { useInbodyStore } from '~~/store/inbody';
 import ImageList from "~~/components/list/ImageList.vue";
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
-const router= useRouter();
-const inbodyStore = useInbodyStore();
-const testImageList = [
-  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
-]
-
-
-const removeInbodyItem = async () =>{
-  // setMessage('삭제')
-  try{
-    const param = {
-      stdDate: inbodyStore.focusDate,
-    }
-    const {data, error} = await deleteInbodyItem(param);
-    if(error.value!==null){
-      await setErrorMessage(error.value.messaage)
-    }else if(data.value!==null){
-      await setMessage('삭제 완료하였습니다.');
-      await moveInbodyList();
-    }
-  }catch(e){
-    setErrorMessage(e)
-  }
-}
-const moveInbodyList = async () =>{
-  await router.push({path: 'inbodyList'});
-}
-
-const moveModifyItem = async () =>{
-  console.log('asdf')
-  await router.push({path: 'inbodyEdit'})
-}
 
 definePageMeta({
   layout: 'main-layout',
 });
+const router= useRouter();
+const inbodyStore = useInbodyStore();
 
 const infoList = [
   [
@@ -91,4 +55,23 @@ const infoList = [
     { key: 'fatRate', label: '체지방률',  unit: '%' },
   ],
 ];
+
+const testImageList = [
+  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
+  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
+]
+
+
+const moveInbodyList = async () =>{
+  await router.push({path: 'inbodyList'});
+}
+
+const moveModifyItem = async () =>{
+  await router.push({path: 'inbodyEdit'})
+}
+
+
 </script>

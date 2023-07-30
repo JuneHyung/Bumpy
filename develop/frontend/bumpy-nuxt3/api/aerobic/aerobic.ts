@@ -38,7 +38,7 @@ function readAerobicCalendarList(params: AerobicReadRequestParam) {
  * Activity 조회 - GET
  * @returns
  */
-function readAerobicList(params: AerobicReadRequestParam) {
+function readAerobicActivityList(params: AerobicReadRequestParam) {
   return useFetch("/aerobic/activity", {
     baseURL,
     method: GET,
@@ -127,7 +127,7 @@ function readFavoritAerobicList(){
 export {
   readAerobicItem, 
   readAerobicCalendarList, 
-  readAerobicList, 
+  readAerobicActivityList, 
   createAerobicItem, 
   deleteAerobicItem, 
   updateAerobicItem,

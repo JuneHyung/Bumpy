@@ -105,7 +105,7 @@ const measure = ref({ key: "memo", label: "메모", type: "textarea" });
 const memo = ref({});
 const makeBody = () => {
   const result: WeightRequestBody = {
-    stdDate: weightStore.getFocusDate === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate,
+    stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate(),
     seq: 2,
     name: form.value.name.value,
     weightStart: form.value.weightStart.value,
@@ -124,18 +124,20 @@ const makeBody = () => {
 // 저장 버튼
 const saveWeightItem = async () => {
   const body = makeBody();
-  try {
-    const { data, error } = await createWeightItem(body);
-    if (error.value !== null) {
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ path: "/weight/weightList" });
-    }
-  } catch (e) {
-    setErrorMessage(e);
-  }
+  weightStore.postWeightItem(body);
+  router.push({ path: "/weight/weightList" });
+  
+  // try {
+  //   const { data, error } = await createWeightItem(body);
+  //   if (error.value !== null) {
+  //     const errorMessage = error.value?.data.message;
+  //     setErrorMessage(errorMessage);
+  //   } else if (data.value !== null) {
+  //     setMessage(data.value.message);
+  //   }
+  // } catch (e) {
+  //   setErrorMessage(e);
+  // }
 };
 
 // 수정 버튼

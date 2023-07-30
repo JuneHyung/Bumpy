@@ -2,7 +2,7 @@ import { CommonCalendarData, ResponseBody } from "./common";
 import { InputText } from "./input";
 
 export interface Inbody {
-  seq: number,
+  seq?: number,
   height?: string,
   weight?: string,
   age?: string,
@@ -29,7 +29,7 @@ export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>
 export type InbodyListRequestParam = Pick<Inbody, 'stdDate'>
 export type InbodyItemRequestBody = Inbody;
 export type InbodyItemResponseBody = ResponseBody<Inbody>;
-export type InbodyCalendarItemResponseBody = ResponseBody<CommonCalendarData>;
+export type InbodyCalendarItemResponseBody = ResponseBody<CommonCalendarData[]>;
 export type InbodyListResponseBody = ResponseBody<InbodyList>;
 
 

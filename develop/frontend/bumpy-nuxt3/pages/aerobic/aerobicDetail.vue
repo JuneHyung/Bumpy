@@ -10,14 +10,14 @@
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
             <p class="bp-mr-sm">
-              <span>시작 Incline : {{ aerobicStore.getSelectItem.inclineStart }} </span>
-              <span>시작 Speed : {{ aerobicStore.getSelectItem.speedStart }} </span>
-              <span>시간 : {{ aerobicStore.getSelectItem.time }} m</span>
+              <span>시작 Incline : {{ aerobicStore.getSelectItem().inclineStart }} </span>
+              <span>시작 Speed : {{ aerobicStore.getSelectItem().speedStart }} </span>
+              <span>시간 : {{ aerobicStore.getSelectItem().time }} m</span>
             </p>
             <p class="bp-mr-sm">
-              <span>종료 Incline : {{ aerobicStore.getSelectItem.inclineEnd }} </span>
-              <span>종료 Speed : {{ aerobicStore.getSelectItem.speedEnd }} </span>
-              <span>Kcal : {{ aerobicStore.getSelectItem.kcal }}</span>
+              <span>종료 Incline : {{ aerobicStore.getSelectItem().inclineEnd }} </span>
+              <span>종료 Speed : {{ aerobicStore.getSelectItem().speedEnd }} </span>
+              <span>Kcal : {{ aerobicStore.getSelectItem().kcal }}</span>
             </p>
           </div>
           <div class="info-memo-box">
@@ -33,40 +33,22 @@
       </div>
       <div class="aerobicDetail-button-wrap">
         <button class="short-ghost-button" @click="moveAerobicList">취소</button>
-        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday" @click="removeAerobicItem">삭제</button>
-        <button class="short-filled-button" v-if="aerobicStore.getIsToday" @click="moveModifyItem">수정</button>
+        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday()" @click="aerobicStore.removeAerobicItem()">삭제</button>
+        <button class="short-filled-button" v-if="aerobicStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
   </main>
 </template>
 <script setup lang="ts">
-import { deleteAerobicItem } from "~~/api/aerobic/aerobic";
-import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useAerobicStore } from "~~/store/aerobic";
-import { AerobicDeleteRequestParam } from "~~/types/aerobic";
-import { ResponseBody } from "~~/types/common";
+definePageMeta({
+  layout: "main-layout",
+});
 
 const router = useRouter();
 const aerobicStore = useAerobicStore();
+const infoName = { key: "name", label: "", value: "Walking" };
 
-const removeAerobicItem = async () => {
-  try {
-    const body: AerobicDeleteRequestParam = {
-      stdDate: aerobicStore.focusDate,
-      seq: aerobicStore.getSelectItem.seq,
-    };
-    const { data, error } = await deleteAerobicItem(body);
-    if (error.value !== null) {
-      await setErrorMessage(error.value.messaage);
-    } else if (data.value !== null) {
-      const result = data.value as ResponseBody<any>;
-      await setMessage(data.value.message);
-      await moveAerobicList();
-    }
-  } catch (e) {
-    setErrorMessage(e);
-  }
-};
 const moveAerobicList = async () => {
   await router.push({ path: "aerobicList" });
 };
@@ -74,9 +56,5 @@ const moveAerobicList = async () => {
 const moveModifyItem = async () => {
   await router.push({ path: "aerobicEdit" });
 };
-definePageMeta({
-  layout: "main-layout",
-});
-const infoName = { key: "name", label: "", value: "Walking" };
 
 </script>

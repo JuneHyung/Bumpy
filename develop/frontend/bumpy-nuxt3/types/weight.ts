@@ -49,7 +49,7 @@ type WeightReadRequestParam={
   stdDate: string,
 }
 type WeightItemResponseBody = ResponseBody<Weight>
-type WeightCalendarResponseBody = ResponseBody<CommonCalendarData>
+type WeightCalendarResponseBody = ResponseBody<CommonCalendarData[]>
 type WeightReadResponseBody = ResponseBody<WeightList>
 type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem>
 export {

@@ -35,7 +35,7 @@ type AerobicReadRequestParam {
 }
 type AerobicDeleteRequestParam{
   stdDate: string,
-  seq: string
+  seq: number
 }
 
 type AerobicFavoriteListResponseBody = ResponseBody<FavoriteListItem>

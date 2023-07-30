@@ -16,8 +16,6 @@
   </li>
 </template>
 <script setup lang="ts">
-import { readAerobicItem } from '~~/api/aerobic/aerobic';
-import { setErrorMessage } from '~~/api/alert/message';
 import { useAerobicStore } from '~~/store/aerobic';
 import { Aerobic } from '~~/types/aerobic';
 interface Props {
@@ -26,25 +24,11 @@ interface Props {
 const props = defineProps<Props>();
 const router= useRouter();
 const aerobicStore = useAerobicStore();
-const getDetailItem = async () =>{
-  const params = {
-    stdDate: aerobicStore.focusDate,
-    seq: props.info.seq,
-  }
-  try{
-    const { data, error } = await readAerobicItem(params)
-    if(error.value!==null){
-      setErrorMessage(error.value.message)
-    }else if(data.value.data!==null){
-      aerobicStore.setSelectItem(data.value.data)
-    }
-  } catch(e){
-    setErrorMessage(e)
-  }
-}
+
 const moveDetail = async () => {
-  await getDetailItem();
+  await aerobicStore.getSelectItemByStdDateSeq(aerobicStore.getFocusDate(), props.info.seq as number)
   await router.push({ path: 'aerobicDetail' });
 };
+
 </script>
 <style lang="scss" scoped></style>
