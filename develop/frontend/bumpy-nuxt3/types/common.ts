@@ -18,3 +18,9 @@ export interface FavoriteListItem{
   title: string,
   list: string[],
 }
+
+export interface ImageData{
+  name: string,
+  data: string,
+  size: string
+}

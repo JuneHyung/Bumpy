@@ -23,19 +23,15 @@
 @import './user/avatar.scss';
 @import './user/userInfo.scss';
 
-@import './weight/weightList.scss';
 @import './weight/weightDetail.scss';
 @import './weight/weightEdit.scss';
 
-@import './aerobic/aerobicList.scss';
 @import './aerobic/aerobicDetail.scss';
 @import './aerobic/aerobicEdit.scss';
 
-@import './meal/mealList.scss';
 @import './meal/mealDetail.scss';
 @import './meal/mealEdit.scss';
 
-@import './inbody/inbodyList.scss';
 @import './inbody/inbodyDetail.scss';
 @import './inbody/inbodyEdit.scss';
 
@@ -141,7 +137,3 @@ p {
 .apexcharts-tooltip, .apexcharts-toolbar {
   color: #000000;
 }
-// :root {
-//   --fc-button-text-color:#fff;
-//   --fc-button-bg-color:red;
-// }

@@ -1,5 +1,5 @@
 <template>
-  <main class="content-layout meal-list-wrap-box">
+  <main class="content-layout list-page-wrap-box">
     <h1 class="content-title">Your Meal List</h1>
     <ActivitySection info="meal" />
     <CalendarSection info="meal" />

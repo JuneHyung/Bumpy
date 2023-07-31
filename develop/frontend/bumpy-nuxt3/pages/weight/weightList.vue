@@ -1,5 +1,5 @@
 <template>
-  <main class="content-layout weight-list-wrap-box">
+  <main class="content-layout list-page-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
     <ActivitySection info="weight" />
     <CalendarSection info="weight" />

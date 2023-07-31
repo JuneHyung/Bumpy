@@ -1,52 +1,53 @@
 .default-layout {
   height: 100%;
-  min-height:800px;
-  background-color: rgba(23,21,22, 1);
+  min-height: 800px;
+  background-color: rgba(23, 21, 22, 1);
   // background-color: rgba(50,64,83, 1);
 }
-
 
 .start-layout {
   display: flex;
   height: 100%;
-  min-height:800px;
+  min-height: 800px;
   justify-content: center;
   align-items: center;
-  background: url('@/assets/images/background-image.png') no-repeat center center;
+  background: url("@/assets/images/background-image.png") no-repeat center center;
   background-size: cover;
 }
 
-.wrapper-layout{
-  height:100%;
-  min-height:1000px;
-  display:flex;
+.wrapper-layout {
+  height: 100%;
+  min-width:1440px;
+  min-height: 1080px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color:$layout-outter-background-color;
-  color:#fff;
+  background-color: $layout-outter-background-color;
+  color: #fff;
   .main-layout {
-    height:100%;
+    height: 100%;
+    min-width:1440px;    
     display: flex;
-    flex:0 1 1440px;
     flex-direction: row;
   }
 }
 
 .content-layout {
-  display:flex;
-  flex: 8;
+  display: flex;
+  min-width:940px;
   flex-direction: column;
   padding: 2rem;
   align-self: stretch;
   background-color: $layout-inner-background-color;
 }
+
 .content-title {
   color: $middle-point-color;
-  display:flex;
+  display: flex;
 }
 .content-wrap-box {
-  display:flex;
-  flex:1;
+  display: flex;
+  flex: 1;
   flex-direction: column;
   background-color: $layout-outter-background-color;
   border-radius: 1.2rem;
@@ -55,8 +56,21 @@
   margin: 8px 0;
 }
 
-// @keyframes introduce {
-//   from{
-
-//   }to 100{}
-// }
+.list-page-wrap-box {
+  .title-wrap-box {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+  }
+  .activity-list-box {
+    max-height: 300px;
+  }
+  .edit-button {
+    max-width: 120px;
+  }
+  .activity-calendar {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+}

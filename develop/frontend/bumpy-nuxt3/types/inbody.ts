@@ -12,6 +12,7 @@ export interface Inbody {
   bmi?: string,
   fatRate?: string,
   stdDate?: string,
+  picture?: ImageData[]
 }
 export type InbodyList = Inbody[]
 export type InbodyFormData = {

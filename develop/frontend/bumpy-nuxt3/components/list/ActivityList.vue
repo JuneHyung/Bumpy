@@ -4,7 +4,7 @@
       <ListItem :info="item"></ListItem>
     </template>
     <template v-else>
-      <div class="bp-py-sm">등록된 데이터가 없습니다</div>
+      <NoData></NoData>
     </template>
   </ul>
 </template>
@@ -14,7 +14,7 @@ import { AerobicList } from '~~/types/aerobic';
 import { InbodyList } from '~~/types/inbody';
 import { MealList } from '~~/types/meal';
 import { WeightList } from '~~/types/weight';
-
+import NoData from '~~/components/common/NoData.vue';
 interface Props {
   type: 'square' | 'rectangle';
   listType: 'weight' | 'aerobic' | 'meal' | 'inbody';

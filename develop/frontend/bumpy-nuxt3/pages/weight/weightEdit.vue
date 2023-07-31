@@ -12,7 +12,7 @@
       </label>
       <label class="weightEdit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader></FileUploader>
+        <FileUploader :list="form.pictures"></FileUploader>
       </label>
       <div class="weightEdit-input-label-wrap">
         <template v-for="(list, idx) in numberList" :key="idx">
@@ -68,7 +68,7 @@ import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { createWeightItem, readFavoritWeightList, updateWeightItem } from "~~/api/weight/weight";
 import {WeightFormData, WeightRequestBody} from '~~/types/weight';
-
+import _ from 'lodash'
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
@@ -85,7 +85,7 @@ const form:Ref<WeightFormData> = ref({
   setReps: {value: "",  },
   measure: {value: "",  },
   memo: { value: "" },
-  // picture: {value: '', placeholder: ''},
+  pictures: {value: [], placeholder: ''},
 });
 
 const numberList = ref([
@@ -104,7 +104,7 @@ const numberList = ref([
 const measure = ref({ key: "memo", label: "메모", type: "textarea" });
 const memo = ref({});
 const makeBody = () => {
-  const result: WeightRequestBody = {
+  const request: WeightRequestBody = {
     stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate(),
     seq: 2,
     name: form.value.name.value,
@@ -118,14 +118,23 @@ const makeBody = () => {
     memo: form.value.memo.value,
     // picture: form.value.picture.value,
   };
+
+  const formData = new FormData();
+  const result = {
+    request,
+    files: _.cloneDeep(form.value.pictures.value)
+  }
+  formData.append('request', request);
+  formData.append('files', _.cloneDeep(form.value.pictures.value));
   return result;
 };
 
 // 저장 버튼
 const saveWeightItem = async () => {
   const body = makeBody();
+  console.log(body)
   weightStore.postWeightItem(body);
-  router.push({ path: "/weight/weightList" });
+  // router.push({ path: "/weight/weightList" });
   
   // try {
   //   const { data, error } = await createWeightItem(body);

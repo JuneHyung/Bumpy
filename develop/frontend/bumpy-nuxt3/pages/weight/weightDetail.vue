@@ -1,11 +1,11 @@
 <template>
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">About My Routine</h1>
-    <div class="content-wrap-box">
+    <div class="content-wrap-box" v-if="weightStore.getSelectItem().name !=null">
       <h2 class="content-title">{{ weightStore.getSelectItem().name }}</h2>
       <div class="weight-info-box">
         <div class="photo-list-wrap">
-          <ImageList :list="testImageList"></ImageList>
+          <ImageList :list="imageList()"></ImageList>
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -21,7 +21,7 @@
             </p>
           </div>
           <div class="info-memo-box">
-            <textarea style="width: 100%" :rows="10"></textarea>
+            <textarea disabled class="memo-box" :rows="10" :value="weightStore.getSelectItem().memo"></textarea>
           </div>
         </div>
       </div>
@@ -33,31 +33,27 @@
       </div>
       <div class="weightDetail-button-wrap">
         <button class="short-ghost-button" @click="moveWeightList">취소</button>
-        <button class="short-filled-button bp-mx-sm" v-if="weightStore.getIsToday()" @click="weightStore.removeWeightItem()">삭제</button>
+        <button class="short-filled-button bp-mx-sm" v-if="weightStore.getIsToday()" @click="removeWeightItem">삭제</button>
         <button class="short-filled-button" v-if="weightStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
+    <NoData v-else></NoData>
   </main>
 </template>
 <script setup lang="ts">
 import { useWeightStore } from "~~/store/weight";
 import ImageList from "~~/components/list/ImageList.vue";
-
+import NoData from "~~/components/common/NoData.vue";
 const router = useRouter();
 const weightStore = useWeightStore();
+const imageList = () => {
+  const list = weightStore.getSelectItem().picture as ImageData[];
+  return list.map(el=>el.data);
+}
 const removeWeightItem = async () => {
-  weightStore.removeWeightItem();
+  await weightStore.removeWeightItem();
   await moveWeightList();
 };
-
-
-const testImageList = [
-  'http://localhost:3000/_nuxt/assets/images/p01.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p02.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p03.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p04.jpg',
-  'http://localhost:3000/_nuxt/assets/images/p05.jpg',
-]
 
 const moveWeightList = async () => {
   await router.push({ path: "weightList" });
@@ -69,4 +65,8 @@ const moveModifyItem = () => {
 definePageMeta({
   layout: "main-layout",
 });
+
+onMounted(()=>{
+  console.log(weightStore.getSelectItem());
+})
 </script>

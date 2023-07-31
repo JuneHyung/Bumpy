@@ -1,11 +1,11 @@
 .menu-wrap-list{
   display: flex;
-  flex: 0 2 200px;
+  flex: 2 0 200px;
   align-items: flex-start;
   border: 1px solid $input-border-color;
   .menu-list {
     display:flex;
-    flex:1;
+    flex:1 0 200px;
     flex-direction: column;
     box-sizing: border-box;
     padding: 1.25rem 0;

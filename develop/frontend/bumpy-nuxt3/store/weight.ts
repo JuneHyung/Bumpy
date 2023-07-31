@@ -104,6 +104,7 @@ export const useWeightStore = defineStore("weight-store", () => {
     isToday.value = focusDate.value === dayjs().format("YYYY-MM-DD");
   };
   const setActivityList = async (list: WeightList) => {
+    console.log(list)
     if (list !== undefined) {
       activityList.value = list;
     }else activityList.value = [];

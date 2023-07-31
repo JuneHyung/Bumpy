@@ -1,7 +1,7 @@
 <template>
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">About My Routine</h1>
-    <div class="content-wrap-box">
+    <div class="content-wrap-box" v-if="aerobicStore.getSelectItem().name !=null">
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
         <div class="aerobic-chart-wrap">
@@ -21,7 +21,7 @@
             </p>
           </div>
           <div class="info-memo-box">
-            <textarea style="width: 100%" :rows="10"></textarea>
+            <textarea disabled class="memo-box" :rows="10" :value="aerobicStore.getSelectItem().memo"></textarea>
           </div>
         </div>
       </div>
@@ -33,13 +33,15 @@
       </div>
       <div class="aerobicDetail-button-wrap">
         <button class="short-ghost-button" @click="moveAerobicList">취소</button>
-        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday()" @click="aerobicStore.removeAerobicItem()">삭제</button>
+        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday()" @click="removeAerobicItem">삭제</button>
         <button class="short-filled-button" v-if="aerobicStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
+    <NoData v-else></NoData>
   </main>
 </template>
 <script setup lang="ts">
+import NoData from "~~/components/common/NoData.vue";
 import { useAerobicStore } from "~~/store/aerobic";
 definePageMeta({
   layout: "main-layout",
@@ -49,6 +51,7 @@ const router = useRouter();
 const aerobicStore = useAerobicStore();
 const infoName = { key: "name", label: "", value: "Walking" };
 
+
 const moveAerobicList = async () => {
   await router.push({ path: "aerobicList" });
 };
@@ -57,4 +60,8 @@ const moveModifyItem = async () => {
   await router.push({ path: "aerobicEdit" });
 };
 
+const removeAerobicItem = async () => {
+  await aerobicStore.removeAerobicItem();
+  await moveAerobicList();
+}
 </script>

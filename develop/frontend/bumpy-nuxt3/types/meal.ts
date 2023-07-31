@@ -14,7 +14,7 @@ export interface Meal{
   water?: string,
   memo?: string,
   stdDate?: string,
-  picture?: string[],
+  picture?: ImageData[],
   food?: string[],
 }
 export type MealList = Meal[];

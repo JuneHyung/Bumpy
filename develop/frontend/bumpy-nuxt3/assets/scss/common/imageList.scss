@@ -4,7 +4,6 @@
   margin-right:0.5rem;
   .cur-image-box{
     display:flex;
-    flex:8 8 420px;
     min-width: 420px;
     max-width: 420px;
     min-height: 240px;
@@ -45,9 +44,8 @@
 
     // background-color:$low-point-color;
     .image-item{
-      display:flex;
-      flex:4;
       min-width:120px;
+      max-width:120px;
       padding: 0.2rem;
       background-color:$middle-point-color;
       border-radius:0.2rem;

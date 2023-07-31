@@ -18,6 +18,7 @@ interface Weight{
   measure?: 0 | 1,
   memo?: string,
   stdDate?: string,
+  picture?: ImageData[],
 }
 type WeightList = Weight[];
 

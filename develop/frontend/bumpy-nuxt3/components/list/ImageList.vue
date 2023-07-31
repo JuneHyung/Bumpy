@@ -1,13 +1,13 @@
 <template>
   <div class="image-list-outter-wrap">
     <div class="cur-image-box">
-      <img :src="curUrl" class="cur-image-box" v-if="props.list.length !== 0" />
+      <img :src="`data:image/jpg;base64, ${curUrl}`" class="cur-image-box" v-if="props.list.length !== 0" />
       <p v-else>No Image</p>
     </div>
     <ul class="image-list-box" ref="imageList">
       <template v-for="(url, idx) in list">
         <li class="image-item" @click="changeCurIdx(idx)" :class="{'active-item': curIdx===idx}" ref="imageItem">
-          <img :src="url" alt="test 사진" />
+          <img :src="`data:image/jpg;base64, ${url}`" alt="test 사진" />
         </li>
       </template>
     </ul>

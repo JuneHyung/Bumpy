@@ -77,3 +77,13 @@
     // https://blossoming-man.tistory.com/entry/textarea에-엔터를-입력했는데-렌더링해보니-줄-바꿈이-안-된다
   }
 }
+
+.memo-box{
+  width:100%;
+  &:disabled{
+    background:none;
+  }
+  resize:none;
+  color:$white-color;
+  padding:0.5rem;
+}

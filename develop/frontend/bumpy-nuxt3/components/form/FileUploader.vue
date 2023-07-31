@@ -27,7 +27,9 @@ import CustomIcon from "~~/components/icon/CustomIcon.vue";
 import { setErrorMessage } from "~~/api/alert/message";
 const fileList = ref([]);
 const urlList = ref([]);
-
+const props = defineProps({
+  list: Object,
+})
 const sizeList = ref([]);
 
 function formatFileSize(bytes) {
@@ -49,11 +51,12 @@ const previewFiles = (files) =>{
     );
 
     reader.readAsDataURL(file);
-    // console.log(file)
     Promise.all(readerPromises).then((results) => {
       sizeList.value.push(formatFileSize(file.size))
       urlList.value = results;
+      // props.list.value = results;
     });
+    props.list.value = files;
   }
 }
 
@@ -91,4 +94,5 @@ const removeFile = (idx) => {
   fileList.value.splice(idx, 1);
   previewFiles(fileList.value)
 };
+
 </script>

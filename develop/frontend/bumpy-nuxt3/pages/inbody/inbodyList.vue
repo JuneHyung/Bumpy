@@ -1,5 +1,5 @@
 <template>
-  <main class="content-layout meal-list-wrap-box">
+  <main class="content-layout list-page-wrap-box">
     <h1 class="content-title">Your Inbody List</h1>
     <ActivitySection info="inbody" />
     <CalendarSection info="inbody" />

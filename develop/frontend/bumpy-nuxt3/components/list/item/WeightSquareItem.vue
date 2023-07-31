@@ -24,7 +24,7 @@ const router=  useRouter();
 const weightStore = useWeightStore();
 
 const moveDetail = async () => {
-  await weightStore.geSelectItemByStdDateSeq(weightStore.getFocusDate(), props.info.seq as number)
+  await weightStore.getSelectItemByStdDateSeq(weightStore.getFocusDate(), props.info.seq as number)
   await router.push({ path: 'weightDetail' });
 };
 </script>

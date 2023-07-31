@@ -1,6 +1,6 @@
 <template>
-  <div class="content-wrap-box bp-mt-xl weight-calendar">
-    <Calendar @focusDate="getFocusDate" type="weight"></Calendar>
+  <div class="content-wrap-box bp-mt-xl activity-calendar">
+    <Calendar @focusDate="getFocusDate" :type="props.info" v-if="store.getCalendarList().length!==0"></Calendar>
   </div>
 </template>
 <script setup lang="ts">
@@ -10,7 +10,7 @@ import { useMealStore } from "~~/store/meal";
 import { useInbodyStore } from "~~/store/inbody";
 import { useCommonStore } from "~~/store/common";
 interface Props {
-  info: string;
+  info: 'weight' | 'aerobic' |'meal' |'inbody';
 }
 const props = defineProps<Props>();
 const commonStore = useCommonStore();
@@ -24,6 +24,8 @@ const switchStore = () => {
       return useMealStore();
     case "inbody":
       return useInbodyStore();
+    default:
+      return useWeightStore();
   }
 };
 
