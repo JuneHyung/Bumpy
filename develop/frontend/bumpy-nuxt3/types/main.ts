@@ -3,23 +3,6 @@ import { ResponseBody } from "./common";
 import { MealList } from "./meal";
 import { WeightList } from "./weight";
 
-type MainWeightInfo = {
-  myBest: number;
-  reps: number;
-  sets: number;
-  monthAverage: number;
-};
-type MainAerobicInfo = {
-  bestKcal: number;
-  bestTime: number;
-  averageIncline: number;
-  averageSpeed: number;
-};
-type ChartInfo = {
-  series: string[];
-  xAxis: string[];
-};
-
 interface GrassInfoItem {
   active: boolean;
   visible: boolean;
@@ -31,19 +14,19 @@ interface ChartData {
   name: string;
 }
 
-interface MainWeightChartInfo {
-  myBest: number;
+interface MainWeightInfo {
+  myBest: string;
   monthAverage: string;
-  reps: number;
-  sets: number;
+  reps: string;
+  sets: string;
   xAxis: string[];
   series: ChartData[];
 }
-interface MainAerobicChartInfo {
+interface MainAerobicInfo {
   bestKcal: string;
   bestTime: string;
-  averageIncline: number;
-  averageSpeed: number;
+  averageIncline: string;
+  averageSpeed: string;
   xAxis: string[];
   series: ChartData[];
 }
@@ -55,18 +38,25 @@ interface ChartRequestParams {
   name: string;
 }
 
+type MainWeightChartInfo = Pick<MainWeightInfo, "myBest" | "monthAverage" | "reps" | "sets">;
+type MainWeightChartData = Pick<MainWeightInfo, "xAxis" | "series">;
+type MainAerobicChartInfo = Pick<MainAerobicInfo, "bestKcal" | "bestTime" | "averageIncline" | "averageSpeed">;
+type MainAerobicChartData = Pick<MainAerobicInfo, "xAxis" | "series">;
 
-type GrassInfoResponseBody = ResponseBody<[GrassInfoItem[]]>
-type MealInfoResponseBody = ResponseBody<MealList>
-type WeightInfoResponseBody = ResponseBody<WeightList>
+type GrassInfoResponseBody = ResponseBody<[GrassInfoItem[]]>;
+type MealInfoResponseBody = ResponseBody<MealList>;
+type WeightInfoResponseBody = ResponseBody<WeightList>;
 type AerobicInfoReasponseBody = ResponseBody<AerobicList>;
-type WeightChartInfoResponseBody = ResponseBody<MainWeightChartInfo>;
-type AerobicChartInfoResponseBody = ResponseBody<MainAerobicChartInfo>;
+type WeightChartInfoResponseBody = ResponseBody<MainWeightChartData>;
+type AerobicChartInfoResponseBody = ResponseBody<MainWeightChartData>;
 
 export {
   MainWeightInfo,
   MainAerobicInfo,
-  ChartInfo,
+  MainWeightChartInfo,
+  MainWeightChartData,
+  MainAerobicChartInfo,
+  MainAerobicChartData,
   GrassInfoItem,
   GrassInfoRequestParams,
   ChartRequestParams,
