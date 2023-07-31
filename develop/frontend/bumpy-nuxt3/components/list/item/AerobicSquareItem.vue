@@ -27,7 +27,7 @@ const aerobicStore = useAerobicStore();
 
 const moveDetail = async () => {
   await aerobicStore.getSelectItemByStdDateSeq(aerobicStore.getFocusDate(), props.info.seq as number)
-  await router.push({ path: 'aerobicDetail' });
+  await router.push({ name: 'aerobic-aerobicDetail' });
 };
 
 </script>

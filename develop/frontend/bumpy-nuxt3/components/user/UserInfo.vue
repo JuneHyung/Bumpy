@@ -197,7 +197,7 @@ const initUserInfo = async (list: any) =>{
 }
 
 const getUserInfo = async () => {
-try{
+  try{
     const {data, error} = await getUserInfoForMain();
     if(error.value!==null){
       setErrorMessage(error.value);
@@ -211,12 +211,12 @@ try{
 }
 
 const moveUserPage = () => { 
-  router.push({path:'/userPage'})
+  router.push({name:'userPage'})
 }
 
 const Logout = async () =>{
   await fetchLogout();
-  router.push({path:'/'})
+  router.push({name: 'index'})
 }
 
 onMounted(async ()=>{

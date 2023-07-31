@@ -42,16 +42,16 @@ const moveEdit = () => {
 
   switch (props.info) {
     case "weight":
-      router.push({ path: "weightEdit" });
+      router.push({ name: "weight-weightEdit" });
       break;
     case "aerobic":
-      router.push({ path: "aerobicEdit" });
+      router.push({ name: "aerobic-aerobicEdit" });
       break;
     case "meal":
-      router.push({ path: "mealEdit" });
+      router.push({ name: "meal-mealEdit" });
       break;
     case "inbody":
-      router.push({ path: "inbodyEdit" });
+      router.push({ name: "inbody-inbodyEdit" });
       break;
     default:
       break;

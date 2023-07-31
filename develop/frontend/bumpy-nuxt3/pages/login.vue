@@ -55,7 +55,7 @@ const moveMain = async () => {
     try {
       const { data } = await fetchLogin(formD);
       const dataValue = data.value as { code: boolean; message: string };
-      dataValue.code ? router.push({ path: "main" }) : setErrorMessage(`${dataValue.message}`);
+      dataValue.code ? router.push({ name: "main" }) : setErrorMessage(`${dataValue.message}`);
     } catch (e) {
       setErrorMessage(`${e}`);
     }

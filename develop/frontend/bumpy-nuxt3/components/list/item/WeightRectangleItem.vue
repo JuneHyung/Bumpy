@@ -43,7 +43,7 @@ const getDetailItem = async () =>{
 
 const moveDetail = async () => {
   await getDetailItem();
-  await router.push({ path: 'weightDetail' });
+  await router.push({ name: 'weight-weightDetail' });
 };
 </script>
 <style lang="scss" scoped></style>

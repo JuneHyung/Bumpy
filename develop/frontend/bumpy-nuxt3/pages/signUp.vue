@@ -297,7 +297,7 @@ const signUp = async () =>{
       }else if(data.value !== null){
         // const message = data.value.message;
         setMessage('회원가입이 완료되었습니다.')
-        router.push({path:'/'});
+        router.push({name:'login'});
       }
     }catch(e){
       setErrorMessage(e);

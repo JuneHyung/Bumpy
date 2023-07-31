@@ -64,11 +64,11 @@ const imageList = () => {
   return list.map((el) => el.data);
 };
 const moveInbodyList = async () => {
-  await router.push({ path: "inbodyList" });
+  await router.push({ name: "inbody-inbodyList" });
 };
 
 const moveModifyItem = async () => {
-  await router.push({ path: "inbodyEdit" });
+  await router.push({ name: "inbody-inbodyEdit" });
 };
 
 onMounted(()=>{

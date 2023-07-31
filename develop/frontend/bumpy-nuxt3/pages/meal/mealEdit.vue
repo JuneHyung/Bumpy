@@ -114,7 +114,7 @@ const saveMealItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/meal/mealList'});
+      router.push({name: 'meal-mealList'});
     }
   }catch (e){
     setErrorMessage(e);
@@ -132,7 +132,7 @@ const modifyMealItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/meal/mealList'});
+      router.push({name: 'meal-mealList'});
     }
   }catch (e){
     setErrorMessage(e);

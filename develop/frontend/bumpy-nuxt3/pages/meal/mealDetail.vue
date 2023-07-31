@@ -61,11 +61,11 @@ const infoList = [
 ];
 
 const moveMealList = async ()=>{
-  await router.push({path: 'mealList'});
+  await router.push({name: 'meal-mealList'});
 }
 
 const moveModifyItem = ()=>{
-  router.push({path: 'mealEdit'})
+  router.push({name: 'meal-mealEdit'})
 }
 
 const removeMealItem = async () =>{

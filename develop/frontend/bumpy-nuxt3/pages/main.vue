@@ -92,7 +92,9 @@ import {MainWeightInfo, MainAerobicInfo, ChartInfo} from '~~/types/main';
 import { MealList } from '~~/types/meal';
 import { WeightList } from '~~/types/weight';
 import { AerobicList } from '~~/types/aerobic';
+import { useMealStore } from '~~/store/meal';
 const commonStore = useCommonStore();
+const mealStore = useMealStore();
 definePageMeta({
   layout: 'main-layout',
 });
@@ -132,6 +134,7 @@ try{
     }else if(data.value!==null){
       
       const list = data.value.data;
+      console.log(list)
       todayMealList.value = list;
     }
   }catch(e){
@@ -234,6 +237,7 @@ try{
 
 onMounted(async ()=>{
   commonStore.setToday();
+  mealStore.setFocusDate(commonStore.getToday);
   await getTodayMealInfo()
   await getLastAerobicActivityInfo();
   await getLastWeightActivityInfo();

@@ -99,7 +99,7 @@ const saveInbodyItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/inbody/inbodyList'})
+      router.push({name: 'inbody-inbodyList'})
     }
   }catch (e){
     setErrorMessage(e);
@@ -117,7 +117,7 @@ const modifyInbodyItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/inbody/inbodyList'})
+      router.push({name: 'inbody-inbodyList'})
     }
   }catch (e){
     setErrorMessage(e);

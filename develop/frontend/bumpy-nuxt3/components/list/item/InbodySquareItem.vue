@@ -34,7 +34,7 @@ const inbodyStore = useInbodyStore();
 
 const moveDetail = async () => {
   await inbodyStore.getSelectItemByStdDateSeq(inbodyStore.getFocusDate(), props.info.seq as number)
-  await router.push({ path: 'inbodyDetail' });
+  await router.push({ name: 'inbody-inbodyDetail' });
 };
 
 </script>

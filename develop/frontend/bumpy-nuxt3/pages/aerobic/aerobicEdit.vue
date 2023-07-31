@@ -104,7 +104,7 @@ const saveAerobicItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/aerobic/aerobicList'})
+      router.push({name: 'aerobic-aerobicList'})
     }
   }catch (e){
     setErrorMessage(e);
@@ -121,7 +121,7 @@ const modifyAerobicItem = async () =>{
       setErrorMessage(errorMessage);
     }else if(data.value !== null){
       setMessage(data.value.message);
-      router.push({path: '/aerobic/aerobicList'})
+      router.push({name: 'aerobic-aerobicList'})
     }
   }catch (e){
     setErrorMessage(e);

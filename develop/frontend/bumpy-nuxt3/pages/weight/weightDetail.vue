@@ -56,10 +56,10 @@ const removeWeightItem = async () => {
 };
 
 const moveWeightList = async () => {
-  await router.push({ path: "weightList" });
+  await router.push({ name: "weight-weightList" });
 };
 const moveModifyItem = () => {
-  router.push({ path: "weightEdit" });
+  router.push({ name: "weight-weightEdit" });
 };
 
 definePageMeta({

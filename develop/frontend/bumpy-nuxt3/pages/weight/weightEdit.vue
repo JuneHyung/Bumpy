@@ -160,7 +160,7 @@ const modifyWeightItem = async () => {
       setErrorMessage(errorMessage);
     } else if (data.value !== null) {
       setMessage(data.value.message);
-      router.push({ path: "/weight/weightList" });
+      router.push({ name: "weight-weightList" });
     }
   } catch (e) {
     setErrorMessage(e);

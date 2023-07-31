@@ -53,11 +53,11 @@ const infoName = { key: "name", label: "", value: "Walking" };
 
 
 const moveAerobicList = async () => {
-  await router.push({ path: "aerobicList" });
+  await router.push({ name: "aerobic-aerobicList" });
 };
 
 const moveModifyItem = async () => {
-  await router.push({ path: "aerobicEdit" });
+  await router.push({ name: "aerobic-aerobicEdit" });
 };
 
 const removeAerobicItem = async () => {

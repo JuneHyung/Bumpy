@@ -29,7 +29,7 @@ const mealStore = useMealStore();
 
 const moveDetail = async () => {
   await mealStore.getSelectItemByStdDateSeq(mealStore.getFocusDate(), props.info.seq as number)
-  await router.push({ path: 'mealDetail' });
+  await router.push({ name: 'meal-mealDetail' });
 };
 
 </script>
