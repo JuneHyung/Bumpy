@@ -55,7 +55,7 @@ import FileUploader from '~~/components/form/FileUploader.vue'
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
-const editFlag = computed(()=>mealStore.getSelectItem.seq===undefined);
+const editFlag = computed(()=>mealStore.getSelectItem().seq===undefined);
 
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
@@ -79,7 +79,7 @@ const numberList = [
 const makeBody = () =>{
   const foodList = form.value.food?.value.map(item=> item.value);
   const result: MealItemRequestBody = {
-    stdDate: mealStore.getFocusDate === null || mealStore.getFocusDate.length===0 ? commonStore.getToday : mealStore.getFocusDate,
+    stdDate: mealStore.getFocusDate() === null || mealStore.getFocusDate().length===0 ? commonStore.getToday() : mealStore.getFocusDate(),
     name: form.value.name.value as string,
     time: form.value.time?.value as string,
     kcal: form.value.kcal?.value as string,
@@ -88,8 +88,8 @@ const makeBody = () =>{
     memo: form.value.memo?.value,
     // picture: form.value.picture.value,
   }
-  if(mealStore.getSelectItem.seq){
-    result.seq= mealStore.getSelectItem.seq
+  if(mealStore.getSelectItem().seq){
+    result.seq= mealStore.getSelectItem().seq
   }
   return result;
 }
@@ -157,9 +157,9 @@ const initSelectItem = () =>{
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = mealStore.getSelectItem[key];
+    form.value[key].value = mealStore.getSelectItem()[key];
     if(key==='food'){
-      const result = mealStore.getSelectItem[key].map(el=>{return{value: el}});
+      const result = mealStore.getSelectItem()[key].map(el=>{return{value: el}});
       form.value[key].value = result;
     }
   }

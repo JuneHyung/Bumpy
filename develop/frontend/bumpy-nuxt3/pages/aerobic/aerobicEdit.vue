@@ -52,7 +52,7 @@ import { FavoriteListItem } from '~~/types/common';
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
-const editFlag = computed(()=>aerobicStore.getSelectItem.seq===undefined)
+const editFlag = computed(()=>aerobicStore.getSelectItem().seq===undefined)
 const loadList:Ref<FavoriteListItem[]> = ref([])
 const form: Ref<AerobicFormData> = ref({
   name: { value: '', placeholder: '잠온다' },
@@ -80,7 +80,7 @@ const numberList = [
 
 const makeBody = () =>{
   const result: AerobicRequestBody = {
-    stdDate: aerobicStore.getFocusDate===null || aerobicStore.getFocusDate.length===0 ? commonStore.getToday : aerobicStore.getFocusDate,
+    stdDate: aerobicStore.getFocusDate()===null || aerobicStore.getFocusDate().length===0 ? commonStore.getToday() : aerobicStore.getFocusDate(),
     seq: 2,
     name: form.value.name.value,
     kcal: form.value.kcal.value,
@@ -145,7 +145,7 @@ const initSelectedItem = async () =>{
   const keys = Object.keys(form.value);
   for(let i=0;i<keys.length;i++){
     const key = keys[i];
-    form.value[key].value = aerobicStore.getSelectItem[key]
+    form.value[key].value = aerobicStore.getSelectItem()[key]
   }
 }
 

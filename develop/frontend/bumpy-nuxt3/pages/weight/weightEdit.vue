@@ -72,7 +72,7 @@ import _ from 'lodash'
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
-const editFlag = computed(() => weightStore.getSelectItem.seq === undefined);
+const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
 const info = { name: "벤치프레스" };
 const loadList = ref([]);
 const form:Ref<WeightFormData> = ref({
@@ -105,7 +105,7 @@ const measure = ref({ key: "memo", label: "메모", type: "textarea" });
 const memo = ref({});
 const makeBody = () => {
   const request: WeightRequestBody = {
-    stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate.length === 0 ? commonStore.getToday : weightStore.getFocusDate(),
+    stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate().length === 0 ? commonStore.getToday() : weightStore.getFocusDate(),
     seq: 2,
     name: form.value.name.value,
     weightStart: form.value.weightStart.value,
@@ -185,7 +185,7 @@ const initSelectedItem = async () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = weightStore.getSelectItem[key];
+    form.value[key].value = weightStore.getSelectItem()[key];
   }
 };
 

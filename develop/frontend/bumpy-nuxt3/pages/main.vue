@@ -9,7 +9,7 @@
       <div class="content-wrap-box activity-wrap-box">
         <div class="activity-title-box">
           <h3 class="activity-title">Your activity</h3>
-          <p class="activity-date">2023.02.07</p>
+          <p class="activity-date">{{ commonStore.getToday() }}</p>
         </div>
         <div class="calendar">
           <GrassCalendar></GrassCalendar>
@@ -210,7 +210,7 @@ try{
 
 onMounted(async ()=>{
   commonStore.setToday();
-  mealStore.setFocusDate(commonStore.getToday);
+  mealStore.setFocusDate(commonStore.getToday());
   await getTodayMealInfo()
   await getLastAerobicActivityInfo();
   await getLastWeightActivityInfo();

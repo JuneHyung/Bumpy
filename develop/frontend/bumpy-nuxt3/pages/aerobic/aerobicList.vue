@@ -18,7 +18,7 @@ definePageMeta({
 });
 
 onMounted(async ()=>{
-  const today =commonStore.getToday;
+  const today =commonStore.getToday();
   await aerobicStore.setFocusDate(today);
   await aerobicStore.getCalendarListByStdDate(today);
   await aerobicStore.getActivityListByStdDate(today);

@@ -25,7 +25,7 @@ const router=  useRouter();
 const weightStore = useWeightStore();
 const getDetailItem = async () =>{
   const params = {
-    stdDate: weightStore.getFocusDate,
+    stdDate: weightStore.getFocusDate(),
     seq: props.info.seq,
   }
   // try{

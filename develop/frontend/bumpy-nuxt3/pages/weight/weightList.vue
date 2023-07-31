@@ -19,7 +19,7 @@ definePageMeta({
 });
 
 onMounted(async()=>{
-  const today = commonStore.getToday;
+  const today = commonStore.getToday();
   weightStore.setFocusDate(today);
   weightStore.getCalendarListByStdDate(today);
   weightStore.getActivityListByStdDate(today);

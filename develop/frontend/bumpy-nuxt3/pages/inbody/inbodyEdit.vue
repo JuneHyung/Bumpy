@@ -46,7 +46,7 @@ const info = { name: '벤치프레스' };
 const commonStore = useCommonStore();
 const inbodyStore = useInbodyStore();
 const router = useRouter();
-const editFlag = computed(()=>inbodyStore.getSelectItem.height===undefined)
+const editFlag = computed(()=>inbodyStore.getSelectItem().height===undefined)
 const form = ref({
   name: { value: ''},
   height: {value:'',},
@@ -75,7 +75,7 @@ const numberList = ref([
 
 const makeBody = () =>{
   const result = {
-    stdDate: inbodyStore.getFocusDate,
+    stdDate: inbodyStore.getFocusDate(),
     height: form.value.height.value,
     weight: form.value.weight.value,
     muscle: form.value.muscle.value,
@@ -137,7 +137,7 @@ const initSelectItem = () =>{
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = inbodyStore.getSelectItem[key];
+    form.value[key].value = inbodyStore.getSelectItem()[key];
   }
 }
 

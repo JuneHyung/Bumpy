@@ -19,7 +19,7 @@ export default {
 <script setup>
 onBeforeMount(()=>{
   const commonStore = useCommonStore();
-  if(commonStore.getToday !== dayjs().format('YYYY-MM-DD')) commonStore.setToday();
+  if(commonStore.getToday() !== dayjs().format('YYYY-MM-DD')) commonStore.setToday();
 })
 </script>
 <style lang="scss" scoped>

@@ -8,12 +8,12 @@ import { useWeightStore } from "~~/store/weight";
 import { useAerobicStore } from "~~/store/aerobic";
 import { useMealStore } from "~~/store/meal";
 import { useInbodyStore } from "~~/store/inbody";
-import { useCommonStore } from "~~/store/common";
+
 interface Props {
   info: 'weight' | 'aerobic' |'meal' |'inbody';
 }
 const props = defineProps<Props>();
-const commonStore = useCommonStore();
+
 const switchStore = () => {
   switch (props.info) {
     case "weight":
