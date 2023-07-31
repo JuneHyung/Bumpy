@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
-import static com.bump.bumpy.util.funtion.FieldValueUtil.mergeMultipartFile;
 
 @RestController
 @RequestMapping("/meal")
