@@ -8,6 +8,7 @@ import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
+import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @Service
 @RequiredArgsConstructor
@@ -68,11 +70,12 @@ public class MealService {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-        List<DataHMealDto> mealActivityResponseDtoList = new ArrayList<>();
+        List<MealResponse> mealActivityResponseDtoList = new ArrayList<>();
 
         for(DataHMeal meal : dataHMealList) {
             try {
-                mealActivityResponseDtoList.add(new DataHMealDto(meal));
+                List<Map<String, String>> imageList = commonService.getFileBase64Internal(meal.getPicture());
+                mealActivityResponseDtoList.add(new MealResponse(meal, imageList));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -95,39 +98,8 @@ public class MealService {
         }
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResponseEntity<ResultMap> insert(DataHMealDto request, String userId) {
-//        if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
-//            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
-//        }
-//
-//        if(dataHMealRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
-//        }
-//
-//        // get max seq from data
-//        DataHMeal maxSeqData = dataHMealRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
-//
-//        int seq = 1;
-//        if(maxSeqData != null) {
-//            seq = maxSeqData.getSeq() + 1;
-//        }
-//
-//        DataHMeal dataHMeal = null;
-//        try {
-//            dataHMeal = request.toEntity(seq);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//        dataHMeal.setUserId(userId);
-//
-//        dataHMealRepository.save(dataHMeal);
-//
-//        return ResponseEntity.ok(new ResultMap("message", "저장되었습니다."));
-//    }
-
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHMealDto request, MultipartFile[] files, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHMealDto request, String userId) {
         if(!FieldValueUtil.isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
@@ -147,8 +119,8 @@ public class MealService {
         List<String> uuidList = new ArrayList<>();
 
         // upload files
-        for (MultipartFile file : files) {
-            String uuid = commonService.uploadFileInternal(file, userId);
+        for (PictureDto pictureDto : request.getPicture()) {
+            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
             uuidList.add(uuid);
         }
 
@@ -177,7 +149,15 @@ public class MealService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
             try {
-                dataHMeal = request.updateEntity(dataHMeal);
+                List<String> uuidList = new ArrayList<>();
+
+                // upload files
+                for (PictureDto pictureDto : request.getPicture()) {
+                    String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
+                    uuidList.add(uuid);
+                }
+
+                dataHMeal = request.updateEntity(dataHMeal, uuidList);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

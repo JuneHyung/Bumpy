@@ -51,22 +51,22 @@ public class MealController {
         return mealService.search(request);
     }
 
-//    @Operation(summary = "추가", description = "")
-//    @PostMapping("/insert")
-//    public ResponseEntity<ResultMap> insert(@RequestBody DataHMealDto request) {
-//        String userId = getUserId();
-//        return mealService.insert(request, userId);
-//    }
-
     @Operation(summary = "추가", description = "")
-    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHMealDto request,
-                                            @RequestPart(value = "files", required = false) MultipartFile[] files
-                                            )
-    {
+    @PostMapping("/insert")
+    public ResponseEntity<ResultMap> insert(@RequestBody DataHMealDto request) {
         String userId = getUserId();
-        return mealService.insert(request, files, userId);
+        return mealService.insert(request, userId);
     }
+
+//    @Operation(summary = "추가", description = "")
+//    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHMealDto request,
+//                                            @RequestPart(value = "files", required = false) MultipartFile[] files
+//                                            )
+//    {
+//        String userId = getUserId();
+//        return mealService.insert(request, files, userId);
+//    }
 
     @Operation(summary = "수정", description = "")
     @PutMapping("/update")

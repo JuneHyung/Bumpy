@@ -1,6 +1,7 @@
 package com.bump.bumpy.domain.screen.meal.dto;
 
 import com.bump.bumpy.database.entity.data.DataHMeal;
+import com.bump.bumpy.util.dto.PictureDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,7 @@ public class DataHMealDto implements Serializable {
     private BigDecimal water;
     @Size(max = 1000)
     private String memo;
-    private List<String> picture;
+    private List<PictureDto> picture;
     private List<String> food;
 
     // to entity method for insert
@@ -56,29 +57,15 @@ public class DataHMealDto implements Serializable {
     }
 
     // to entity method for update
-    public DataHMeal updateEntity(DataHMeal entity) throws JsonProcessingException {
+    public DataHMeal updateEntity(DataHMeal entity, List<String> picture) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         entity.setName(this.name);
         entity.setTime(this.time);
         entity.setKcal(this.kcal);
         entity.setWater(this.water);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         entity.setFood(objectMapper.writeValueAsString(this.food));
         return entity;
-    }
-
-    // to dto method
-    public DataHMealDto(DataHMeal entity) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        this.stdDate = entity.getStdDate();
-        this.seq = entity.getSeq();
-        this.name = entity.getName();
-        this.time = entity.getTime();
-        this.kcal = entity.getKcal();
-        this.water = entity.getWater();
-        this.memo = entity.getMemo();
-        this.picture = entity.getPicture();
-        this.food = objectMapper.readValue(entity.getFood(), new TypeReference<List<String>>(){});
     }
 }

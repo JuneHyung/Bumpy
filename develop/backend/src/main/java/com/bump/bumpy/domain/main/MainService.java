@@ -10,6 +10,7 @@ import com.bump.bumpy.database.repository.data.DataHInbodyRepository;
 import com.bump.bumpy.database.repository.data.DataHMealRepository;
 import com.bump.bumpy.database.repository.data.DataHWeightRepository;
 import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
+import com.bump.bumpy.domain.common.CommonService;
 import com.bump.bumpy.domain.main.dto.AerobicResponseDto;
 import com.bump.bumpy.domain.main.dto.ChartAerobicResponseDto;
 import com.bump.bumpy.domain.main.dto.ChartRequestDto;
@@ -18,6 +19,7 @@ import com.bump.bumpy.domain.main.dto.UserInfoResponse;
 import com.bump.bumpy.domain.main.dto.WeightResponseDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
+import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,7 @@ public class MainService {
     private final DataHWeightRepository dataHWeightRepository;
     private final DataHAerobicRepository dataHAerobicRepository;
     private final DataHMealRepository dataHMealRepository;
+    private final CommonService commonService;
 
     public ResponseEntity<ResultMap> userInfo(String userId) {
         // height, weight, age
@@ -245,13 +248,14 @@ public class MainService {
 
     public ResponseEntity<ResultMap> mealInfo() {
         List<DataHMeal> mealList = dataHMealRepository.findByUserIdAndStdDateOrderBySeqAsc(getUserId(), getTodayDate());
-        List<DataHMealDto> mealDtoList = new ArrayList<>();
+        List<MealResponse> mealDtoList = new ArrayList<>();
 
         // convert to dto
         for (DataHMeal meal : mealList) {
-            DataHMealDto mealDto = null;
+            MealResponse mealDto = null;
             try {
-                mealDto = new DataHMealDto(meal);
+                List<Map<String, String>> imageList = commonService.getFileBase64Internal(meal.getPicture());
+                mealDto = new MealResponse(meal, imageList);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
