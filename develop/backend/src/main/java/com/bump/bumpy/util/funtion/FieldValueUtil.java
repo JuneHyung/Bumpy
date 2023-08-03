@@ -262,4 +262,50 @@ public class FieldValueUtil {
 		}
 		return files;
 	}
+
+	public static Date getFirstDateOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DATE, 1);
+		return cal.getTime();
+	}
+
+	public static Date getLastDateOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+		return cal.getTime();
+	}
+
+	public static Date getFirstDateOfPrevMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, -1);
+		cal.set(Calendar.DATE, 1);
+		return cal.getTime();
+	}
+
+	public static Date getLastDateOfPrevMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, -1);
+		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+		return cal.getTime();
+	}
+
+	public static Date getFirstDateOfNextMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, 1);
+		cal.set(Calendar.DATE, 1);
+		return cal.getTime();
+	}
+
+	public static Date getLastDateOfNextMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, 1);
+		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+		return cal.getTime();
+	}
 }

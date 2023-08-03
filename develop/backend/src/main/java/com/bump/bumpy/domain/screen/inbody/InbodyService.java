@@ -21,13 +21,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
 
 @Service
 @RequiredArgsConstructor
@@ -37,24 +37,12 @@ public class InbodyService {
     private final CommonService commonService;
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
-        ResultMap resultMap = new ResultMap();
-
-        Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(request.getStdDate());
-        firstDate.set(Calendar.DAY_OF_MONTH, 1);
-        firstDate = setZeroTime(firstDate);
-
-        Date firstDateOfMonth = firstDate.getTime();
-
-        Calendar lastDate = Calendar.getInstance();
-        lastDate.setTime(request.getStdDate());
-        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-        lastDate = setZeroTime(lastDate);
-
-        Date lastDateOfMonth = lastDate.getTime();
+        // prev month first date, next month last date
+        Date firstDateOfPrevMonth = getFirstDateOfPrevMonth(request.getStdDate());
+        Date lastDateOfNextMonth = getLastDateOfNextMonth(request.getStdDate());
 
         // find data from first date to last date
-        List<DataHInbody> dataHInbodyList = dataHInbodyRepository.findByStdDateBetweenAndUserId(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+        List<DataHInbody> dataHInbodyList = dataHInbodyRepository.findByStdDateBetweenAndUserId(firstDateOfPrevMonth, lastDateOfNextMonth, request.getUserId());
 
         if(dataHInbodyList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -66,7 +54,6 @@ public class InbodyService {
         for (DataHInbody inbody : dataHInbodyList) {
             Map<String, String> calendarData = new HashMap<>();
             String date = simpleDateFormat.format(inbody.getStdDate());
-            // TODO : title에 표시할 데이터 정하기
             calendarData.put("title", date + " Inbody");
             calendarData.put("date", date);
             calendarList.add(calendarData);

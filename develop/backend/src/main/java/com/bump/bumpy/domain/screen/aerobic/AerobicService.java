@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
 
 @Service
 @RequiredArgsConstructor
@@ -80,28 +80,12 @@ public class AerobicService {
     }
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
-        /*
-            달력에 나갈 데이터 DTO 형태
-            { data : [ {date: name}, {date: name}, {date: name} ] }
-         */
-
-        // find first date and last date based on request.getStdDate()
-        Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(request.getStdDate());
-        firstDate.set(Calendar.DAY_OF_MONTH, 1);
-        firstDate = setZeroTime(firstDate);
-
-        Date firstDateOfMonth = firstDate.getTime();
-
-        Calendar lastDate = Calendar.getInstance();
-        lastDate.setTime(request.getStdDate());
-        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-        lastDate = setZeroTime(lastDate);
-
-        Date lastDateOfMonth = lastDate.getTime();
+        // prev month first date, next month last date
+        Date firstDateOfPrevMonth = getFirstDateOfPrevMonth(request.getStdDate());
+        Date lastDateOfNextMonth = getLastDateOfNextMonth(request.getStdDate());
 
         // find data from first date to last date
-        List<DataHAerobic> DataHAerobicList = aerobicRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+        List<DataHAerobic> DataHAerobicList = aerobicRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfPrevMonth, lastDateOfNextMonth, request.getUserId());
 
         if(DataHAerobicList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -109,6 +93,7 @@ public class AerobicService {
 
         // make calendar map data
         List<Map<String, String>> calendarList = new ArrayList<>();
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (DataHAerobic aerobic : DataHAerobicList) {
             // aerobic.getStdDate() to yyyy-MM-dd

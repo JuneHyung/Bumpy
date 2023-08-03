@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,8 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.isTodayDate;
-import static com.bump.bumpy.util.funtion.FieldValueUtil.setZeroTime;
 
 @Service
 @RequiredArgsConstructor
@@ -80,22 +80,12 @@ public class WeightService {
     }
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
-        Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(request.getStdDate());
-        firstDate.set(Calendar.DAY_OF_MONTH, 1);
-        firstDate = setZeroTime(firstDate);
-
-        Date firstDateOfMonth = firstDate.getTime();
-
-        Calendar lastDate = Calendar.getInstance();
-        lastDate.setTime(request.getStdDate());
-        lastDate.set(Calendar.DAY_OF_MONTH, lastDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-        lastDate = setZeroTime(lastDate);
-
-        Date lastDateOfMonth = lastDate.getTime();
+        // prev month first date, next month last date
+        Date firstDateOfPrevMonth = getFirstDateOfPrevMonth(request.getStdDate());
+        Date lastDateOfNextMonth = getLastDateOfNextMonth(request.getStdDate());
 
         // find data from first date to last date
-        List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfMonth, lastDateOfMonth, request.getUserId());
+        List<DataHWeight> dataHWeightList = dataHWeightRepository.findByStdDateBetweenAndUserIdOrderByStdDateAscSeqAsc(firstDateOfPrevMonth, lastDateOfNextMonth, request.getUserId());
 
         if(dataHWeightList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
