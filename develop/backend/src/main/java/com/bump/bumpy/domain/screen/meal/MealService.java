@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.Map;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
-import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @Service
 @RequiredArgsConstructor

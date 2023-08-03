@@ -58,22 +58,22 @@ public class WeightController {
         return weightService.search(request);
     }
 
-//    @Operation(summary = "추가", description = "")
-//    @PostMapping("/insert")
-//    public ResponseEntity<ResultMap> insert(@RequestBody DataHWeightDto request) {
-//        String userId = getUserId();
-//        return weightService.insert(request, userId);
-//    }
-
     @Operation(summary = "추가", description = "")
-    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHWeightDto request,
-                                            @RequestPart(value = "files", required = false) MultipartFile[] files
-                                            )
-    {
+    @PostMapping("/insert")
+    public ResponseEntity<ResultMap> insert(@RequestBody DataHWeightDto request) {
         String userId = getUserId();
-        return weightService.insert(request, files, userId);
+        return weightService.insert(request, userId);
     }
+
+//    @Operation(summary = "추가", description = "")
+//    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHWeightDto request,
+//                                            @RequestPart(value = "files", required = false) MultipartFile[] files
+//                                            )
+//    {
+//        String userId = getUserId();
+//        return weightService.insert(request, files, userId);
+//    }
 
     @Operation(summary = "수정", description = "")
     @PutMapping("/update")

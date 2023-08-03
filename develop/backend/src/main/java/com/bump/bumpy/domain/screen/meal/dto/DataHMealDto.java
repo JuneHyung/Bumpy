@@ -3,7 +3,6 @@ package com.bump.bumpy.domain.screen.meal.dto;
 import com.bump.bumpy.database.entity.data.DataHMeal;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;

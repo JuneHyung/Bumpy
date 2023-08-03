@@ -10,6 +10,7 @@ import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.domain.screen.weight.dto.WeightActivityResponseDto;
 import com.bump.bumpy.domain.screen.weight.dto.WeightResponse;
 import com.bump.bumpy.domain.screen.weight.projection.DataHWeightInfo;
+import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import lombok.RequiredArgsConstructor;
@@ -132,34 +133,8 @@ public class WeightService {
         }
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResponseEntity<ResultMap> insert(DataHWeightDto request, String userId) {
-//        if(!isTodayDate(request.getStdDate())) {
-//            throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
-//        }
-//
-//        if(dataHWeightRepository.findByStdDateAndUserIdAndName(request.getStdDate(), userId, request.getName()).isPresent()) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 데이터가 존재합니다."));
-//        }
-//
-//        // get max seq
-//        DataHWeight maxSeqData = dataHWeightRepository.findFirstByStdDateAndUserIdOrderBySeqDesc(request.getStdDate(), userId);
-//
-//        int maxSeq = 1;
-//        if(maxSeqData != null) {
-//            maxSeq = maxSeqData.getSeq() + 1;
-//        }
-//
-//        DataHWeight dataHWeight = request.toEntity(maxSeq);
-//        dataHWeight.setUserId(userId);
-//
-//        dataHWeightRepository.save(dataHWeight);
-//
-//        return ResponseEntity.ok(new ResultMap("message", "저장되었습니다."));
-//    }
-
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHWeightDto request, MultipartFile[] files, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHWeightDto request, String userId) {
         if(!isTodayDate(request.getStdDate())) {
             throw new IllegalArgumentException("날짜가 오늘이 아닙니다.");
         }
@@ -179,8 +154,8 @@ public class WeightService {
         List<String> uuidList = new ArrayList<>();
 
         // upload files
-        for (MultipartFile file : files) {
-            String uuid = commonService.uploadFileInternal(file, userId);
+        for (PictureDto pictureDto : request.getPicture()) {
+            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
             uuidList.add(uuid);
         }
 
@@ -203,7 +178,15 @@ public class WeightService {
         if(dataHWeight == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
-            dataHWeight = request.updateEntity(dataHWeight);
+            List<String> uuidList = new ArrayList<>();
+
+            // upload files
+            for (PictureDto pictureDto : request.getPicture()) {
+                String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
+                uuidList.add(uuid);
+            }
+
+            dataHWeight = request.updateEntity(dataHWeight, uuidList);
 
             dataHWeightRepository.save(dataHWeight);
 

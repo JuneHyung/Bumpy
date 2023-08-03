@@ -18,7 +18,6 @@ import com.bump.bumpy.domain.main.dto.ChartWeightResponseDto;
 import com.bump.bumpy.domain.main.dto.UserInfoResponse;
 import com.bump.bumpy.domain.main.dto.WeightResponseDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
-import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
