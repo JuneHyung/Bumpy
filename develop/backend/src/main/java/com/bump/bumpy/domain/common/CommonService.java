@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.common;
 
 import com.bump.bumpy.database.entity.cm.CmHFile;
 import com.bump.bumpy.database.repository.cm.CmHFileRepository;
+import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -99,6 +100,55 @@ public class CommonService {
         }
         try {
             file.transferTo(new java.io.File(FILE_PATH + uuid));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // save file to database
+        cmHFileRepository.save(cmHFile);
+
+        // return fileId
+        return uuid;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public String uploadBase64ImageInternal(PictureDto pictureDto, String userId) {
+        String base64ImageFile = pictureDto.getData();
+        String originalFileName = pictureDto.getName();
+        Long size = pictureDto.getSize();
+
+        // file null check
+        if (base64ImageFile == null) {
+            return null;
+        }
+
+        // create new random UUID
+        String uuid = null;
+
+        // uuid duplication check
+        do {
+            uuid = UUID.randomUUID().toString() + "." + getExtensionByStringHandling(originalFileName).orElse("");
+        } while (cmHFileRepository.existsById(uuid));
+
+        // create CmHFile entity with uuid
+        CmHFile cmHFile = CmHFile.builder()
+                .fileId(uuid)
+                .originFileName(uuid)
+                .userId(userId)
+                .size(size)
+                .build();
+
+        // store file in resources/img folder with uuid as filename
+        // if folder doesn't exist, create one
+        if (!new java.io.File(FILE_PATH).exists()) {
+            new java.io.File(FILE_PATH).mkdirs();
+        }
+        try {
+            byte[] decodedBytes = Base64.getDecoder().decode(base64ImageFile);
+            java.io.File file = new java.io.File(FILE_PATH + uuid);
+            java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+            fos.write(decodedBytes);
+            fos.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -30,6 +30,10 @@ public class CmHFile {
     @Column(name = "userId", nullable = false)
     private String userId;
 
+    @NotNull
+    @Column(name = "size", nullable = false)
+    private Long size;
+
     @Size(max = 1000)
     @NotNull
     @Column(name = "originFileName", nullable = false, length = 1000)
