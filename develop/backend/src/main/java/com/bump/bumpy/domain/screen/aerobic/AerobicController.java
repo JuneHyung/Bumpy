@@ -7,7 +7,6 @@ import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -57,22 +54,22 @@ public class AerobicController {
         return aerobicService.search(request);
     }
 
-//    @Operation(summary = "추가", description = "")
-//    @PostMapping("/insert")
-//    public ResponseEntity<ResultMap> insert(@RequestBody DataHAerobicDto request) {
-//        String userId = getUserId();
-//        return aerobicService.insert(request, userId);
-//    }
-
     @Operation(summary = "추가", description = "")
-    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHAerobicDto request,
-                                            @RequestPart(value = "files", required = false) MultipartFile[] files
-                                            )
-    {
+    @PostMapping("/insert")
+    public ResponseEntity<ResultMap> insert(@RequestBody DataHAerobicDto request) {
         String userId = getUserId();
-        return aerobicService.insert(request, files, userId);
+        return aerobicService.insert(request, userId);
     }
+
+//    @Operation(summary = "추가", description = "")
+//    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHAerobicDto request,
+//                                            @RequestPart(value = "files", required = false) MultipartFile[] files
+//                                            )
+//    {
+//        String userId = getUserId();
+//        return aerobicService.insert(request, files, userId);
+//    }
 
     @Operation(summary = "수정", description = "")
     @PutMapping("/update")

@@ -1,7 +1,7 @@
 package com.bump.bumpy.domain.screen.aerobic.dto;
 
 import com.bump.bumpy.database.entity.data.DataHAerobic;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.bump.bumpy.util.dto.PictureDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,9 +36,7 @@ public class DataHAerobicDto implements Serializable {
     private BigDecimal speedEnd;
     @Size(max = 1000)
     private String memo;
-    @JsonIgnore
-    private List<String> picture;
-
+    private List<PictureDto> picture;
 
     // to entity method for insert
     public DataHAerobic toEntity(int seq, List<String> picture) {
@@ -58,7 +56,7 @@ public class DataHAerobicDto implements Serializable {
     }
 
     // to entity method for update
-    public DataHAerobic updateEntity(DataHAerobic entity) {
+    public DataHAerobic updateEntity(DataHAerobic entity, List<String> picture) {
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);
@@ -67,7 +65,7 @@ public class DataHAerobicDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 }
