@@ -149,6 +149,23 @@ public class CommonService {
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 
+    private boolean deleteFileInternal(String fileId) {
+        try {
+            // delete file from FILE_PATH
+            File file = new File(FILE_PATH + fileId);
+            if(file.exists()) {
+                file.delete();
+            }
+
+            // delete file from database
+            cmHFileRepository.deleteById(fileId);
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 //    @Transactional(rollbackFor = Exception.class)
 //    public String uploadFileInternal(MultipartFile file, String userId) {
