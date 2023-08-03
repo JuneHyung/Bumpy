@@ -33,6 +33,7 @@ public class AerobicActivityResponseDto implements Serializable {
     private BigDecimal inclineEnd;
     private BigDecimal speedStart;
     private BigDecimal speedEnd;
+    private String memo;
 
     // constructor from entity
     public AerobicActivityResponseDto(DataHAerobic entity) {
@@ -45,5 +46,6 @@ public class AerobicActivityResponseDto implements Serializable {
         this.inclineEnd = entity.getInclineEnd();
         this.speedStart = entity.getSpeedStart();
         this.speedEnd = entity.getSpeedEnd();
+        this.memo = entity.getMemo();
     }
 }

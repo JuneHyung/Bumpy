@@ -1,6 +1,8 @@
 package com.bump.bumpy.domain.screen.aerobic.dto;
 
 import com.bump.bumpy.database.entity.data.DataHAerobic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,7 @@ public class DataHAerobicDto implements Serializable {
     private BigDecimal speedEnd;
     @Size(max = 1000)
     private String memo;
+    @JsonIgnore
     private List<String> picture;
 
 

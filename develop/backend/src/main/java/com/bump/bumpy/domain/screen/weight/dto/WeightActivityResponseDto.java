@@ -35,6 +35,7 @@ public class WeightActivityResponseDto implements Serializable {
     private Integer setReps;
     @NotNull
     private Integer measure;
+    private String memo;
 
     // constructor from entity
     public WeightActivityResponseDto(DataHWeight entity) {
@@ -48,5 +49,6 @@ public class WeightActivityResponseDto implements Serializable {
         this.pollWeight = entity.getPollWeight();
         this.setReps = entity.getSetReps();
         this.measure = entity.getMeasure();
+        this.memo = entity.getMemo();
     }
 }
