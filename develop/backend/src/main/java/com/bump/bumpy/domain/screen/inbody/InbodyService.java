@@ -9,6 +9,7 @@ import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.inbody.dto.DataHInbodyDto;
 import com.bump.bumpy.domain.screen.inbody.dto.InbodyResponse;
 import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
+import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -107,7 +108,7 @@ public class InbodyService {
 //    }
 
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<ResultMap> insert(DataHInbodyDto request, MultipartFile[] files, String userId) {
+    public ResponseEntity<ResultMap> insert(DataHInbodyDto request, String userId) {
         if(dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResultMap("message", "이미 등록된 데이터입니다."));
         }
@@ -125,8 +126,8 @@ public class InbodyService {
         List<String> uuidList = new ArrayList<>();
 
         // upload files
-        for (MultipartFile file : files) {
-            String uuid = commonService.uploadFileInternal(file, userId);
+        for (PictureDto pictureDto : request.getPicture()) {
+            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
             uuidList.add(uuid);
         }
 
@@ -142,7 +143,15 @@ public class InbodyService {
         DataHInbody dataHInbody = dataHInbodyRepository.findByStdDateAndUserId(request.getStdDate(), userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 데이터가 없습니다."));
 
-        dataHInbody = request.updateEntity(dataHInbody);
+        List<String> uuidList = new ArrayList<>();
+
+        // upload files
+        for (PictureDto pictureDto : request.getPicture()) {
+            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
+            uuidList.add(uuid);
+        }
+
+        dataHInbody = request.updateEntity(dataHInbody, uuidList);
 
         dataHInbodyRepository.save(dataHInbody);
         return ResponseEntity.ok(new ResultMap("message", "수정되었습니다."));

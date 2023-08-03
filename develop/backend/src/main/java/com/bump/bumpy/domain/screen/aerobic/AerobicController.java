@@ -61,16 +61,6 @@ public class AerobicController {
         return aerobicService.insert(request, userId);
     }
 
-//    @Operation(summary = "추가", description = "")
-//    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-//    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHAerobicDto request,
-//                                            @RequestPart(value = "files", required = false) MultipartFile[] files
-//                                            )
-//    {
-//        String userId = getUserId();
-//        return aerobicService.insert(request, files, userId);
-//    }
-
     @Operation(summary = "수정", description = "")
     @PutMapping("/update")
     public ResponseEntity<ResultMap> update(@RequestBody DataHAerobicDto request) {
