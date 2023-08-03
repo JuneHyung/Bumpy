@@ -2,7 +2,6 @@ package com.bump.bumpy.domain.screen.weight.dto;
 
 import com.bump.bumpy.database.entity.data.DataHWeight;
 import com.bump.bumpy.util.dto.PictureDto;
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

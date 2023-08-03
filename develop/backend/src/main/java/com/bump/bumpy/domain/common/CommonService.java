@@ -72,46 +72,6 @@ public class CommonService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public String uploadFileInternal(MultipartFile file, String userId) {
-        // file null check
-        if (file == null) {
-            return null;
-        }
-
-        // create new random UUID
-        String uuid = null;
-
-        // uuid duplication check
-        do {
-            uuid = UUID.randomUUID().toString() + "." + getExtensionByStringHandling(file.getOriginalFilename()).orElse("");
-        } while (cmHFileRepository.existsById(uuid));
-
-        // create CmHFile entity with uuid
-        CmHFile cmHFile = CmHFile.builder()
-                .fileId(uuid)
-                .originFileName(file.getOriginalFilename())
-                .userId(userId)
-                .build();
-
-        // store file in resources/img folder with uuid as filename
-        // if folder doesn't exist, create one
-        if (!new java.io.File(FILE_PATH).exists()) {
-            new java.io.File(FILE_PATH).mkdirs();
-        }
-        try {
-            file.transferTo(new java.io.File(FILE_PATH + uuid));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // save file to database
-        cmHFileRepository.save(cmHFile);
-
-        // return fileId
-        return uuid;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
     public String uploadBase64ImageInternal(PictureDto pictureDto, String userId) {
         String base64ImageFile = pictureDto.getData();
         String originalFileName = pictureDto.getName();
@@ -188,4 +148,45 @@ public class CommonService {
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
+
+
+//    @Transactional(rollbackFor = Exception.class)
+//    public String uploadFileInternal(MultipartFile file, String userId) {
+//        // file null check
+//        if (file == null) {
+//            return null;
+//        }
+//
+//        // create new random UUID
+//        String uuid = null;
+//
+//        // uuid duplication check
+//        do {
+//            uuid = UUID.randomUUID().toString() + "." + getExtensionByStringHandling(file.getOriginalFilename()).orElse("");
+//        } while (cmHFileRepository.existsById(uuid));
+//
+//        // create CmHFile entity with uuid
+//        CmHFile cmHFile = CmHFile.builder()
+//                .fileId(uuid)
+//                .originFileName(file.getOriginalFilename())
+//                .userId(userId)
+//                .build();
+//
+//        // store file in resources/img folder with uuid as filename
+//        // if folder doesn't exist, create one
+//        if (!new java.io.File(FILE_PATH).exists()) {
+//            new java.io.File(FILE_PATH).mkdirs();
+//        }
+//        try {
+//            file.transferTo(new java.io.File(FILE_PATH + uuid));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // save file to database
+//        cmHFileRepository.save(cmHFile);
+//
+//        // return fileId
+//        return uuid;
+//    }
 }
