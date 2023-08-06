@@ -36,7 +36,7 @@ const switchStore = () => {
 };
 
 const store = switchStore();
-const editFlag = computed(() => commonStore.getToday === store.getFocusDate());
+const editFlag = computed(() => commonStore.getToday() === store.getFocusDate());
 const moveEdit = () => {
   store.resetSelectItem();
 

@@ -65,21 +65,21 @@ function readWeightList(params: WeightReadRequestParam) {
  * @returns
  */
 function createWeightItem(body: any) {
-  console.log(body)
-  const formData = new FormData();
-   // files를 FormData에 추가합니다.
-   for (const file of body.files) {
-    console.log(file)
-    formData.append('files', file);
-  }
+  // console.log(body)
+  // const formData = new FormData();
+  //  // files를 FormData에 추가합니다.
+  //  for (const file of body.files) {
+  //   console.log(file)
+  //   formData.append('files', file);
+  // }
 
-  // request를 JSON 문자열로 직렬화하여 FormData에 추가합니다.
-  formData.append('request', JSON.stringify(body.request));
+  // // request를 JSON 문자열로 직렬화하여 FormData에 추가합니다.
+  // formData.append('request', JSON.stringify(body.request));
 
   return useFetch("/weight/insert", {
     baseURL,
     method: POST,
-    body: formData,
+    body: body,
   });
 }
 

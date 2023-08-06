@@ -22,5 +22,5 @@ export interface FavoriteListItem{
 export interface ImageData{
   name: string,
   data: string,
-  size: string
+  size: number
 }

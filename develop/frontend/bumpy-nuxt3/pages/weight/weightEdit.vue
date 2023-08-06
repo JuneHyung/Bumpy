@@ -12,7 +12,7 @@
       </label>
       <label class="weightEdit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader :list="form.pictures"></FileUploader>
+        <FileUploader :list="form.picture"></FileUploader>
       </label>
       <div class="weightEdit-input-label-wrap">
         <template v-for="(list, idx) in numberList" :key="idx">
@@ -73,8 +73,10 @@ const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
-const info = { name: "벤치프레스" };
+
 const loadList = ref([]);
+
+
 const form:Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
   weightStart: {value: "",  },
@@ -85,7 +87,7 @@ const form:Ref<WeightFormData> = ref({
   setReps: {value: "",  },
   measure: {value: "",  },
   memo: { value: "" },
-  pictures: {value: [], placeholder: ''},
+  picture: {value: [], placeholder: ''},
 });
 
 const numberList = ref([
@@ -100,13 +102,9 @@ const numberList = ref([
     { key: "setReps", label: "세트 횟수", type: "number" },
   ],
 ]);
-
-const measure = ref({ key: "memo", label: "메모", type: "textarea" });
-const memo = ref({});
 const makeBody = () => {
   const request: WeightRequestBody = {
     stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate().length === 0 ? commonStore.getToday() : weightStore.getFocusDate(),
-    seq: 2,
     name: form.value.name.value,
     weightStart: form.value.weightStart.value,
     weightEnd: form.value.weightEnd.value,
@@ -116,55 +114,24 @@ const makeBody = () => {
     setReps: form.value.setReps.value,
     measure: form.value.measure.value,
     memo: form.value.memo.value,
-    // picture: form.value.picture.value,
+    picture: form.value.picture.value,
   };
-
-  const formData = new FormData();
-  const result = {
-    request,
-    files: _.cloneDeep(form.value.pictures.value)
-  }
-  formData.append('request', request);
-  formData.append('files', _.cloneDeep(form.value.pictures.value));
-  return result;
+  if(!editFlag.value) request.seq = weightStore.getSelectItem().seq;
+  return request;
 };
 
 // 저장 버튼
 const saveWeightItem = async () => {
   const body = makeBody();
-  console.log(body)
   weightStore.postWeightItem(body);
-  // router.push({ path: "/weight/weightList" });
-  
-  // try {
-  //   const { data, error } = await createWeightItem(body);
-  //   if (error.value !== null) {
-  //     const errorMessage = error.value?.data.message;
-  //     setErrorMessage(errorMessage);
-  //   } else if (data.value !== null) {
-  //     setMessage(data.value.message);
-  //   }
-  // } catch (e) {
-  //   setErrorMessage(e);
-  // }
+  router.push({ path: "/weight/weightList" });
 };
 
 // 수정 버튼
 const modifyWeightItem = async () => {
   const body = makeBody();
-
-  try {
-    const { data, error } = await updateWeightItem(body);
-    if (error.value !== null) {
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ name: "weight-weightList" });
-    }
-  } catch (e) {
-    setErrorMessage(e);
-  }
+  weightStore.putWeightItem(body);
+  router.push({ name: "weight-weightList" });
 };
 
 // 초기화 버튼
@@ -196,7 +163,6 @@ const getFavroiteWeightList = async () =>{
     if(error.value!==null) setErrorMessage(error.value)
     else if(data.value!==null){
       const list = data.value.data;
-      console.log(list)
       loadList.value = list;
     }
   }catch(e){

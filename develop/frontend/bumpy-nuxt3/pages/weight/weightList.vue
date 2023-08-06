@@ -21,6 +21,7 @@ definePageMeta({
 onMounted(async()=>{
   const today = commonStore.getToday();
   weightStore.setFocusDate(today);
+  weightStore.resetSelectItem();
   weightStore.getCalendarListByStdDate(today);
   weightStore.getActivityListByStdDate(today);
 })

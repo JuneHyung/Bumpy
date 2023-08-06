@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
-import { createWeightItem, deleteWeightItem, readWeightCalendarList, readWeightItem, readWeightList } from "~~/api/weight/weight";
+import { createWeightItem, deleteWeightItem, readWeightCalendarList, readWeightItem, readWeightList, updateWeightItem } from "~~/api/weight/weight";
 import { CommonCalendarData } from "~~/types/common";
 import { Weight, WeightList, WeightRemoveRequestParams } from "~~/types/weight";
 
@@ -77,6 +77,20 @@ export const useWeightStore = defineStore("weight-store", () => {
     }
   }
 
+  const putWeightItem = async (body: Weight) =>{
+    try {
+    const { data, error } = await updateWeightItem(body);
+    if (error.value !== null) {
+      const errorMessage = error.value?.data.message;
+      setErrorMessage(errorMessage);
+    } else if (data.value !== null) {
+      setMessage(data.value?.message);
+    }
+  } catch (e) {
+    setErrorMessage(e);
+  }
+  }
+
   const removeWeightItem = async () => {
     try {
       const params: WeightRemoveRequestParams = {
@@ -132,6 +146,7 @@ export const useWeightStore = defineStore("weight-store", () => {
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
     postWeightItem,
+    putWeightItem,
     removeWeightItem,
 
     setFocusDate,

@@ -21,8 +21,4 @@ const emits = defineEmits(['initName'])
 const setFormName = (name: string) =>{
   emits('initName', name)
 }
-
-onMounted(()=>{
-  console.log(props.list)
-})
 </script>
