@@ -80,7 +80,6 @@ const handleFileChange = (event) => {
 const handleDrop = (event) => {
   event.preventDefault();
   const files = event.dataTransfer.files;
-  console.log(files)
   if(files.length>10) setErrorMessage('10개까지 등록할 수 있습니다.');
   if (files.length > 0 && files.length<=10) {
     if((props.list.value.length + files.length) >=10){  

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
-import { deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem } from "~~/api/meal/meal";
+import { createMealItem, deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem, updateMealItem } from "~~/api/meal/meal";
 import { CommonCalendarData } from "~~/types/common";
 import { Meal, MealItemRequestParam, MealList } from "~~/types/meal";
 
@@ -61,6 +61,33 @@ export const useMealStore = defineStore("meal-store", () => {
     }
   };
 
+  const postMealItem = async (body: Meal) =>{
+    try{
+      const {data, error} = await createMealItem(body)
+      if(error.value!==null){
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        setMessage(data.value.message);
+      }
+    }catch (e){
+      setErrorMessage(e);
+    }
+  }
+  const putMealItem = async (body: Meal) =>{
+    try{
+      const {data, error} = await updateMealItem(body)
+      if(error.value!==null){
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        setMessage(data.value.message);
+      }
+    }catch (e){
+      setErrorMessage(e);
+    }
+  }
+
   const removeMealItem = async () => {
     try {
       const params: MealItemRequestParam = {
@@ -114,6 +141,8 @@ export const useMealStore = defineStore("meal-store", () => {
     getActivityListByStdDate,
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
+    postMealItem,
+    putMealItem,
     removeMealItem,
 
     setFocusDate,

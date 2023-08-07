@@ -32,6 +32,7 @@ type WeightFormData = {
   setReps: InputNumber,
   measure: 0 | 1,
   memo: InputTextarea
+  picture?: {value: ImageData[]}
 }
 
 interface WeightRemoveRequestParams {

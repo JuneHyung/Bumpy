@@ -87,7 +87,7 @@ const form:Ref<WeightFormData> = ref({
   setReps: {value: "",  },
   measure: {value: "",  },
   memo: { value: "" },
-  picture: {value: [], placeholder: ''},
+  picture: {value: []},
 });
 
 const numberList = ref([
@@ -114,7 +114,7 @@ const makeBody = () => {
     setReps: form.value.setReps.value,
     measure: form.value.measure.value,
     memo: form.value.memo.value,
-    picture: form.value.picture.value,
+    picture: form.value.picture?.value,
   };
   if(!editFlag.value) request.seq = weightStore.getSelectItem().seq;
   return request;

@@ -66,7 +66,4 @@ definePageMeta({
   layout: "main-layout",
 });
 
-onMounted(()=>{
-  console.log(weightStore.getSelectItem());
-})
 </script>

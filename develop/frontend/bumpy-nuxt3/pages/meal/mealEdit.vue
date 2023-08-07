@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="mealEdit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader></FileUploader>
+        <FileUploader :list="form.picture"></FileUploader>
       </label>
       <div class="mealEdit-input-wrap-box">
         <div class="mealEdit-input-label-wrap">
@@ -43,7 +43,6 @@
 // import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~~/components/form/TextInput.vue';
 import TextareaInput from '~~/components/form/TextareaInput.vue';
-// import Te from '~/components/form/NumberInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
@@ -64,6 +63,7 @@ const form: Ref<MealFormData> = ref({
   water: {   },
   food: {value: []},
   memo: {},
+  picture: {value:[]}
 });
 
 const numberList = [
@@ -86,7 +86,7 @@ const makeBody = () =>{
     water: form.value.water?.value as string,
     food: foodList as string[],
     memo: form.value.memo?.value,
-    // picture: form.value.picture.value,
+    picture: form.value.picture?.value,
   }
   if(mealStore.getSelectItem().seq){
     result.seq= mealStore.getSelectItem().seq
@@ -106,37 +106,15 @@ const removeItem = (idx: number) => {
 // 저장 버튼
 const saveMealItem = async () =>{
   const body = makeBody()
-  console.log(body)
-  try{
-    const {data, error} = await createMealItem(body)
-    if(error.value!==null){
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    }else if(data.value !== null){
-      setMessage(data.value.message);
-      router.push({name: 'meal-mealList'});
-    }
-  }catch (e){
-    setErrorMessage(e);
-  }
+  mealStore.postMealItem(body);
+  router.push({name: "meal-mealList"})
 }
 
 // 수정 버튼
 const modifyMealItem = async () =>{
   const body = makeBody()
-  // console.log(body)
-  try{
-    const {data, error} = await updateMealItem(body)
-    if(error.value!==null){
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    }else if(data.value !== null){
-      setMessage(data.value.message);
-      router.push({name: 'meal-mealList'});
-    }
-  }catch (e){
-    setErrorMessage(e);
-  }
+  mealStore.putMealItem(body);
+  router.push({name: "meal-mealList"});
 }
 
 // 초기화 버튼
@@ -153,7 +131,7 @@ const cancelMealEdit = () =>{
   router.back();
 }
 
-const initSelectItem = () =>{
+const initSelectItem = async () =>{
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -167,13 +145,12 @@ const initSelectItem = () =>{
 
 
 
-onMounted(() => {
+onMounted(async () => {
   if (!editFlag.value) {
-    initSelectItem();
+    await initSelectItem();
   } else {
-    mealStore.resetSelectItem();
+    await mealStore.resetSelectItem();
   }
-  console.log(mealStore.getSelectItem)
 });
 
 definePageMeta({
