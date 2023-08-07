@@ -27,7 +27,7 @@
       </div>
       <div class="inbodyDetail-button-wrap">
         <button class="short-ghost-button" @click="moveInbodyList">취소</button>
-        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday()" @click="inbodyStore.removeInbodyItem()">삭제</button>
+        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday()" @click="removeInbodyItem">삭제</button>
         <button class="short-filled-button" v-if="inbodyStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
@@ -63,6 +63,12 @@ const imageList = () => {
   const list = inbodyStore.getSelectItem().picture as ImageData[];
   return list.map((el) => el.data);
 };
+
+const removeInbodyItem = async () =>{
+  await inbodyStore.removeInbodyItem();
+  await moveInbodyList();
+}
+
 const moveInbodyList = async () => {
   await router.push({ name: "inbody-inbodyList" });
 };

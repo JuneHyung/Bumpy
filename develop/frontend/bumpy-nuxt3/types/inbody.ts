@@ -25,6 +25,7 @@ export type InbodyFormData = {
   score?: InputText,
   bmi?: InputText,
   fatRate?: InputText,
+  picture?: ImageData[]
 }
 export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>
 export type InbodyListRequestParam = Pick<Inbody, 'stdDate'>

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { deleteInbodyItem, readInbodyActivityList, readInbodyCalendarList, readInbodyItem } from '~~/api/inbody/inbody';
+import { createInbodyItem, deleteInbodyItem, readInbodyActivityList, readInbodyCalendarList, readInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
 import { CommonCalendarData } from '~~/types/common';
 import { Inbody, InbodyItemRequestParam, InbodyList } from '~~/types/inbody';
 
@@ -60,6 +60,33 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       setErrorMessage(e);
     }
   };
+  const postInbodyItem = async (body: Inbody) =>{
+    try{
+      const {data, error} = await createInbodyItem(body)
+      if(error.value!==null){
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        setMessage(data.value.message);
+      }
+    }catch (e){
+      setErrorMessage(e);
+    }
+  }
+
+  const putInbodyItem = async (body: Inbody) =>{
+    try{
+      const {data, error} = await updateInbodyItem(body)
+      if(error.value!==null){
+        const errorMessage = error.value?.data.message;
+        setErrorMessage(errorMessage);
+      }else if(data.value !== null){
+        setMessage(data.value.message);
+      }
+    }catch (e){
+      setErrorMessage(e);
+    }
+  }
 
   const removeInbodyItem = async () => {
     try {
@@ -114,6 +141,8 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     getActivityListByStdDate,
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
+    postInbodyItem,
+    putInbodyItem,
     removeInbodyItem,
 
     setFocusDate,

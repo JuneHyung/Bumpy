@@ -5,7 +5,7 @@
       <div class="inbodyEdit-content-wrap">
         <label class="inbodyEdit-input-label photo-wrap-box bp-mt-sm">
           <p class="bp-mb-sm">사진 및 비디오</p>
-          <FileUploader></FileUploader>
+          <FileUploader :list="form.picture"></FileUploader>
         </label>
         <div class="inbodyEdit-input-wrap-box bp-pa-sm">
           <div class="inbodyEdit-input-label-wrap">
@@ -34,16 +34,12 @@
   </main>
 </template>
 <script setup lang="ts">
-// import LoadList from '~/components/list/LoadList.vue';
+
 import TextInput from '~~/components/form/TextInput.vue';
 import FileUploader from '~~/components/form/FileUploader.vue';
-// import NumberInput from '~/components/form/NumberInput.vue';
 import { useInbodyStore } from '~~/store/inbody';
 import { useCommonStore } from '~~/store/common';
-import { createInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
-const info = { name: '벤치프레스' };
-const commonStore = useCommonStore();
+
 const inbodyStore = useInbodyStore();
 const router = useRouter();
 const editFlag = computed(()=>inbodyStore.getSelectItem().height===undefined)
@@ -57,6 +53,7 @@ const form = ref({
   score: {value:'',},
   bmi: {value:'',},
   fatRate: {value:'',},
+  picture: {value: []}
 });
 
 const numberList = ref([
@@ -84,44 +81,23 @@ const makeBody = () =>{
     bmi: form.value.bmi.value,
     fatRate: form.value.fatRate.value,
     // memo: form.value.memo.value,
-    // picture: form.value.picture.value,
+    picture: form.value.picture.value,
   }
   return result;
 }
 
 // 저장 버튼
 const saveInbodyItem = async () =>{
-  const body = makeBody()
-  try{
-    const {data, error} = await createInbodyItem(body)
-    if(error.value!==null){
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    }else if(data.value !== null){
-      setMessage(data.value.message);
-      router.push({name: 'inbody-inbodyList'})
-    }
-  }catch (e){
-    setErrorMessage(e);
-  }
+  const body = makeBody();
+  inbodyStore.postInbodyItem(body)
+  router.push({name: 'inbody-inbodyList'});
 }
 
 // 수정 버튼
 const modifyInbodyItem = async () =>{
-  const body = makeBody()
-  // console.log(body)
-  try{
-    const {data, error} = await updateInbodyItem(body)
-    if(error.value!==null){
-      const errorMessage = error.value?.data.message;
-      setErrorMessage(errorMessage);
-    }else if(data.value !== null){
-      setMessage(data.value.message);
-      router.push({name: 'inbody-inbodyList'})
-    }
-  }catch (e){
-    setErrorMessage(e);
-  }
+  const body = makeBody();
+  inbodyStore.putInbodyItem(body);
+  router.push({name: 'inbody-inbodyList'})
 }
 
 // 초기화 버튼
