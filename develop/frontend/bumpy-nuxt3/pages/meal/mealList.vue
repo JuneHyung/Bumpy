@@ -10,16 +10,18 @@ import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
 import { useCommonStore } from '~~/store/common';
 import { useMealStore } from '~~/store/meal';
-const commonStore = useCommonStore();
-const mealStore = useMealStore();
 
 definePageMeta({
   layout: 'main-layout',
 });
 
+const commonStore = useCommonStore();
+const mealStore = useMealStore();
+
 onMounted(async ()=>{
   const today =commonStore.getToday();
   await mealStore.setFocusDate(today);
+  await mealStore.resetSelectItem();
   await mealStore.getCalendarListByStdDate(today);
   await mealStore.getActivityListByStdDate(today);
 })

@@ -44,26 +44,29 @@
 import { useWeightStore } from "~~/store/weight";
 import ImageList from "~~/components/list/ImageList.vue";
 import NoData from "~~/components/common/NoData.vue";
-const router = useRouter();
-const weightStore = useWeightStore();
-const imageList = () => {
-  const list = weightStore.getSelectItem().picture as ImageData[];
-  return list.map(el=>el.data);
-}
-const removeWeightItem = async () => {
-  await weightStore.removeWeightItem();
-  await moveWeightList();
-};
-
-const moveWeightList = async () => {
-  await router.push({ name: "weight-weightList" });
-};
-const moveModifyItem = () => {
-  router.push({ name: "weight-weightEdit" });
-};
 
 definePageMeta({
   layout: "main-layout",
 });
 
+const router = useRouter();
+const weightStore = useWeightStore();
+
+const imageList = () => {
+  const list = weightStore.getSelectItem().picture as ImageData[];
+  return list.map(el=>el.data);
+}
+
+const moveWeightList = async () => {
+  await router.push({ name: "weight-weightList" });
+};
+
+const moveModifyItem = () => {
+  router.push({ name: "weight-weightEdit" });
+};
+
+const removeWeightItem = async () => {
+  await weightStore.removeWeightItem();
+  await moveWeightList();
+};
 </script>

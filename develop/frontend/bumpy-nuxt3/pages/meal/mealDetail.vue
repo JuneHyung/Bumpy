@@ -42,15 +42,13 @@ import NoData from "~~/components/common/NoData.vue";
 import ImageList from "~~/components/list/ImageList.vue";
 import { useMealStore } from "~~/store/meal";
 import { Meal } from "~~/types/meal";
+
 definePageMeta({
   layout: 'main-layout',
 });
+
 const router = useRouter();
 const mealStore = useMealStore();
-const imageList = () => {
-  const list = mealStore.getSelectItem().picture as ImageData[];
-  return list.map(el=>el.data);
-}
 
 const infoList = [
   [
@@ -59,6 +57,11 @@ const infoList = [
     { key: 'water', label: 'Water', unit: 'L' },
   ],
 ];
+
+const imageList = () => {
+  const list = mealStore.getSelectItem().picture as ImageData[];
+  return list.map(el=>el.data);
+}
 
 const moveMealList = async ()=>{
   await router.push({name: 'meal-mealList'});

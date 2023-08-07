@@ -40,17 +40,18 @@
   </main>
 </template>
 <script setup lang="ts">
-// import LoadList from '~/components/list/LoadList.vue';
 import TextInput from '~~/components/form/TextInput.vue';
 import TextareaInput from '~~/components/form/TextareaInput.vue';
 import { useMealStore } from '~~/store/meal';
 import { useCommonStore } from '~~/store/common';
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import FoodList from '~~/components/list/FoodList.vue';
 import { MealFormData, MealItemRequestBody} from '~~/types/meal';
-import { createMealItem, updateMealItem } from '~~/api/meal/meal';
-import { MessageResponse } from '~~/types/common';
 import FileUploader from '~~/components/form/FileUploader.vue'
+
+definePageMeta({
+  layout: 'main-layout',
+});
+
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
@@ -74,7 +75,6 @@ const numberList = [
     { key: 'water', label: 'Water'},
   ],
 ];
-
 
 const makeBody = () =>{
   const foodList = form.value.food?.value.map(item=> item.value);
@@ -143,8 +143,6 @@ const initSelectItem = async () =>{
   }
 }
 
-
-
 onMounted(async () => {
   if (!editFlag.value) {
     await initSelectItem();
@@ -153,8 +151,5 @@ onMounted(async () => {
   }
 });
 
-definePageMeta({
-  layout: 'main-layout',
-});
 </script>
 <style scoped lang="scss"></style>

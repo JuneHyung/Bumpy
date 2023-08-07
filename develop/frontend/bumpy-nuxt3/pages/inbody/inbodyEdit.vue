@@ -34,15 +34,18 @@
   </main>
 </template>
 <script setup lang="ts">
-
 import TextInput from '~~/components/form/TextInput.vue';
 import FileUploader from '~~/components/form/FileUploader.vue';
 import { useInbodyStore } from '~~/store/inbody';
-import { useCommonStore } from '~~/store/common';
+
+definePageMeta({
+  layout: 'main-layout',
+});
 
 const inbodyStore = useInbodyStore();
 const router = useRouter();
-const editFlag = computed(()=>inbodyStore.getSelectItem().height===undefined)
+const editFlag = computed(()=>inbodyStore.getSelectItem().height===undefined);
+
 const form = ref({
   name: { value: ''},
   height: {value:'',},
@@ -68,7 +71,6 @@ const numberList = ref([
     { key: 'fatRate', label: '체지방률'},
   ],
 ]);
-
 
 const makeBody = () =>{
   const result = {
@@ -109,17 +111,17 @@ const resetInbodyItem = () =>{
   }
 }
 
+// 취소 버튼
+const cancelInbodyEdit = () =>{
+  router.back();
+}
+
 const initSelectItem = () =>{
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     form.value[key].value = inbodyStore.getSelectItem()[key];
   }
-}
-
-// 취소 버튼
-const cancelInbodyEdit = () =>{
-  router.back();
 }
 
 onMounted(()=>{
@@ -129,9 +131,4 @@ onMounted(()=>{
     inbodyStore.resetSelectItem();
   }
 })
-
-definePageMeta({
-  layout: 'main-layout',
-});
 </script>
-<style scoped lang="scss"></style>

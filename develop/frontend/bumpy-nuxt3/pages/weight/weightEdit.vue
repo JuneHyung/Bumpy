@@ -61,21 +61,24 @@
 import LoadList from "~~/components/list/LoadList.vue";
 import TextInput from "~~/components/form/TextInput.vue";
 import TextareaInput from "~~/components/form/TextareaInput.vue";
-// import NumberInput from "~/components/form/NumberInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useCommonStore } from "~/store/common";
-import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { setErrorMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
-import { createWeightItem, readFavoritWeightList, updateWeightItem } from "~~/api/weight/weight";
+import { readFavoritWeightList } from "~~/api/weight/weight";
 import {WeightFormData, WeightRequestBody} from '~~/types/weight';
 import _ from 'lodash'
+
+definePageMeta({
+  layout: "main-layout",
+});
+
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
 
 const loadList = ref([]);
-
 
 const form:Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
@@ -102,6 +105,7 @@ const numberList = ref([
     { key: "setReps", label: "세트 횟수", type: "number" },
   ],
 ]);
+
 const makeBody = () => {
   const request: WeightRequestBody = {
     stdDate: weightStore.getFocusDate() === null || weightStore.getFocusDate().length === 0 ? commonStore.getToday() : weightStore.getFocusDate(),
@@ -173,6 +177,7 @@ const getFavroiteWeightList = async () =>{
 const initName = (name: string) =>{
   form.value.name.value = name;
 }
+
 onMounted(async () => {
   await getFavroiteWeightList();
   if (!editFlag.value) {
@@ -180,10 +185,6 @@ onMounted(async () => {
   } else {
     await weightStore.resetSelectItem();
   }
-});
-
-definePageMeta({
-  layout: "main-layout",
 });
 </script>
 <style scoped lang="scss"></style>

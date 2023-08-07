@@ -43,6 +43,7 @@ import NoData from "~~/components/common/NoData.vue";
 definePageMeta({
   layout: "main-layout",
 });
+
 const router = useRouter();
 const inbodyStore = useInbodyStore();
 
@@ -64,11 +65,6 @@ const imageList = () => {
   return list.map((el) => el.data);
 };
 
-const removeInbodyItem = async () =>{
-  await inbodyStore.removeInbodyItem();
-  await moveInbodyList();
-}
-
 const moveInbodyList = async () => {
   await router.push({ name: "inbody-inbodyList" });
 };
@@ -77,7 +73,8 @@ const moveModifyItem = async () => {
   await router.push({ name: "inbody-inbodyEdit" });
 };
 
-onMounted(()=>{
-  console.log(inbodyStore.getSelectItem())
-})
+const removeInbodyItem = async () =>{
+  await inbodyStore.removeInbodyItem();
+  await moveInbodyList();
+}
 </script>

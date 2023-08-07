@@ -11,18 +11,18 @@ import CalendarSection from '~~/components/section/CalendarSection.vue';
 import { useCommonStore } from '~~/store/common';
 import { useWeightStore } from '~~/store/weight';
 
-const commonStore = useCommonStore();
-const weightStore = useWeightStore();
-
 definePageMeta({
   layout: 'main-layout',
 });
 
+const commonStore = useCommonStore();
+const weightStore = useWeightStore();
+
 onMounted(async()=>{
   const today = commonStore.getToday();
-  weightStore.setFocusDate(today);
-  weightStore.resetSelectItem();
-  weightStore.getCalendarListByStdDate(today);
-  weightStore.getActivityListByStdDate(today);
+  await weightStore.setFocusDate(today);
+  await weightStore.resetSelectItem();
+  await weightStore.getCalendarListByStdDate(today);
+  await weightStore.getActivityListByStdDate(today);
 })
 </script>
