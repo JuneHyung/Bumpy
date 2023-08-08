@@ -177,6 +177,13 @@ public class WeightService {
         if(dataHWeight == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
+            // delete files
+            List<String> deleteFileList = dataHWeight.getPicture();
+
+            for(String uuid : deleteFileList) {
+                commonService.deleteFileInternal(uuid);
+            }
+
             List<String> uuidList = new ArrayList<>();
 
             // upload files
@@ -205,6 +212,13 @@ public class WeightService {
         if(dataHWeight == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
+            // delete files
+            List<String> deleteFileList = dataHWeight.getPicture();
+
+            for(String uuid : deleteFileList) {
+                commonService.deleteFileInternal(uuid);
+            }
+
             dataHWeightRepository.delete(dataHWeight);
 
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));

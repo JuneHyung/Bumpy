@@ -149,7 +149,7 @@ public class CommonService {
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 
-    private boolean deleteFileInternal(String fileId) {
+    public boolean deleteFileInternal(String fileId) {
         try {
             // delete file from FILE_PATH
             File file = new File(FILE_PATH + fileId);

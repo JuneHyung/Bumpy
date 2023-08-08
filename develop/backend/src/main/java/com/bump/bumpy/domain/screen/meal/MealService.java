@@ -149,6 +149,13 @@ public class MealService {
             try {
                 List<String> uuidList = new ArrayList<>();
 
+                // delete files
+                List<String> deleteFileList = dataHMeal.getPicture();
+
+                for(String uuid : deleteFileList) {
+                    commonService.deleteFileInternal(uuid);
+                }
+
                 // upload files
                 for (PictureDto pictureDto : request.getPicture()) {
                     String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
@@ -178,6 +185,13 @@ public class MealService {
         if(dataHMeal == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
+            // delete files
+            List<String> deleteFileList = dataHMeal.getPicture();
+
+            for(String uuid : deleteFileList) {
+                commonService.deleteFileInternal(uuid);
+            }
+
             dataHMealRepository.delete(dataHMeal);
 
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));

@@ -178,6 +178,13 @@ public class AerobicService {
         if(dataHAerobic == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
+            // delete files
+            List<String> deleteFileList = dataHAerobic.getPicture();
+
+            for(String uuid : deleteFileList) {
+                commonService.deleteFileInternal(uuid);
+            }
+
             List<String> uuidList = new ArrayList<>();
 
             // upload files
@@ -205,6 +212,13 @@ public class AerobicService {
         if(dataHAerobic == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
+            // delete files
+            List<String> deleteFileList = dataHAerobic.getPicture();
+
+            for(String uuid : deleteFileList) {
+                commonService.deleteFileInternal(uuid);
+            }
+
             aerobicRepository.delete(dataHAerobic);
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
         }

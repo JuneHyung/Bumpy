@@ -144,6 +144,13 @@ public class InbodyService {
 
         List<String> uuidList = new ArrayList<>();
 
+        // delete files
+        List<String> deleteFileList = dataHInbody.getPicture();
+
+        for(String uuid : deleteFileList) {
+            commonService.deleteFileInternal(uuid);
+        }
+
         // upload files
         for (PictureDto pictureDto : request.getPicture()) {
             String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
@@ -162,6 +169,13 @@ public class InbodyService {
         if(dataHInbody == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "해당 데이터가 없습니다."));
         }
+        // delete files
+        List<String> deleteFileList = dataHInbody.getPicture();
+
+        for(String uuid : deleteFileList) {
+            commonService.deleteFileInternal(uuid);
+        }
+
         dataHInbodyRepository.delete(dataHInbody);
         return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
     }
