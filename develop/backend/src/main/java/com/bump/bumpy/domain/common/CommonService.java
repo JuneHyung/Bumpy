@@ -93,7 +93,7 @@ public class CommonService {
         // create CmHFile entity with uuid
         CmHFile cmHFile = CmHFile.builder()
                 .fileId(uuid)
-                .originFileName(uuid)
+                .originFileName(originalFileName)
                 .userId(userId)
                 .size(size)
                 .build();
