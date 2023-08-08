@@ -24,7 +24,7 @@ import java.util.TimeZone;
 public class JacksonConfig {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String TIME_FORMAT = "HH:mm:ss";
+    private static final String TIME_FORMAT = "HH:mm";
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
