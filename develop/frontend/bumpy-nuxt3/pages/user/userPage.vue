@@ -55,12 +55,13 @@
   </main>
 </template>
 <script setup>
-import DateInput from '../components/form/DateInput.vue';
-import NumberInput from '../components/form/NumberInput.vue';
-import PasswordInput from '../components/form/PasswordInput.vue';
-import TextInput from '../components/form/TextInput.vue';
+import DateInput from '~~/components/form/DateInput.vue';
+import NumberInput from '~~/components/form/NumberInput.vue';
+import PasswordInput from '~~/components/form/PasswordInput.vue';
+import TextInput from '~~/components/form/TextInput.vue';
 import { ref } from 'vue';
-import Avatar from '../components/user/Avatar.vue';
+import Avatar from '~~/components/user/Avatar.vue';
+import { useUserStore } from '~~/store/user';
 const target = 'login';
 const userForm = ref({
   id: { value: 'cjh951114', disabled: true, placeholder: '아이디를 입력해주세요.' },
@@ -78,4 +79,9 @@ const userForm = ref({
 definePageMeta({
   layout: 'main-layout',
 });
+const userStore = useUserStore();
+const router= useRouter();
+onMounted(()=>{
+  // if(!userStore.getIsPass()) router.push({name: 'user-passwordCheck'})
+})
 </script>

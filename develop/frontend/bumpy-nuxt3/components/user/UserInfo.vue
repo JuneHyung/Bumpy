@@ -211,7 +211,7 @@ const getUserInfo = async () => {
 }
 
 const moveUserPage = () => { 
-  router.push({name:'userPage'})
+  router.push({name:'user-passwordCheck'})
 }
 
 const Logout = async () =>{
