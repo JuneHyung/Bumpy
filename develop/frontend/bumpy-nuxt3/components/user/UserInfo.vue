@@ -7,7 +7,7 @@
 
     <div class="user-profile-wrap-box">
       <Avatar name="jh"></Avatar>
-      <p class="user-name bp-mt-sm">{{ userName }}</p>
+      <p class="user-name bp-mt-sm">{{ userStore.getUserName() }}</p>
     </div>
 
     <ul class="user-body-info-box">
@@ -64,7 +64,10 @@ import {fetchLogout} from '~~/api/user/user';
 import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
 import { getUserInfoForMain } from '~~/api/main';
 import { setErrorMessage } from '~~/api/alert/message';
+import { useUserStore } from '~~/store/user';
 const router = useRouter();
+const userStore = useUserStore();
+
 const userBodyInfo: Ref<UserInfoList>=ref([
   {
     key: 'height',
@@ -176,9 +179,9 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: '%',
   },
 ]);
-const userName = ref('')
+
 const initUserInfo = async (list: any) =>{
-  userName.value = list.username;
+  userStore.setUserName(list.username);
   const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
   const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
   const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)

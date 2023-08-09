@@ -29,6 +29,26 @@
       flex: 3;
     }
   }
+
+  .uesrpage-address-wrap{
+    display: flex;
+    flex-direction: column;
+    .uesrpage-zipcode-wrap{
+      display: flex;
+      flex-direction: row;
+      .userpage-zipcode-input{
+        width:200px;
+        flex: 0 1 200px;
+      }
+      .find-zipcode-button{
+        display:flex;
+        flex: 0 1 100px;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
   .userpage-button-wrap {
     display: flex;
     justify-content: flex-end;
@@ -38,4 +58,5 @@
       flex: 0;
     }
   }
+  
 }

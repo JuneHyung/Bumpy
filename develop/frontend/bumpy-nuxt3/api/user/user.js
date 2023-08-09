@@ -1,8 +1,10 @@
 import { useUserStore } from "~~/store/user";
-import { POST } from "~~/types/method";
+import { DELETE, POST, PUT } from "~~/types/method";
 
 const baseURL = 'http://222.112.251.124:8899/api';
-
+const headers = {
+  "Content-Type": "application/json"
+}
 export function fetchLogin(body){
   return useFetch('/auth/login', {
     baseURL,
@@ -28,5 +30,21 @@ export const fetchUserPasswordCheck = (body) =>{
       // Process the response data
       response.status===200 ? userStore.setIsPass(true) : userStore.setIsPass(false)
     },
+  })
+}
+
+export const putUserInfo = (body) => {
+  return useFetch('/user/update',{
+    baseURL,
+    method: PUT,
+    headers,
+    body,
+  })
+}
+
+export const deleteUserInfo = () =>{
+  return useFetch('/user/delete', {
+    baseURL,
+    method: DELETE,
   })
 }

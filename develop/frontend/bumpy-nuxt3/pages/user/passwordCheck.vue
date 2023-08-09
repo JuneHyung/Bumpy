@@ -4,7 +4,7 @@
       <CustomIcon iconName="mdiLockCheck" style="width:60px; height:60px;"></CustomIcon>
       <h2 class="bp-my-lg">Enter Your Password</h2>
       <PasswordInput :data="password"/>
-      <button class="bp-my-lg" @click="checkPassword">Check</button>
+      <button class="bp-my-lg" @click="checkPassword" type="button">Check</button>
     </div>
   </main>
 </template>
@@ -18,7 +18,7 @@ definePageMeta({
 const userStore = useUserStore();
 const router = useRouter();
 
-const password = ref({})
+const password = ref({value: '',})
 const checkPassword = async () => {
   await userStore.checkPassword({password: password.value.value})
   if(userStore.getIsPass()) router.push({name: 'user-userPage'})
