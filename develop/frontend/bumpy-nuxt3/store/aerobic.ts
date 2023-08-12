@@ -3,8 +3,10 @@ import _ from 'lodash';
 import {defineStore} from 'pinia';
 import { deleteAerobicItem, readAerobicActivityList, readAerobicCalendarList, readAerobicItem } from '~~/api/aerobic/aerobic';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
+import { getAerobicActivityForMain, getAerobicChartInfoForMain } from '~~/api/main';
 import { Aerobic, AerobicDeleteRequestParam, AerobicList } from '~~/types/aerobic';
 import { CommonCalendarData } from '~~/types/common';
+import { MainAerobicChartData, MainAerobicChartInfo } from '~~/types/main';
 
 export const useAerobicStore = defineStore('aerobic-store',()=>{
   const focusDate = ref("");
@@ -13,7 +15,56 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
   const calendarList: Ref<CommonCalendarData[]> = ref([]);
   const selectItem: Ref<Aerobic> = ref({});
 
+  const mainAerobicDate: Ref<string> = ref('');
+  const lastAerobicList: Ref<AerobicList> = ref([]);
+  
+  const mainAerobicInfo: Ref<MainAerobicChartInfo> = ref({
+    bestKcal:'',
+    bestTime:'',
+    averageIncline:'',
+    averageSpeed:'',
+  })
+  const mainAerobicChartInfo: Ref<MainAerobicChartData> = ref({
+    series: [],
+    xAxis: [],
+  })
+
+
   // dispatch
+  const getLastAerobicActivityInfo = async () =>{
+    try{
+      const {data, error} = await getAerobicActivityForMain();
+      if(error.value!==null){
+        setErrorMessage(error.value);
+      }else if(data.value!==null){
+        const list = data.value.data
+        lastAerobicList.value = list as AerobicList
+        setMainAerobicDate(list[0].stdDate as string);
+      }
+    }catch(e){
+      setErrorMessage(e);
+    }
+  }
+
+  const getAerobicChartInfo = async () =>{
+    try{
+        const {data, error} = await getAerobicChartInfoForMain({name:lastAerobicList.value[0].name as string});
+        // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
+        if(error.value!==null){
+          setErrorMessage(error.value);
+        }else if(data.value!==null){
+          const result = data.value.data
+          const infoKeys = Object.keys(mainAerobicInfo.value)
+          for(const key of infoKeys) mainAerobicInfo.value[key] = result[key];
+          mainAerobicChartInfo.value.xAxis = result.xAxis;
+          mainAerobicChartInfo.value.series = result.series;
+        }
+      }catch(e){
+        setErrorMessage(e);
+      }  
+    }
+      
+
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
       const { data, error } = await readAerobicActivityList({ stdDate: stdDate });
@@ -65,7 +116,7 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     try {
       const params: AerobicDeleteRequestParam = {
         stdDate: focusDate.value,
-        seq: selectItem.value.seq,
+        seq: selectItem.value.seq as number,
       };
       const { data, error } = await deleteAerobicItem(params);
       if (error.value !== null) {
@@ -110,7 +161,21 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
   const getCalendarList = () => calendarList.value;
   const getSelectItem = () => selectItem.value;
 
+  const getMainAerobicDate = () => mainAerobicDate.value;
+  const getLastAerobicList = () => lastAerobicList.value;
+  const getMainAerobicInfo = () => mainAerobicInfo.value;
+  const getMainAerobicChartInfo = () => mainAerobicChartInfo.value;
+
+  const setMainAerobicDate = (value: string) => mainAerobicDate.value = value;
+  const setLastAerobicList = (value: AerobicList) => lastAerobicList.value = value;
+  const setMainAerobicInfo = (value: MainAerobicChartInfo) => mainAerobicInfo.value = value;
+  const setMainAerobicChartInfo = (value: MainAerobicChartData) => mainAerobicChartInfo.value = value;
+
+
   return {
+    getLastAerobicActivityInfo,
+    getAerobicChartInfo,
+
     getActivityListByStdDate,
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
@@ -128,5 +193,15 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     getActivityList,
     getCalendarList,
     getSelectItem,
+
+    getMainAerobicDate,
+  getLastAerobicList,
+  getMainAerobicInfo,
+  getMainAerobicChartInfo,
+
+  setMainAerobicDate,
+  setLastAerobicList,
+  setMainAerobicInfo,
+  setMainAerobicChartInfo,
   };
 })

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { getMealInfoForMain } from "~~/api/main";
 import { createMealItem, deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem, updateMealItem } from "~~/api/meal/meal";
 import { CommonCalendarData } from "~~/types/common";
 import { Meal, MealItemRequestParam, MealList } from "~~/types/meal";
@@ -13,7 +14,24 @@ export const useMealStore = defineStore("meal-store", () => {
   const calendarList: Ref<CommonCalendarData[]> = ref([]);
   const selectItem: Ref<Meal> = ref({});
 
+  const todayMealList:Ref<MealList> = ref([]);
+
   // dispatch
+  const getTodayMealInfo = async () => {
+    try{
+        const {data, error} = await getMealInfoForMain();
+        if(error.value!==null){
+          setErrorMessage(error.value);
+        }else if(data.value!==null){
+          
+          const list = data.value.data;
+          setTodayMealList(list);
+        }
+      }catch(e){
+        setErrorMessage(e);
+      }
+    }
+
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
       const { data, error } = await readMealActivityList({ stdDate: stdDate });
@@ -130,14 +148,17 @@ export const useMealStore = defineStore("meal-store", () => {
   const resetSelectItem = async () => {
     selectItem.value = {};
   };
+  const setTodayMealList = async (data: any) => todayMealList.value = data;
 
   const getFocusDate = (): string => focusDate.value;
   const getIsToday = () => isToday.value;
   const getActivityList = () => activityList.value;
   const getCalendarList = () => calendarList.value;
   const getSelectItem = () => selectItem.value;
+  const getTodayMealList = () => todayMealList.value;
 
   return {
+    getTodayMealInfo,
     getActivityListByStdDate,
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
@@ -150,6 +171,7 @@ export const useMealStore = defineStore("meal-store", () => {
     setActivityList,
     setCalendarlist,
     setSelectItem,
+    setTodayMealList,
     resetSelectItem,
 
     getFocusDate,
@@ -157,5 +179,6 @@ export const useMealStore = defineStore("meal-store", () => {
     getActivityList,
     getCalendarList,
     getSelectItem,
+    getTodayMealList,
   };
 });

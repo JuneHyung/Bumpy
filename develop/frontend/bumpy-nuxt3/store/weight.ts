@@ -2,8 +2,10 @@ import dayjs from "dayjs";
 import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { getWeightActivityForMain, getWeightChartInfoForMain } from "~~/api/main";
 import { createWeightItem, deleteWeightItem, readWeightCalendarList, readWeightItem, readWeightList, updateWeightItem } from "~~/api/weight/weight";
 import { CommonCalendarData } from "~~/types/common";
+import { MainWeightChartData, MainWeightChartInfo } from "~~/types/main";
 import { Weight, WeightList, WeightRemoveRequestParams } from "~~/types/weight";
 
 export const useWeightStore = defineStore("weight-store", () => {
@@ -13,7 +15,57 @@ export const useWeightStore = defineStore("weight-store", () => {
   const calendarList:Ref<CommonCalendarData[]> = ref([]);
   const selectItem: Ref<Weight> = ref({});
 
+  const mainWeightDate: Ref<string> = ref('');
+  const lastWeightList: Ref<WeightList> = ref([]);
+  
+  const mainWeightInfo: Ref<MainWeightChartInfo> = ref({
+    myBest:'',
+    reps:'',
+    sets:'',
+    monthAverage:'',
+  })
+  const mainWeightChartInfo: Ref<MainWeightChartData> = ref({
+    series: [],
+    xAxis: [],
+  })
+
   // dispatch
+  const getLastWeightActivityInfo = async () =>{
+    try{
+        const {data, error} = await getWeightActivityForMain();
+        if(error.value!==null){
+          setErrorMessage(error.value);
+        }else if(data.value!==null){
+          const list = data.value.data
+          setLastWeightList(list);
+          setMainWeightDate(list[0].stdDate as string);
+        }
+      }catch(e){
+        setErrorMessage(e);
+      }
+    }
+
+    
+const getWeightChartInfo = async () =>{
+  try{
+      const {data, error} = await getWeightChartInfoForMain({name: lastWeightList.value[0].name as string});
+      // const {data, error} = await getWeightChartInfoForMain({name: 'TEST-4'});
+      if(error.value!==null){
+        setErrorMessage(error.value);
+      }else if(data.value!==null){
+        const result = data.value.data
+        const infoKeys = Object.keys(mainWeightInfo.value)
+        const chartKeys = Object.keys(mainWeightChartInfo.value)
+        for(const key of infoKeys) mainWeightInfo.value[key] = result[key];
+        
+        mainWeightChartInfo.value.xAxis = result.xAxis;
+        mainWeightChartInfo.value.series = result.series;
+      }
+    }catch(e){
+      setErrorMessage(e);
+    }
+  }
+  //--------------
   const getActivityListByStdDate = async (stdDate: string) => {
 
     try {
@@ -134,6 +186,17 @@ export const useWeightStore = defineStore("weight-store", () => {
     selectItem.value = {};
   };
 
+
+  const getMainWeightDate = () => mainWeightDate.value;
+  const getLastWeightList = () => lastWeightList.value;
+  const getMainWeightInfo = () => mainWeightInfo.value;
+  const getMainWeightChartInfo = () => mainWeightChartInfo.value;
+
+  const setMainWeightDate = (value: string) => mainWeightDate.value = value;
+  const setLastWeightList = (value: WeightList) => lastWeightList.value = value;
+  const setMainWeightInfo = (value: MainWeightChartInfo) => mainWeightInfo.value = value;
+  const setMainWeightChartInfo = (value: MainWeightChartData) => mainWeightChartInfo.value = value;
+
   const getFocusDate = (): string => focusDate.value;
   const getIsToday = () => isToday.value;
   const getActivityList = () => activityList.value;
@@ -141,6 +204,10 @@ export const useWeightStore = defineStore("weight-store", () => {
   const getSelectItem = () => selectItem.value;
 
   return {
+    getLastWeightActivityInfo,
+    getWeightChartInfo,
+
+
     getActivityListByStdDate,
     getCalendarListByStdDate,
     getSelectItemByStdDateSeq,
@@ -154,11 +221,19 @@ export const useWeightStore = defineStore("weight-store", () => {
     setCalendarlist,
     setSelectItem,
     resetSelectItem,
+    setMainWeightDate,
+    setLastWeightList,
+    setMainWeightInfo,
+    setMainWeightChartInfo,
 
     getFocusDate,
     getIsToday,
     getActivityList,
     getCalendarList,
     getSelectItem,
-  };
+    getMainWeightDate,
+  getLastWeightList,
+  getMainWeightInfo,
+  getMainWeightChartInfo
+  }
 });
