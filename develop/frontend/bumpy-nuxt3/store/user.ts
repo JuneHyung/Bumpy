@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
+import _ from 'lodash';
 import {defineStore} from 'pinia';
-import { setErrorMessage } from '~~/api/alert/message';
+import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { getGrassInfo } from '~~/api/main';
-import { fetchUserPasswordCheck } from '~~/api/user/user';
+import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
 import { DateListFlag } from '~~/types/calendar';
 import { GrassInfoResponseBody } from '~~/types/main';
 export const useUserStore = defineStore('user-store',()=>{
@@ -15,13 +16,63 @@ export const useUserStore = defineStore('user-store',()=>{
   const displayDate = ref('');
   const dateList = ref(Array.from({length: 6}, ()=>Array.from({length:7},()=>{return {date: '', active: false, visible: false}})));
 
-  const checkPassword = async (body: any) =>{
+  const userPageData = ref({})
+
+  const fetchUserPageInfo = async () => {
     try{
-      const {data, error} = await fetchUserPasswordCheck(body)
-      if(error.value!==null) setErrorMessage('비밀번호를 다시 확인해주세요');
+      const {data, error} = await getUserPageInfo();
+      if(error.value!==null) setErrorMessage(error.value);
+      else if(data.value!==null){
+        const result = _.cloneDeep(data.value.data);
+        const phoneNumber= result.phoneNumber.split('-')
+        result.phoneFirst = phoneNumber[0]
+        result.phoneSecond = phoneNumber[1]
+        result.phoneThird = phoneNumber[2]
+        if(result.phoneNumber) delete result.phoneNumber;
+        setUserPageInfo(result)
+      }
+    }catch(e){ setErrorMessage(e) }
+  }
+
+  const deleteUserPageData = async () =>{
+    try{
+      const {data, error} = await deleteUserInfo()
+    }catch(e){
+      setErrorMessage(e);
+    }
+  }
+
+  const updateUserPageData = async (body: any)=>{
+    try{
+      const {data, error} = await putUserInfo(body)
+  
+      if(error.value!==null) setErrorMessage(error.value);
+      if(data.value!==null){ 
+        setMessage(data.value.message);
+      }
+    }catch(e){ setErrorMessage(e)}
+  }
+
+  //-------------------------------------------------------------------------
+  const checkPasswordVerify = async (body: any) =>{
+    try{
+      const {data, error} = await fetchUserPasswordVerifyCheck(body)
+      if(error.value!==null) setErrorMessage(error.value.data.message);
+      else if(data.value.message==="OK") {setMessage('사용 가능한 비밀번호 입니다.'); return true;}
+      else setErrorMessage(data.value.message);
     }catch(e){
       setErrorMessage(e)
     }
+    return false;
+  }
+  const checkPassword = async (body: any) =>{
+    try{
+      const {data, error} = await fetchUserPasswordCheck(body)
+      if(error.value!==null) setErrorMessage("비밀번호를 다시 확인해주세요.");
+    }catch(e){
+      setErrorMessage(e)
+    }
+    return false;
   }
 
   const updateThisDate = async (flag: DateListFlag) =>{
@@ -65,14 +116,19 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
   const getThisDate = () => thisDate.value;
   const getDisplayDate = () => displayDate.value;
   const getDateList = () => dateList.value;
+  const getUserPageData = () => userPageData.value;
   
   const setThisDate = (value: string) => thisDate.value = value;
   const setDisplayDate = (value: string) => displayDate.value = value;
   const setDateList = (value: any) => dateList.value = value;
   const setIsPass = (value:boolean) => isPass.value = value;
   const setUserName = (value: string) => userName.value = value;
+  const setUserPageInfo = (value: any) => userPageData.value = value;
+
   return {
-    checkPassword, 
+    fetchUserPageInfo,
+    checkPassword,
+    checkPasswordVerify, 
     updateThisDate,
 
     getGrassCalendarInfo,
@@ -83,12 +139,16 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
     getThisDate,
     getDisplayDate,
     getDateList,
+    getUserPageData,
+
     setIsPass,
     setUserName,
     setThisDate,
     setDisplayDate,
     setDateList,
+    setUserPageInfo,
 
-
+    deleteUserPageData,
+    updateUserPageData,
   }
 })

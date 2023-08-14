@@ -1,5 +1,5 @@
 import { useUserStore } from "~~/store/user";
-import { DELETE, POST, PUT } from "~~/types/method";
+import { DELETE, GET, POST, PUT } from "~~/types/method";
 
 const baseURL = 'http://222.112.251.124:8899/api';
 const headers = {
@@ -17,6 +17,14 @@ export function fetchLogout(){
   return useFetch('/auth/logout', {
     baseURL,
     method: POST,
+  })
+}
+
+export const fetchUserPasswordVerifyCheck = (body) =>{
+  return useFetch('/user/password/check', {
+    baseURL,
+    method: POST,
+    body,
   })
 }
 
@@ -46,5 +54,13 @@ export const deleteUserInfo = () =>{
   return useFetch('/user/delete', {
     baseURL,
     method: DELETE,
+  })
+}
+
+export const getUserPageInfo = async () =>{
+  return useFetch('/user/info',{
+    baseURL,
+    method: GET,
+    headers,
   })
 }

@@ -19,7 +19,9 @@ interface Props {
 const props = defineProps<Props>();
 const closeFlag = ref(true);
 const toggleList = () => {
+  if(props.data.disabled) return;
   closeFlag.value = !closeFlag.value;
+  
 };
 const setValue = (item: SelectItem) => {
   // console.log(item)

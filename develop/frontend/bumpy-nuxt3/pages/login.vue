@@ -38,7 +38,7 @@ import { inRange } from "~~/api/util";
 const router = useRouter();
 
 const formData: Ref<userLoginFormData> = ref({
-  id: { value: "", placeholder: "아이디", minlength: 5, maxlength: 20 },
+  id: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20 },
   password: { value: "", placeholder: "비밀번호", minlength: 8, maxlength: 20 },
 });
 

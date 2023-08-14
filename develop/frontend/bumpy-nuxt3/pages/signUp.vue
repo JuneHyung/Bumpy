@@ -73,7 +73,7 @@ import { setErrorMessage, setWarnMessage, setMessage } from '~~/api/alert/messag
 const router = useRouter();
 
 const moveLogin = () => {
-  return true;
+  router.back();
 };
 
 const userForm: Ref<userFormData> = ref({

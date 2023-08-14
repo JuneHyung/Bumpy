@@ -5,16 +5,16 @@
       <Avatar name="jh"></Avatar>
       <label class="userpage-input-wrap bp-my-sm">
         <span>아이디</span>
-        <TextInput :data="userForm.id" class="userpage-input" />
-        <!-- <button class="short-filled-button duplicate-check-button">중복검사</button> -->
+        <TextInput :data="userForm.userId" class="userpage-input" />
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>비밀번호</span>
         <PasswordInput :data="userForm.password" class="userpage-input" />
+        <button @click="togglePasswordChange" type="button">변경할꺼야</button>
       </label>
-      <label class="userpage-input-wrap bp-my-sm">
+      <label class="userpage-input-wrap bp-my-sm" v-if="!userForm.password.disabled">
         <span>비밀번호 확인</span>
-        <PasswordInput :data="userForm.passwordChk" class="userpage-input" />
+        <PasswordInput :data="userForm.passwordChk" class="userpage-input" @change="verifyPassword"/>
       </label>
       <label class="userpage-input-wrap email-input-wrap bp-my-sm">
         <span>이메일</span>
@@ -23,7 +23,11 @@
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>이름</span>
-        <TextInput :data="userForm.name" class="userpage-input" />
+        <TextInput :data="userForm.username" class="userpage-input" />
+      </label>
+      <label class="userpage-input-wrap bp-my-sm">
+        <span>성별</span>
+        <SelectboxInput :data="userForm.gender" class="userpage-input" />
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>생년월일</span>
@@ -69,26 +73,28 @@
 <script setup lang="ts">
 import DateInput from '~~/components/form/DateInput.vue';
 // import NumberInput from '~~/components/form/NumberInput.vue';
+import SelectboxInput from '~~/components/form/SelectboxInput.vue';
 import PasswordInput from '~~/components/form/PasswordInput.vue';
 import TextInput from '~~/components/form/TextInput.vue';
 import { ref } from 'vue';
 import Avatar from '~~/components/user/Avatar.vue';
 import { useUserStore } from '~~/store/user';
-import { setErrorMessage, setMessage, setWarnMessage } from '~~/api/alert/message';
 import { createCheckCertificateEmail, createEmailVerificationCode } from '~~/api/user/signup';
-import { putUserInfo, deleteUserInfo } from '~~/api/user/user';
+import { setErrorMessage, setWarnMessage } from '~~/api/alert/message';
+
 
 
 const userForm = ref({
-  id: { value: 'cjh951114', disabled: true, placeholder: '아이디를 입력해주세요.' },
-  password: { placeholder: '변경할 비밀번호를 영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.' },
-  passwordChk: { placeholder: '영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.' },
-  email: { value: 'cjh951114@naver.com', placeholder: 'email형식을 지켜 작성해주세요.' },
-  name: { value: '준형갓', placeholder: '이름을 입력해주세요.' },
-  birth: { value: '1996-01-04', placeholder: '생일을 입력해주세요' },
-  phoneFirst: { value: '010', placeholder: '000' },
-  phoneSecond: { value: '7917', placeholder: '0000' },
-  phoneThird: { value: '2614', placeholder: '0000' },
+  userId: { value: '', disabled: true, placeholder: '아이디를 입력해주세요.' },
+  password: { placeholder: '변경할 비밀번호를 영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.', disabled: true },
+  passwordChk: { value: '', placeholder: '영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.' },
+  email: { value: '', placeholder: 'email형식을 지켜 작성해주세요.' },
+  username: { value: '', placeholder: '이름을 입력해주세요.' },
+  gender: {value:'0', list:[{dtlCd: '0', dtlNm: '남'},{dtlCd: '1', dtlNm: '여'}], disabled: true},
+  birth: { value: '', placeholder: '생일을 입력해주세요' },
+  phoneFirst: { value: '', placeholder: '000' },
+  phoneSecond: { value: '', placeholder: '0000' },
+  phoneThird: { value: '', placeholder: '0000' },
   zipCode: { placeholder: "우편번호", disabled:true },
   address: {value: '', placeholder: "주소", disabled:true },
   addressDetail: {value: '', placeholder: "상세주소를 입력해주세요." },
@@ -99,7 +105,17 @@ definePageMeta({
 const userStore = useUserStore();
 const router= useRouter();
 
+const verifyPassword = async () =>{
+  if(userForm.value.password.value ===userForm.value.passwordChk.value ){
+    const flag = await userStore.checkPasswordVerify({password: userForm.value.passwordChk.value})
+    userForm.value.password.disabled = flag
+  }
+}
 
+const togglePasswordChange = () => {
+    userForm.value.password.disabled = !userForm.value.password.disabled;
+    userForm.value.passwordChk.value = '';
+}
 const emailVerficationCode = ref("");
 
 // 이메일 인증 여부 변수
@@ -124,8 +140,8 @@ const countVerifyTime = () =>{
 
 const sendEmailVerificationCode = async () => {
   try{
-    const { email, id } = userForm.value;
-    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: id.value });
+    const { email, userId } = userForm.value;
+    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: userId.value });
     const verificationCode = data.value.verificationCode;
     emailVerficationCode.value = verificationCode;
   }catch(e){
@@ -134,7 +150,7 @@ const sendEmailVerificationCode = async () => {
 };
 
 
-// Timer 세팅하는 함수
+// // Timer 세팅하는 함수
 const setVerifyTimer = () =>{
   verifyTime.value = 300;
   emailModalFlag.value = true;
@@ -142,7 +158,7 @@ const setVerifyTimer = () =>{
   sendEmailVerificationCode();
 }
 
-// 이메일 인증 Modal Open함수
+// // 이메일 인증 Modal Open함수
 const openEmailVerifyModal = () => {
   // e.preventDefault();
   const emailValue = userForm.value.email.value as string;
@@ -153,20 +169,20 @@ const openEmailVerifyModal = () => {
   }
 };
 
-// 이메일 인증 Modal Close 함수
+// // 이메일 인증 Modal Close 함수
 const closeEmailVerifyModal = () => {
   emailModalFlag.value = false;
   clearInterval(countTimer)
 };
 
 
-// 이메일 인증 확인
+// // 이메일 인증 확인
 const checkCertificateEmail = async() => {
   try{
-    const { email, id } = userForm.value;
+    const { email, userId } = userForm.value;
     const body = {
       email: email.value,
-      userId: id.value,
+      userId: userId.value,
       verifyCode: emailVerficationCode.value,
     };
     const {data, error} = await createCheckCertificateEmail(body);
@@ -263,32 +279,32 @@ const makeBody = (body: any) =>{
 
 const saveUserInfo = async () =>{
   const body = makeBody(userForm.value);
-  try{
-    const {data, error} = await putUserInfo(body)
-
-    if(error.value!==null) setErrorMessage(error.value);
-    if(data.value!==null){ 
-      setMessage(data.value.message);
-      router.push({name: 'user-passwordCheck'});
-    }
-  }catch(e){ setErrorMessage(e)}
+  await userStore.updateUserPageData(body)
+  router.push({name: 'user-passwordCheck'});
   
 }
 
 const removeUserInfo = async () =>{
-  try{
-    const {data, error} = await deleteUserInfo()
-    router.push({name: 'login'})
-  }catch(e){
-    setErrorMessage(e);
-  }
+  await userStore.deleteUserPageData();
+  router.push({name: 'login'})
 }
 
 const movePasswordCheck = () =>{
   router.back();
 }
 
-onMounted(() => {
+const initUserForm = async () =>{
+  const userData = userStore.getUserPageData();
+  const keyList = Object.keys(userData);
+  for(const key of keyList){
+    userForm.value[key].value = userData[key];
+  }
+}
+
+onMounted(async () => {
   addScript();
+  await userStore.fetchUserPageInfo();
+  await initUserForm();
+  console.log(userStore.getUserPageData())
 });
 </script>
