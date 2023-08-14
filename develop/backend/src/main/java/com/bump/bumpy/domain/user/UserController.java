@@ -10,16 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
 @RestController
 @RequestMapping("/user")
@@ -59,5 +56,11 @@ public class UserController {
     public ResponseEntity<ResultMap> delete(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
         new CookieClearingLogoutHandler("JSESSIONID").logout(request, response, authentication);
         return userService.delete();
+    }
+
+    @Operation(summary = "사용자 정보 조회", description = "")
+    @GetMapping("/info")
+    public ResponseEntity<ResultMap> info() {
+        return userService.info(getUserId());
     }
 }

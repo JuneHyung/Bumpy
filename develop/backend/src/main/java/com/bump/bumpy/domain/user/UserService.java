@@ -2,6 +2,7 @@ package com.bump.bumpy.domain.user;
 
 import com.bump.bumpy.database.entity.usr.UsrMUsr;
 import com.bump.bumpy.database.repository.usr.UsrMUsrRepository;
+import com.bump.bumpy.domain.user.dto.UserSearchDto;
 import com.bump.bumpy.domain.user.dto.UserUpdateDto;
 import com.bump.bumpy.util.dto.PasswordDto;
 import com.bump.bumpy.util.dto.ResultMap;
@@ -73,5 +74,20 @@ public class UserService {
 
         // update
         usrMUsrRepository.save(user);
+    }
+
+    public ResponseEntity<ResultMap> info(String userId) {
+        UsrMUsr user = usrMUsrRepository.findByUserId(userId);
+
+        // null check
+        if (user == null) {
+            throw new UsernameNotFoundException("유저를 찾을 수 없습니다.");
+        }
+
+
+        // convert to dto
+        UserSearchDto dto = new UserSearchDto(user);
+
+        return ResponseEntity.ok(new ResultMap("data", dto));
     }
 }
