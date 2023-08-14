@@ -10,12 +10,12 @@
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
             <p class="bp-mr-sm">
-              <span>시작 무게 : {{ weightStore.getSelectItem().weightStart }} kg</span>
+              <span>시작 무게 : {{ weightStore.getSelectItem().weightStart }} {{ weightStore.getSelectItem().measure==='1' ? 'kg' : 'lb' }}</span>
               <span>시작 횟수 : {{ weightStore.getSelectItem().repsStart }} reps</span>
               <span>봉 무게 : {{ weightStore.getSelectItem().pollWeight }} kg</span>
             </p>
             <p class="bp-mr-sm">
-              <span>종료 무게 : {{ weightStore.getSelectItem().weightEnd }} kg</span>
+              <span>종료 무게 : {{ weightStore.getSelectItem().weightEnd }} {{ weightStore.getSelectItem().measure==='1' ? 'kg' : 'lb' }}</span>
               <span>종료 횟수 : {{ weightStore.getSelectItem().repsEnd }} reps</span>
               <span>세트 횟수 : {{ weightStore.getSelectItem().setReps }} reps</span>
             </p>
@@ -69,4 +69,6 @@ const removeWeightItem = async () => {
   await weightStore.removeWeightItem();
   await moveWeightList();
 };
+
+onMounted(()=>console.log(weightStore.getSelectItem()))
 </script>

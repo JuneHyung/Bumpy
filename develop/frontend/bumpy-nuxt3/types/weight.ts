@@ -15,7 +15,7 @@ interface Weight{
   repsEnd?: number,
   pollWeight?: number,
   setReps?: number,
-  measure?: 0 | 1,
+  measure?: '0' | '1',
   memo?: string,
   stdDate?: string,
   picture?: ImageData[],
@@ -30,7 +30,7 @@ type WeightFormData = {
   repsEnd: InputNumber,
   pollWeight: InputNumber,
   setReps: InputNumber,
-  measure: 0 | 1,
+  measure: '0' | '1',
   memo: InputTextarea
   picture?: {value: ImageData[]}
 }

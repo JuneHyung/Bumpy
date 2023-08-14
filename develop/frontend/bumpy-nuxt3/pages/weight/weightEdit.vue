@@ -33,7 +33,7 @@
           <label class="number-input-wrap">
             <span class="number-label">단위</span>
             <div class="number-input">
-              <TextInput :data="form.measure"></TextInput>
+              <SelectboxInput :data="form.measure"></SelectboxInput>
             </div>
           </label>
         </div>
@@ -61,6 +61,7 @@
 import LoadList from "~~/components/list/LoadList.vue";
 import TextInput from "~~/components/form/TextInput.vue";
 import TextareaInput from "~~/components/form/TextareaInput.vue";
+import SelectboxInput from "~~/components/form/SelectboxInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useCommonStore } from "~/store/common";
 import { setErrorMessage } from "~~/api/alert/message";
@@ -88,7 +89,7 @@ const form:Ref<WeightFormData> = ref({
   repsEnd: {value: "",  },
   pollWeight: {value: "",  },
   setReps: {value: "",  },
-  measure: {value: "",  },
+  measure: {value: "1", list:[{dtlCd: '0', dtlNm: 'lb'},{dtlCd: '1', dtlNm: 'kg'}, ] },
   memo: { value: "" },
   picture: {value: []},
 });

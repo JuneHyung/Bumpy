@@ -10,6 +10,7 @@
         :maxlength="data.maxlength"
         :minlength="data.minlength"
         @keyup="handleKeyup"
+        @keydown="preventCopy"
         v-model="data.value"
         class="input-password"
       />
@@ -33,10 +34,15 @@ const isSuffix = ref(false);
 const isPattern = ref(false);
 
 const handleKeyup = () => {
-  
   const regex = new RegExp(props.data.pattern as string, 'g');
   validateFlag.value = regex.test(props.data.value as string);
 };
+
+const preventCopy = (event: KeyboardEvent) => {
+  if(event.ctrlKey && event.code == "KeyV" ){ 
+    event.preventDefault();
+  }
+}
 
 onMounted(() => {
   isPattern.value = props.data.pattern ? false : true;
