@@ -14,7 +14,8 @@
                 <label class="number-input-wrap">
                   <span class="bp-mr-sm">{{ item.label }}</span>
                   <div class="number-input">
-                    <TextInput :data="form[item.key]"></TextInput>
+                    <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
+                    <TextInput :data="form[item.key]" v-else></TextInput>
                   </div>
                 </label>
               </template>
@@ -47,6 +48,7 @@ import { useCommonStore } from '~~/store/common';
 import FoodList from '~~/components/list/FoodList.vue';
 import { MealFormData, MealItemRequestBody} from '~~/types/meal';
 import FileUploader from '~~/components/form/FileUploader.vue'
+import TimeInput from '~~/components/form/TimeInput.vue';
 
 definePageMeta({
   layout: 'main-layout',
@@ -59,7 +61,7 @@ const editFlag = computed(()=>mealStore.getSelectItem().seq===undefined);
 
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
-  time: {   },
+  time: { value:'',  },
   kcal: {   },
   water: {   },
   food: {value: []},

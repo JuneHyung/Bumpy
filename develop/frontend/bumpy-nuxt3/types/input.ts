@@ -57,6 +57,10 @@ interface InputDate extends InputCommon {
   step?: string,
 }
 
+interface InputTime extends InputCommon{
+  value?: string,
+}
+
 type MatchMessage = 'Not Match' | 'Correct';
 
 export { 
@@ -67,5 +71,6 @@ export {
   SelectItem,
   InputDate,
   InputTextarea,
+  InputTime,
   MatchMessage,
 }

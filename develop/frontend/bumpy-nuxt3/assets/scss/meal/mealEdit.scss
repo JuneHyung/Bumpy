@@ -13,15 +13,12 @@
       // flex: 3;
       .number-input-wrap {
         display: flex;
-        /* justify-content: flex-start; */
         align-items: center;
         span {
-          display: flex;
-          width: 100%;
+          flex:1;
         }
-        .number-input {
-          width: 100px;
-          // overflow: hidden;
+        .number-input{
+          flex:5;
         }
       }
     }

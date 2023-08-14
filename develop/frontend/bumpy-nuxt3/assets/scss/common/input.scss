@@ -1,7 +1,7 @@
 .input-wrap-box {
   display: flex;
   flex-direction: column;
-  flex: 1 1 200;
+  flex: 1 1 200px;
   border: none;
 
   label {
@@ -27,6 +27,7 @@
   }
 
   .input-text,
+  .input-time,
   .input-password,
   .input-number,
   .input-date,
