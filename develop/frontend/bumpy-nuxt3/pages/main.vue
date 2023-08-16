@@ -107,8 +107,8 @@ onMounted(async ()=>{
   await mealStore.getTodayMealInfo();
   await weightStore.getLastWeightActivityInfo();
   await aerobicStore.getLastAerobicActivityInfo();
-  await weightStore.getWeightChartInfo();
-  await aerobicStore.getAerobicChartInfo();
+  await weightStore.getWeightChartInfo(weightStore.getLastWeightList()[0].name as string);
+  await aerobicStore.getAerobicChartInfo(aerobicStore.getLastAerobicList()[0].name as string);
 })
 </script>
 <style lang="scss"></style>

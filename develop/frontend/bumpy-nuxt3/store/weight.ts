@@ -46,10 +46,9 @@ export const useWeightStore = defineStore("weight-store", () => {
     }
 
     
-const getWeightChartInfo = async () =>{
+const getWeightChartInfo = async (name: string) =>{
   try{
-      const {data, error} = await getWeightChartInfoForMain({name: lastWeightList.value[0].name as string});
-      // const {data, error} = await getWeightChartInfoForMain({name: 'TEST-4'});
+      const {data, error} = await getWeightChartInfoForMain({name: name});
       if(error.value!==null){
         setErrorMessage(error.value);
       }else if(data.value!==null){

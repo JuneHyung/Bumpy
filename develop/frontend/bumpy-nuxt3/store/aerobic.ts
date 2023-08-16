@@ -46,9 +46,9 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     }
   }
 
-  const getAerobicChartInfo = async () =>{
+  const getAerobicChartInfo = async (name: string) =>{
     try{
-        const {data, error} = await getAerobicChartInfoForMain({name:lastAerobicList.value[0].name as string});
+        const {data, error} = await getAerobicChartInfoForMain({name:name});
         // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
         if(error.value!==null){
           setErrorMessage(error.value);
