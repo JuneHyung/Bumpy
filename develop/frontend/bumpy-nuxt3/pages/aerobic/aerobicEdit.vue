@@ -81,7 +81,6 @@ const numberList = [
 const makeBody = () =>{
   const result: AerobicRequestBody = {
     stdDate: aerobicStore.getFocusDate()===null || aerobicStore.getFocusDate().length===0 ? commonStore.getToday() : aerobicStore.getFocusDate(),
-    seq: 2,
     name: form.value.name.value,
     kcal: form.value.kcal.value,
     inclineStart: form.value.inclineStart.value,
@@ -90,7 +89,6 @@ const makeBody = () =>{
     inclineEnd: form.value.inclineEnd.value,
     speedEnd: form.value.speedEnd.value,
     memo: form.value.memo.value,
-    // picture: form.value.picture.value,
   }
   return result;
 }
