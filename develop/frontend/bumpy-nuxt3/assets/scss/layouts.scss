@@ -26,7 +26,8 @@
   color: #fff;
   .main-layout {
     height: 100%;
-    min-width:1440px;    
+    width:1440px;    
+    max-width:1440px;    
     display: flex;
     flex-direction: row;
   }
