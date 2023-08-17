@@ -39,7 +39,7 @@ public class DataHAerobicDto implements Serializable {
     private List<PictureDto> picture;
 
     // to entity method for insert
-    public DataHAerobic toEntity(int seq, List<String> picture) {
+    public DataHAerobic toEntity(int seq) {
         DataHAerobic entity = new DataHAerobic();
         entity.setStdDate(this.stdDate);
         entity.setSeq(seq);
@@ -51,12 +51,12 @@ public class DataHAerobicDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(picture);
+//        entity.setPicture(picture);
         return entity;
     }
 
     // to entity method for update
-    public DataHAerobic updateEntity(DataHAerobic entity, List<String> picture) {
+    public DataHAerobic updateEntity(DataHAerobic entity) {
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);
@@ -65,7 +65,7 @@ public class DataHAerobicDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(picture);
+//        entity.setPicture(picture);
         return entity;
     }
 }

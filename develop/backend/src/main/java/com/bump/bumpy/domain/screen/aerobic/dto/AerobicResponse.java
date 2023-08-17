@@ -36,10 +36,10 @@ public class AerobicResponse implements Serializable {
     private BigDecimal speedEnd;
     @Size(max = 1000)
     private String memo;
-    private List<Map<String, String>> picture;
+//    private List<Map<String, String>> picture;
 
     // constructor from entity
-    public AerobicResponse(DataHAerobic entity, List<Map<String, String>> picture) {
+    public AerobicResponse(DataHAerobic entity) {
         this.stdDate = entity.getStdDate();
         this.seq = entity.getSeq();
         this.name = entity.getName();
@@ -50,7 +50,7 @@ public class AerobicResponse implements Serializable {
         this.speedStart = entity.getSpeedStart();
         this.speedEnd = entity.getSpeedEnd();
         this.memo = entity.getMemo();
-        this.picture = picture;
+//        this.picture = picture;
     }
 
 }

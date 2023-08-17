@@ -126,8 +126,8 @@ public class AerobicService {
     public ResponseEntity<ResultMap> search(SearchRequestDto request) {
         DataHAerobic dataHAerobic = aerobicRepository.findByStdDateAndUserIdAndSeq(request.getStdDate(), request.getUserId(), request.getSeq()).orElse(null);
         if(dataHAerobic != null) {
-            List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHAerobic.getPicture());
-            return ResponseEntity.ok(new ResultMap(new AerobicResponse(dataHAerobic, imageList)));
+//            List<Map<String, String>> imageList = commonService.getFileBase64Internal(dataHAerobic.getPicture());
+            return ResponseEntity.ok(new ResultMap(new AerobicResponse(dataHAerobic)));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         }
@@ -151,15 +151,15 @@ public class AerobicService {
             seq = maxSeqData.getSeq() + 1;
         }
 
-        List<String> uuidList = new ArrayList<>();
+//        List<String> uuidList = new ArrayList<>();
+//
+//        // upload files
+//        for (PictureDto pictureDto : request.getPicture()) {
+//            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
+//            uuidList.add(uuid);
+//        }
 
-        // upload files
-        for (PictureDto pictureDto : request.getPicture()) {
-            String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
-            uuidList.add(uuid);
-        }
-
-        DataHAerobic dataHAerobic = request.toEntity(seq, uuidList);
+        DataHAerobic dataHAerobic = request.toEntity(seq);
         dataHAerobic.setUserId(userId);
 
         aerobicRepository.save(dataHAerobic);
@@ -179,21 +179,21 @@ public class AerobicService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
             // delete files
-            List<String> deleteFileList = dataHAerobic.getPicture();
+//            List<String> deleteFileList = dataHAerobic.getPicture();
+//
+//            for(String uuid : deleteFileList) {
+//                commonService.deleteFileInternal(uuid);
+//            }
+//
+//            List<String> uuidList = new ArrayList<>();
+//
+//            // upload files
+//            for (PictureDto pictureDto : request.getPicture()) {
+//                String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
+//                uuidList.add(uuid);
+//            }
 
-            for(String uuid : deleteFileList) {
-                commonService.deleteFileInternal(uuid);
-            }
-
-            List<String> uuidList = new ArrayList<>();
-
-            // upload files
-            for (PictureDto pictureDto : request.getPicture()) {
-                String uuid = commonService.uploadBase64ImageInternal(pictureDto, userId);
-                uuidList.add(uuid);
-            }
-
-            dataHAerobic = request.updateEntity(dataHAerobic, uuidList);
+            dataHAerobic = request.updateEntity(dataHAerobic);
 
             aerobicRepository.save(dataHAerobic);
 
@@ -213,11 +213,11 @@ public class AerobicService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResultMap("message", "데이터가 없습니다."));
         } else {
             // delete files
-            List<String> deleteFileList = dataHAerobic.getPicture();
-
-            for(String uuid : deleteFileList) {
-                commonService.deleteFileInternal(uuid);
-            }
+//            List<String> deleteFileList = dataHAerobic.getPicture();
+//
+//            for(String uuid : deleteFileList) {
+//                commonService.deleteFileInternal(uuid);
+//            }
 
             aerobicRepository.delete(dataHAerobic);
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
