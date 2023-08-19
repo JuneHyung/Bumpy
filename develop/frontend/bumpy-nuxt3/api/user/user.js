@@ -1,7 +1,7 @@
 import { useUserStore } from "~~/store/user";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
-const baseURL = 'http://222.112.251.124:8899/api';
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 const headers = {
   "Content-Type": "application/json"
 }

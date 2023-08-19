@@ -219,6 +219,7 @@ const moveUserPage = () => {
 
 const Logout = async () =>{
   await fetchLogout();
+  userStore.setIsPass(false);
   router.push({name: 'index'})
 }
 

@@ -3,17 +3,15 @@
 import { AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicReadRequestParam, AerobicRequestBody } from "~~/types/aerobic";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
 
-const baseURL = "http://222.112.251.124:8899/api";
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/aerobic`;
 const headers = {
   "Content-Type": "application/json"
 }
 /**
  * 유산소 운동 조회 (근력 운동 조회) - GET
- * @param {{stdDate: string}} params
- * @returns
  */
 function readAerobicItem(params: AerobicReadRequestParam) {
-return useFetch("/aerobic/search", {
+return useFetch("/search", {
     baseURL,
     method: GET,
     headers,
@@ -23,10 +21,9 @@ return useFetch("/aerobic/search", {
 
 /**
  * 유산소 달력 조회 - GET
- * @returns
  */
 function readAerobicCalendarList(params: AerobicReadRequestParam) {
-  return useFetch("/aerobic/calendar", {
+  return useFetch("/calendar", {
     baseURL,
     method: GET,
     headers,
@@ -36,10 +33,9 @@ function readAerobicCalendarList(params: AerobicReadRequestParam) {
 
 /**
  * Activity 조회 - GET
- * @returns
  */
 function readAerobicActivityList(params: AerobicReadRequestParam) {
-  return useFetch("/aerobic/activity", {
+  return useFetch("/activity", {
     baseURL,
     method: GET,
     headers,
@@ -49,23 +45,9 @@ function readAerobicActivityList(params: AerobicReadRequestParam) {
 
 /**
  * 유산소운동 추가 - POST
- * @param {{
- * "stdDate" : string,
- * "seq" : number,
- * "name" : string,
- * "kcal" : number
- * "time" : number,
- * "inclineStart" : number,
- * "inclineEnd" :number,
- * "speedStart" : number,
- * "speedEnd" : number,
- * "memo" : string,
- * "picture" : null
- * }} body
- * @returns
  */
 function createAerobicItem(body: AerobicRequestBody) {
-  return useFetch("/aerobic/insert", {
+  return useFetch("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -75,14 +57,9 @@ function createAerobicItem(body: AerobicRequestBody) {
 
 /**
  * 유산소운동 삭제 - GET
- * @param {{
- * stdDate: string,
- * seq: number,
- * }} body
- * @returns
  */
 function deleteAerobicItem(params: AerobicDeleteRequestParam) {
-  return useFetch("/aerobic/delete", {
+  return useFetch("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -92,23 +69,9 @@ function deleteAerobicItem(params: AerobicDeleteRequestParam) {
 
 /**
  * 유산소운동 수정 - POST
- * @param {{
- * "stdDate" : string,
-* "seq" : number,
-* "name" : string,
-* "kcal" : number
-* "time" : number,
-* "inclineStart" : number,
-* "inclineEnd" :number,
-* "speedStart" : number,
-* "speedEnd" : number,
-* "memo" : string,
-* "picture" : null
-* }} body
- * @returns
  */
 function updateAerobicItem(body: AerobicRequestBody) {
-  return useFetch("/aerobic/update", {
+  return useFetch("/update", {
     baseURL,
     method: PUT,
     headers,
@@ -118,7 +81,7 @@ function updateAerobicItem(body: AerobicRequestBody) {
 
 
 function readFavoritAerobicList(){
-  return useFetch<AerobicFavoriteListResponseBody>("/aerobic/favorite",{
+  return useFetch<AerobicFavoriteListResponseBody>("/favorite",{
     baseURL,
     method:GET,
     headers

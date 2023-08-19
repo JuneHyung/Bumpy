@@ -1,21 +1,16 @@
 import { InbodyCalendarItemResponseBody, InbodyItemRequestBody, InbodyItemRequestParam, InbodyItemResponseBody, InbodyListRequestParam, InbodyListResponseBody, } from "~~/types/inbody";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
-const baseURL = "http://222.112.251.124:8899/api";
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/inbody`;
 const headers = {
   "Content-Type": "application/json"
 }
 
-
 /**
  * inbody 조회 - GET
- * @param {{
- * stdDate: string,
- * }} params
- * @returns
  */
 export function readInbodyItem(params: InbodyListRequestParam) {
-  return useFetch<InbodyItemResponseBody>("/inbody/search", {
+  return useFetch<InbodyItemResponseBody>("/search", {
     baseURL,
     method: GET,
     headers,
@@ -24,7 +19,7 @@ export function readInbodyItem(params: InbodyListRequestParam) {
 }
 
 export function readInbodyCalendarList(params: InbodyListRequestParam){
-  return useFetch<InbodyCalendarItemResponseBody>("/inbody/calendar", {
+  return useFetch<InbodyCalendarItemResponseBody>("/calendar", {
     baseURL,
     method: GET,
     headers,
@@ -34,7 +29,7 @@ export function readInbodyCalendarList(params: InbodyListRequestParam){
 
 
 export function readInbodyActivityList(params: InbodyListRequestParam){
-  return useFetch<InbodyListResponseBody>("/inbody/activity", {
+  return useFetch<InbodyListResponseBody>("/activity", {
     baseURL,
     method: GET,
     headers,
@@ -43,21 +38,9 @@ export function readInbodyActivityList(params: InbodyListRequestParam){
 }
 /**
  * inbody 추가 - POST
- * @param {{
- * "stdDate" :string,
- * "height" : number,
- * "weight" : number,
- * "muscle" : number,
- * "fat" : number,
- * "score" : number,
- * "bmi" : number,
- * "fatPercent" : number,
- * "picture" : null
- * }} params
- * @returns
  */
 export function createInbodyItem(body: InbodyItemRequestBody) {
-  return useFetch("/inbody/insert", {
+  return useFetch("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -67,13 +50,9 @@ export function createInbodyItem(body: InbodyItemRequestBody) {
 
 /**
  * inbody 삭제 - GET
- * @param {{
- * "stdDate" : string,
- * }} params
- * @returns
  */
 export function deleteInbodyItem(params: InbodyListRequestParam) {
-  return useFetch("/inbody/delete", {
+  return useFetch("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -83,21 +62,9 @@ export function deleteInbodyItem(params: InbodyListRequestParam) {
 
 /**
  * inbody 수정 - POST
- * @param {{
- * "stdDate" :string,
- * "height" : number,
- * "weight" : number,
- * "muscle" : number,
- * "fat" : number,
- * "score" : number,
- * "bmi" : number,
- * "fatPercent" : number,
- * "picture" : null
- * }} params
- * @returns
  */
 export function updateInbodyItem(body: InbodyItemRequestBody) {
-  return useFetch("/inbody/update", {
+  return useFetch("/update", {
     baseURL,
     method: PUT,
     headers,

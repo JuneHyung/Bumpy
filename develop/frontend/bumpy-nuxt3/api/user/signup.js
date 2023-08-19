@@ -1,8 +1,8 @@
 import { POST } from "~~/types/method";
 
-const baseURL = 'http://222.112.251.124:8899/api';
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/signup`;
 async function createCheckDuplicateId(body){
-  return useFetch('/signup/user/check', {
+  return useFetch('/user/check', {
     baseURL,
     method: POST,
     body,
@@ -10,7 +10,7 @@ async function createCheckDuplicateId(body){
 }
 // email 발송
 async function createEmailVerificationCode(body){
-  return await useFetch('/signup/email/send', {
+  return await useFetch('/email/send', {
     baseURL,
     method: POST,
     body,
@@ -19,7 +19,7 @@ async function createEmailVerificationCode(body){
 
 // email 인증
 async function createCheckCertificateEmail(body){
-  return await useFetch('/signup/email/validate', {
+  return await useFetch('/email/validate', {
     baseURL,
     method: POST,
     body,
@@ -28,7 +28,7 @@ async function createCheckCertificateEmail(body){
 
 // email 인증
 async function createSignUp(body){
-  return await useFetch('/signup/submit', {
+  return await useFetch('/submit', {
     baseURL,
     method: POST,
     body,

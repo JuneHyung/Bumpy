@@ -99,6 +99,7 @@ const aerobicStore = useAerobicStore();
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 onMounted(async ()=>{

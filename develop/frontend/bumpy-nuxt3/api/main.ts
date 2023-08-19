@@ -3,7 +3,7 @@ import { AerobicChartInfoResponseBody, AerobicInfoReasponseBody, ChartRequestPar
 import { MealList } from "~~/types/meal";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
-const baseURL = "http://222.112.251.124:8899/api/main";
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/main`;
 const headers = {
   "Content-Type": "application/json"
 }

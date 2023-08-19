@@ -1,20 +1,16 @@
 import { MealCalendarResponseBody, MealItemRequestBody, MealItemRequestParam, MealItemResposneBody, MealListRequestParam, MealListResponseBody } from "~~/types/meal";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
-/**
- * 식단 조회 - GET
- * @param {{
- * stdDate: string,
- * }} params
- * @returns
- */
-const baseURL = "http://222.112.251.124:8899/api";
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/meal`;
 const headers = {
   "Content-Type": "application/json"
 }
 
+/**
+ * 식단 조회 - GET
+*/
 export function readMealItem(params: MealItemRequestParam) {
-  return useFetch<MealItemResposneBody>("/meal/search", {
+  return useFetch<MealItemResposneBody>("/search", {
     baseURL,
     method: GET,
     headers,
@@ -23,7 +19,7 @@ export function readMealItem(params: MealItemRequestParam) {
 }
 
 export function readMealCalendarList(params: MealListRequestParam){
-  return useFetch<MealCalendarResponseBody>("/meal/calendar", {
+  return useFetch<MealCalendarResponseBody>("/calendar", {
     baseURL,
     method: GET,
     headers,
@@ -32,7 +28,7 @@ export function readMealCalendarList(params: MealListRequestParam){
 }
 
 export function readMealActivityList(params: MealListRequestParam){
-  return useFetch<MealListResponseBody>("/meal/activity", {
+  return useFetch<MealListResponseBody>("/activity", {
     baseURL,
     method: GET,
     headers,
@@ -42,22 +38,9 @@ export function readMealActivityList(params: MealListRequestParam){
 
 /**
  * 식단 추가 - POST
- * @param {{
- * "stdDate" : string,
- * "seq" : number,
- * "name" : string,
- * "order" : number,
- * "time" : string,
- * "kcal" : number,
- * "water" : number,
- * "memo" : string,
- * "picture" : null,
- * "food" : []
- * }} params
- * @returns
  */
 export function createMealItem(body: MealItemRequestBody) {
-  return useFetch("/meal/insert", {
+  return useFetch("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -67,14 +50,9 @@ export function createMealItem(body: MealItemRequestBody) {
 
 /**
  * 식단 삭제 - GET
- * @param {{
- * "stdDate" : string,
- * "seq" : number,
- * }} params
- * @returns
  */
 export function deleteMealItem(params: MealItemRequestParam) {
-  return useFetch("/meal/delete", {
+  return useFetch("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -84,22 +62,9 @@ export function deleteMealItem(params: MealItemRequestParam) {
 
 /**
  * 식단 수정 - POST
- * @param {{
- * "stdDate" : string,
- * "seq" : number,
- * "name" : string,
- * "order" : number,
- * "time" : string,
- * "kcal" : number,
- * "water" : number,
- * "memo" : string,
- * "picture" : null,
- * "food" : []
- * }} params
- * @returns
  */
 export function updateMealItem(body: MealItemRequestBody) {
-  return useFetch("/meal/update", {
+  return useFetch("/update", {
     baseURL,
     method: PUT,
     headers,

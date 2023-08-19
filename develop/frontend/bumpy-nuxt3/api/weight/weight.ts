@@ -2,17 +2,15 @@ import { MessageResponse } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
-const baseURL = "http://222.112.251.124:8899/api";
+const baseURL = `${import.meta.env.VITE_BACKEND_URL}/weight`;
 const headers = {
   "Content-Type": "application/json"
 }
 /**
  * weight 운동 조회 (근력 운동 조회) - GET
- * @param {{stdDate: string}} params
- * @returns
  */
 function readWeightItem(params: WeightItemRequestParam) {
-  return useFetch<WeightItemResponseBody>("/weight/search", {
+  return useFetch<WeightItemResponseBody>("/search", {
     baseURL,
     method: GET,
     headers,
@@ -22,10 +20,9 @@ function readWeightItem(params: WeightItemRequestParam) {
 
 /**
  * weight 달력 조회 - GET
- * @returns
  */
 function readWeightCalendarList(params: WeightReadRequestParam) {
-  return useFetch<WeightCalendarResponseBody>("/weight/calendar", {
+  return useFetch<WeightCalendarResponseBody>("/calendar", {
     baseURL,
     method: GET,
     headers,
@@ -35,10 +32,9 @@ function readWeightCalendarList(params: WeightReadRequestParam) {
 
 /**
  * Activity 조회 - GET
- * @returns
  */
 function readWeightList(params: WeightReadRequestParam) {
-  return useFetch<WeightReadResponseBody>("/weight/activity", {
+  return useFetch<WeightReadResponseBody>("/activity", {
     baseURL,
     method: GET,
     headers,
@@ -48,35 +44,9 @@ function readWeightList(params: WeightReadRequestParam) {
 
 /**
  * weight 운동 조회 (근력 운동 조회) - POST
- * @param {{
- * "stdDate" : "2023-05-22",
- * "seq" : 1,
- * "name" : "벤치프레스",
- * "weightStart" : 20,
- * "weightEnd" : 30,
- * "repsStart" : 5,
- * "repsEnd" : 5,
- * "pollWeight" : 10,
- * "setReps" : 3,
- * "measure" : 1,
- * "memo" : "테스트",
- * "picture" : null
- * }} body
- * @returns
  */
 function createWeightItem(body: any) {
-  // console.log(body)
-  // const formData = new FormData();
-  //  // files를 FormData에 추가합니다.
-  //  for (const file of body.files) {
-  //   console.log(file)
-  //   formData.append('files', file);
-  // }
-
-  // // request를 JSON 문자열로 직렬화하여 FormData에 추가합니다.
-  // formData.append('request', JSON.stringify(body.request));
-
-  return useFetch("/weight/insert", {
+  return useFetch("/insert", {
     baseURL,
     method: POST,
     body: body,
@@ -85,14 +55,9 @@ function createWeightItem(body: any) {
 
 /**
  * 근력운동 삭제 - DELETE
- * @param {{
- * stdDate: string,
- * seq: number,
- * }} body
- * @returns
  */
 function deleteWeightItem(params: WeightRemoveRequestParams) {
-  return useFetch("/weight/delete", {
+  return useFetch("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -102,14 +67,9 @@ function deleteWeightItem(params: WeightRemoveRequestParams) {
 
 /**
  * 근력운동 수정 - PUT
- * @param {{
- * stdDate: string,
- * seq: number,
- * }} body
- * @returns
  */
 function updateWeightItem(body: Weight) {
-  return useFetch("/weight/update", {
+  return useFetch("/update", {
     baseURL,
     method: PUT,
     headers,
@@ -120,10 +80,9 @@ function updateWeightItem(body: Weight) {
 
 /**
  * 즐겨찾기 조회(Weight)
- * @returns
  */
 function readFavoritWeightList(){
-  return useFetch<WeightFavoriteListResponseBody>("/weight/favorite",{
+  return useFetch<WeightFavoriteListResponseBody>("/favorite",{
     baseURL,
     method:GET,
     headers,

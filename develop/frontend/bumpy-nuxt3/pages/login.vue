@@ -34,9 +34,10 @@ import { userLoginFormData } from "~~/types/user";
 import { setErrorMessage, setWarnMessage } from "~~/api/alert/message";
 import { fetchLogin } from "~~/api/user/user";
 import { inRange } from "~~/api/util";
+import { useUserStore } from "~~/store/user";
 
 const router = useRouter();
-
+const userStore = useUserStore();
 const formData: Ref<userLoginFormData> = ref({
   id: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20 },
   password: { value: "", placeholder: "비밀번호", minlength: 8, maxlength: 20 },
@@ -55,7 +56,10 @@ const moveMain = async () => {
     try {
       const { data } = await fetchLogin(formD);
       const dataValue = data.value as { code: boolean; message: string };
-      dataValue.code ? router.push({ name: "main" }) : setErrorMessage(`${dataValue.message}`);
+      if(dataValue.code){
+        userStore.setIsPass(true);
+        router.push({name: 'main'});
+      }else setErrorMessage(`${dataValue.message}`);
     } catch (e) {
       setErrorMessage(`${e}`);
     }
