@@ -58,3 +58,9 @@ $size-list: (xs, sm, md, lg, xl);
 .cursor-pointer{
   cursor: pointer;
 }
+.cursor-not-allowed{
+  cursor: not-allowed;
+  input{
+    cursor:not-allowed;
+  }
+}

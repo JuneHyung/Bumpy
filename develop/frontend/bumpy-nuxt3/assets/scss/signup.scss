@@ -1,11 +1,14 @@
 .signup-wrap-box {
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
   .signup-introduce-box {
     display:flex;
     flex-direction: column;
     flex: 1 0 340px;
-    padding: 30px;
+    padding: 1.5rem;
     color: $white-color;
     background: linear-gradient(to bottom, $middle-point-color, $high-point-color);
 
@@ -27,57 +30,34 @@
   }
 
   .signup-form-box{
-    padding: 30px 120px;
+    padding: 1.5rem 2rem;
     flex: 1 0;
     background-color: rgba(0, 0, 0, 0.8);
     .signup-form-title {
-      display: flex;
-      flex: 1;
-      height:80px;
-      justify-content: center;
-      align-items: center;
+      text-align: center;
       color: $middle-point-color;
     }
 
     .signup-form {
-      flex-direction: column;
+      // flex-direction: column;
       
         input{
           color:#fff;
         }
       
-      .signup-id-wrap{
+      .signup-input-wrap{
         display: flex;
         align-items: flex-start;
-        .input-wrap-box{
-          margin-top:0;
-        }
-        .id-input{
+        .signup-input{
           display:flex;
-          flex:8;
+          flex:9;
         }
       }
-      .signup-email-wrap{
-        display: flex;
-        align-items: flex-start;
-        .input-wrap-box{
-          margin-top:0;
-        }
-        .email-input{
-          display:flex;
-          flex:8;
-        }
-      }
-      .signup-phone-wrap{
-        display:flex;
-        align-items:flex-start;
-      }
+
+      
       .signup-address-wrap{
-        display: flex;
-        flex-direction: column;
         .signup-zipcode-wrap{
           display: flex;
-          flex-direction: row;
           .zipcode-input{
             display:flex;
             flex: 0 1 200px;
@@ -132,9 +112,6 @@
       .email-verificate-button{
         flex:0 0 80px;
       }
-    }
-    .email-verificate-timer-wrap{
-      
     }
   }
   .email-verificate-modal-close-button{

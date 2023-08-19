@@ -10,32 +10,32 @@
       </div>
     </div>
     <div class="signup-form-box">
-      <h2 class="signup-form-title">SIGN UP</h2>
+      <h2 class="signup-form-title bp-mb-sm">SIGN UP</h2>
       <form class="signup-form">
-        <div class="signup-id-wrap bp-mb-sm">
-          <TextInput :data="userForm.id" class="id-input bp-mr-sm" />
+        <div class="signup-input-wrap bp-mb-sm">
+          <TextInput :data="userForm.id" class="signup-input bp-mr-sm" />
           <button type="button" class="short-filled-button duplicate-check-button" :class="{ 'check-ok': !duplicateId }" @click="checkDuplicateId">{{ duplicateBtnText }}</button>
         </div>
         <PasswordInput :data="userForm.password" class="bp-mb-sm"/>
         <PasswordInput :data="userForm.passwordChk" class="bp-mb-sm" />
-        <div class="signup-email-wrap">
-          <TextInput :data="userForm.email" class="email-input bp-mb-sm bp-mr-sm" />
+        <div class="signup-input-wrap">
+          <TextInput :data="userForm.email" class="signup-input bp-mb-sm bp-mr-sm" />
           <button type="button" class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openEmailVerifyModal">{{ verificateEmailText }}</button>
         </div>
         <TextInput :data="userForm.name" class="bp-mb-sm" />
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
-        <SelectboxInput :data="userForm.gender"></SelectboxInput>
-        <div class="signup-phone-wrap bp-mb-sm">
+        <SelectboxInput :data="userForm.gender" class="bp-mb-sm"></SelectboxInput>
+        <div class="signup-input-wrap bp-mb-sm">
           <TextInput :data="userForm.phoneFirst" />
           <TextInput :data="userForm.phoneSecond" class="bp-mx-sm" />
           <TextInput :data="userForm.phoneThird" />
         </div>
         <div class="signup-address-wrap">
           <label class="signup-zipcode-wrap bp-mb-sm">
-            <TextInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></TextInput>
+            <TextInput :data="userForm.zipCode" class="zipcode-input cursor-not-allowed bp-mr-sm"></TextInput>
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
-          <TextInput :data="userForm.address" class="bp-mb-sm" /> 
+          <TextInput :data="userForm.address" class="bp-mb-sm cursor-not-allowed" /> 
           <TextInput :data="userForm.addressDetail" class="bp-mb-sm" />
         </div>
         <div class="signup-button-wrap">
@@ -313,6 +313,3 @@ onMounted(() => {
   addScript();
 });
 </script>
-<style scoped lang="scss">
-
-</style>
