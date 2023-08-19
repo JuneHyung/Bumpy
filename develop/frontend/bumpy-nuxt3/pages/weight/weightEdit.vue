@@ -6,49 +6,47 @@
         <p>불러오기</p>
         <LoadList :list="loadList" @initName="initName"></LoadList>
       </label>
-      <label class="weightEdit-input-label bp-mt-sm">
+      <label class="edit-input-label bp-mt-sm">
         <span class="bp-mr-sm">이름</span>
         <TextInput :data="form.name"></TextInput>
       </label>
-      <label class="weightEdit-input-label photo-wrap-box bp-mt-sm">
+      <label class="edit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
         <FileUploader :list="form.picture"></FileUploader>
       </label>
-      <div class="weightEdit-input-label-wrap">
-        <template v-for="(list, idx) in numberList" :key="idx">
-          <div class="weightEdit-input-label">
-            <template v-for="(item, nIdx) in list" :key="nIdx">
-              <label class="number-input-wrap bp-mr-sm">
-                <span class="number-label bp-mr-sm">{{ item.label }}</span>
-                <div class="number-input">
-                  <TextInput :data="form[item.key]"></TextInput>
-                </div>
-              </label>
-            </template>
+
+      <template v-for="(list, idx) in numberList" :key="idx">
+        <div class="edit-input-label">
+          <template v-for="(item, nIdx) in list" :key="nIdx">
+            <label class="edit-input-wrap bp-mr-sm">
+              <span class="edit-label bp-mr-sm">{{ item.label }}</span>
+              <div class="edit-input">
+                <TextInput :data="form[item.key]"></TextInput>
+              </div>
+            </label>
+          </template>
+        </div>
+      </template>
+
+      <div class="edit-input-label">
+        <label class="edit-input-wrap">
+          <span class="edit-label">단위</span>
+          <div class="edit-input">
+            <SelectboxInput :data="form.measure"></SelectboxInput>
           </div>
-        </template>
+        </label>
       </div>
-      <div class="weightEdit-input-label-wrap">
-        <div class="weightEdit-input-label">
-          <label class="number-input-wrap">
-            <span class="number-label">단위</span>
-            <div class="number-input">
-              <SelectboxInput :data="form.measure"></SelectboxInput>
-            </div>
-          </label>
-        </div>
+
+      <div class="edit-input-label">
+        <label class="edit-input-wrap">
+          <span class="edit-label">메모</span>
+          <div class="edit-input">
+            <TextareaInput :data="form.memo"></TextareaInput>
+          </div>
+        </label>
       </div>
-      <div class="weightEdit-input-label-wrap">
-        <div class="weightEdit-input-label">
-          <label class="number-input-wrap">
-            <span class="number-label">메모</span>
-            <div class="number-input">
-              <TextareaInput :data="form.memo"></TextareaInput>
-            </div>
-          </label>
-        </div>
-      </div>
-      <div class="weightEdit-button-wrap">
+
+      <div class="edit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
         <button type="button" class="short-ghost-button bp-mx-sm" @click="resetWeightItem">초기화</button>
         <button type="button" class="short-filled-button" @click="saveWeightItem" v-if="editFlag">저장</button>
@@ -67,8 +65,8 @@ import { useCommonStore } from "~/store/common";
 import { setErrorMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { readFavoritWeightList } from "~~/api/weight/weight";
-import {WeightFormData, WeightRequestBody} from '~~/types/weight';
-import _ from 'lodash'
+import { WeightFormData, WeightRequestBody } from "~~/types/weight";
+import _ from "lodash";
 
 definePageMeta({
   layout: "main-layout",
@@ -81,17 +79,23 @@ const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
 
 const loadList = ref([]);
 
-const form:Ref<WeightFormData> = ref({
+const form: Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  weightStart: {value: "",  },
-  repsStart: {value: "",  },
-  weightEnd: { value: "", },
-  repsEnd: {value: "",  },
-  pollWeight: {value: "",  },
-  setReps: {value: "",  },
-  measure: {value: "1", list:[{dtlCd: '0', dtlNm: 'lb'},{dtlCd: '1', dtlNm: 'kg'}, ] },
-  memo: { value: "" },
-  picture: {value: []},
+  weightStart: { value: "" },
+  repsStart: { value: "" },
+  weightEnd: { value: "" },
+  repsEnd: { value: "" },
+  pollWeight: { value: "" },
+  setReps: { value: "" },
+  measure: {
+    value: "1",
+    list: [
+      { dtlCd: "0", dtlNm: "lb" },
+      { dtlCd: "1", dtlNm: "kg" },
+    ],
+  },
+  memo: { value: "", rows: 5 },
+  picture: { value: [] },
 });
 
 const numberList = ref([
@@ -121,7 +125,7 @@ const makeBody = () => {
     memo: form.value.memo.value,
     picture: form.value.picture?.value,
   };
-  if(!editFlag.value) request.seq = weightStore.getSelectItem().seq;
+  if (!editFlag.value) request.seq = weightStore.getSelectItem().seq;
   return request;
 };
 
@@ -162,22 +166,22 @@ const initSelectedItem = async () => {
 };
 
 // 등록된 리스트 조회
-const getFavroiteWeightList = async () =>{
-  try{
-    const {data, error} = await readFavoritWeightList();
-    if(error.value!==null) setErrorMessage(error.value)
-    else if(data.value!==null){
+const getFavroiteWeightList = async () => {
+  try {
+    const { data, error } = await readFavoritWeightList();
+    if (error.value !== null) setErrorMessage(error.value);
+    else if (data.value !== null) {
       const list = data.value.data;
       loadList.value = list;
     }
-  }catch(e){
-    setErrorMessage(e)
+  } catch (e) {
+    setErrorMessage(e);
   }
-}
+};
 
-const initName = (name: string) =>{
+const initName = (name: string) => {
   form.value.name.value = name;
-}
+};
 
 onMounted(async () => {
   await getFavroiteWeightList();
