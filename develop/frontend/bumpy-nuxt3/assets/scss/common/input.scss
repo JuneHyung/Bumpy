@@ -1,7 +1,8 @@
 .input-wrap-box {
   display: flex;
   flex-direction: column;
-  flex: 1 1 200px;
+  width:200px;
+  flex: 1 200px;
   border: none;
 
   label {

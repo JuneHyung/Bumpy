@@ -1,6 +1,6 @@
 .default-layout {
   height: 100%;
-  min-height: 800px;
+  // min-height: 800px;
   background-color: rgba(23, 21, 22, 1);
   // background-color: rgba(50,64,83, 1);
 }
@@ -18,7 +18,7 @@
 .wrapper-layout {
   height: 100%;
   min-width:1440px;
-  min-height: 1080px;
+  min-height:1080px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -2,18 +2,18 @@
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">Edit My Routine</h1>
     <form class="content-wrap-box">
-      <label class="mealEdit-input-label photo-wrap-box bp-mt-sm">
+      <label class="edit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
         <FileUploader :list="form.picture"></FileUploader>
       </label>
-      <div class="mealEdit-input-wrap-box">
-        <div class="mealEdit-input-label-wrap">
+      <div class="flex bp-my-sm">
+        <div class="flex flex-4 bp-my-sm">
           <template v-for="(list, idx) in numberList" :key="idx">
-            <div class="mealEdit-input-label">
+            <div class="edit-input-col">
               <template v-for="(item, nIdx) in list" :key="nIdx">
-                <label class="number-input-wrap">
-                  <span class="bp-mr-sm">{{ item.label }}</span>
-                  <div class="number-input">
+                <label class="edit-input-label">
+                  <span class="edit-label bp-mr-sm">{{ item.label }}</span>
+                  <div class="edit-input">
                     <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
                     <TextInput :data="form[item.key]" v-else></TextInput>
                   </div>
@@ -22,16 +22,16 @@
             </div>
           </template>
         </div>
-        <div class="food-list-wrap-box">
+        <div class="flex flex-6">
           <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem"></FoodList>
         </div>
       </div>
 
-      <label>
-        <p>메모</p>
+      <label class="edit-input-label bp-mb-lg">
+        <p class="edit-label bp-mr-sm" style="width:60px;">메모</p>
         <TextareaInput :data="form.memo"></TextareaInput>
       </label>
-      <div class="mealEdit-button-wrap">
+      <div class="edit-button-wrap bp-my-sm">
         <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>
         <button type="button" class="short-ghost-button bp-mx-sm" @click="resetSelectItem">초기화</button>
         <button type="button" class="short-filled-button" @click="saveMealItem" v-if="editFlag">저장</button>
@@ -65,7 +65,7 @@ const form: Ref<MealFormData> = ref({
   kcal: {   },
   water: {   },
   food: {value: []},
-  memo: {},
+  memo: {rows: 10},
   picture: {value:[]}
 });
 

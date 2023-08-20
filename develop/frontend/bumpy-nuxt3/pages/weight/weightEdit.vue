@@ -1,24 +1,24 @@
 <template>
   <main class="content-layout">
-    <h1 class="content-title q-mb-lg">Edit My Routine</h1>
+    <h1 class="content-title bp-mb-lg">Edit My Routine</h1>
     <form class="content-wrap-box">
       <label class="load-wrap-box">
-        <p>불러오기</p>
+        <p class="bp-my-sm">불러오기</p>
         <LoadList :list="loadList" @initName="initName"></LoadList>
       </label>
-      <label class="edit-input-label bp-mt-sm">
-        <span class="bp-mr-sm">이름</span>
-        <TextInput :data="form.name"></TextInput>
+      <label class="edit-input-label bp-my-sm">
+        <span class="edit-label bp-mr-sm">이름</span>
+        <TextInput :data="form.name" class="edit-input"></TextInput>
       </label>
-      <label class="edit-input-label photo-wrap-box bp-mt-sm">
+      <label class="edit-input-label photo-wrap-box bp-my-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
         <FileUploader :list="form.picture"></FileUploader>
       </label>
 
       <template v-for="(list, idx) in numberList" :key="idx">
-        <div class="edit-input-label">
+        <div class="edit-input-row bp-my-sm">
           <template v-for="(item, nIdx) in list" :key="nIdx">
-            <label class="edit-input-wrap bp-mr-sm">
+            <label class="edit-input-label">
               <span class="edit-label bp-mr-sm">{{ item.label }}</span>
               <div class="edit-input">
                 <TextInput :data="form[item.key]"></TextInput>
@@ -28,25 +28,23 @@
         </div>
       </template>
 
-      <div class="edit-input-label">
-        <label class="edit-input-wrap">
-          <span class="edit-label">단위</span>
-          <div class="edit-input">
-            <SelectboxInput :data="form.measure"></SelectboxInput>
-          </div>
-        </label>
-      </div>
+      <label class="edit-input-label bp-my-sm">
+        <span class="edit-label bp-mr-sm">단위</span>
+        <div class="edit-input">
+          <SelectboxInput :data="form.measure"></SelectboxInput>
+        </div>
+      </label>
 
-      <div class="edit-input-label">
+      <div class="edit-input-label bp-mb-lg">
         <label class="edit-input-wrap">
-          <span class="edit-label">메모</span>
+          <span class="edit-label bp-mr-sm">메모</span>
           <div class="edit-input">
             <TextareaInput :data="form.memo"></TextareaInput>
           </div>
         </label>
       </div>
 
-      <div class="edit-button-wrap">
+      <div class="edit-button-wrap bp-my-sm">
         <button type="button" class="short-ghost-button" @click="cancelWeightEdit">취소</button>
         <button type="button" class="short-ghost-button bp-mx-sm" @click="resetWeightItem">초기화</button>
         <button type="button" class="short-filled-button" @click="saveWeightItem" v-if="editFlag">저장</button>
@@ -94,7 +92,7 @@ const form: Ref<WeightFormData> = ref({
       { dtlCd: "1", dtlNm: "kg" },
     ],
   },
-  memo: { value: "", rows: 5 },
+  memo: { value: "", rows: 10 },
   picture: { value: [] },
 });
 

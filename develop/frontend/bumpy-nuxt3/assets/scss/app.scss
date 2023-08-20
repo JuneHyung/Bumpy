@@ -22,19 +22,14 @@
 
 @import './user/avatar.scss';
 @import './user/userInfo.scss';
-
+@import './edit/editPage.scss';
 @import './weight/weightDetail.scss';
-@import './weight/weightEdit.scss';
 
 @import './aerobic/aerobicDetail.scss';
-@import './aerobic/aerobicEdit.scss';
 
 @import './meal/mealDetail.scss';
-@import './meal/mealEdit.scss';
 
 @import './inbody/inbodyDetail.scss';
-@import './inbody/inbodyEdit.scss';
-
 @import './calendar/calendar.scss';
 @import './calendar/grassCalendar.scss';
 
@@ -111,7 +106,9 @@ p {
 .full-width {
   width: 100%;
 }
-
+.full-height{
+  height:100%;
+}
 @mixin ellipsis($line-cnt, $line-height) {
   overflow: hidden;
   text-overflow: ellipsis;

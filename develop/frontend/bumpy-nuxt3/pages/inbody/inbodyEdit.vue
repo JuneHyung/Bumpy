@@ -1,78 +1,75 @@
 <template>
   <main class="content-layout">
-    <h1 class="content-title q-mb-lg">Edit My Routine</h1>
-    <form class="content-wrap-box inbodyEdit-wrap-box">
-      <div class="inbodyEdit-content-wrap">
-        <label class="inbodyEdit-input-label photo-wrap-box bp-mt-sm">
+    <h1 class="content-title bp-mb-lg">Edit My Routine</h1>
+    <form class="content-wrap-box">
+      <div class="flex bp-mb-lg">
+        <label class="flex col flex-6 bp-mr-sm">
           <p class="bp-mb-sm">사진 및 비디오</p>
-          <FileUploader :list="form.picture"></FileUploader>
+          <FileUploader :list="form.picture" class="full-height"></FileUploader>
         </label>
-        <div class="inbodyEdit-input-wrap-box bp-pa-sm">
-          <div class="inbodyEdit-input-label-wrap">
+        <div class="flex flex-6 bp-mt-xl" style="justify-content: flex-end;">
             <template v-for="(list, idx) in numberList" :key="idx">
-              <div class="inbodyEdit-input-label">
+              <div class="edit-input-col">
                 <template v-for="(item, nIdx) in list" :key="nIdx">
-                  <label class="number-input-wrap">
-                    <span class="bp-mr-sm">{{ item.label }}</span>
-                    <div class="number-input">
+                  <label class="edit-input-label">
+                    <span class="edit-label bp-mr-sm">{{ item.label }}</span>
+                    <div class="edit-input">
                       <TextInput :data="form[item.key]"></TextInput>
                     </div>
                   </label>
                 </template>
               </div>
             </template>
-          </div>
         </div>
       </div>
-      <div class="inbodyEdit-button-wrap">
-        <button type="button" class="short-ghost-button" @click="cancelInbodyEdit">취소</button>
-        <button type="button" class="short-ghost-button bp-mx-sm" @click="resetInbodyItem">초기화</button>
-        <button type="button" class="short-filled-button" @click="saveInbodyItem" v-if="editFlag">저장</button>
-        <button type="button" class="short-filled-button" @click="modifyInbodyItem" v-else>수정</button>
-      </div>
+        <div class="edit-button-wrap">
+          <button type="button" class="short-ghost-button" @click="cancelInbodyEdit">취소</button>
+          <button type="button" class="short-ghost-button bp-mx-sm" @click="resetInbodyItem">초기화</button>
+          <button type="button" class="short-filled-button" @click="saveInbodyItem" v-if="editFlag">저장</button>
+          <button type="button" class="short-filled-button" @click="modifyInbodyItem" v-else>수정</button>
+        </div>
     </form>
   </main>
 </template>
 <script setup lang="ts">
-import TextInput from '~~/components/form/TextInput.vue';
-import FileUploader from '~~/components/form/FileUploader.vue';
-import { useInbodyStore } from '~~/store/inbody';
+import TextInput from "~~/components/form/TextInput.vue";
+import FileUploader from "~~/components/form/FileUploader.vue";
+import { useInbodyStore } from "~~/store/inbody";
 
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
 });
 
 const inbodyStore = useInbodyStore();
 const router = useRouter();
-const editFlag = computed(()=>inbodyStore.getSelectItem().height===undefined);
+const editFlag = computed(() => inbodyStore.getSelectItem().height === undefined);
 
 const form = ref({
-  name: { value: ''},
-  height: {value:'',},
-  weight: {value:'',},
-  kcal: {value:''},
-  muscle: {value:'',},
-  fat: {value:'',},
-  score: {value:'',},
-  bmi: {value:'',},
-  fatRate: {value:'',},
-  picture: {value: []}
+  name: { value: "" },
+  height: { value: "" },
+  weight: { value: "" },
+  kcal: { value: "" },
+  muscle: { value: "" },
+  fat: { value: "" },
+  score: { value: "" },
+  bmi: { value: "" },
+  fatRate: { value: "" },
+  picture: { value: [] },
 });
 
 const numberList = ref([
   [
-    // { key: 'date', label: '검사날짜'},
-    { key: 'height', label: '키'},
-    { key: 'weight', label: '체중'},
-    { key: 'muscle', label: '골격근량'},
-    { key: 'fat', label: '체지방량'},
-    { key: 'score', label: '인바디점수'},
-    { key: 'bmi', label: 'BMI'},
-    { key: 'fatRate', label: '체지방률'},
+    { key: "height", label: "키" },
+    { key: "weight", label: "체중" },
+    { key: "muscle", label: "골격근량" },
+    { key: "fat", label: "체지방량" },
+    { key: "score", label: "인바디" },
+    { key: "bmi", label: "BMI" },
+    { key: "fatRate", label: "체지방률" },
   ],
 ]);
 
-const makeBody = () =>{
+const makeBody = () => {
   const result = {
     stdDate: inbodyStore.getFocusDate(),
     height: form.value.height.value,
@@ -84,51 +81,51 @@ const makeBody = () =>{
     fatRate: form.value.fatRate.value,
     // memo: form.value.memo.value,
     picture: form.value.picture.value,
-  }
+  };
   return result;
-}
+};
 
 // 저장 버튼
-const saveInbodyItem = async () =>{
+const saveInbodyItem = async () => {
   const body = makeBody();
-  inbodyStore.postInbodyItem(body)
-  router.push({name: 'inbody-inbodyList'});
-}
+  inbodyStore.postInbodyItem(body);
+  router.push({ name: "inbody-inbodyList" });
+};
 
 // 수정 버튼
-const modifyInbodyItem = async () =>{
+const modifyInbodyItem = async () => {
   const body = makeBody();
   inbodyStore.putInbodyItem(body);
-  router.push({name: 'inbody-inbodyList'})
-}
+  router.push({ name: "inbody-inbodyList" });
+};
 
 // 초기화 버튼
-const resetInbodyItem = () =>{
+const resetInbodyItem = () => {
   const keys = Object.keys(form.value);
-  for(let i=0;i<keys.length;i++){
+  for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = '';
+    form.value[key].value = "";
   }
-}
+};
 
 // 취소 버튼
-const cancelInbodyEdit = () =>{
+const cancelInbodyEdit = () => {
   router.back();
-}
+};
 
-const initSelectItem = () =>{
+const initSelectItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     form.value[key].value = inbodyStore.getSelectItem()[key];
   }
-}
+};
 
-onMounted(()=>{
+onMounted(() => {
   if (!editFlag.value) {
     initSelectItem();
   } else {
     inbodyStore.resetSelectItem();
   }
-})
+});
 </script>
