@@ -12,7 +12,7 @@
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="item.key">
-                  <span>{{ item.label }} : {{ mealStore.getSelectItem()[item.key as keyof Meal] }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ mealStore.getSelectItem()[item.key as keyof Meal]?.toString() }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
@@ -29,9 +29,9 @@
         </div>
       </div>
       <div class="mealDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm" v-if="mealStore.getIsToday()" @click="moveMealList">취소</button>
+        <button class="short-ghost-button bp-mr-sm" @click="moveMealList">취소</button>
         <button class="short-ghost-button bp-mr-sm" v-if="mealStore.getIsToday()" @click="removeMealItem">삭제</button>
-        <button class="short-filled-button" @click="moveModifyItem">수정</button>
+        <button class="short-filled-button" v-if="mealStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
     <NoData v-else></NoData>
@@ -55,6 +55,7 @@ const infoList = [
     { key: 'kcal', label: 'Kcal', unit: 'kcal' },
     { key: 'time', label: 'Time', unit: '' },
     { key: 'water', label: 'Water', unit: 'L' },
+    { key: 'food', label: 'Food', }
   ],
 ];
 

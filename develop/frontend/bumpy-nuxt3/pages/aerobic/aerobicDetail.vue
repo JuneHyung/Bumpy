@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
         <div class="aerobic-chart-wrap">
-          <p>Chart</p>
+          <RadialBarChart></RadialBarChart>
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -41,6 +41,7 @@
   </main>
 </template>
 <script setup lang="ts">
+import RadialBarChart from "~~/components/charts/RadialBarChart.vue";
 import NoData from "~~/components/common/NoData.vue";
 import { useAerobicStore } from "~~/store/aerobic";
 definePageMeta({
