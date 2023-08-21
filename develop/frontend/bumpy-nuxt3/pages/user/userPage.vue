@@ -16,11 +16,6 @@
         <span>비밀번호 확인</span>
         <PasswordInput :data="userForm.passwordChk" class="userpage-input" @change="verifyPassword"/>
       </label>
-      <label class="userpage-input-wrap email-input-wrap bp-my-sm">
-        <span>이메일</span>
-        <TextInput :data="userForm.email" class="userpage-input bp-mx-sm" />
-        <button class="short-filled-button" type="button" @click="openEmailVerifyModal">인증</button>
-      </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>이름</span>
         <TextInput :data="userForm.username" class="userpage-input" />
@@ -56,37 +51,24 @@
       </div>
     </form>
   </main>
-  <div v-if="emailModalFlag" class="email-verificate-modal">
-    <div class="email-verificate-content">
-      <h1 class="email-verificate-title bp-mb-xl">이메일 인증입니다.</h1>
-      <label class="email-verificate-input-wrap">
-        <input type="text" class="email-verificate-input bp-mr-sm" v-model="emailVerficationCode" />
-        <button class="short-filled-button email-verificate-button" @click="checkCertificateEmail">인증확인</button>
-      </label>
-      <div class="email-verificate-timer-wrap bp-my-sm">
-        <span>Timer : {{verifyTime}}</span>
-      </div>
-    </div>
-    <button class="long-filled-button email-verificate-modal-close-button" @click="closeEmailVerifyModal">닫기</button>
-  </div>
 </template>
 <script setup lang="ts">
 import DateInput from '~~/components/form/DateInput.vue';
-// import NumberInput from '~~/components/form/NumberInput.vue';
 import SelectboxInput from '~~/components/form/SelectboxInput.vue';
 import PasswordInput from '~~/components/form/PasswordInput.vue';
 import TextInput from '~~/components/form/TextInput.vue';
 import { ref } from 'vue';
 import Avatar from '~~/components/user/Avatar.vue';
+import {UserFormData, UserUpdateRequestBody} from '~~/types/user'
 import { useUserStore } from '~~/store/user';
-import { createCheckCertificateEmail, createEmailVerificationCode } from '~~/api/user/signup';
-import { setErrorMessage, setWarnMessage } from '~~/api/alert/message';
 
+definePageMeta({
+  layout: 'main-layout',
+});
 
-
-const userForm = ref({
+const userForm: Ref<UserFormData> = ref({
   userId: { value: '', disabled: true, placeholder: '아이디를 입력해주세요.' },
-  password: { placeholder: '변경할 비밀번호를 영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.', disabled: true },
+  password: { value:'', placeholder: '변경할 비밀번호를 영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.', disabled: true },
   passwordChk: { value: '', placeholder: '영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.' },
   email: { value: '', placeholder: 'email형식을 지켜 작성해주세요.' },
   username: { value: '', placeholder: '이름을 입력해주세요.' },
@@ -95,13 +77,11 @@ const userForm = ref({
   phoneFirst: { value: '', placeholder: '000' },
   phoneSecond: { value: '', placeholder: '0000' },
   phoneThird: { value: '', placeholder: '0000' },
-  zipCode: { placeholder: "우편번호", disabled:true },
+  zipCode: { value:'', placeholder: "우편번호", disabled:true },
   address: {value: '', placeholder: "주소", disabled:true },
   addressDetail: {value: '', placeholder: "상세주소를 입력해주세요." },
 });
-definePageMeta({
-  layout: 'main-layout',
-});
+
 const userStore = useUserStore();
 const router= useRouter();
 
@@ -116,90 +96,6 @@ const togglePasswordChange = () => {
     userForm.value.password.disabled = !userForm.value.password.disabled;
     userForm.value.passwordChk.value = '';
 }
-const emailVerficationCode = ref("");
-
-// 이메일 인증 여부 변수
-const verificateEmail = ref(false);
-// 이메일 인증 Modal
-const emailModalFlag = ref(false);
-// 이메일 인증 타이머
-const verifyTime = ref(0);
-
-let countTimer: any = null; // interval함수 저장할 변수.
-
-
-// 1씩 감소하는 함수
-const countVerifyTime = () =>{
-  verifyTime.value-= 1;
-  if(verifyTime.value===0) verifyTime.value = 300;
-  if(verifyTime.value===300) {
-    sendEmailVerificationCode();
-  }
-}
-
-
-const sendEmailVerificationCode = async () => {
-  try{
-    const { email, userId } = userForm.value;
-    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: userId.value });
-    const verificationCode = data.value.verificationCode;
-    emailVerficationCode.value = verificationCode;
-  }catch(e){
-    setErrorMessage(e);
-  }
-};
-
-
-// // Timer 세팅하는 함수
-const setVerifyTimer = () =>{
-  verifyTime.value = 300;
-  emailModalFlag.value = true;
-  countTimer = setInterval(countVerifyTime, 1000);
-  sendEmailVerificationCode();
-}
-
-// // 이메일 인증 Modal Open함수
-const openEmailVerifyModal = () => {
-  // e.preventDefault();
-  const emailValue = userForm.value.email.value as string;
-  if(emailValue === null || emailValue.length===0){
-    setWarnMessage("이메일 값을 입력해주세요.");
-  } else if(!verificateEmail.value){
-    setVerifyTimer();
-  }
-};
-
-// // 이메일 인증 Modal Close 함수
-const closeEmailVerifyModal = () => {
-  emailModalFlag.value = false;
-  clearInterval(countTimer)
-};
-
-
-// // 이메일 인증 확인
-const checkCertificateEmail = async() => {
-  try{
-    const { email, userId } = userForm.value;
-    const body = {
-      email: email.value,
-      userId: userId.value,
-      verifyCode: emailVerficationCode.value,
-    };
-    const {data, error} = await createCheckCertificateEmail(body);
-    if(error.value !== null){
-        const statusCode = error.value.statusCode;
-        const errorMessage = error.value?.data.message;
-        setErrorMessage(errorMessage);
-    }else if(data.value !== null){
-      // 성공 후 
-      verificateEmail.value = true; // 변경 필요
-      userForm.value.email.disabled = true;
-      closeEmailVerifyModal();
-    }
-  }catch(e){
-    setErrorMessage(e)
-  }
-};
 
 // 우편번호API script 추가
 const addScript = () => {
@@ -261,12 +157,10 @@ const openAddressModal = () => {
 };
 
 // 회원가입 버튼 클릭 시 body만들기
-const makeBody = (body: any) =>{
+const makeBody = (body: UserFormData) =>{
   
-  const result = {
-    // userId : body.id.value,
+  const result: UserUpdateRequestBody = {
     password : body.password.value,
-    // email : body.email.value,
     gender :body.gender.value,
     birth : body.birth.value,
     phoneNumber : `${body.phoneFirst.value}-${body.phoneSecond.value}-${body.phoneThird.value}`,

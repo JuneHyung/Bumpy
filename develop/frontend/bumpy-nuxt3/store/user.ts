@@ -5,7 +5,8 @@ import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { getGrassInfo } from '~~/api/main';
 import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
 import { DateListFlag } from '~~/types/calendar';
-import { GrassInfoResponseBody } from '~~/types/main';
+import { GrassInfoItem, GrassInfoResponseBody } from '~~/types/main';
+import { UserUpdateRequestBody, passwordChkRequest, UserPageInfo } from '~~/types/user';
 export const useUserStore = defineStore('user-store',()=>{
   const isPass = ref(false);
   const userName = ref('');
@@ -23,12 +24,13 @@ export const useUserStore = defineStore('user-store',()=>{
       const {data, error} = await getUserPageInfo();
       if(error.value!==null) setErrorMessage(error.value);
       else if(data.value!==null){
-        const result = _.cloneDeep(data.value.data);
-        const phoneNumber= result.phoneNumber.split('-')
-        result.phoneFirst = phoneNumber[0]
-        result.phoneSecond = phoneNumber[1]
-        result.phoneThird = phoneNumber[2]
-        if(result.phoneNumber) delete result.phoneNumber;
+        const result: UserPageInfo = _.cloneDeep(data.value.data);
+        if(result.phoneNumber !==undefined){
+          const phoneNumber= result.phoneNumber.split('-')
+          result.phoneFirst = phoneNumber[0]
+          result.phoneSecond = phoneNumber[1]
+          result.phoneThird = phoneNumber[2]
+        }
         setUserPageInfo(result)
       }
     }catch(e){ setErrorMessage(e) }
@@ -42,7 +44,7 @@ export const useUserStore = defineStore('user-store',()=>{
     }
   }
 
-  const updateUserPageData = async (body: any)=>{
+  const updateUserPageData = async (body: UserUpdateRequestBody)=>{
     try{
       const {data, error} = await putUserInfo(body)
   
@@ -54,18 +56,24 @@ export const useUserStore = defineStore('user-store',()=>{
   }
 
   //-------------------------------------------------------------------------
-  const checkPasswordVerify = async (body: any) =>{
+  const checkPasswordVerify = async (body: passwordChkRequest) =>{
     try{
       const {data, error} = await fetchUserPasswordVerifyCheck(body)
       if(error.value!==null) setErrorMessage(error.value.data.message);
-      else if(data.value.message==="OK") {setMessage('사용 가능한 비밀번호 입니다.'); return true;}
-      else setErrorMessage(data.value.message);
+      else if(data.value!==null) {
+        if(data.value.message==="OK"){
+        setMessage('사용 가능한 비밀번호 입니다.'); 
+        return true;
+        }else {
+          setErrorMessage(data.value.message);
+        }
+      }
     }catch(e){
       setErrorMessage(e)
     }
     return false;
   }
-  const checkPassword = async (body: any) =>{
+  const checkPassword = async (body: passwordChkRequest) =>{
     try{
       const {data, error} = await fetchUserPasswordCheck(body)
       if(error.value!==null) setErrorMessage("비밀번호를 다시 확인해주세요.");
@@ -123,7 +131,7 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
   const setDateList = (value: any) => dateList.value = value;
   const setIsPass = (value:boolean) => isPass.value = value;
   const setUserName = (value: string) => userName.value = value;
-  const setUserPageInfo = (value: any) => userPageData.value = value;
+  const setUserPageInfo = (value: UserPageInfo) => userPageData.value = value;
 
   return {
     fetchUserPageInfo,

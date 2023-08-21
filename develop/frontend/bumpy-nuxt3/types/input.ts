@@ -5,7 +5,7 @@ interface InputCommon {
 }
 
 interface InputText extends InputCommon{ 
-  value?: string,
+  value: string,
   placeholder?: string,
   maxlength?: number,
   minlength?: number,
@@ -13,7 +13,7 @@ interface InputText extends InputCommon{
   pattern?: string,
 }
 interface InputNumber extends InputCommon{
-  value?: number,
+  value: number,
   placeholder?: string,
   max?: number,
   min?: number,
@@ -23,7 +23,7 @@ interface InputNumber extends InputCommon{
 }
 
 interface InputPassword extends InputCommon{
-  value?: string;
+  value: string;
   placeholder?: string;
   maxlength?: number;
   minlength?: number;
@@ -36,14 +36,14 @@ type SelectItem = {
   dtlNm: string;
 }
 interface InputSelectbox extends InputCommon{
-  value?: string;
+  value: string;
   placeholder?: string;
   listname?: string;
   list: SelectItem[];
 }
 
 interface InputTextarea extends InputCommon {
-  value?: string;
+  value: string;
   placeholder?: string;
   cols?: number;
   rows?: number;
@@ -52,13 +52,13 @@ interface InputTextarea extends InputCommon {
 }
 
 interface InputDate extends InputCommon { 
-  value?: string,
+  value: string,
   suffix?: string,
   step?: string,
 }
 
 interface InputTime extends InputCommon{
-  value?: string,
+  value: string,
 }
 
 type MatchMessage = 'Not Match' | 'Correct';

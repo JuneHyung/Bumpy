@@ -14,7 +14,7 @@
       <h2 class="login-form-title">USER LOGIN</h2>
       <form class="login-form bp-pa-md">
         <div>
-          <TextInput :data="formData.id" class="login-input bp-mb-xl"></TextInput>
+          <TextInput :data="formData.userId" class="login-input bp-mb-xl"></TextInput>
           <PasswordInput :data="formData.password" class="login-input bp-mb-xl"></PasswordInput>
         </div>
         <div>
@@ -35,27 +35,33 @@ import { setErrorMessage, setWarnMessage } from "~~/api/alert/message";
 import { fetchLogin } from "~~/api/user/user";
 import { inRange } from "~~/api/util";
 import { useUserStore } from "~~/store/user";
+import { MessageResponse } from "~~/types/common";
+
+definePageMeta({
+  layout: 'start-layout',
+});
 
 const router = useRouter();
 const userStore = useUserStore();
 const formData: Ref<userLoginFormData> = ref({
-  id: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20 },
+  userId: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20 },
   password: { value: "", placeholder: "비밀번호", minlength: 8, maxlength: 20 },
 });
 
 // Login
 const moveMain = async () => {
-  const { idValue, idMin, idMax } = { idValue: formData.value.id.value, idMin: formData.value.id.minlength, idMax: formData.value.id.maxlength };
+  const { idValue, idMin, idMax } = { idValue: formData.value.userId.value, idMin: formData.value.userId.minlength, idMax: formData.value.userId.maxlength };
   const { pwValue, pwMin, pwMax } = { pwValue: formData.value.password.value, pwMin: formData.value.password.minlength, pwMax: formData.value.password.maxlength };
   if (!inRange(idValue as string, idMin as number, idMax as number) || !inRange(pwValue as string, pwMin as number, pwMax as number)) {
     setWarnMessage("아이디 또는 비밀번호를 확인해주세요.");
   } else {
     const formD = new FormData();
-    formD.append("userId", formData.value.id.value as string);
+    formD.append("userId", formData.value.userId.value as string);
     formD.append("password", formData.value.password.value as string);
+
     try {
       const { data } = await fetchLogin(formD);
-      const dataValue = data.value as { code: boolean; message: string };
+      const dataValue = data.value as MessageResponse;
       if(dataValue.code){
         userStore.setIsPass(true);
         router.push({name: 'main'});
@@ -74,9 +80,5 @@ const introduceMessageList: string[] = [
   "to proceed with sign up.",
   "If you have any questions, please call or email us",
 ];
-
-definePageMeta({
-  layout: 'start-layout',
-});
 </script>
 <style lang="scss" scoped></style>

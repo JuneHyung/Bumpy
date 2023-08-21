@@ -4,6 +4,9 @@ export interface ResponseBody<T> {
   data: T,
 }
 
+export interface OnlyMessageResponse {
+  message: string,
+}
 export interface MessageResponse {
   code: string,
   message: string
@@ -23,4 +26,9 @@ export interface ImageData{
   name: string,
   data: string,
   size: number
+}
+
+
+export interface customError extends Error{
+  data: {message: string}
 }
