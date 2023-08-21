@@ -65,6 +65,7 @@ import { useWeightStore } from "~~/store/weight";
 import { readFavoritWeightList } from "~~/api/weight/weight";
 import { WeightFormData, WeightRequestBody } from "~~/types/weight";
 import _ from "lodash";
+import { FavoriteListItem } from "~~/types/common";
 
 definePageMeta({
   layout: "main-layout",
@@ -75,7 +76,7 @@ const weightStore = useWeightStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
 
-const loadList = ref([]);
+const loadList:Ref<FavoriteListItem[]> = ref([]);
 
 const form: Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
@@ -88,8 +89,8 @@ const form: Ref<WeightFormData> = ref({
   measure: {
     value: "1",
     list: [
-      { dtlCd: "0", dtlNm: "lb" },
       { dtlCd: "1", dtlNm: "kg" },
+      { dtlCd: "2", dtlNm: "lb" },
     ],
   },
   memo: { value: "", rows: 10 },

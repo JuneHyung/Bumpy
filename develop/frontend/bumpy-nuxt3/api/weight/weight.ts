@@ -1,4 +1,4 @@
-import { MessageResponse } from "~~/types/common";
+import { MessageResponse, OnlyMessageResponse, customError } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
@@ -45,8 +45,8 @@ function readWeightList(params: WeightReadRequestParam) {
 /**
  * weight 운동 조회 (근력 운동 조회) - POST
  */
-function createWeightItem(body: any) {
-  return useFetch("/insert", {
+function createWeightItem(body: WeightRequestBody) {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
     body: body,
@@ -57,7 +57,7 @@ function createWeightItem(body: any) {
  * 근력운동 삭제 - DELETE
  */
 function deleteWeightItem(params: WeightRemoveRequestParams) {
-  return useFetch("/delete", {
+  return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -69,7 +69,7 @@ function deleteWeightItem(params: WeightRemoveRequestParams) {
  * 근력운동 수정 - PUT
  */
 function updateWeightItem(body: Weight) {
-  return useFetch("/update", {
+  return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
     headers,

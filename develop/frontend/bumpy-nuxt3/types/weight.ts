@@ -1,5 +1,5 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
-import { InputNumber, InputText, InputTextarea } from "./input";
+import { InputNumber, InputSelectbox, InputText, InputTextarea } from "./input";
 
 // enum Measure { 
 //   m1= 'kg',
@@ -7,15 +7,15 @@ import { InputNumber, InputText, InputTextarea } from "./input";
 // }
 
 interface Weight{
-  seq?: number,
+  seq?: string,
   name?: string,
-  weightStart?: number,
-  weightEnd?: number,
-  repsStart?: number,
-  repsEnd?: number,
-  pollWeight?: number,
-  setReps?: number,
-  measure?: '0' | '1',
+  weightStart?: string,
+  weightEnd?: string,
+  repsStart?: string,
+  repsEnd?: string,
+  pollWeight?: string,
+  setReps?: string,
+  measure?: string,
   memo?: string,
   stdDate?: string,
   picture?: ImageData[],
@@ -24,13 +24,13 @@ type WeightList = Weight[];
 
 type WeightFormData = {
   name: InputText,
-  weightStart: InputNumber,
-  weightEnd: InputNumber,
-  repsStart: InputNumber,
-  repsEnd: InputNumber,
-  pollWeight: InputNumber,
-  setReps: InputNumber,
-  measure: '0' | '1',
+  weightStart: InputText,
+  weightEnd: InputText,
+  repsStart: InputText,
+  repsEnd: InputText,
+  pollWeight: InputText,
+  setReps: InputText,
+  measure: InputSelectbox,
   memo: InputTextarea
   picture?: {value: ImageData[]}
 }
@@ -39,8 +39,6 @@ interface WeightRemoveRequestParams {
   stdDate?: string,
   seq?: number
 }
-
-
 
 type WeightRequestBody = Weight;
 type WeightItemRequestParam = {
@@ -53,7 +51,7 @@ type WeightReadRequestParam={
 type WeightItemResponseBody = ResponseBody<Weight>
 type WeightCalendarResponseBody = ResponseBody<CommonCalendarData[]>
 type WeightReadResponseBody = ResponseBody<WeightList>
-type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem>
+type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem[]>
 export {
   Weight,
   WeightList,

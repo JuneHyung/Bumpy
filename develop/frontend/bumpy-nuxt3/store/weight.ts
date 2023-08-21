@@ -103,7 +103,7 @@ const getWeightChartInfo = async (name: string) =>{
       const {data, error} = await readWeightItem(params);
       if(error.value!==null){
         setErrorMessage(error.value)
-      }else if(data.value?.data !==null && data.value?.data !==undefined ){
+      }else if(data.value !==null ){
         setSelectItem(data.value.data)
       }else {
         setSelectItem({})
@@ -151,8 +151,8 @@ const getWeightChartInfo = async (name: string) =>{
       const { data, error } = await deleteWeightItem(params);
       if (error.value !== null) {
         await setErrorMessage(error.value?.message);
-      } else if (data.value !== null && data.value !==undefined) {
-        const message = data.value?.message;
+      } else if (data.value !== null) {
+        const message = data.value.message;
         await setMessage(message);
       }
     } catch (e) {
