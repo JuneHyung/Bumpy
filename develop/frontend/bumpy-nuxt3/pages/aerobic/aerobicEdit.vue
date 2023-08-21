@@ -58,13 +58,13 @@ const editFlag = computed(() => aerobicStore.getSelectItem().seq === undefined);
 const loadList: Ref<FavoriteListItem[]> = ref([]);
 const form: Ref<AerobicFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  kcal: {},
-  inclineStart: {},
-  speedStart: {},
-  time: {},
-  inclineEnd: {},
-  speedEnd: {},
-  memo: { rows: 10 },
+  kcal: { value: "",},
+  inclineStart: { value: "",},
+  speedStart:  {value: ""},
+  time: { value: "",},
+  inclineEnd: { value: "",},
+  speedEnd: { value: "",},
+  memo: {  value: "",rows: 10 },
 });
 
 const numberList = [

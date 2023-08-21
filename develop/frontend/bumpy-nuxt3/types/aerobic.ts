@@ -1,50 +1,42 @@
-import { FavoriteListItem, ResponseBody } from "./common";
-import { InputNumber, InputText, InputTextarea } from "./input";
+import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
+import { InputNumber, InputText, InputTextarea, InputTime } from "./input";
 
-interface Aerobic{
-  seq?: number,
-  name?: string,
-  kcal?: number,
-  time?: number,
-  inclineStart?: number,
-  inclineEnd?: number,
-  speedStart?: number,
-  speedEnd?: number,
-  memo?: string,
-  stdDate?: string,
+export interface Aerobic{
+  seq: string,
+  name: string,
+  kcal: string,
+  time: string,
+  inclineStart: string,
+  inclineEnd: string,
+  speedStart: string,
+  speedEnd: string,
+  memo: string,
+  stdDate: string,
 }
-type AerobicList = Aerobic[];
+export type AerobicList = Aerobic[];
 
-type AerobicFormData = {
+export type AerobicFormData = {
   name: InputText,
-  kcal: InputNumber,
-  time: InputNumber,
-  inclineStart: InputNumber,
-  inclineEnd: InputNumber,
-  speedStart: InputNumber,
-  speedEnd: InputNumber,
+  kcal: InputText,
+  time: InputTime,
+  inclineStart: InputText,
+  inclineEnd: InputText,
+  speedStart: InputText,
+  speedEnd: InputText,
   memo: InputTextarea,
 }
 
-interface AerobicRequestBody extends Aerobic{
-  stdDate?: string
-}
+export type AerobicRequestBody = Partial<Aerobic>;
 
-type AerobicReadRequestParam {
+export type AerobicReadRequestParam= {
   stdDate: string,
 }
-type AerobicDeleteRequestParam{
+export type AerobicDeleteRequestParam={
   stdDate: string,
-  seq: number
+  seq: string
 }
 
-type AerobicFavoriteListResponseBody = ResponseBody<FavoriteListItem>
-export {
-  Aerobic,
-  AerobicList,
-  AerobicFormData,
-  AerobicReadRequestParam,
-  AerobicDeleteRequestParam,
-  AerobicRequestBody,
-  AerobicFavoriteListResponseBody
-}
+export type AerobicItemResponseBody = ResponseBody<Aerobic>
+export type AerobicCalendarResponseBody = ResponseBody<CommonCalendarData[]>
+export type AerobicReadResponseBody = ResponseBody<AerobicList>
+export type AerobicFavoriteListResponseBody = ResponseBody<FavoriteListItem[]>

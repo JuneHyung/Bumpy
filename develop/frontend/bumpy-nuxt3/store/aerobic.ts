@@ -1,69 +1,78 @@
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import {defineStore} from 'pinia';
-import { deleteAerobicItem, readAerobicActivityList, readAerobicCalendarList, readAerobicItem } from '~~/api/aerobic/aerobic';
-import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { getAerobicActivityForMain, getAerobicChartInfoForMain } from '~~/api/main';
-import { Aerobic, AerobicDeleteRequestParam, AerobicList } from '~~/types/aerobic';
-import { CommonCalendarData } from '~~/types/common';
-import { MainAerobicChartData, MainAerobicChartInfo } from '~~/types/main';
+import dayjs from "dayjs";
+import _ from "lodash";
+import { defineStore } from "pinia";
+import { deleteAerobicItem, readAerobicActivityList, readAerobicCalendarList, readAerobicItem } from "~~/api/aerobic/aerobic";
+import { setErrorMessage, setMessage } from "~~/api/alert/message";
+import { getAerobicActivityForMain, getAerobicChartInfoForMain } from "~~/api/main";
+import { Aerobic, AerobicDeleteRequestParam, AerobicList } from "~~/types/aerobic";
+import { CommonCalendarData } from "~~/types/common";
+import { MainAerobicChartData, MainAerobicChartInfo } from "~~/types/main";
 
-export const useAerobicStore = defineStore('aerobic-store',()=>{
+export const useAerobicStore = defineStore("aerobic-store", () => {
   const focusDate = ref("");
   const isToday = ref(true);
   const activityList: Ref<AerobicList> = ref([]);
   const calendarList: Ref<CommonCalendarData[]> = ref([]);
-  const selectItem: Ref<Aerobic> = ref({});
+  const selectItem: Ref<Aerobic> = ref({
+    seq: "",
+    name: "",
+    kcal: "",
+    time: "",
+    inclineStart: "",
+    inclineEnd: "",
+    speedStart: "",
+    speedEnd: "",
+    memo: "",
+    stdDate: "",
+  });
 
-  const mainAerobicDate: Ref<string> = ref('');
+  const mainAerobicDate: Ref<string> = ref("");
   const lastAerobicList: Ref<AerobicList> = ref([]);
-  
+
   const mainAerobicInfo: Ref<MainAerobicChartInfo> = ref({
-    bestKcal:'',
-    bestTime:'',
-    averageIncline:'',
-    averageSpeed:'',
-  })
+    bestKcal: "",
+    bestTime: "",
+    averageIncline: "",
+    averageSpeed: "",
+  });
   const mainAerobicChartInfo: Ref<MainAerobicChartData> = ref({
     series: [],
     xAxis: [],
-  })
-
+  });
 
   // dispatch
-  const getLastAerobicActivityInfo = async () =>{
-    try{
-      const {data, error} = await getAerobicActivityForMain();
-      if(error.value!==null){
+  const getLastAerobicActivityInfo = async () => {
+    try {
+      const { data, error } = await getAerobicActivityForMain();
+      if (error.value !== null) {
         setErrorMessage(error.value);
-      }else if(data.value!==null){
-        const list = data.value.data
-        lastAerobicList.value = list as AerobicList
+      } else if (data.value !== null) {
+        const list = data.value.data;
+        lastAerobicList.value = list as AerobicList;
         setMainAerobicDate(list[0].stdDate as string);
       }
-    }catch(e){
+    } catch (e) {
       setErrorMessage(e);
     }
-  }
+  };
 
-  const getAerobicChartInfo = async (name: string) =>{
-    try{
-        const {data, error} = await getAerobicChartInfoForMain({name:name});
-        // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
-        if(error.value!==null){
-          setErrorMessage(error.value);
-        }else if(data.value!==null){
-          const result = data.value.data
-          const infoKeys = Object.keys(mainAerobicInfo.value)
-          for(const key of infoKeys) mainAerobicInfo.value[key] = result[key];
-          mainAerobicChartInfo.value.xAxis = result.xAxis;
-          mainAerobicChartInfo.value.series = result.series;
-        }
-      }catch(e){
-        setErrorMessage(e);
-      }  
+  const getAerobicChartInfo = async (name: string) => {
+    try {
+      const { data, error } = await getAerobicChartInfoForMain({ name: name });
+      // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
+      if (error.value !== null) {
+        setErrorMessage(error.value);
+      } else if (data.value !== null) {
+        const result = data.value.data;
+        const infoKeys = Object.keys(mainAerobicInfo.value);
+        for (const key of infoKeys) mainAerobicInfo.value[key] = result[key];
+        mainAerobicChartInfo.value.xAxis = result.xAxis;
+        mainAerobicChartInfo.value.series = result.series;
+      }
+    } catch (e) {
+      setErrorMessage(e);
     }
-      
+  };
 
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
@@ -84,8 +93,8 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
       const { data, error } = await readAerobicCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && data.value?.data !== undefined) {
-        const list = data.value?.data;
+      } else if (data.value !== null) {
+        const list = data.value.data;
         setCalendarlist(list);
       }
     } catch (e) {
@@ -102,10 +111,10 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
       const { data, error } = await readAerobicItem(params);
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+      } else if (data.value !== null) {
         setSelectItem(data.value.data);
       } else {
-        setSelectItem({});
+        resetSelectItem();
       }
     } catch (e) {
       setErrorMessage(e);
@@ -116,12 +125,12 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     try {
       const params: AerobicDeleteRequestParam = {
         stdDate: focusDate.value,
-        seq: selectItem.value.seq as number,
+        seq: selectItem.value.seq as string,
       };
       const { data, error } = await deleteAerobicItem(params);
       if (error.value !== null) {
         await setErrorMessage(error.value?.message);
-      } else if (data.value !== null && data.value !==undefined) {
+      } else if (data.value !== null) {
         const message = data.value?.message;
         await setMessage(message);
       }
@@ -152,7 +161,18 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     selectItem.value = _.cloneDeep(item);
   };
   const resetSelectItem = async () => {
-    selectItem.value = {};
+    selectItem.value = {
+      seq: "",
+      name: "",
+      kcal: "",
+      time: "",
+      inclineStart: "",
+      inclineEnd: "",
+      speedStart: "",
+      speedEnd: "",
+      memo: "",
+      stdDate: "",
+    };
   };
 
   const getFocusDate = (): string => focusDate.value;
@@ -166,11 +186,10 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
   const getMainAerobicInfo = () => mainAerobicInfo.value;
   const getMainAerobicChartInfo = () => mainAerobicChartInfo.value;
 
-  const setMainAerobicDate = (value: string) => mainAerobicDate.value = value;
-  const setLastAerobicList = (value: AerobicList) => lastAerobicList.value = value;
-  const setMainAerobicInfo = (value: MainAerobicChartInfo) => mainAerobicInfo.value = value;
-  const setMainAerobicChartInfo = (value: MainAerobicChartData) => mainAerobicChartInfo.value = value;
-
+  const setMainAerobicDate = (value: string) => (mainAerobicDate.value = value);
+  const setLastAerobicList = (value: AerobicList) => (lastAerobicList.value = value);
+  const setMainAerobicInfo = (value: MainAerobicChartInfo) => (mainAerobicInfo.value = value);
+  const setMainAerobicChartInfo = (value: MainAerobicChartData) => (mainAerobicChartInfo.value = value);
 
   return {
     getLastAerobicActivityInfo,
@@ -195,13 +214,13 @@ export const useAerobicStore = defineStore('aerobic-store',()=>{
     getSelectItem,
 
     getMainAerobicDate,
-  getLastAerobicList,
-  getMainAerobicInfo,
-  getMainAerobicChartInfo,
+    getLastAerobicList,
+    getMainAerobicInfo,
+    getMainAerobicChartInfo,
 
-  setMainAerobicDate,
-  setLastAerobicList,
-  setMainAerobicInfo,
-  setMainAerobicChartInfo,
+    setMainAerobicDate,
+    setLastAerobicList,
+    setMainAerobicInfo,
+    setMainAerobicChartInfo,
   };
-})
+});

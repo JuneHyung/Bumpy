@@ -1,6 +1,7 @@
 // import { CREATE, READ } from "~~/types/method";
 
-import { AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicReadRequestParam, AerobicRequestBody } from "~~/types/aerobic";
+import { AerobicCalendarResponseBody, AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicItemResponseBody, AerobicReadRequestParam, AerobicReadResponseBody, AerobicRequestBody } from "~~/types/aerobic";
+import { OnlyMessageResponse, customError } from "~~/types/common";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/aerobic`;
@@ -11,7 +12,7 @@ const headers = {
  * 유산소 운동 조회 (근력 운동 조회) - GET
  */
 function readAerobicItem(params: AerobicReadRequestParam) {
-return useFetch("/search", {
+return useFetch<AerobicItemResponseBody>("/search", {
     baseURL,
     method: GET,
     headers,
@@ -23,7 +24,7 @@ return useFetch("/search", {
  * 유산소 달력 조회 - GET
  */
 function readAerobicCalendarList(params: AerobicReadRequestParam) {
-  return useFetch("/calendar", {
+  return useFetch<AerobicCalendarResponseBody>("/calendar", {
     baseURL,
     method: GET,
     headers,
@@ -35,7 +36,7 @@ function readAerobicCalendarList(params: AerobicReadRequestParam) {
  * Activity 조회 - GET
  */
 function readAerobicActivityList(params: AerobicReadRequestParam) {
-  return useFetch("/activity", {
+  return useFetch<AerobicReadResponseBody>("/activity", {
     baseURL,
     method: GET,
     headers,
@@ -47,7 +48,7 @@ function readAerobicActivityList(params: AerobicReadRequestParam) {
  * 유산소운동 추가 - POST
  */
 function createAerobicItem(body: AerobicRequestBody) {
-  return useFetch("/insert", {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -59,7 +60,7 @@ function createAerobicItem(body: AerobicRequestBody) {
  * 유산소운동 삭제 - GET
  */
 function deleteAerobicItem(params: AerobicDeleteRequestParam) {
-  return useFetch("/delete", {
+  return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -71,7 +72,7 @@ function deleteAerobicItem(params: AerobicDeleteRequestParam) {
  * 유산소운동 수정 - POST
  */
 function updateAerobicItem(body: AerobicRequestBody) {
-  return useFetch("/update", {
+  return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
     headers,
