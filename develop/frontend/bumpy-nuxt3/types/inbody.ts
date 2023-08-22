@@ -2,21 +2,19 @@ import { CommonCalendarData, ResponseBody } from "./common";
 import { InputText } from "./input";
 
 export interface Inbody {
-  seq?: number,
-  height?: string,
-  weight?: string,
-  age?: string,
-  muscle?: string,
-  fat?: string,
-  score?: string,
-  bmi?: string,
-  fatRate?: string,
-  stdDate?: string,
-  picture?: ImageData[]
+  height: string,
+  weight: string,
+  age: string,
+  muscle: string,
+  fat: string,
+  score: string,
+  bmi: string,
+  fatRate: string,
+  stdDate: string,
+  picture: ImageData[]
 }
 export type InbodyList = Inbody[]
 export type InbodyFormData = {
-  seq: InputText,
   height?: InputText,
   weight?: InputText,
   age?: InputText,
@@ -27,9 +25,9 @@ export type InbodyFormData = {
   fatRate?: InputText,
   picture?: ImageData[]
 }
-export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>
-export type InbodyListRequestParam = Pick<Inbody, 'stdDate'>
-export type InbodyItemRequestBody = Inbody;
+export type InbodyItemRequestBody = Partial<Inbody>;
+// export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>
+export type InbodyRequestParam = Pick<Inbody, 'stdDate'>
 export type InbodyItemResponseBody = ResponseBody<Inbody>;
 export type InbodyCalendarItemResponseBody = ResponseBody<CommonCalendarData[]>;
 export type InbodyListResponseBody = ResponseBody<InbodyList>;

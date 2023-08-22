@@ -35,6 +35,8 @@
 import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
+import { MealItemRequestBody } from "~~/types/meal";
+import { InbodyItemRequestBody } from "~~/types/inbody";
 
 definePageMeta({
   layout: "main-layout",
@@ -42,7 +44,7 @@ definePageMeta({
 
 const inbodyStore = useInbodyStore();
 const router = useRouter();
-const editFlag = computed(() => inbodyStore.getSelectItem().height === undefined);
+const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
 const form = ref({
   name: { value: "" },
@@ -70,7 +72,7 @@ const numberList = ref([
 ]);
 
 const makeBody = () => {
-  const result = {
+  const result: InbodyItemRequestBody = {
     stdDate: inbodyStore.getFocusDate(),
     height: form.value.height.value,
     weight: form.value.weight.value,

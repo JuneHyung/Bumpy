@@ -4,14 +4,25 @@ import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { createInbodyItem, deleteInbodyItem, readInbodyActivityList, readInbodyCalendarList, readInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
 import { CommonCalendarData } from '~~/types/common';
-import { Inbody, InbodyItemRequestParam, InbodyList } from '~~/types/inbody';
+import { Inbody, InbodyItemRequestBody, InbodyList, InbodyRequestParam } from '~~/types/inbody';
 
 export const useInbodyStore = defineStore('inbody-store',()=>{
   const focusDate = ref("");
   const isToday = ref(true);
   const activityList: Ref<InbodyList> = ref([]);
   const calendarList: Ref<CommonCalendarData[]> = ref([]);
-  const selectItem: Ref<Inbody> = ref({});
+  const selectItem: Ref<Inbody> = ref({
+    height: '',
+    weight: '',
+    age: '',
+    muscle: '',
+    fat: '',
+    score: '',
+    bmi: '',
+    fatRate: '',
+    stdDate: '',
+    picture: [],  
+  });
 
   // dispatch
   const getActivityListByStdDate = async (stdDate: string) => {
@@ -54,13 +65,13 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       } else if (data.value?.data !== null && data.value?.data !== undefined) {
         setSelectItem(data.value.data);
       } else {
-        setSelectItem({});
+        resetSelectItem();
       }
     } catch (e) {
       setErrorMessage(e);
     }
   };
-  const postInbodyItem = async (body: Inbody) =>{
+  const postInbodyItem = async (body: InbodyItemRequestBody) =>{
     try{
       const {data, error} = await createInbodyItem(body)
       if(error.value!==null){
@@ -74,7 +85,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     }
   }
 
-  const putInbodyItem = async (body: Inbody) =>{
+  const putInbodyItem = async (body: InbodyItemRequestBody) =>{
     try{
       const {data, error} = await updateInbodyItem(body)
       if(error.value!==null){
@@ -90,9 +101,8 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
 
   const removeInbodyItem = async () => {
     try {
-      const params: InbodyItemRequestParam = {
+      const params: InbodyRequestParam = {
         stdDate: focusDate.value,
-        seq: selectItem.value.seq,
       };
       const { data, error } = await deleteInbodyItem(params);
       if (error.value !== null) {
@@ -128,7 +138,18 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     selectItem.value = _.cloneDeep(item);
   };
   const resetSelectItem = async () => {
-    selectItem.value = {};
+    selectItem.value = {
+      height: '',
+      weight: '',
+      age: '',
+      muscle: '',
+      fat: '',
+      score: '',
+      bmi: '',
+      fatRate: '',
+      stdDate: '',
+      picture: [],  
+    };
   };
 
   const getFocusDate = (): string => focusDate.value;

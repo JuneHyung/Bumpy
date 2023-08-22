@@ -1,4 +1,5 @@
-import { InbodyCalendarItemResponseBody, InbodyItemRequestBody, InbodyItemRequestParam, InbodyItemResponseBody, InbodyListRequestParam, InbodyListResponseBody, } from "~~/types/inbody";
+import { OnlyMessageResponse, customError } from "~~/types/common";
+import { InbodyCalendarItemResponseBody, InbodyItemRequestBody, InbodyItemResponseBody, InbodyListResponseBody, InbodyRequestParam, } from "~~/types/inbody";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/inbody`;
@@ -9,7 +10,7 @@ const headers = {
 /**
  * inbody 조회 - GET
  */
-export function readInbodyItem(params: InbodyListRequestParam) {
+export function readInbodyItem(params: InbodyRequestParam) {
   return useFetch<InbodyItemResponseBody>("/search", {
     baseURL,
     method: GET,
@@ -18,7 +19,7 @@ export function readInbodyItem(params: InbodyListRequestParam) {
   });
 }
 
-export function readInbodyCalendarList(params: InbodyListRequestParam){
+export function readInbodyCalendarList(params: InbodyRequestParam){
   return useFetch<InbodyCalendarItemResponseBody>("/calendar", {
     baseURL,
     method: GET,
@@ -28,7 +29,7 @@ export function readInbodyCalendarList(params: InbodyListRequestParam){
 }
 
 
-export function readInbodyActivityList(params: InbodyListRequestParam){
+export function readInbodyActivityList(params: InbodyRequestParam){
   return useFetch<InbodyListResponseBody>("/activity", {
     baseURL,
     method: GET,
@@ -40,7 +41,7 @@ export function readInbodyActivityList(params: InbodyListRequestParam){
  * inbody 추가 - POST
  */
 export function createInbodyItem(body: InbodyItemRequestBody) {
-  return useFetch("/insert", {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -51,8 +52,8 @@ export function createInbodyItem(body: InbodyItemRequestBody) {
 /**
  * inbody 삭제 - GET
  */
-export function deleteInbodyItem(params: InbodyListRequestParam) {
-  return useFetch("/delete", {
+export function deleteInbodyItem(params: InbodyRequestParam) {
+  return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -64,7 +65,7 @@ export function deleteInbodyItem(params: InbodyListRequestParam) {
  * inbody 수정 - POST
  */
 export function updateInbodyItem(body: InbodyItemRequestBody) {
-  return useFetch("/update", {
+  return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
     headers,
