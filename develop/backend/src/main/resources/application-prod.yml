@@ -16,10 +16,11 @@ file:
   upload:
     path: /uploadFiles/
 
+
 cors:
   origins:
-    - "*"
+    - "www.bumpy.co.kr"
 
 springfox:
   documentation:
-    enabled: true
+    enabled: false

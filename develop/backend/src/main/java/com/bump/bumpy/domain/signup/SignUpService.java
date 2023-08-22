@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +32,7 @@ public class SignUpService {
     private final UsrMUsrRepository usrMUsrRepository;
     private final UsrHEmailauthRepository usrHEmailauthRepository;
     private final PasswordEncoder passwordEncoder;
-//    private final JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     public ResponseEntity<ResultMap> userCheck(UserIdRequestDto request) {
         if(!UserIdIsValid(request.getUserId()))
@@ -50,6 +52,12 @@ public class SignUpService {
             verificationCode = RandomStringUtils.random(EMAIL_VERIFY_CODE_LENGTH, EMAIL_VERIFY_CODE_CHACTERS);
         } while (usrHEmailauthRepository.existsByToken(verificationCode));
 
+        // 중복 데이터 삭제
+        usrHEmailauthRepository.deleteByUserId(request.getUserId());
+        usrHEmailauthRepository.deleteByEmail(request.getEmail());
+
+        usrHEmailauthRepository.flush();
+
         UsrHEmailauth usrHEmailauth = UsrHEmailauth.builder()
                 .userId(request.getUserId())
                 .email(request.getEmail())
@@ -60,19 +68,16 @@ public class SignUpService {
 
         usrHEmailauthRepository.save(usrHEmailauth);
 
-        return ResponseEntity.ok(new ResultMap("verificationCode", verificationCode));
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        // TODO : 이메일 인증 기능 구현
+        mailMessage.setTo(request.getEmail());
+        mailMessage.setSubject("[Bumpy] 이메일 인증");
+        mailMessage.setFrom("bumpyMailMaster@gmail.com");
+        mailMessage.setText("인증번호 : " + verificationCode);
 
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//        mailMessage.setTo(request.getEmail());
-//        mailMessage.setSubject("[Bumpy] 이메일 인증");
-//        mailMessage.setText("인증번호 : " + verificationCode);
-//
-//        javaMailSender.send(mailMessage);
-        //        return ResponseEntity.ok(new ResultMap("message", "OK"));
+        javaMailSender.send(mailMessage);
 
+        return ResponseEntity.ok(new ResultMap("message", "OK"));
     }
 
     @Transactional(rollbackFor = Exception.class)

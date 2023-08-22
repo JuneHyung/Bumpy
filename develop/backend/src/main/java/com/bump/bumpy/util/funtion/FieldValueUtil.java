@@ -1,5 +1,8 @@
 package com.bump.bumpy.util.funtion;
 
+import com.bump.bumpy.security.principal.PrincipalDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
@@ -213,20 +216,20 @@ public class FieldValueUtil {
 	}
 
 	public static String getUserId() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if(authentication == null) {
-//			return null;
-//		}
-//		else {
-//			Object principal = authentication.getPrincipal();
-//			if(principal instanceof PrincipalDetails) {
-//				return ((PrincipalDetails) principal).getUsername();
-//			}
-//			else {
-//				return principal.toString();
-//			}
-//		}
-		return "test";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null) {
+			return null;
+		}
+		else {
+			Object principal = authentication.getPrincipal();
+			if(principal instanceof PrincipalDetails) {
+				return ((PrincipalDetails) principal).getUsername();
+			}
+			else {
+				return principal.toString();
+			}
+		}
+//		return "test";
 	}
 
 	public static Calendar setZeroTime(Calendar cal) {
