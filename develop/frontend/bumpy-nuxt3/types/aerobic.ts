@@ -28,13 +28,8 @@ export type AerobicFormData = {
 
 export type AerobicRequestBody = Partial<Aerobic>;
 
-export type AerobicReadRequestParam= {
-  stdDate: string,
-}
-export type AerobicDeleteRequestParam={
-  stdDate: string,
-  seq: string
-}
+export type AerobicReadRequestParam=Pick<Aerobic, 'stdDate'>
+export type AerobicDeleteRequestParam=Pick<Aerobic, 'stdDate' | 'seq'>
 
 export type AerobicItemResponseBody = ResponseBody<Aerobic>
 export type AerobicCalendarResponseBody = ResponseBody<CommonCalendarData[]>

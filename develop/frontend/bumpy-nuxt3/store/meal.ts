@@ -5,14 +5,24 @@ import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { getMealInfoForMain } from "~~/api/main";
 import { createMealItem, deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem, updateMealItem } from "~~/api/meal/meal";
 import { CommonCalendarData } from "~~/types/common";
-import { Meal, MealItemRequestParam, MealList } from "~~/types/meal";
+import { Meal, MealItemRequestBody, MealItemRequestParam, MealList } from "~~/types/meal";
 
 export const useMealStore = defineStore("meal-store", () => {
   const focusDate = ref("");
   const isToday = ref(true);
   const activityList: Ref<MealList> = ref([]);
   const calendarList: Ref<CommonCalendarData[]> = ref([]);
-  const selectItem: Ref<Meal> = ref({});
+  const selectItem: Ref<Meal> = ref({
+    seq: '',
+    name: '',
+    time: '',
+    kcal: '',
+    water: '',
+    memo: '',
+    stdDate: '',
+    picture: [],
+    food: [],
+  });
 
   const todayMealList:Ref<MealList> = ref([]);
 
@@ -60,7 +70,7 @@ export const useMealStore = defineStore("meal-store", () => {
     }
   };
 
-  const getSelectItemByStdDateSeq = async (stdDate: string, seq: number) => {
+  const getSelectItemByStdDateSeq = async (stdDate: string, seq: string) => {
     try {
       const params = {
         stdDate,
@@ -72,14 +82,14 @@ export const useMealStore = defineStore("meal-store", () => {
       } else if (data.value?.data !== null && data.value?.data !== undefined) {
         setSelectItem(data.value.data);
       } else {
-        setSelectItem({});
+        resetSelectItem()
       }
     } catch (e) {
       setErrorMessage(e);
     }
   };
 
-  const postMealItem = async (body: Meal) =>{
+  const postMealItem = async (body: MealItemRequestBody) =>{
     try{
       const {data, error} = await createMealItem(body)
       if(error.value!==null){
@@ -92,7 +102,7 @@ export const useMealStore = defineStore("meal-store", () => {
       setErrorMessage(e);
     }
   }
-  const putMealItem = async (body: Meal) =>{
+  const putMealItem = async (body: MealItemRequestBody) =>{
     try{
       const {data, error} = await updateMealItem(body)
       if(error.value!==null){
@@ -146,7 +156,17 @@ export const useMealStore = defineStore("meal-store", () => {
     selectItem.value = _.cloneDeep(item);
   };
   const resetSelectItem = async () => {
-    selectItem.value = {};
+    selectItem.value = {
+      seq: '',
+      name: '',
+      time: '',
+      kcal: '',
+      water: '',
+      memo: '',
+      stdDate: '',
+      picture: [],
+      food: [],
+    };
   };
   const setTodayMealList = async (data: any) => todayMealList.value = data;
 

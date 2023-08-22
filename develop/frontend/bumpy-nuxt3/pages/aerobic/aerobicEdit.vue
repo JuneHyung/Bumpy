@@ -54,7 +54,7 @@ import TimeInput from "~~/components/form/TimeInput.vue";
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
-const editFlag = computed(() => aerobicStore.getSelectItem().seq === undefined);
+const editFlag = computed(() => aerobicStore.getSelectItem().seq === '');
 const loadList: Ref<FavoriteListItem[]> = ref([]);
 const form: Ref<AerobicFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
@@ -81,7 +81,7 @@ const numberList = [
 ];
 
 const makeBody = () => {
-  const result: AerobicRequestBody = {
+  const request: AerobicRequestBody = {
     stdDate: aerobicStore.getFocusDate() === null || aerobicStore.getFocusDate().length === 0 ? commonStore.getToday() : aerobicStore.getFocusDate(),
     name: form.value.name.value,
     kcal: form.value.kcal.value,
@@ -92,7 +92,8 @@ const makeBody = () => {
     speedEnd: form.value.speedEnd.value,
     memo: form.value.memo.value,
   };
-  return result;
+  if (!editFlag.value) request.seq = aerobicStore.getSelectItem().seq;
+  return request;
 };
 // 저장 버튼
 const saveAerobicItem = async () => {
@@ -173,6 +174,7 @@ onMounted(async () => {
   } else {
     await aerobicStore.resetSelectItem();
   }
+  console.log( aerobicStore.getSelectItem())
 });
 definePageMeta({
   layout: "main-layout",

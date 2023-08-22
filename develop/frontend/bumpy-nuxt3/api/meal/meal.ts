@@ -1,3 +1,4 @@
+import { OnlyMessageResponse, customError } from "~~/types/common";
 import { MealCalendarResponseBody, MealItemRequestBody, MealItemRequestParam, MealItemResposneBody, MealListRequestParam, MealListResponseBody } from "~~/types/meal";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
@@ -40,7 +41,7 @@ export function readMealActivityList(params: MealListRequestParam){
  * 식단 추가 - POST
  */
 export function createMealItem(body: MealItemRequestBody) {
-  return useFetch("/insert", {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
     headers,
@@ -52,7 +53,7 @@ export function createMealItem(body: MealItemRequestBody) {
  * 식단 삭제 - GET
  */
 export function deleteMealItem(params: MealItemRequestParam) {
-  return useFetch("/delete", {
+  return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
     headers,
@@ -64,7 +65,7 @@ export function deleteMealItem(params: MealItemRequestParam) {
  * 식단 수정 - POST
  */
 export function updateMealItem(body: MealItemRequestBody) {
-  return useFetch("/update", {
+  return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
     headers,

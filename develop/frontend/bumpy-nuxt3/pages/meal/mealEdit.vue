@@ -57,15 +57,15 @@ definePageMeta({
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
 const router = useRouter();
-const editFlag = computed(()=>mealStore.getSelectItem().seq===undefined);
+const editFlag = computed(()=>mealStore.getSelectItem().seq==='');
 
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
   time: { value:'',  },
-  kcal: {   },
-  water: {   },
-  food: {value: []},
-  memo: {rows: 10},
+  kcal: { value:'', },
+  water: { value:'', },
+  food: { value: []},
+  memo: {value:'', rows: 10},
   picture: {value:[]}
 });
 
@@ -80,7 +80,7 @@ const numberList = [
 
 const makeBody = () =>{
   const foodList = form.value.food?.value.map(item=> item.value);
-  const result: MealItemRequestBody = {
+  const request: MealItemRequestBody = {
     stdDate: mealStore.getFocusDate() === null || mealStore.getFocusDate().length===0 ? commonStore.getToday() : mealStore.getFocusDate(),
     name: form.value.name.value as string,
     time: form.value.time?.value as string,
@@ -90,10 +90,8 @@ const makeBody = () =>{
     memo: form.value.memo?.value,
     picture: form.value.picture?.value,
   }
-  if(mealStore.getSelectItem().seq){
-    result.seq= mealStore.getSelectItem().seq
-  }
-  return result;
+  if (!editFlag.value) request.seq = mealStore.getSelectItem().seq;
+  return request;
 }
 
 const plusItem = () =>{
