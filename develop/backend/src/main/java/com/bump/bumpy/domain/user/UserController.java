@@ -63,4 +63,10 @@ public class UserController {
     public ResponseEntity<ResultMap> info() {
         return userService.info(getUserId());
     }
+
+    @Operation(summary = "로그인 상태 확인", description = "")
+    @GetMapping("/heartbeat")
+    public ResponseEntity<ResultMap> heartbeat() {
+        return ResponseEntity.ok(new ResultMap("message", "OK"));
+    }
 }

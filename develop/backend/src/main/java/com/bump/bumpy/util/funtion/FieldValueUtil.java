@@ -216,20 +216,20 @@ public class FieldValueUtil {
 	}
 
 	public static String getUserId() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication == null) {
-			return null;
-		}
-		else {
-			Object principal = authentication.getPrincipal();
-			if(principal instanceof PrincipalDetails) {
-				return ((PrincipalDetails) principal).getUsername();
-			}
-			else {
-				return principal.toString();
-			}
-		}
-//		return "test";
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		if(authentication == null) {
+//			return null;
+//		}
+//		else {
+//			Object principal = authentication.getPrincipal();
+//			if(principal instanceof PrincipalDetails) {
+//				return ((PrincipalDetails) principal).getUsername();
+//			}
+//			else {
+//				return principal.toString();
+//			}
+//		}
+		return "test";
 	}
 
 	public static Calendar setZeroTime(Calendar cal) {
