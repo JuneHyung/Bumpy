@@ -12,7 +12,9 @@ import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
+import com.bump.bumpy.util.funtion.YoutubeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,7 @@ public class AerobicService {
 
     private final DataHAerobicRepository aerobicRepository;
     private final CommonService commonService;
+    private final YoutubeService youtubeService;
 
     public ResponseEntity<ResultMap> favorite(String userId) {
         List<DataHAerobicInfo> nameList = aerobicRepository.findByUserIdOrderByNameAsc(userId);
@@ -222,5 +225,11 @@ public class AerobicService {
             aerobicRepository.delete(dataHAerobic);
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
         }
+    }
+
+    public ResponseEntity<ResultMap> youtubeSearch() {
+        SearchListKeywordDto result = youtubeService.searchListKeyword("운동");
+
+        return ResponseEntity.ok(new ResultMap(result));
     }
 }

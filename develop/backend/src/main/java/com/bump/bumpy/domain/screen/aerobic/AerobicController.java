@@ -74,4 +74,10 @@ public class AerobicController {
         request.setUserId(getUserId());
         return aerobicService.delete(request);
     }
+
+    @Operation(summary = "유튜브 검색", description = "")
+    @GetMapping("/youtube")
+    public ResponseEntity<ResultMap> youtube() {
+        return aerobicService.youtubeSearch();
+    }
 }
