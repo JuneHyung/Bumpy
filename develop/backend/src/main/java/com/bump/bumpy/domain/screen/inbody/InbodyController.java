@@ -69,4 +69,10 @@ public class InbodyController {
         request.setUserId(getUserId());
         return inbodyService.delete(request);
     }
+
+    @Operation(summary = "유튜브 검색", description = "")
+    @GetMapping("/youtube")
+    public ResponseEntity<ResultMap> youtube() {
+        return inbodyService.youtubeSearch();
+    }
 }

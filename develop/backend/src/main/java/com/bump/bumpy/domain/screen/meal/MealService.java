@@ -10,7 +10,9 @@ import com.bump.bumpy.domain.screen.meal.dto.DataHMealDto;
 import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
+import com.bump.bumpy.util.funtion.YoutubeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getFirstDateOfPrevMonth;
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getLastDateOfNextMonth;
@@ -34,6 +37,7 @@ public class MealService {
 
     private final DataHMealRepository dataHMealRepository;
     private final CommonService commonService;
+    private final YoutubeService youtubeService;
 
     public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
         // prev month first date, next month last date
@@ -196,5 +200,16 @@ public class MealService {
 
             return ResponseEntity.ok(new ResultMap("message", "삭제되었습니다."));
         }
+    }
+
+    public ResponseEntity<ResultMap> youtubeSearch() {
+        List<String> list = List.of("건강하게 먹기", "살고싶으면 챙겨야할 영양소", "식이요법", "다이어트 식단");
+
+        Random random = new Random();
+        int i = random.nextInt(list.size() - 1);
+
+        SearchListKeywordDto result = youtubeService.searchListKeyword(list.get(i));
+
+        return ResponseEntity.ok(new ResultMap(result));
     }
 }

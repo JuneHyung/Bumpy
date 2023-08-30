@@ -4,6 +4,7 @@ import com.bump.bumpy.domain.screen.aerobic.dto.DataHAerobicDto;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchYoutubeDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +78,7 @@ public class AerobicController {
 
     @Operation(summary = "유튜브 검색", description = "")
     @GetMapping("/youtube")
-    public ResponseEntity<ResultMap> youtube() {
-        return aerobicService.youtubeSearch();
+    public ResponseEntity<ResultMap> youtube(@Valid SearchYoutubeDto request) {
+        return aerobicService.youtubeSearch(request);
     }
 }

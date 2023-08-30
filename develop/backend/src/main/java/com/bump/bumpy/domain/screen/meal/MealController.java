@@ -78,4 +78,10 @@ public class MealController {
         request.setUserId(getUserId());
         return mealService.delete(request);
     }
+
+    @Operation(summary = "유튜브 검색", description = "")
+    @GetMapping("/youtube")
+    public ResponseEntity<ResultMap> youtube() {
+        return mealService.youtubeSearch();
+    }
 }

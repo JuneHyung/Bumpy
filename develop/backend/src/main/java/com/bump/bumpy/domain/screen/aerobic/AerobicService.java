@@ -10,7 +10,7 @@ import com.bump.bumpy.domain.screen.aerobic.projection.DataHAerobicInfo;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
-import com.bump.bumpy.util.dto.PictureDto;
+import com.bump.bumpy.domain.screen.dto.SearchYoutubeDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
@@ -227,8 +227,8 @@ public class AerobicService {
         }
     }
 
-    public ResponseEntity<ResultMap> youtubeSearch() {
-        SearchListKeywordDto result = youtubeService.searchListKeyword("운동");
+    public ResponseEntity<ResultMap> youtubeSearch(SearchYoutubeDto request) {
+        SearchListKeywordDto result = youtubeService.searchListKeyword(request.getKeyword());
 
         return ResponseEntity.ok(new ResultMap(result));
     }

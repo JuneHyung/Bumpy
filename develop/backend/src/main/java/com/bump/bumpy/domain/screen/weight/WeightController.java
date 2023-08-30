@@ -3,6 +3,7 @@ package com.bump.bumpy.domain.screen.weight;
 import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchYoutubeDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,5 +85,11 @@ public class WeightController {
     public ResponseEntity<ResultMap> delete(SearchRequestDto request) {
         request.setUserId(getUserId());
         return weightService.delete(request);
+    }
+
+    @Operation(summary = "유튜브 검색", description = "")
+    @GetMapping("/youtube")
+    public ResponseEntity<ResultMap> youtube(@Valid SearchYoutubeDto request) {
+        return weightService.youtubeSearch(request);
     }
 }
