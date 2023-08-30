@@ -1,4 +1,4 @@
-import { MessageResponse, OnlyMessageResponse, customError } from "~~/types/common";
+import { OnlyMessageResponse, customError } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 

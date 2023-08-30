@@ -35,7 +35,7 @@ import { setErrorMessage, setWarnMessage } from "~~/api/alert/message";
 import { fetchLogin } from "~~/api/user/user";
 import { inRange } from "~~/api/util";
 import { useUserStore } from "~~/store/user";
-import { MessageResponse } from "~~/types/common";
+import { OnlyMessageResponse } from "~~/types/common";
 
 definePageMeta({
   layout: 'start-layout',
@@ -61,8 +61,8 @@ const moveMain = async () => {
 
     try {
       const { data } = await fetchLogin(formD);
-      const dataValue = data.value as MessageResponse;
-      if(dataValue.code){
+      const dataValue = data.value as OnlyMessageResponse;
+      if(dataValue.message){
         userStore.setIsPass(true);
         router.push({name: 'main'});
       }else setErrorMessage(`${dataValue.message}`);

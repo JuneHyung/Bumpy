@@ -1,5 +1,5 @@
 import { useUserStore } from "~~/store/user";
-import { MessageResponse, OnlyMessageResponse, ResponseBody, customError } from "~~/types/common";
+import { OnlyMessageResponse, ResponseBody, customError } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 import { UserUpdateRequestBody, passwordChkRequest, UserInfo } from "~~/types/user";
 
@@ -8,7 +8,7 @@ const headers = {
   "Content-Type": "application/json"
 }
 export function fetchLogin(body: FormData){
-  return useFetch<MessageResponse, Error, string, 'post'>('/auth/login', {
+  return useFetch<OnlyMessageResponse, Error, string, 'post'>('/auth/login', {
     baseURL,
     method: POST,
     body,
@@ -16,14 +16,14 @@ export function fetchLogin(body: FormData){
 }
 
 export function fetchLogout(){
-  return useFetch<MessageResponse, Error, string, 'post'>('/auth/logout', {
+  return useFetch<OnlyMessageResponse, Error, string, 'post'>('/auth/logout', {
     baseURL,
     method: POST,
   })
 }
 
 export const fetchUserPasswordVerifyCheck = (body: passwordChkRequest) =>{
-  return useFetch<MessageResponse, customError, string, 'post'>('/user/password/check', {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>('/user/password/check', {
     baseURL,
     method: POST,
     body,
@@ -32,7 +32,7 @@ export const fetchUserPasswordVerifyCheck = (body: passwordChkRequest) =>{
 
 export const fetchUserPasswordCheck = (body: passwordChkRequest) =>{
   const userStore = useUserStore();
-  return useFetch<MessageResponse, customError, string, 'post'>('/user/check', {
+  return useFetch<OnlyMessageResponse, customError, string, 'post'>('/user/check', {
     baseURL,
     method: POST,
     body,

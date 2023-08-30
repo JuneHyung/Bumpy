@@ -18,8 +18,7 @@
             <label class="edit-input-label">
               <span class="edit-label bp-mr-sm">{{ item.label }}</span>
               <div class="edit-input">
-                <TimeInput :data="form[item.key]" v-if="item.key === 'time'" />
-                <TextInput :data="form[item.key]" v-else />
+                <TextInput :data="form[item.key as keyof AerobicFormData]" />
               </div>
             </label>
           </template>
@@ -50,7 +49,7 @@ import { createAerobicItem, updateAerobicItem, readFavoritAerobicList } from "~~
 import { useAerobicStore } from "~~/store/aerobic";
 import { AerobicFormData, AerobicRequestBody } from "~~/types/aerobic";
 import { FavoriteListItem } from "~~/types/common";
-import TimeInput from "~~/components/form/TimeInput.vue";
+
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
 const router = useRouter();
@@ -132,7 +131,7 @@ const modifyAerobicItem = async () => {
 const resetAerobicItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
+    const key = keys[i] as keyof AerobicFormData;
     form.value[key].value = "";
   }
 };
@@ -145,7 +144,7 @@ const cancelAerobicEdit = () => {
 const initSelectedItem = async () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
+    const key = keys[i] as keyof AerobicFormData;
     form.value[key].value = aerobicStore.getSelectItem()[key];
   }
 };

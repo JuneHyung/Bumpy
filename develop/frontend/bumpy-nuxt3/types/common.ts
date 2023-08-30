@@ -7,10 +7,6 @@ export interface ResponseBody<T> {
 export interface OnlyMessageResponse {
   message: string,
 }
-export interface MessageResponse {
-  code: string,
-  message: string
-}
 
 export interface CommonCalendarData {
   title:string,

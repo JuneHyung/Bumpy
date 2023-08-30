@@ -1,5 +1,5 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
-import { InputNumber, InputText, InputTextarea, InputTime } from "./input";
+import { InputText, InputTextarea } from "./input";
 
 export interface Aerobic{
   seq: string,
@@ -18,7 +18,7 @@ export type AerobicList = Aerobic[];
 export type AerobicFormData = {
   name: InputText,
   kcal: InputText,
-  time: InputTime,
+  time: InputText,
   inclineStart: InputText,
   inclineEnd: InputText,
   speedStart: InputText,
