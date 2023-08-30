@@ -1,4 +1,4 @@
-import { OnlyMessageResponse, customError } from "~~/types/common";
+import { OnlyMessageResponse, YoutubeKeywordRequest, YoutubeResponseBody, customError } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
@@ -89,6 +89,15 @@ function readFavoritWeightList(){
   })
 }
 
+function getWeightYoutubeList(params: YoutubeKeywordRequest){
+  return useFetch<YoutubeResponseBody>("/youtube", {
+    baseURL,
+    method:GET,
+    headers,
+    params
+  })
+}
+
 export {
   readWeightItem, 
   readWeightCalendarList, 
@@ -96,5 +105,6 @@ export {
   createWeightItem, 
   deleteWeightItem, 
   updateWeightItem,
-  readFavoritWeightList
+  readFavoritWeightList,
+  getWeightYoutubeList
 };

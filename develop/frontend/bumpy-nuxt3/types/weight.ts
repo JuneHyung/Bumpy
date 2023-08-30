@@ -20,6 +20,7 @@ interface Weight{
   stdDate?: string,
   picture?: ImageData[],
 }
+
 type WeightList = Weight[];
 
 type WeightFormData = {
@@ -37,13 +38,13 @@ type WeightFormData = {
 
 interface WeightRemoveRequestParams {
   stdDate?: string,
-  seq?: number
+  seq?: string
 }
 
 type WeightRequestBody = Weight;
 type WeightItemRequestParam = {
   stdDate?: string,
-  seq?: number,
+  seq?: string,
 }
 type WeightReadRequestParam={
   stdDate: string,

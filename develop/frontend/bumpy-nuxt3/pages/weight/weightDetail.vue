@@ -28,7 +28,7 @@
       <div class="chart-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="chart-wrap">
-          <p>Youtube or chart</p>
+          <YoutubeList :list="weightStore.getSelectYoutubeList()"></YoutubeList>
         </div>
       </div>
       <div class="weightDetail-button-wrap">
@@ -44,6 +44,7 @@
 import { useWeightStore } from "~~/store/weight";
 import ImageList from "~~/components/list/ImageList.vue";
 import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
 
 definePageMeta({
   layout: "main-layout",
@@ -70,5 +71,14 @@ const removeWeightItem = async () => {
   await moveWeightList();
 };
 
-onMounted(()=>console.log(weightStore.getSelectItem()))
+const getVideoList = async () =>{
+  const keyword = weightStore.getSelectItem().name as string
+  await weightStore.getYoutubeList(keyword)
+}
+
+onMounted(async ()=>{
+  if(weightStore.getSelectItem().name!==undefined){
+    await getVideoList();
+  }
+})
 </script>

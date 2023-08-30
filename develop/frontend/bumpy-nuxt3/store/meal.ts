@@ -3,8 +3,8 @@ import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { getMealInfoForMain } from "~~/api/main";
-import { createMealItem, deleteMealItem, readMealActivityList, readMealCalendarList, readMealItem, updateMealItem } from "~~/api/meal/meal";
-import { CommonCalendarData } from "~~/types/common";
+import { createMealItem, deleteMealItem, getMealYoutubeList, readMealActivityList, readMealCalendarList, readMealItem, updateMealItem } from "~~/api/meal/meal";
+import { CommonCalendarData, YoutubeList } from "~~/types/common";
 import { Meal, MealItemRequestBody, MealItemRequestParam, MealList } from "~~/types/meal";
 
 export const useMealStore = defineStore("meal-store", () => {
@@ -25,6 +25,7 @@ export const useMealStore = defineStore("meal-store", () => {
   });
 
   const todayMealList:Ref<MealList> = ref([]);
+  const selectYoutubeList: Ref<YoutubeList> = ref([]);
 
   // dispatch
   const getTodayMealInfo = async () => {
@@ -41,6 +42,20 @@ export const useMealStore = defineStore("meal-store", () => {
         setErrorMessage(e);
       }
     }
+
+  const getYoutubeList = async () => {
+    try{
+      const {data, error} = await getMealYoutubeList();
+      if(error.value!==null) setErrorMessage(error.value);
+      else if(data.value!==null){
+        const result = data.value.data;
+        selectYoutubeList.value = result;
+      }
+    }
+    catch(e){
+      setErrorMessage(e);
+    }
+  }
 
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
@@ -176,6 +191,7 @@ export const useMealStore = defineStore("meal-store", () => {
   const getCalendarList = () => calendarList.value;
   const getSelectItem = () => selectItem.value;
   const getTodayMealList = () => todayMealList.value;
+  const getSelectYoutubeList = () => selectYoutubeList.value;
 
   return {
     getTodayMealInfo,
@@ -200,5 +216,7 @@ export const useMealStore = defineStore("meal-store", () => {
     getCalendarList,
     getSelectItem,
     getTodayMealList,
+    getYoutubeList,
+    getSelectYoutubeList
   };
 });

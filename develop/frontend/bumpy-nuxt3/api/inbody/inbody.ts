@@ -1,4 +1,4 @@
-import { OnlyMessageResponse, customError } from "~~/types/common";
+import { OnlyMessageResponse, YoutubeResponseBody, customError } from "~~/types/common";
 import { InbodyCalendarItemResponseBody, InbodyItemRequestBody, InbodyItemResponseBody, InbodyListResponseBody, InbodyRequestParam, } from "~~/types/inbody";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
@@ -71,4 +71,12 @@ export function updateInbodyItem(body: InbodyItemRequestBody) {
     headers,
     body,
   });
+}
+
+export function getInbodyYoutubeList(){
+  return useFetch<YoutubeResponseBody>("/youtube", {
+    baseURL,
+    method:GET,
+    headers,
+  })
 }

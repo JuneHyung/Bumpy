@@ -28,7 +28,7 @@
       <div class="chart-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="chart-wrap">
-          <p>Youtube or chart</p>
+          <YoutubeList :list="aerobicStore.getSelectYoutubeList()"></YoutubeList>
         </div>
       </div>
       <div class="aerobicDetail-button-wrap">
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import RadialBarChart from "~~/components/charts/RadialBarChart.vue";
 import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
 import { useAerobicStore } from "~~/store/aerobic";
 definePageMeta({
   layout: "main-layout",
@@ -65,4 +66,14 @@ const removeAerobicItem = async () => {
   await aerobicStore.removeAerobicItem();
   await moveAerobicList();
 }
+const getVideoList = async () =>{
+  const keyword = aerobicStore.getSelectItem().name as string
+  await aerobicStore.getYoutubeList(keyword)
+}
+
+onMounted(async ()=>{
+  if(aerobicStore.getSelectItem().name!==undefined){
+    await getVideoList();
+  }
+})
 </script>

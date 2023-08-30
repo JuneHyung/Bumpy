@@ -1,7 +1,7 @@
 // import { CREATE, READ } from "~~/types/method";
 
 import { AerobicCalendarResponseBody, AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicItemResponseBody, AerobicReadRequestParam, AerobicReadResponseBody, AerobicRequestBody } from "~~/types/aerobic";
-import { OnlyMessageResponse, customError } from "~~/types/common";
+import { OnlyMessageResponse, YoutubeKeywordRequest, YoutubeResponseBody, customError } from "~~/types/common";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/aerobic`;
@@ -88,6 +88,15 @@ function readFavoritAerobicList(){
     headers
   })
 }
+
+function getAerobicYoutubeList(params: YoutubeKeywordRequest){
+  return useFetch<YoutubeResponseBody>("/youtube", {
+    baseURL,
+    method:GET,
+    headers,
+    params
+  })
+}
 export {
   readAerobicItem, 
   readAerobicCalendarList, 
@@ -95,5 +104,6 @@ export {
   createAerobicItem, 
   deleteAerobicItem, 
   updateAerobicItem,
-  readFavoritAerobicList
+  readFavoritAerobicList,
+  getAerobicYoutubeList
 };

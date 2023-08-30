@@ -28,3 +28,18 @@ export interface ImageData{
 export interface customError extends Error{
   data: {message: string}
 }
+
+export interface VideoItem {
+  videoId: string,
+  title: string,
+  description: string,
+  thumbnail: string,
+  channelTitle: string,
+}
+export type YoutubeList = VideoItem[];
+export type YoutubeResponseBody = {
+  data: YoutubeList,
+}
+export type YoutubeKeywordRequest = {
+  keyword: string,
+}

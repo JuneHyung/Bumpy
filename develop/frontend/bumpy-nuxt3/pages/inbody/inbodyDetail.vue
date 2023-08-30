@@ -22,7 +22,7 @@
       <div class="chart-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="chart-wrap">
-          <p>Youtube or chart</p>
+          <YoutubeList :list="inbodyStore.getSelectYoutubeList()"/>
         </div>
       </div>
       <div class="inbodyDetail-button-wrap">
@@ -39,6 +39,7 @@ import { useInbodyStore } from "~~/store/inbody";
 import ImageList from "~~/components/list/ImageList.vue";
 import { Inbody } from "~~/types/inbody";
 import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
 
 definePageMeta({
   layout: "main-layout",
@@ -77,4 +78,14 @@ const removeInbodyItem = async () =>{
   await inbodyStore.removeInbodyItem();
   await moveInbodyList();
 }
+
+const getVideoList = async () =>{
+  await inbodyStore.getYoutubeList()
+}
+
+onMounted(async ()=>{
+  if(inbodyStore.getSelectItem().weight.length !==0){
+    await getVideoList();
+  }
+})
 </script>

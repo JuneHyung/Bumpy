@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { createInbodyItem, deleteInbodyItem, readInbodyActivityList, readInbodyCalendarList, readInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
-import { CommonCalendarData } from '~~/types/common';
+import { createInbodyItem, deleteInbodyItem, getInbodyYoutubeList, readInbodyActivityList, readInbodyCalendarList, readInbodyItem, updateInbodyItem } from '~~/api/inbody/inbody';
+import { CommonCalendarData, YoutubeList } from '~~/types/common';
 import { Inbody, InbodyItemRequestBody, InbodyList, InbodyRequestParam } from '~~/types/inbody';
 
 export const useInbodyStore = defineStore('inbody-store',()=>{
@@ -23,8 +23,23 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     stdDate: '',
     picture: [],  
   });
-
+  const selectYoutubeList: Ref<YoutubeList> = ref([]);
   // dispatch
+  const getYoutubeList = async () => {
+    try{
+      const {data, error} = await getInbodyYoutubeList();
+      if(error.value!==null) setErrorMessage(error.value);
+      else if(data.value!==null){
+        const result = data.value.data;
+        selectYoutubeList.value = result;
+      }
+    }
+    catch(e){
+      setErrorMessage(e);
+    }
+  }
+
+
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
       const { data, error } = await readInbodyActivityList({ stdDate: stdDate });
@@ -157,7 +172,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
   const getActivityList = () => activityList.value;
   const getCalendarList = () => calendarList.value;
   const getSelectItem = () => selectItem.value;
-
+  const getSelectYoutubeList = () => selectYoutubeList.value;
   return {
     getActivityListByStdDate,
     getCalendarListByStdDate,
@@ -178,5 +193,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     getActivityList,
     getCalendarList,
     getSelectItem,
+    getYoutubeList,
+    getSelectYoutubeList
   };
 })

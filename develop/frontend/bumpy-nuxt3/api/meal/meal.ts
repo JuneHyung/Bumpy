@@ -1,4 +1,4 @@
-import { OnlyMessageResponse, customError } from "~~/types/common";
+import { OnlyMessageResponse, YoutubeResponseBody, customError } from "~~/types/common";
 import { MealCalendarResponseBody, MealItemRequestBody, MealItemRequestParam, MealItemResposneBody, MealListRequestParam, MealListResponseBody } from "~~/types/meal";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
 
@@ -71,4 +71,12 @@ export function updateMealItem(body: MealItemRequestBody) {
     headers,
     body,
   });
+}
+
+export function getMealYoutubeList(){
+  return useFetch<YoutubeResponseBody>("/youtube", {
+    baseURL,
+    method:GET,
+    headers,
+  })
 }

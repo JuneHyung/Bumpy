@@ -25,7 +25,7 @@
       <div class="chart-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="chart-wrap">
-          <p>Youtube or chart</p>
+          <YoutubeList :list="mealStore.getSelectYoutubeList()"/>
         </div>
       </div>
       <div class="mealDetail-button-wrap">
@@ -39,6 +39,7 @@
 </template>
 <script setup lang="ts">
 import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
 import ImageList from "~~/components/list/ImageList.vue";
 import { useMealStore } from "~~/store/meal";
 import { Meal } from "~~/types/meal";
@@ -76,4 +77,14 @@ const removeMealItem = async () =>{
   await mealStore.removeMealItem();
   await moveMealList();
 }
+
+const getVideoList = async () =>{
+  await mealStore.getYoutubeList()
+}
+
+onMounted(async ()=>{
+  if(mealStore.getSelectItem().name!==undefined){
+    await getVideoList();
+  }
+})
 </script>

@@ -3,8 +3,8 @@ import _ from "lodash";
 import { defineStore } from "pinia";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { getWeightActivityForMain, getWeightChartInfoForMain } from "~~/api/main";
-import { createWeightItem, deleteWeightItem, readWeightCalendarList, readWeightItem, readWeightList, updateWeightItem } from "~~/api/weight/weight";
-import { CommonCalendarData } from "~~/types/common";
+import { createWeightItem, deleteWeightItem, getWeightYoutubeList, readWeightCalendarList, readWeightItem, readWeightList, updateWeightItem } from "~~/api/weight/weight";
+import { CommonCalendarData, YoutubeList } from "~~/types/common";
 import { MainWeightChartData, MainWeightChartInfo } from "~~/types/main";
 import { Weight, WeightList, WeightRemoveRequestParams } from "~~/types/weight";
 
@@ -14,6 +14,7 @@ export const useWeightStore = defineStore("weight-store", () => {
   const activityList: Ref<WeightList> = ref([]);
   const calendarList:Ref<CommonCalendarData[]> = ref([]);
   const selectItem: Ref<Weight> = ref({});
+  const selectYoutubeList: Ref<YoutubeList> = ref([]);
 
   const mainWeightDate: Ref<string> = ref('');
   const lastWeightList: Ref<WeightList> = ref([]);
@@ -54,13 +55,27 @@ const getWeightChartInfo = async (name: string) =>{
       }else if(data.value!==null){
         const result = data.value.data
         const infoKeys = Object.keys(mainWeightInfo.value)
-        const chartKeys = Object.keys(mainWeightChartInfo.value)
+        // const chartKeys = Object.keys(mainWeightChartInfo.value)
         for(const key of infoKeys) mainWeightInfo.value[key] = result[key];
         
         mainWeightChartInfo.value.xAxis = result.xAxis;
         mainWeightChartInfo.value.series = result.series;
       }
     }catch(e){
+      setErrorMessage(e);
+    }
+  }
+
+  const getYoutubeList = async (keyword: string) => {
+    try{
+      const {data, error} = await getWeightYoutubeList({keyword});
+      if(error.value!==null) setErrorMessage(error.value);
+      else if(data.value!==null){
+        const result = data.value.data;
+        selectYoutubeList.value = result;
+      }
+    }
+    catch(e){
       setErrorMessage(e);
     }
   }
@@ -94,7 +109,7 @@ const getWeightChartInfo = async (name: string) =>{
     }
   };
 
-  const getSelectItemByStdDateSeq = async (stdDate: string, seq: number) => {
+  const getSelectItemByStdDateSeq = async (stdDate: string, seq: string) => {
     try{
       const params = {
         stdDate,
@@ -201,6 +216,7 @@ const getWeightChartInfo = async (name: string) =>{
   const getActivityList = () => activityList.value;
   const getCalendarList = () => calendarList.value;
   const getSelectItem = () => selectItem.value;
+  const getSelectYoutubeList = () => selectYoutubeList.value;
 
   return {
     getLastWeightActivityInfo,
@@ -233,6 +249,8 @@ const getWeightChartInfo = async (name: string) =>{
     getMainWeightDate,
   getLastWeightList,
   getMainWeightInfo,
-  getMainWeightChartInfo
+  getMainWeightChartInfo,
+  getYoutubeList,
+  getSelectYoutubeList
   }
 });

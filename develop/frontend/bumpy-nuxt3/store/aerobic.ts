@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import { defineStore } from "pinia";
-import { deleteAerobicItem, readAerobicActivityList, readAerobicCalendarList, readAerobicItem } from "~~/api/aerobic/aerobic";
+import { deleteAerobicItem, getAerobicYoutubeList, readAerobicActivityList, readAerobicCalendarList, readAerobicItem } from "~~/api/aerobic/aerobic";
 import { setErrorMessage, setMessage } from "~~/api/alert/message";
 import { getAerobicActivityForMain, getAerobicChartInfoForMain } from "~~/api/main";
 import { Aerobic, AerobicDeleteRequestParam, AerobicList } from "~~/types/aerobic";
-import { CommonCalendarData } from "~~/types/common";
+import { CommonCalendarData, YoutubeList } from "~~/types/common";
 import { MainAerobicChartData, MainAerobicChartInfo } from "~~/types/main";
 
 export const useAerobicStore = defineStore("aerobic-store", () => {
@@ -25,6 +25,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     memo: "",
     stdDate: "",
   });
+  const selectYoutubeList: Ref<YoutubeList> = ref([]);
 
   const mainAerobicDate: Ref<string> = ref("");
   const lastAerobicList: Ref<AerobicList> = ref([]);
@@ -73,6 +74,20 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       setErrorMessage(e);
     }
   };
+
+  const getYoutubeList = async (keyword: string) => {
+    try{
+      const {data, error} = await getAerobicYoutubeList({keyword});
+      if(error.value!==null) setErrorMessage(error.value);
+      else if(data.value!==null){
+        const result = data.value.data;
+        selectYoutubeList.value = result;
+      }
+    }
+    catch(e){
+      setErrorMessage(e);
+    }
+  }
 
   const getActivityListByStdDate = async (stdDate: string) => {
     try {
@@ -185,6 +200,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
   const getLastAerobicList = () => lastAerobicList.value;
   const getMainAerobicInfo = () => mainAerobicInfo.value;
   const getMainAerobicChartInfo = () => mainAerobicChartInfo.value;
+  const getSelectYoutubeList = () => selectYoutubeList.value;
 
   const setMainAerobicDate = (value: string) => (mainAerobicDate.value = value);
   const setLastAerobicList = (value: AerobicList) => (lastAerobicList.value = value);
@@ -222,5 +238,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     setLastAerobicList,
     setMainAerobicInfo,
     setMainAerobicChartInfo,
+    getYoutubeList,
+    getSelectYoutubeList
   };
 });
