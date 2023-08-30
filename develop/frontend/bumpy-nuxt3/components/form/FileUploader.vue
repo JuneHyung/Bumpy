@@ -36,6 +36,14 @@ function formatFileSize(bytes) {
   else return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
 }
 
+const checkLimitFileSize = (fileList) =>{
+  const sumSize = fileList.map(el=>el.size).reduce((a,c)=>a+c, 0);
+  if(sumSize>1024*1024){ 
+      if((sumSize / (1024 * 1024)).toFixed(2) > 50) setWarnMessage('50MB이하만 등록 가능합니다.');
+      else props.list.value = fileList;
+  }else props.list.value = fileList;
+}
+
 const previewFiles = async (files) =>{
   const readerPromises = [];
   const result = [];
@@ -62,19 +70,8 @@ const previewFiles = async (files) =>{
     });
   }
 
-  if(props.list.value.length!==0){
-    const sumSize = [...props.list.value, ...result].map(el=>el.size).reduce((a,c)=>a+c, 0);
-    if(sumSize>1024*1024){ 
-      if((sumSize / (1024 * 1024)).toFixed(2) > 50) setWarnMessage('50MB이하만 등록 가능합니다.');
-      else props.list.value = [...props.list.value, ...result]
-    }else props.list.value = [...props.list.value, ...result]
-  }else{
-    const sumSize = [...result].map(el=>el.size).reduce((a,c)=>a+c, 0);
-    if(sumSize>1024*1024){ 
-      if((sumSize / (1024 * 1024)).toFixed(2) > 50) setWarnMessage('50MB이하만 등록 가능합니다.');
-      else props.list.value = [...result]
-    }else props.list.value = [...result]
-  }
+  const fileList = props.list.value.length!==0 ? [...props.list.value, ...result] : [...result]
+  checkLimitFileSize(fileList)
 }
 
 const handleFileChange = (event) => {
