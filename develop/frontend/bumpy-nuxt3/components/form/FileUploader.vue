@@ -23,7 +23,7 @@
 
 <script setup>
 import CustomIcon from "~~/components/icon/CustomIcon.vue";
-import { setErrorMessage } from "~~/api/alert/message";
+import { setErrorMessage, setWarnMessage } from "~~/api/alert/message";
 
 const props = defineProps({
   list: Object,
@@ -61,18 +61,32 @@ const previewFiles = async (files) =>{
       }
     });
   }
-  props.list.value = props.list.value.length!==0 ? [...props.list.value, ...result] : [...result]
+
+  if(props.list.value.length!==0){
+    const sumSize = [...props.list.value, ...result].map(el=>el.size).reduce((a,c)=>a+c, 0);
+    if(sumSize>1024*1024){ 
+      if((sumSize / (1024 * 1024)).toFixed(2) > 50) setWarnMessage('50MB이하만 등록 가능합니다.');
+      else props.list.value = [...props.list.value, ...result]
+    }else props.list.value = [...props.list.value, ...result]
+  }else{
+    const sumSize = [...result].map(el=>el.size).reduce((a,c)=>a+c, 0);
+    if(sumSize>1024*1024){ 
+      if((sumSize / (1024 * 1024)).toFixed(2) > 50) setWarnMessage('50MB이하만 등록 가능합니다.');
+      else props.list.value = [...result]
+    }else props.list.value = [...result]
+  }
 }
 
 const handleFileChange = (event) => {
   const files = event.target.files;
   if(files.length>10) setErrorMessage('10개까지 등록할 수 있습니다.');
   if (files.length > 0 && files.length<=10) {
-    if((props.list.value.length + files.length) >=10){ 
+    if((props.list.value.length + files.length) >10){ 
       event.preventDefault();
       setErrorMessage('10개까지 등록할 수 있습니다.');
+    }else{
+      previewFiles([...files])
     }
-    previewFiles([...files])
   }
 };
 
@@ -82,11 +96,12 @@ const handleDrop = (event) => {
   const files = event.dataTransfer.files;
   if(files.length>10) setErrorMessage('10개까지 등록할 수 있습니다.');
   if (files.length > 0 && files.length<=10) {
-    if((props.list.value.length + files.length) >=10){  
+    if((props.list.value.length + files.length) >10){  
       event.preventDefault();
       setErrorMessage('10개까지 등록할 수 있습니다.');
+    }else{
+      previewFiles([...files])
     }
-    previewFiles([...files])
   }
 };
 

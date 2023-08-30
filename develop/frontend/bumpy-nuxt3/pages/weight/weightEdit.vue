@@ -21,7 +21,7 @@
             <label class="edit-input-label">
               <span class="edit-label bp-mr-sm">{{ item.label }}</span>
               <div class="edit-input">
-                <TextInput :data="form[item.key]"></TextInput>
+                <TextInput :data="(form[item.key as keyof WeightFormData] as InputText)"></TextInput>
               </div>
             </label>
           </template>
@@ -63,9 +63,10 @@ import { useCommonStore } from "~/store/common";
 import { setErrorMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { readFavoritWeightList } from "~~/api/weight/weight";
-import { WeightFormData, WeightRequestBody } from "~~/types/weight";
+import { Weight, WeightFormData, WeightRequestBody } from "~~/types/weight";
 import _ from "lodash";
 import { FavoriteListItem } from "~~/types/common";
+import { InputText } from "~~/types/input";
 
 definePageMeta({
   layout: "main-layout",
@@ -147,7 +148,7 @@ const resetWeightItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = "";
+    form.value[key as keyof WeightFormData].value = "";
   }
 };
 
@@ -160,7 +161,7 @@ const initSelectedItem = async () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key].value = weightStore.getSelectItem()[key];
+    form.value[key as keyof WeightFormData].value = weightStore.getSelectItem()[key as keyof WeightFormData];
   }
 };
 
