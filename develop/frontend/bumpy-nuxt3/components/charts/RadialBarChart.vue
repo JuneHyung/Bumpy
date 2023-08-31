@@ -1,9 +1,13 @@
 <template>
-  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="series"></Apexchart>
+  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="[calculated]"></Apexchart>
 </template>
-<script setup>
+<script setup lang="ts">
 import Apexchart from 'vue3-apexcharts';
-const series=[10]
+interface Props {
+  data: String,
+}
+const props = defineProps<Props>()
+const calculated = computed(()=>(Math.floor(Number(props.data) / 10) ))
 const chartOptions =  {
   chart: {
     type: 'radialBar',
@@ -23,7 +27,7 @@ const chartOptions =  {
           offsetY: 76,
           fontSize: '22px',
           color: '#e65100',
-          formatter: function (val) {
+          formatter: function (val: number) {
             return val*10 + "kcal";
           }
         },

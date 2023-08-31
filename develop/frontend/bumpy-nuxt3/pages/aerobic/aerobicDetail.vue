@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
         <div class="kcal-chart-wrap">
-          <RadialBarChart></RadialBarChart>
+          <RadialBarChart :data="aerobicStore.getSelectItem().kcal"></RadialBarChart>
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
