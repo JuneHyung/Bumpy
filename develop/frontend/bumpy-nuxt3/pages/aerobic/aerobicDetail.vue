@@ -4,7 +4,7 @@
     <div class="content-wrap-box" v-if="aerobicStore.getSelectItem().name !=null">
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
-        <div class="aerobic-chart-wrap">
+        <div class="kcal-chart-wrap">
           <RadialBarChart></RadialBarChart>
         </div>
         <div class="info-list-out-wrap">
@@ -25,13 +25,13 @@
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
+        <div class="youtube-wrap">
           <YoutubeList :list="aerobicStore.getSelectYoutubeList()"></YoutubeList>
         </div>
       </div>
-      <div class="aerobicDetail-button-wrap">
+      <div class="detail-button-wrap">
         <button class="short-ghost-button" @click="moveAerobicList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday()" @click="removeAerobicItem">삭제</button>
         <button class="short-filled-button" v-if="aerobicStore.getIsToday()" @click="moveModifyItem">수정</button>

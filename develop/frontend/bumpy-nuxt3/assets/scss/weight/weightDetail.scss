@@ -28,27 +28,3 @@
     }
   }
 }
-
-.chart-wrap-box{
-  display:flex;
-  flex-direction: column;
-  margin-top: 2.5rem;
-  flex:1;
-  .chart-wrap{
-    display:flex;
-    flex:1;
-    border: 1px solid black;
-    margin-top:8px;
-    justify-content:center;
-    align-items: center;
-  }
-}
-
-.weightDetail-button-wrap{
-  display:flex;
-  justify-content: flex-end;
-  margin-top:20px;
-  button{
-    flex:0;
-  }
-}

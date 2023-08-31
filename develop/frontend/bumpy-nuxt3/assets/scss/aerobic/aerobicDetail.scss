@@ -1,9 +1,8 @@
 .aerobic-info-box {
   margin-top: 30px;
   display: flex;
-  justify-content: flex-start;
 
-  .aerobic-chart-wrap{
+  .kcal-chart-wrap{
     display:flex;
     flex:6;
     justify-content:center;
@@ -24,28 +23,6 @@
         }
       }
     }
-  }
-}
-
-.chart-wrap-box {
-  // margin-top: 60px;
-  .chart-wrap {
-    display: flex;
-    flex:1;
-    border: 1px solid black;
-    // max-height: 500px;
-    margin-top: 8px;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.aerobicDetail-button-wrap {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  button {
-    flex: 0;
   }
 }
 

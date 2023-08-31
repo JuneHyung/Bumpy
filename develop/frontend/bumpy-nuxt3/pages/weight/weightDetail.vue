@@ -25,13 +25,13 @@
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
+        <div class="youtube-wrap">
           <YoutubeList :list="weightStore.getSelectYoutubeList()"></YoutubeList>
         </div>
       </div>
-      <div class="weightDetail-button-wrap">
+      <div class="detail-button-wrap">
         <button class="short-ghost-button" @click="moveWeightList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="weightStore.getIsToday()" @click="removeWeightItem">삭제</button>
         <button class="short-filled-button" v-if="weightStore.getIsToday()" @click="moveModifyItem">수정</button>

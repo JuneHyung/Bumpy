@@ -4,7 +4,7 @@
     <div class="content-wrap-box" v-if="inbodyStore.getSelectItem().bmi!=null">
       <h2 class="content-title">{{ inbodyStore.getFocusDate() }} Inbody</h2>
       <div class="inbody-info-box">
-        <div class="chart-wrap">
+        <div class="photo-list-wrap">
           <ImageList :list="imageList()"></ImageList>
         </div>
         <div class="info-list-wrap">
@@ -19,13 +19,13 @@
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
+        <div class="youtube-wrap">
           <YoutubeList :list="inbodyStore.getSelectYoutubeList()"/>
         </div>
       </div>
-      <div class="inbodyDetail-button-wrap">
+      <div class="detail-button-wrap">
         <button class="short-ghost-button" @click="moveInbodyList">취소</button>
         <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday()" @click="removeInbodyItem">삭제</button>
         <button class="short-filled-button" v-if="inbodyStore.getIsToday()" @click="moveModifyItem">수정</button>

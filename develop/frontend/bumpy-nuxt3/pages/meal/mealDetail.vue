@@ -4,7 +4,7 @@
     <div class="content-wrap-box" v-if="mealStore.getSelectItem().name !=null">
       <h2 class="content-title">{{ mealStore.getSelectItem().name }}</h2>
       <div class="meal-info-box">
-        <div class="chart-wrap">
+        <div class="photo-list-wrap">
           <ImageList :list="imageList()"></ImageList>
         </div>
         <div class="info-list-wrap">
@@ -22,13 +22,13 @@
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
+        <div class="youtube-wrap">
           <YoutubeList :list="mealStore.getSelectYoutubeList()"/>
         </div>
       </div>
-      <div class="mealDetail-button-wrap">
+      <div class="detail-button-wrap">
         <button class="short-ghost-button bp-mr-sm" @click="moveMealList">취소</button>
         <button class="short-ghost-button bp-mr-sm" v-if="mealStore.getIsToday()" @click="removeMealItem">삭제</button>
         <button class="short-filled-button" v-if="mealStore.getIsToday()" @click="moveModifyItem">수정</button>

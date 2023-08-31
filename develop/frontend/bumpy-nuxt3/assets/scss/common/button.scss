@@ -65,3 +65,13 @@
     color: $high-point-color;
   } 
 }
+
+
+.detail-button-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  button {
+    flex: 0;
+  }
+}
