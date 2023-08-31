@@ -42,12 +42,12 @@ public class SecurityConfig {
                     .passwordParameter("password")
                     .successHandler((request, response, authentication) -> {
                         response.setContentType("application/json;charset=UTF-8");
-                        response.getWriter().write("{\"message\":\"로그인 성공\", \"code\":true}");
+                        response.getWriter().write("{\"message\":\"로그인 성공\"}");
                         response.setStatus(HttpServletResponse.SC_OK);
                     })
                     .failureHandler((request, response, exception) -> {
                         response.setContentType("application/json;charset=UTF-8");
-                        response.getWriter().write("{\"message\":\"로그인에 실패하였습니다.\", \"code\":false}");
+                        response.getWriter().write("{\"message\":\"로그인에 실패하였습니다.\"}");
                         response.setStatus(HttpServletResponse.SC_OK);
                     })
                     .permitAll()
