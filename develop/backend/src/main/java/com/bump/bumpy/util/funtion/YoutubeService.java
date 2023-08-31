@@ -1,5 +1,6 @@
 package com.bump.bumpy.util.funtion;
 
+import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
 import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class YoutubeService {
     private static final String API_KEY = "AIzaSyDkzCviTKEBN-xue3AUWJBOesyq59UQq3k";
 
-    public SearchListKeywordDto searchListKeyword(String keyword){
+    public ResponseKeywordSearchDto searchListKeyword(String keyword){
         /**
          * GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=surfing&key=[YOUR_API_KEY] HTTP/1.1
          * Accept: application/json
@@ -39,9 +40,13 @@ public class YoutubeService {
                 .bodyToMono(SearchListKeywordDto.class)
                 .block();
 
+        ResponseKeywordSearchDto responseKeywordSearchDto = null;
 
+        if(searchListKeywordDto != null) {
+            responseKeywordSearchDto = new ResponseKeywordSearchDto(searchListKeywordDto);
+        }
 
-        return searchListKeywordDto;
+        return responseKeywordSearchDto;
     }
 
 }

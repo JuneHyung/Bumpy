@@ -13,6 +13,7 @@ import com.bump.bumpy.domain.screen.weight.dto.WeightResponse;
 import com.bump.bumpy.domain.screen.weight.projection.DataHWeightInfo;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
 import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import com.bump.bumpy.util.funtion.YoutubeService;
@@ -230,8 +231,8 @@ public class WeightService {
     }
 
     public ResponseEntity<ResultMap> youtubeSearch(SearchYoutubeDto request) {
-        SearchListKeywordDto result = youtubeService.searchListKeyword(request.getKeyword());
+        ResponseKeywordSearchDto result = youtubeService.searchListKeyword(request.getKeyword());
 
-        return ResponseEntity.ok(new ResultMap(result));
+        return ResponseEntity.ok(new ResultMap(result.getDetailList()));
     }
 }

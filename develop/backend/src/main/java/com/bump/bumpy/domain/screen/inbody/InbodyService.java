@@ -11,6 +11,7 @@ import com.bump.bumpy.domain.screen.inbody.dto.InbodyResponse;
 import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
+import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
 import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.YoutubeService;
 import lombok.RequiredArgsConstructor;
@@ -190,8 +191,8 @@ public class InbodyService {
         Random random = new Random();
         int i = random.nextInt(list.size() - 1);
 
-        SearchListKeywordDto result = youtubeService.searchListKeyword(list.get(i));
+        ResponseKeywordSearchDto result = youtubeService.searchListKeyword(list.get(i));
 
-        return ResponseEntity.ok(new ResultMap(result));
+        return ResponseEntity.ok(new ResultMap(result.getDetailList()));
     }
 }

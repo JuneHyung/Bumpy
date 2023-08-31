@@ -96,10 +96,6 @@ public class SearchListKeywordDto {
             @JsonIgnore
             String kind;
             String videoId;
-
-            public String getVideoId() {
-                return "https://www.youtube.com/watch?v=" + videoId;
-            }
         }
 
         @AllArgsConstructor
