@@ -61,9 +61,9 @@ const editFlag = computed(()=>mealStore.getSelectItem().seq==='');
 
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
-  time: { value:'',  },
-  kcal: { value:'', },
-  water: { value:'', },
+  time: { value:'', isNumber:true, minlength: 0, maxlength: 3  },
+  kcal: { value:'', isNumber:true, minlength: 0, maxlength: 4 },
+  water: { value:'', isNumber:true, minlength: 0, maxlength: 2 },
   food: { value: []},
   memo: {value:'', rows: 10},
   picture: {value:[]}

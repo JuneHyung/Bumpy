@@ -57,12 +57,12 @@ const editFlag = computed(() => aerobicStore.getSelectItem().seq === '');
 const loadList: Ref<FavoriteListItem[]> = ref([]);
 const form: Ref<AerobicFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  kcal: { value: "",},
-  inclineStart: { value: "",},
-  speedStart:  {value: ""},
-  time: { value: "",},
-  inclineEnd: { value: "",},
-  speedEnd: { value: "",},
+  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4},
+  inclineStart: { value: "", isNumber:true, minlength: 0, maxlength: 2},
+  speedStart:  {value: "", isNumber:true, minlength: 0, maxlength: 2},
+  time: { value: "", isNumber:true, minlength: 0, maxlength: 4,},
+  inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
+  speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
   memo: {  value: "",rows: 10 },
 });
 

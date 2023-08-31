@@ -1,11 +1,5 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
-import { InputNumber, InputSelectbox, InputText, InputTextarea } from "./input";
-
-// enum Measure { 
-//   m1= 'kg',
-//   m2= 'pd'
-// }
-
+import { InputSelectbox, InputText, InputTextarea } from "./input";
 interface Weight{
   seq?: string,
   name?: string,

@@ -1,5 +1,5 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
-import { InputNumber, InputText, InputTextarea } from "./input";
+import { InputText, InputTextarea } from "./input";
 
 interface FoodItem {
   value: string

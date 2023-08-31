@@ -1,4 +1,4 @@
-import { InputDate, InputNumber, InputPassword, InputSelectbox, InputText } from "./input";
+import { InputDate, InputPassword, InputSelectbox, InputText } from "./input";
 
 export interface UserFormData {
   userId: InputText;

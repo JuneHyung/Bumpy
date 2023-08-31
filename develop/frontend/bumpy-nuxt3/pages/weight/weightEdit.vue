@@ -81,12 +81,12 @@ const loadList:Ref<FavoriteListItem[]> = ref([]);
 
 const form: Ref<WeightFormData> = ref({
   name: { value: "", placeholder: "잠온다" },
-  weightStart: { value: "" },
-  repsStart: { value: "" },
-  weightEnd: { value: "" },
-  repsEnd: { value: "" },
-  pollWeight: { value: "" },
-  setReps: { value: "" },
+  weightStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
+  repsStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
+  weightEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
+  repsEnd: { value: "", isNumber:true, minlength: 0, maxlength: 3  },
+  pollWeight: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
+  setReps: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
   measure: {
     value: "1",
     list: [

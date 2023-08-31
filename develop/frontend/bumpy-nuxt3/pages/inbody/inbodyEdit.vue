@@ -36,7 +36,7 @@ import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
 import { MealItemRequestBody } from "~~/types/meal";
-import { InbodyItemRequestBody } from "~~/types/inbody";
+import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
 
 definePageMeta({
   layout: "main-layout",
@@ -48,14 +48,14 @@ const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
 const form = ref({
   name: { value: "" },
-  height: { value: "" },
-  weight: { value: "" },
-  kcal: { value: "" },
-  muscle: { value: "" },
-  fat: { value: "" },
-  score: { value: "" },
-  bmi: { value: "" },
-  fatRate: { value: "" },
+  height: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
+  weight: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
+  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  muscle: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  fat: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  score: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  bmi: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  fatRate: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
   picture: { value: [] },
 });
 

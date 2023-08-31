@@ -10,6 +10,7 @@
         :maxlength="data.maxlength"
         :minlength="data.minlength"
         @keyup="handleKeyup"
+        @input="handleInput"
         v-model="data.value"
         class="input-text"
       />
@@ -36,6 +37,13 @@ const handleKeyup = () => {
   const regex = new RegExp(props.data.pattern as string, 'g');
   validateFlag.value = regex.test(props.data.value as string);
 };
+
+const handleInput = () =>{
+  if(props.data.isNumber){
+    const lastValue = props.data.value;
+    props.data.value = props.data.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+  }
+}
 
 onMounted(() => {
   isPattern.value = props.data.pattern ? false : true;

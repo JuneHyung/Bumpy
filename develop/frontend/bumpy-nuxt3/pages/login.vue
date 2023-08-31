@@ -44,7 +44,7 @@ definePageMeta({
 const router = useRouter();
 const userStore = useUserStore();
 const formData: Ref<userLoginFormData> = ref({
-  userId: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20 },
+  userId: { value: "", placeholder: "아이디", minlength: 0, maxlength: 20},
   password: { value: "", placeholder: "비밀번호", minlength: 8, maxlength: 20 },
 });
 

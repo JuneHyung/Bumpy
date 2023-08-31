@@ -11,17 +11,8 @@ interface InputText extends InputCommon{
   minlength?: number,
   suffix?: string,
   pattern?: string,
+  isNumber?: boolean
 }
-interface InputNumber extends InputCommon{
-  value: number,
-  placeholder?: string,
-  max?: number,
-  min?: number,
-  suffix?: string,
-  step?: number,
-  noStep?: boolean
-}
-
 interface InputPassword extends InputCommon{
   value: string;
   placeholder?: string;
@@ -65,7 +56,6 @@ type MatchMessage = 'Not Match' | 'Correct';
 
 export { 
   InputText,
-  InputNumber,
   InputPassword,
   InputSelectbox,
   SelectItem,
