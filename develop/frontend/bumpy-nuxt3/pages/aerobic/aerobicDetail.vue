@@ -47,6 +47,7 @@ import YoutubeList from "~~/components/common/YoutubeList.vue";
 import { useAerobicStore } from "~~/store/aerobic";
 definePageMeta({
   layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
 
 const router = useRouter();

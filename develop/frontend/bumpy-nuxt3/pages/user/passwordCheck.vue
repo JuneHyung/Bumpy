@@ -16,6 +16,7 @@ import CustomIcon from '~~/components/icon/CustomIcon.vue';
 import { useUserStore } from '~~/store/user';
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 const userStore = useUserStore();
 const router = useRouter();

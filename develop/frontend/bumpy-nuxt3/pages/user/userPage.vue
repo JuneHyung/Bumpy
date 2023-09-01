@@ -64,6 +64,7 @@ import { useUserStore } from '~~/store/user';
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const userForm: Ref<UserFormData> = ref({

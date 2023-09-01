@@ -40,6 +40,7 @@ import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
 
 definePageMeta({
   layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
 
 const inbodyStore = useInbodyStore();

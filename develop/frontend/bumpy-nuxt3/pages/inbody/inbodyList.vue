@@ -13,6 +13,7 @@ import { useInbodyStore } from '~~/store/inbody';
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const commonStore = useCommonStore();

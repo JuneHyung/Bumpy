@@ -46,6 +46,7 @@ import { Meal } from "~~/types/meal";
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const router = useRouter();

@@ -48,6 +48,7 @@ import YoutubeList from "~~/components/common/YoutubeList.vue";
 
 definePageMeta({
   layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
 
 const router = useRouter();

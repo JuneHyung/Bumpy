@@ -13,6 +13,7 @@ import { useWeightStore } from '~~/store/weight';
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const commonStore = useCommonStore();

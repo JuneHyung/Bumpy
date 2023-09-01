@@ -52,6 +52,7 @@ import TimeInput from '~~/components/form/TimeInput.vue';
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const commonStore = useCommonStore();

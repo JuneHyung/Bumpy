@@ -177,6 +177,7 @@ onMounted(async () => {
 });
 definePageMeta({
   layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
 </script>
 <style scoped lang="scss"></style>

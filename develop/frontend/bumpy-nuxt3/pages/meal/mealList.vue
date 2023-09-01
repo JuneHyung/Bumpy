@@ -13,6 +13,7 @@ import { useMealStore } from '~~/store/meal';
 
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
 
 const commonStore = useCommonStore();
