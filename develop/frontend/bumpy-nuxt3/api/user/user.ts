@@ -66,3 +66,11 @@ export const getUserPageInfo = async () =>{
     headers,
   })
 }
+
+export const getUserHeartBeat = async () => {
+  return useFetch<OnlyMessageResponse>('/user/heartbeat',{
+    baseURL,
+    method: GET,
+    headers,
+  })
+}
