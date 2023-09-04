@@ -23,6 +23,9 @@ spring:
       hibernate:
         format_sql: true
 
+caching:
+  evictTTL: 43200000
+
 server:
   servlet:
     context-path: /api
