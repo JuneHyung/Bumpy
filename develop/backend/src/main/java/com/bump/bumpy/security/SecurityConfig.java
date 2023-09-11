@@ -48,7 +48,7 @@ public class SecurityConfig {
                     .failureHandler((request, response, exception) -> {
                         response.setContentType("application/json;charset=UTF-8");
                         response.getWriter().write("{\"message\":\"로그인에 실패하였습니다.\"}");
-                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     })
                     .permitAll()
                 .and()
@@ -66,8 +66,9 @@ public class SecurityConfig {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/signup/**").permitAll()
                         .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
-                        .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
+                        .antMatchers("/auth/login").permitAll()
+//                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .build();
     }
