@@ -224,7 +224,7 @@ const Logout = async () =>{
 }
 
 onMounted(async ()=>{
-  // await getUserInfo()
+  await getUserInfo()
 })
 </script>
 <style scoped lang="scss"></style>
