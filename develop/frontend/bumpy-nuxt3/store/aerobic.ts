@@ -47,7 +47,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       const { data, error } = await getAerobicActivityForMain();
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value.data;
         lastAerobicList.value = list as AerobicList;
         setMainAerobicDate(list[0].stdDate as string);
@@ -63,7 +63,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       // const {data, error} = await getAerobicChartInfoForMain({name:'TEST-2'});
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null) {
         const result = data.value.data;
         const infoKeys = Object.keys(mainAerobicInfo.value);
         for (const key of infoKeys) mainAerobicInfo.value[key] = result[key];
@@ -79,7 +79,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     try{
       const {data, error} = await getAerobicYoutubeList({keyword});
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null && data.value!==undefined){
+      else if(data.value!==null&& Array.isArray(data.value.data)){
         const result = data.value.data;
         selectYoutubeList.value = result;
       }
@@ -94,7 +94,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       const { data, error } = await readAerobicActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -108,7 +108,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       const { data, error } = await readAerobicCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null&& Array.isArray(data.value.data)) {
         const list = data.value.data;
         setCalendarlist(list);
       }
@@ -126,7 +126,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       const { data, error } = await readAerobicItem(params);
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null) {
         setSelectItem(data.value.data);
       } else {
         resetSelectItem();
@@ -145,7 +145,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       const { data, error } = await deleteAerobicItem(params);
       if (error.value !== null) {
         await setErrorMessage(error.value?.message);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null) {
         const message = data.value?.message;
         await setMessage(message);
       }

@@ -72,19 +72,19 @@ const userBodyInfo: Ref<UserInfoList>=ref([
   {
     key: 'height',
     category: 'Height',
-    value: 170,
+    value: '',
     unit: 'cm',
   },
   {
     key: 'weight',
     category: 'Weight',
-    value: 68,
+    value: '',
     unit: 'kg',
   },
   {
     key: 'age',
     category: 'Age',
-    value: 27,
+    value: '',
     unit: '',
   },
 ]);
@@ -92,19 +92,19 @@ const userActivityInfo: Ref<UserInfoList>=ref([
   {
     key: 'continuity',
     category: 'Continuity',
-    value: 180,
+    value: '0',
     unit: 'days',
   },
   {
     key: 'lastActive',
     category: 'Last Active',
-    value: '2023-04-05',
+    value: '',
     unit: '',
   },
   {
     key: 'averageWater',
     category: 'Average Water',
-    value: 3.2,
+    value: '',
     unit: 'L',
   },
 ]);
@@ -124,7 +124,7 @@ const degreeList:Ref<DegreeList> = ref([
 ])
 const userInbodyInfo:Ref<MeterList> = ref([
   {
-    value: 68.7,
+    value: 0,
     max: 100,
     min: 0,
     low: 50,
@@ -135,7 +135,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: 'kg',
   },
   {
-    value: 31.5,
+    value: 0,
     max: 70,
     min: 0,
     low: 20,
@@ -146,7 +146,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: 'kg',
   },
   {
-    value: 17,
+    value: 0,
     max: 100,
     min: 0,
     low: 10,
@@ -157,7 +157,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: 'kg',
   },
   {
-    value: 26.8,
+    value: 0,
     max: 100,
     min: 0,
     low: 10,
@@ -168,7 +168,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
     unit: 'kg/m2',
   },
   {
-    value: 26.5,
+    value: 0,
     max: 70,
     min: 0,
     low: 10,
@@ -224,7 +224,7 @@ const Logout = async () =>{
 }
 
 onMounted(async ()=>{
-  await getUserInfo()
+  // await getUserInfo()
 })
 </script>
 <style scoped lang="scss"></style>

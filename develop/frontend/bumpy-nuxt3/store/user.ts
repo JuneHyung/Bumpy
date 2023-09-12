@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user-store',()=>{
     try{
       const {data, error} = await getUserPageInfo();
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null && data.value!==undefined){
+      else if(data.value!==null){
         const result: UserPageInfo = _.cloneDeep(data.value.data);
         if(result.phoneNumber !==undefined){
           const phoneNumber= result.phoneNumber.split('-')
@@ -49,7 +49,7 @@ export const useUserStore = defineStore('user-store',()=>{
       const {data, error} = await putUserInfo(body)
   
       if(error.value!==null) setErrorMessage(error.value);
-      if(data.value!==null && data.value!==undefined){ 
+      if(data.value!==null){ 
         setMessage(data.value.message);
       }
     }catch(e){ setErrorMessage(e)}
@@ -60,7 +60,7 @@ export const useUserStore = defineStore('user-store',()=>{
     try{
       const {data, error} = await fetchUserPasswordVerifyCheck(body)
       if(error.value!==null) setErrorMessage(error.value.data.message);
-      else if(data.value!==null && data.value!==undefined) {
+      else if(data.value!==null) {
         if(data.value.message==="OK"){
         setMessage('사용 가능한 비밀번호 입니다.'); 
         return true;
@@ -106,7 +106,7 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
     const {data, error} = await getGrassInfo({stdDate: thisDate})
     if(error.value!==null){
       setErrorMessage(error.value);
-    }else if(data.value!==null && data.value!==undefined){
+    }else if(data.value!==null){
       const list = data.value as GrassInfoResponseBody;
       setDateList(list.data)
     }

@@ -29,7 +29,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     try{
       const {data, error} = await getInbodyYoutubeList();
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null && data.value!==undefined){
+      else if(data.value!==null && Array.isArray(data.value.data)){
         const result = data.value.data;
         selectYoutubeList.value = result;
       }
@@ -45,7 +45,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await readInbodyActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && data.value!==undefined) {
+      } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -59,7 +59,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await readInbodyCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+      } else if (data.value?.data !== null && Array.isArray(data.value.data)) {
         const list = data.value?.data;
         setCalendarlist(list);
       }
@@ -92,7 +92,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null && data.value!==undefined){
+      }else if(data.value !== null){
         setMessage(data.value.message);
       }
     }catch (e){
@@ -106,7 +106,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null && data.value!==undefined){
+      }else if(data.value !== null){
         setMessage(data.value.message);
       }
     }catch (e){
@@ -122,7 +122,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await deleteInbodyItem(params);
       if (error.value !== null) {
         await setErrorMessage(error.value?.message);
-      } else if (data.value !== null && data.value !==undefined) {
+      } else if (data.value !== null) {
         const message = data.value?.message;
         await setMessage(message);
       }

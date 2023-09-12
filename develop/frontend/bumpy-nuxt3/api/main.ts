@@ -39,6 +39,10 @@ function getWeightActivityForMain(){
     baseURL,
     method: GET,
     headers,
+    // onResponse({request, response, options}){
+    //   console.log(response)
+    //   if(response.status===204) response._data = [];
+    // }
   })
 }
 // 유산소액티비티정보(메인페이지용)

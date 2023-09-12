@@ -108,8 +108,8 @@ onMounted(async ()=>{
   await mealStore.getTodayMealInfo();
   await weightStore.getLastWeightActivityInfo();
   await aerobicStore.getLastAerobicActivityInfo();
-  if(weightStore.getLastWeightList().length!==0) await weightStore.getWeightChartInfo(weightStore.getLastWeightList()[0].name as string);
-  if(aerobicStore.getLastAerobicList().length!==0) await aerobicStore.getAerobicChartInfo(aerobicStore.getLastAerobicList()[0].name as string);
+  // if(weightStore.getLastWeightList().length!==0) await weightStore.getWeightChartInfo(weightStore.getLastWeightList()[0].name as string);
+  // if(aerobicStore.getLastAerobicList().length!==0) await aerobicStore.getAerobicChartInfo(aerobicStore.getLastAerobicList()[0].name as string);
 })
 </script>
 <style lang="scss"></style>
