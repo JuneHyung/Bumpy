@@ -9,8 +9,10 @@
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>비밀번호</span>
-        <PasswordInput :data="userForm.password" class="userpage-input" />
-        <button @click="togglePasswordChange" type="button">변경할꺼야</button>
+        <div class="userpage-input">
+          <PasswordInput :data="userForm.password" class="bp-mr-sm"/>
+          <button @click="togglePasswordChange" type="button" class="short-filled-button" style="max-width:120px"> 변경 </button>
+        </div>
       </label>
       <label class="userpage-input-wrap bp-my-sm" v-if="!userForm.password.disabled">
         <span>비밀번호 확인</span>
@@ -19,6 +21,10 @@
       <label class="userpage-input-wrap bp-my-sm">
         <span>이름</span>
         <TextInput :data="userForm.username" class="userpage-input" />
+      </label>
+      <label class="userpage-input-wrap bp-my-sm">
+        <span>Email</span>
+        <TextInput :data="userForm.email" class="userpage-input" />
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>성별</span>
@@ -30,14 +36,14 @@
       </label>
       <label class="userpage-input-wrap bp-my-sm">
         <span>전화번호</span>
-        <div class="userpage-input phone-input-wrap bp-my-sm">
-          <TextInput :data="userForm.phoneFirst" class="userpage-phone-input bp-ml-sm" />
-          <TextInput :data="userForm.phoneSecond" class="userpage-phone-input bp-mx-sm" />
-          <TextInput :data="userForm.phoneThird" class="userpage-phone-input" />
+        <div class="userpage-input bp-my-sm">
+          <TextInput :data="userForm.phoneFirst"/>
+          <TextInput :data="userForm.phoneSecond" class="bp-mx-xs" />
+          <TextInput :data="userForm.phoneThird"/>
         </div>
       </label>
       <div class="userpage-address-wrap">
-          <label class="userpage-zipcode-wrap bp-mb-sm">
+          <label class="userpage-input-wrap bp-mb-sm">
             <TextInput :data="userForm.zipCode" class="userpage-zipcode-input bp-mr-sm"></TextInput>
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
@@ -71,7 +77,7 @@ const userForm: Ref<UserFormData> = ref({
   userId: { value: '', disabled: true, placeholder: '아이디를 입력해주세요.' },
   password: { value:'', placeholder: '변경할 비밀번호를 영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.', disabled: true },
   passwordChk: { value: '', placeholder: '영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.' },
-  email: { value: '', placeholder: 'email형식을 지켜 작성해주세요.' },
+  email: { value: '', placeholder: 'email형식을 지켜 작성해주세요.', disabled: true },
   username: { value: '', placeholder: '이름을 입력해주세요.' },
   gender: {value:'0', list:[{dtlCd: '0', dtlNm: '남'},{dtlCd: '1', dtlNm: '여'}], disabled: true},
   birth: { value: '', placeholder: '생일을 입력해주세요' },
@@ -200,6 +206,5 @@ onMounted(async () => {
   addScript();
   await userStore.fetchUserPageInfo();
   await initUserForm();
-  console.log(userStore.getUserPageData())
 });
 </script>
