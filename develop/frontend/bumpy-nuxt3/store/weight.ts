@@ -36,7 +36,7 @@ export const useWeightStore = defineStore("weight-store", () => {
         const {data, error} = await getWeightActivityForMain();
         if(error.value!==null){
           setErrorMessage(error.value);
-        }else if(data.value!==null){
+        }else if(data.value!==null && data.value!==undefined){
           const list = data.value.data
           setLastWeightList(list);
           setMainWeightDate(list[0].stdDate as string);
@@ -52,7 +52,7 @@ const getWeightChartInfo = async (name: string) =>{
       const {data, error} = await getWeightChartInfoForMain({name: name});
       if(error.value!==null){
         setErrorMessage(error.value);
-      }else if(data.value!==null){
+      }else if(data.value!==null && data.value!==undefined){
         const result = data.value.data
         const infoKeys = Object.keys(mainWeightInfo.value)
         // const chartKeys = Object.keys(mainWeightChartInfo.value)
@@ -70,7 +70,7 @@ const getWeightChartInfo = async (name: string) =>{
     try{
       const {data, error} = await getWeightYoutubeList({keyword});
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null){
+      else if(data.value!==null && data.value!==undefined){
         const result = data.value.data;
         selectYoutubeList.value = result;
       }
@@ -86,7 +86,7 @@ const getWeightChartInfo = async (name: string) =>{
       const { data, error } = await readWeightList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null) {
+      } else if (data.value !== null && data.value!==undefined) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -135,7 +135,7 @@ const getWeightChartInfo = async (name: string) =>{
       if (error.value !== null) {
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      } else if (data.value !== null) {
+      } else if (data.value !== null && data.value!==undefined) {
         setMessage(data.value?.message);
       }
     } catch (e) {
@@ -149,7 +149,7 @@ const getWeightChartInfo = async (name: string) =>{
     if (error.value !== null) {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
-    } else if (data.value !== null) {
+    } else if (data.value !== null && data.value!==undefined) {
       setMessage(data.value?.message);
     }
   } catch (e) {
@@ -166,7 +166,7 @@ const getWeightChartInfo = async (name: string) =>{
       const { data, error } = await deleteWeightItem(params);
       if (error.value !== null) {
         await setErrorMessage(error.value?.message);
-      } else if (data.value !== null) {
+      } else if (data.value !== null && data.value!==undefined) {
         const message = data.value.message;
         await setMessage(message);
       }

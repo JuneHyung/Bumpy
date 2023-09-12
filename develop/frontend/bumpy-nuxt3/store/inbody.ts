@@ -29,7 +29,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     try{
       const {data, error} = await getInbodyYoutubeList();
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null){
+      else if(data.value!==null && data.value!==undefined){
         const result = data.value.data;
         selectYoutubeList.value = result;
       }
@@ -45,7 +45,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await readInbodyActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null) {
+      } else if (data.value !== null && data.value!==undefined) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -92,7 +92,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null){
+      }else if(data.value !== null && data.value!==undefined){
         setMessage(data.value.message);
       }
     }catch (e){
@@ -106,7 +106,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null){
+      }else if(data.value !== null && data.value!==undefined){
         setMessage(data.value.message);
       }
     }catch (e){

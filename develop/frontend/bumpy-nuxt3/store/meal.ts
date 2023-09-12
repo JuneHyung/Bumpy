@@ -33,7 +33,7 @@ export const useMealStore = defineStore("meal-store", () => {
         const {data, error} = await getMealInfoForMain();
         if(error.value!==null){
           setErrorMessage(error.value);
-        }else if(data.value!==null){
+        }else if(data.value!==null && data.value!==undefined){
           
           const list = data.value.data;
           setTodayMealList(list);
@@ -47,7 +47,7 @@ export const useMealStore = defineStore("meal-store", () => {
     try{
       const {data, error} = await getMealYoutubeList();
       if(error.value!==null) setErrorMessage(error.value);
-      else if(data.value!==null){
+      else if(data.value!==null && data.value!==undefined){
         const result = data.value.data;
         selectYoutubeList.value = result;
       }
@@ -62,7 +62,7 @@ export const useMealStore = defineStore("meal-store", () => {
       const { data, error } = await readMealActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null) {
+      } else if (data.value !== null && data.value!==undefined) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -110,7 +110,7 @@ export const useMealStore = defineStore("meal-store", () => {
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null){
+      }else if(data.value !== null && data.value!==undefined){
         setMessage(data.value.message);
       }
     }catch (e){
@@ -123,7 +123,7 @@ export const useMealStore = defineStore("meal-store", () => {
       if(error.value!==null){
         const errorMessage = error.value?.data.message;
         setErrorMessage(errorMessage);
-      }else if(data.value !== null){
+      }else if(data.value !== null && data.value!==undefined){
         setMessage(data.value.message);
       }
     }catch (e){
