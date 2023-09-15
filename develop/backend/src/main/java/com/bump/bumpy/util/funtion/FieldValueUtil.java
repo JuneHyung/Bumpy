@@ -229,7 +229,7 @@ public class FieldValueUtil {
 				return principal.toString();
 			}
 		}
-//		return "test";
+//		return "test2614";
 	}
 
 	public static Calendar setZeroTime(Calendar cal) {
