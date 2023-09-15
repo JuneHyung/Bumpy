@@ -41,6 +41,8 @@ pipeline {
                 }
             }
         }
+
+        // 트리거
         triggers {
             githubPush(branchFilter: 'backend')
         }
