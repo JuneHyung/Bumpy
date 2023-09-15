@@ -41,10 +41,5 @@ pipeline {
                 }
             }
         }
-
-        // 트리거 테스트
-        triggers {
-            githubPush(branchFilter: 'backend')
-        }
     }
 }
