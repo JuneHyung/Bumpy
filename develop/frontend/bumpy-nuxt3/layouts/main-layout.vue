@@ -22,6 +22,3 @@ onBeforeMount(()=>{
   if(commonStore.getToday() !== dayjs().format('YYYY-MM-DD')) commonStore.setToday();
 })
 </script>
-<style lang="scss" scoped>
-
-</style>

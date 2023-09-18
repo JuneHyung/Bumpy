@@ -17,7 +17,9 @@ export const useUserStore = defineStore('user-store',()=>{
   const displayDate = ref('');
   const dateList = ref(Array.from({length: 6}, ()=>Array.from({length:7},()=>{return {date: '', active: false, visible: false}})));
 
-  const userPageData = ref({})
+  const userPageData = ref({
+    weight: '',
+  })
 
   const fetchUserPageInfo = async () => {
     try{
