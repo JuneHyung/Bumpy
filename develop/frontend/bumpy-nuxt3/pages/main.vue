@@ -112,4 +112,3 @@ onMounted(async ()=>{
   if(aerobicStore.getLastAerobicList().length!==0) await aerobicStore.getAerobicChartInfo(aerobicStore.getLastAerobicList()[0].name as string);
 })
 </script>
-<style lang="scss"></style>

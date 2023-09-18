@@ -5,7 +5,7 @@
       <p v-else>No Image</p>
     </div>
     <ul class="image-list-box" ref="imageList">
-      <template v-for="(url, idx) in list">
+      <template v-for="(url, idx) in props.list">
         <li class="image-item" @click="changeCurIdx(idx)" :class="{'active-item': curIdx===idx}" ref="imageItem">
           <img :src="`data:image/jpg;base64, ${url}`" alt="test 사진" />
         </li>

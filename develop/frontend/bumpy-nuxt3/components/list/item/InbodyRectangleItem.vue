@@ -1,14 +1,14 @@
 <template>
   <li class="rectangle-item bp-pa-sm bp-ma-sm">
-    <p>{{ info.stdDate }} Inbody</p>
+    <p>{{ props.info.stdDate }} Inbody</p>
     <div class="bp-mt-md">
       <p>
-        <span>{{ info.height }} cm</span> / <span>{{ info.weight }} kg</span> 
+        <span>{{ props.info.height }} cm</span> / <span>{{ props.info.weight }} kg</span> 
       </p>
       <p>
-        <span> 근육량 : {{ info.muscle }}</span>
-        <span> bmi : {{ info.bmi }}</span>
-        <span> fatPercent : {{ info.fatRate }}</span>
+        <span> 근육량 : {{ props.info.muscle }}</span>
+        <span> bmi : {{ props.info.bmi }}</span>
+        <span> fatPercent : {{ props.info.fatRate }}</span>
       </p>
     </div>
   </li>
@@ -21,4 +21,3 @@ interface Props {
 }
 const props = defineProps<Props>();
 </script>
-<style lang="scss" scoped></style>

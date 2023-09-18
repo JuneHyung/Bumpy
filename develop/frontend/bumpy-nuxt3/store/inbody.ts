@@ -68,11 +68,10 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     }
   };
 
-  const getSelectItemByStdDateSeq = async (stdDate: string, seq: number) => {
+  const getSelectItemByStdDate = async (stdDate: string) => {
     try {
       const params = {
         stdDate,
-        seq,
       };
       const { data, error } = await readInbodyItem(params);
       if (error.value !== null) {

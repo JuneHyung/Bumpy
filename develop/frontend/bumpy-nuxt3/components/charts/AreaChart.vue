@@ -3,7 +3,6 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-
 import Apexchart from 'vue3-apexcharts';
 
 const props = defineProps({

@@ -1,22 +1,22 @@
 <template>
   <li class="square-item bp-pa-sm bp-ma-sm" @click="moveDetail">
-    <p>{{ info.stdDate }} Inbody</p>
+    <p>{{ props.info.stdDate }} Inbody</p>
     <div class="bp-mt-md bp-mb-lg">
       <p class="bp-my-md">
-        <span>{{ info.score }} 점</span>
+        <span>{{ props.info.score }} 점</span>
       </p>
       <p class="bp-my-md">
-        <span>{{ info.height }} cm</span> / <span>{{ info.weight }} kg</span>
+        <span>{{ props.info.height }} cm</span> / <span>{{ props.info.weight }} kg</span>
       </p>
       
       <p class="bp-my-md">
-        <span> 근육량 : {{ info.muscle }}</span>
+        <span> 근육량 : {{ props.info.muscle }}</span>
       </p>
       <p class="bp-my-md">
-        <span> bmi : {{ info.bmi }}</span>
+        <span> bmi : {{ props.info.bmi }}</span>
       </p>
       <p class="bp-my-md">
-        <span> fatPercent : {{ info.fatRate }}</span>
+        <span> fatPercent : {{ props.info.fatRate }}</span>
       </p>
     </div>
   </li>
@@ -33,9 +33,8 @@ const router=  useRouter();
 const inbodyStore = useInbodyStore();
 
 const moveDetail = async () => {
-  await inbodyStore.getSelectItemByStdDateSeq(inbodyStore.getFocusDate(), props.info.seq as number)
+  await inbodyStore.getSelectItemByStdDate(inbodyStore.getFocusDate())
   await router.push({ name: 'inbody-inbodyDetail' });
 };
 
 </script>
-<style lang="scss" scoped></style>

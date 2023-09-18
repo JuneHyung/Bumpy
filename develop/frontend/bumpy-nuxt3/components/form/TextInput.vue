@@ -4,17 +4,17 @@
       <input
         type="text"
         :autofocus="false"
-        :placeholder="data.placeholder"
-        :disabled="data.disabled"
-        :readonly="data.readonly"
-        :maxlength="data.maxlength"
-        :minlength="data.minlength"
+        :placeholder="props.data.placeholder"
+        :disabled="props.data.disabled"
+        :readonly="props.data.readonly"
+        :maxlength="props.data.maxlength"
+        :minlength="props.data.minlength"
         @keyup="handleKeyup"
         @input="handleInput"
-        v-model="data.value"
+        v-model="props.data.value"
         class="input-text"
       />
-      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ data.suffix }}</span>
+      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ props.data.suffix }}</span>
     </label>
     <p class="validate-message bp-mt-xs ellipsis" :class="{ 'correct-message': validateFlag, 'hidden-box': isPattern }">{{ validateMessage }}</p>
   </div>
@@ -50,4 +50,3 @@ onMounted(() => {
   isSuffix.value = props.data.suffix ? false : true;
 });
 </script>
-<style scoped lang="scss"></style>

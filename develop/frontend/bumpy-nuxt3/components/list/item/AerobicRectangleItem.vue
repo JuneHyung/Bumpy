@@ -26,4 +26,3 @@ const getSelectAerobicChartInfo = async (name: string) =>{
   await aerobicStore.getAerobicChartInfo(name)
 } 
 </script>
-<style lang="scss" scoped></style>

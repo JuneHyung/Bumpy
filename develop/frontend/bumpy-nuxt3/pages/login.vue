@@ -81,4 +81,3 @@ const introduceMessageList: string[] = [
   "If you have any questions, please call or email us",
 ];
 </script>
-<style lang="scss" scoped></style>

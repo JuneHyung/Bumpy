@@ -1,12 +1,12 @@
 <template>
   <li class="rectangle-item bp-pa-sm bp-ma-sm">
-    <p>{{ info.name }}</p>
+    <p>{{ props.info.name }}</p>
     <div class="bp-mt-md">
       <p>
-        <span>{{ info.seq }}번째 식사</span> - <span>{{ info.time }}</span> / <span>{{ info.kcal }}kcal</span>
+        <span>{{ props.info.seq }}번째 식사</span> - <span>{{ props.info.time }}</span> / <span>{{ props.info.kcal }}kcal</span>
       </p>
       <p>
-        <span>{{ info.water }} L </span>섭취
+        <span>{{ props.info.water }} L </span>섭취
       </p>
     </div>
   </li>
@@ -19,4 +19,4 @@ interface Props {
 }
 const props = defineProps<Props>();
 </script>
-<style lang="scss" scoped></style>
+

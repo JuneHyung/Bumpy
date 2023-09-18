@@ -1,6 +1,6 @@
 <template>
   <div class="meter-bar">
-    <meter :value="info.value" :max="info.max" :min="info.min" :low="info.low" :high="info.high" :optimum="info.optimum"></meter>
+    <meter :value="props.info.value" :max="props.info.max" :min="props.info.min" :low="props.info.low" :high="props.info.high" :optimum="props.info.optimum"></meter>
   </div>
 </template>
 <script setup lang="ts">
@@ -10,4 +10,3 @@ interface Props {
 }
 const props = defineProps<Props>();
 </script>
-<style lang="scss"></style>

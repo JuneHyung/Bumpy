@@ -1,6 +1,6 @@
 <template>
   <ul class="food-item-list">
-    <template v-for="(item, idx) in list" :key="idx">
+    <template v-for="(item, idx) in props.list" :key="idx">
       <li class="food-item">
         <input v-model="item.value" class="food-item-input"/>
         <CustomIcon iconName="mdiClose" @click="removeItem(idx)"></CustomIcon>
@@ -13,8 +13,6 @@
 </template>
 <script setup>
 import CustomIcon from '../icon/CustomIcon.vue';
-
-
 const props = defineProps({
   list: Array,
 });

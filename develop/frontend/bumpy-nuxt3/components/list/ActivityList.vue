@@ -1,6 +1,6 @@
 <template>
-  <ul :class="{ 'square-list-wrap-box': type === 'square', 'rectangle-list-wrap-box': type === 'rectangle' }">
-    <template v-for="(item, idx) in list" :key="item.seq" v-if="list!==undefined && list.length>0">
+  <ul :class="{ 'square-list-wrap-box': props.type === 'square', 'rectangle-list-wrap-box': props.type === 'rectangle' }">
+    <template v-for="(item, idx) in props.list" :key="item.seq" v-if="list!==undefined && list.length>0">
       <ListItem :info="item"></ListItem>
     </template>
     <template v-else>

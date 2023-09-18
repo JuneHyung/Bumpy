@@ -117,7 +117,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     }
   };
 
-  const getSelectItemByStdDateSeq = async (stdDate: string, seq: number) => {
+  const getSelectItemByStdDateSeq = async (stdDate: string, seq: string) => {
     try {
       const params = {
         stdDate,

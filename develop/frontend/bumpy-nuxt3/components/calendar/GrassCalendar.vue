@@ -39,6 +39,3 @@ onMounted(async ()=>{
   await userStore.getGrassCalendarInfo('default')
 })
 </script>
-<style scoped lang="scss">
-
-</style>

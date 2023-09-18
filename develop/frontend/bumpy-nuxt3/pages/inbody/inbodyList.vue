@@ -28,4 +28,3 @@ onMounted(async ()=>{
 })
 
 </script>
-<style scoped lang="scss"></style>

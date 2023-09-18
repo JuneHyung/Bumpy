@@ -1,18 +1,18 @@
 <template>
   <li class="square-item bp-pa-sm bp-ma-sm" @click="moveDetail">
-    <p>{{ info.name }}</p>
+    <p>{{ props.info.name }}</p>
     <div class="bp-mt-md bp-mb-lg">
       <p class="bp-my-md">
-        <span>Time : {{ info.time }} m</span> / <span>Kcal : {{ info.kcal }} kcal</span>
+        <span>Time : {{ props.info.time }} m</span> / <span>Kcal : {{ props.info.kcal }} kcal</span>
       </p>
       <p class="bp-my-md">
-        Incline : <span>{{ info.inclineStart }}</span> ~ <span>{{ info.inclineEnd }}</span>
+        Incline : <span>{{ props.info.inclineStart }}</span> ~ <span>{{ props.info.inclineEnd }}</span>
       </p>
       <p class="bp-my-md">
-        Speed : <span>{{ info.speedStart }}</span> ~ <span>{{ info.speedEnd }}</span>
+        Speed : <span>{{ props.info.speedStart }}</span> ~ <span>{{ props.info.speedEnd }}</span>
       </p>
     </div>
-    <p class="ellipsis-3 item-memo">{{ info.memo }}</p>
+    <p class="ellipsis-3 item-memo">{{ props.info.memo }}</p>
   </li>
 </template>
 <script setup lang="ts">
@@ -26,9 +26,7 @@ const router= useRouter();
 const aerobicStore = useAerobicStore();
 
 const moveDetail = async () => {
-  await aerobicStore.getSelectItemByStdDateSeq(aerobicStore.getFocusDate(), props.info.seq as number)
+  await aerobicStore.getSelectItemByStdDateSeq(aerobicStore.getFocusDate(), props.info.seq)
   await router.push({ name: 'aerobic-aerobicDetail' });
 };
-
 </script>
-<style lang="scss" scoped></style>

@@ -4,9 +4,9 @@
       <input
         type="time"
         :autofocus="false"
-        :disabled="data.disabled"
-        :readonly="data.readonly"
-        v-model="data.value"
+        :disabled="props.data.disabled"
+        :readonly="props.data.readonly"
+        v-model="props.data.value"
         class="input-time"
       />
     </label>

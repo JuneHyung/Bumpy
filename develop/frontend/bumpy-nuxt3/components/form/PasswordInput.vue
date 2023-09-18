@@ -4,17 +4,17 @@
       <input
         type="password"
         :autofocus="false"
-        :placeholder="data.placeholder"
-        :disabled="data.disabled"
-        :readonly="data.readonly"
-        :maxlength="data.maxlength"
-        :minlength="data.minlength"
+        :placeholder="props.data.placeholder"
+        :disabled="props.data.disabled"
+        :readonly="props.data.readonly"
+        :maxlength="props.data.maxlength"
+        :minlength="props.data.minlength"
         @keyup="handleKeyup"
         @keydown="preventCopy"
-        v-model="data.value"
+        v-model="props.data.value"
         class="input-password"
       />
-      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ data.suffix }}</span>
+      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ props.data.suffix }}</span>
     </label>
     <p :class="{ 'correct-message': validateFlag, 'hidden-box': isPattern }" class="validate-message bp-mt-xs ellipsis">{{ validateMessage }}</p>
   </div>

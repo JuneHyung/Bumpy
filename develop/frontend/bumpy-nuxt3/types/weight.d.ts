@@ -1,7 +1,7 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
 import { InputSelectbox, InputText, InputTextarea } from "./input";
 export interface Weight{
-  seq?: string,
+  seq: string,
   name?: string,
   weightStart?: string,
   weightEnd?: string,
