@@ -1,3 +1,1 @@
-type DateListFlag = 'default' | 'plus' | 'minus'
-
-export {DateListFlag}
+export type DateListFlag = 'default' | 'plus' | 'minus'

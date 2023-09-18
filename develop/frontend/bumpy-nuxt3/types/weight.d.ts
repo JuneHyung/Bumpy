@@ -1,6 +1,6 @@
 import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
 import { InputSelectbox, InputText, InputTextarea } from "./input";
-interface Weight{
+export interface Weight{
   seq?: string,
   name?: string,
   weightStart?: string,
@@ -15,9 +15,7 @@ interface Weight{
   picture?: ImageData[],
 }
 
-type WeightList = Weight[];
-
-type WeightFormData = {
+export type WeightFormData = {
   name: InputText,
   weightStart: InputText,
   weightEnd: InputText,
@@ -29,34 +27,22 @@ type WeightFormData = {
   memo: InputTextarea
   picture?: {value: ImageData[]}
 }
+export type WeightList = Weight[];
 
-interface WeightRemoveRequestParams {
+export interface WeightRemoveRequestParams {
   stdDate?: string,
   seq?: string
 }
 
-type WeightRequestBody = Weight;
-type WeightItemRequestParam = {
+export type WeightRequestBody = Weight;
+export type WeightItemRequestParam = {
   stdDate?: string,
   seq?: string,
 }
-type WeightReadRequestParam={
+export type WeightReadRequestParam={
   stdDate: string,
 }
-type WeightItemResponseBody = ResponseBody<Weight>
-type WeightCalendarResponseBody = ResponseBody<CommonCalendarData[]>
-type WeightReadResponseBody = ResponseBody<WeightList>
-type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem[]>
-export {
-  Weight,
-  WeightList,
-  WeightFormData,
-  WeightRequestBody,
-  WeightItemRequestParam,
-  WeightReadRequestParam,
-  WeightRemoveRequestParams,
-  WeightItemResponseBody,
-  WeightCalendarResponseBody,
-  WeightReadResponseBody,
-  WeightFavoriteListResponseBody,
-}
+export type WeightItemResponseBody = ResponseBody<Weight>
+export type WeightCalendarResponseBody = ResponseBody<CommonCalendarData[]>
+export type WeightReadResponseBody = ResponseBody<WeightList>
+export type WeightFavoriteListResponseBody = ResponseBody<FavoriteListItem[]>

@@ -1,10 +1,10 @@
-interface InputCommon { 
+export interface InputCommon { 
   autofocus?: boolean,
   disabled?: boolean,
   readonly?: boolean,
 }
 
-interface InputText extends InputCommon{ 
+export interface InputText extends InputCommon{ 
   value: string,
   placeholder?: string,
   maxlength?: number,
@@ -13,7 +13,7 @@ interface InputText extends InputCommon{
   pattern?: string,
   isNumber?: boolean
 }
-interface InputPassword extends InputCommon{
+export interface InputPassword extends InputCommon{
   value: string;
   placeholder?: string;
   maxlength?: number;
@@ -22,18 +22,18 @@ interface InputPassword extends InputCommon{
   pattern?: string;
 }
 
-type SelectItem = {
+export type SelectItem = {
   dtlCd: string;
   dtlNm: string;
 }
-interface InputSelectbox extends InputCommon{
+export interface InputSelectbox extends InputCommon{
   value: string;
   placeholder?: string;
   listname?: string;
   list: SelectItem[];
 }
 
-interface InputTextarea extends InputCommon {
+export interface InputTextarea extends InputCommon {
   value: string;
   placeholder?: string;
   cols?: number;
@@ -42,25 +42,14 @@ interface InputTextarea extends InputCommon {
   minlength?: number;
 }
 
-interface InputDate extends InputCommon { 
+export interface InputDate extends InputCommon { 
   value: string,
   suffix?: string,
   step?: string,
 }
 
-interface InputTime extends InputCommon{
+export interface InputTime extends InputCommon{
   value: string,
 }
 
-type MatchMessage = 'Not Match' | 'Correct';
-
-export { 
-  InputText,
-  InputPassword,
-  InputSelectbox,
-  SelectItem,
-  InputDate,
-  InputTextarea,
-  InputTime,
-  MatchMessage,
-}
+export type MatchMessage = 'Not Match' | 'Correct';

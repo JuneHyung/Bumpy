@@ -1,9 +1,6 @@
-interface MenuItem {
+export interface MenuItem {
   link: string;
   label: string;
   isActive: boolean;
 }
-type MenuList = MenuItem[];
-export {
-  MenuList,
-}
+export type MenuList = MenuItem[];
