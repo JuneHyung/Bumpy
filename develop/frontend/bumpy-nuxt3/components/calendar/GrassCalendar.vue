@@ -2,7 +2,7 @@
   <table class="grass-calendar">
     <colgroup>
       <template v-for="() in 7">
-        <col width="28" height="40" align="center">
+        <col width="28" height="40" align="center" />
       </template>
     </colgroup>
     <thead>
