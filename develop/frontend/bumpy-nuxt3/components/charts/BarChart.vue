@@ -12,9 +12,6 @@ const options = ref({
       enabled: false,
     },
   },
-  // dataLabels: {
-  //   enabled: true,
-  // },
   stroke: {
     curve: 'straight',
   },

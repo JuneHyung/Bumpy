@@ -63,7 +63,7 @@ import { useCommonStore } from "~/store/common";
 import { setErrorMessage } from "~~/api/alert/message";
 import { useWeightStore } from "~~/store/weight";
 import { readFavoritWeightList } from "~~/api/weight/weight";
-import { Weight, WeightFormData, WeightRequestBody } from "~~/types/weight";
+import { WeightFormData, WeightRequestBody } from "~~/types/weight";
 import _ from "lodash";
 import { FavoriteListItem } from "~~/types/common";
 import { InputText } from "~~/types/input";

@@ -1,7 +1,5 @@
-import { AsyncData, FetchResult } from "nuxt/app";
 import { AerobicChartInfoResponseBody, AerobicInfoReasponseBody, ChartRequestParams, GrassInfoRequestParams, GrassInfoResponseBody, MealInfoResponseBody, WeightChartInfoResponseBody, WeightInfoResponseBody } from "~~/types/main";
-import { MealList } from "~~/types/meal";
-import { DELETE, GET, POST, PUT } from "~~/types/method";
+import { GET } from "~~/types/method";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/main`;
 const headers = {
@@ -9,7 +7,7 @@ const headers = {
 }
 
 // 잔디조회
-function getGrassInfo(params: GrassInfoRequestParams){
+export function getGrassInfo(params: GrassInfoRequestParams){
   return useFetch<GrassInfoResponseBody>('/grassinfo', {
     baseURL,
     method: GET,
@@ -18,7 +16,7 @@ function getGrassInfo(params: GrassInfoRequestParams){
   })
 }
 // 사용자정보(메인페이지용)
-function getUserInfoForMain(){
+export function getUserInfoForMain(){
   return useFetch('/userinfo', {
     baseURL,
     method: GET,
@@ -26,7 +24,7 @@ function getUserInfoForMain(){
   })
 }
 // 식단정보(메인페이지용)
-function getMealInfoForMain(){
+export function getMealInfoForMain(){
   return useFetch<MealInfoResponseBody>('/mealinfo', {
     baseURL,
     method: GET,
@@ -34,19 +32,15 @@ function getMealInfoForMain(){
   })
 }
 // 근력액티비티정보(메인페이지용)
-function getWeightActivityForMain(){
+export function getWeightActivityForMain(){
   return useFetch<WeightInfoResponseBody>('/activityinfo/weight', {
     baseURL,
     method: GET,
     headers,
-    // onResponse({request, response, options}){
-    //   console.log(response)
-    //   if(response.status===204) response._data = [];
-    // }
   })
 }
 // 유산소액티비티정보(메인페이지용)
-function getAerobicActivityForMain(){
+export function getAerobicActivityForMain(){
   return useFetch<AerobicInfoReasponseBody>('/activityinfo/aerobic', {
     baseURL,
     method: GET,
@@ -54,7 +48,7 @@ function getAerobicActivityForMain(){
   })
 }
 // 근력차트데이터
-function getWeightChartInfoForMain(params: ChartRequestParams){
+export function getWeightChartInfoForMain(params: ChartRequestParams){
   return useFetch<WeightChartInfoResponseBody>('/chart/weight', {
     baseURL,
     method: GET,
@@ -63,7 +57,7 @@ function getWeightChartInfoForMain(params: ChartRequestParams){
   })
 }
 // 유산소차트데이터
-function getAerobicChartInfoForMain(params: ChartRequestParams){
+export function getAerobicChartInfoForMain(params: ChartRequestParams){
   return useFetch<AerobicChartInfoResponseBody>('/chart/aerobic', {
     baseURL,
     method: GET,
@@ -71,14 +65,3 @@ function getAerobicChartInfoForMain(params: ChartRequestParams){
     params
   })
 }
-
-
-export {
-  getGrassInfo, 
-  getUserInfoForMain, 
-  getMealInfoForMain, 
-  getWeightActivityForMain, 
-  getAerobicActivityForMain, 
-  getWeightChartInfoForMain, 
-  getAerobicChartInfoForMain
-};

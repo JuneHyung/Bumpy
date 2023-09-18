@@ -28,6 +28,3 @@ const removeItem = (idx) =>{
   emits('remove', idx);
 }
 </script>
-<style lagn="scss" scoped>
-
-</style>

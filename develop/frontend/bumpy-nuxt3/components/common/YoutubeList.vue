@@ -6,7 +6,6 @@
       'background-position': 'right', 
       'background-repeat': 'no-repeat', 
       'background-color': 'black',
-      // 'background-size': '100%'
     }">
     <a :href="item.videoId" target="blank">
       <h3 class="bp-my-sm ellipsis"> {{ item.title }}</h3>

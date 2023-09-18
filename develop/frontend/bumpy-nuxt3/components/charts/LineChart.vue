@@ -2,7 +2,7 @@
   <Apexchart type="line" height="90%" :options="options" :series="props.series"></Apexchart>
 </template>
 <script setup lang="ts">
-import { ref, onUpdated } from 'vue';
+import { ref } from 'vue';
 
 import Apexchart from 'vue3-apexcharts';
 
@@ -19,12 +19,6 @@ const options = ref({
     },
     foreColor: '#FFFFFF',
   },
-  // dataLabels: {
-  //   enabled: true,
-  // },
-  // tooltip:{
-  //   shared: false,
-  // },
   stroke: {
     curve: 'straight',
   },
@@ -33,16 +27,6 @@ const options = ref({
     categories: props.xAxis,
   },
 });
-// const series = ref([
-//   {
-//     name: 'Score',
-//     data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-//   },
-//   {
-//     name: 'Score2',
-//     data: [400, 480, 548, 270, 240, 380, 650, 1000, 1120, 1380],
-//   },
-// ]);
 
 </script>
 <style>

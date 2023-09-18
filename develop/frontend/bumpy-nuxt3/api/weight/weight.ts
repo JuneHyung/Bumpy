@@ -9,7 +9,7 @@ const headers = {
 /**
  * weight 운동 조회 (근력 운동 조회) - GET
  */
-function readWeightItem(params: WeightItemRequestParam) {
+export function readWeightItem(params: WeightItemRequestParam) {
   return useFetch<WeightItemResponseBody>("/search", {
     baseURL,
     method: GET,
@@ -21,7 +21,7 @@ function readWeightItem(params: WeightItemRequestParam) {
 /**
  * weight 달력 조회 - GET
  */
-function readWeightCalendarList(params: WeightReadRequestParam) {
+export function readWeightCalendarList(params: WeightReadRequestParam) {
   return useFetch<WeightCalendarResponseBody>("/calendar", {
     baseURL,
     method: GET,
@@ -33,7 +33,7 @@ function readWeightCalendarList(params: WeightReadRequestParam) {
 /**
  * Activity 조회 - GET
  */
-function readWeightList(params: WeightReadRequestParam) {
+export function readWeightList(params: WeightReadRequestParam) {
   return useFetch<WeightReadResponseBody>("/activity", {
     baseURL,
     method: GET,
@@ -45,7 +45,7 @@ function readWeightList(params: WeightReadRequestParam) {
 /**
  * weight 운동 조회 (근력 운동 조회) - POST
  */
-function createWeightItem(body: WeightRequestBody) {
+export function createWeightItem(body: WeightRequestBody) {
   return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
@@ -56,7 +56,7 @@ function createWeightItem(body: WeightRequestBody) {
 /**
  * 근력운동 삭제 - DELETE
  */
-function deleteWeightItem(params: WeightRemoveRequestParams) {
+export function deleteWeightItem(params: WeightRemoveRequestParams) {
   return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
@@ -68,7 +68,7 @@ function deleteWeightItem(params: WeightRemoveRequestParams) {
 /**
  * 근력운동 수정 - PUT
  */
-function updateWeightItem(body: Weight) {
+export function updateWeightItem(body: Weight) {
   return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
@@ -81,7 +81,7 @@ function updateWeightItem(body: Weight) {
 /**
  * 즐겨찾기 조회(Weight)
  */
-function readFavoritWeightList(){
+export function readFavoritWeightList(){
   return useFetch<WeightFavoriteListResponseBody>("/favorite",{
     baseURL,
     method:GET,
@@ -89,7 +89,7 @@ function readFavoritWeightList(){
   })
 }
 
-function getWeightYoutubeList(params: YoutubeKeywordRequest){
+export function getWeightYoutubeList(params: YoutubeKeywordRequest){
   return useFetch<YoutubeResponseBody>("/youtube", {
     baseURL,
     method:GET,
@@ -97,14 +97,3 @@ function getWeightYoutubeList(params: YoutubeKeywordRequest){
     params
   })
 }
-
-export {
-  readWeightItem, 
-  readWeightCalendarList, 
-  readWeightList, 
-  createWeightItem, 
-  deleteWeightItem, 
-  updateWeightItem,
-  readFavoritWeightList,
-  getWeightYoutubeList
-};

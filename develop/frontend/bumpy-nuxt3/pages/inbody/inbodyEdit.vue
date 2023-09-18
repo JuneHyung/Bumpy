@@ -35,8 +35,7 @@
 import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
-import { MealItemRequestBody } from "~~/types/meal";
-import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
+import { InbodyItemRequestBody } from "~~/types/inbody";
 
 definePageMeta({
   layout: "main-layout",

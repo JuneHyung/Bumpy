@@ -31,7 +31,7 @@
   </table>
 </template>
 <script setup lang="ts">
-import { ref, onMounted} from 'vue';
+import { onMounted} from 'vue';
 import { useUserStore } from '~~/store/user';
 const userStore = useUserStore();
 

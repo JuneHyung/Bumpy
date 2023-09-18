@@ -44,6 +44,3 @@ const moveMain = () =>{
   router.push({name: 'main'})
 }
 </script>
-<style lang="scss" scoped>
-
-</style>

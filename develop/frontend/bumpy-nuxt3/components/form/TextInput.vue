@@ -20,7 +20,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ComputedRef, Ref, computed, onMounted, ref } from 'vue';
+import { ComputedRef, computed, onMounted, ref } from 'vue';
 import { InputText, MatchMessage } from '~~/types/input';
 interface Props {
   data: InputText;

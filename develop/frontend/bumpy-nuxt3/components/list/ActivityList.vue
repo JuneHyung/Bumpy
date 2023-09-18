@@ -9,7 +9,7 @@
   </ul>
 </template>
 <script setup lang="ts">
-import { ref, defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue';
 import { AerobicList } from '~~/types/aerobic';
 import { InbodyList } from '~~/types/inbody';
 import { MealList } from '~~/types/meal';
@@ -39,7 +39,4 @@ const switchComponent = () => {
   }
 };
 const ListItem = switchComponent();
-
-// const ListItem = defineAsyncComponent(()=> import('./RectangleItem.vue'))
 </script>
-<style scoped lang="scss"></style>

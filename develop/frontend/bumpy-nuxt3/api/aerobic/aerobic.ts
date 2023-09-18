@@ -1,5 +1,3 @@
-// import { CREATE, READ } from "~~/types/method";
-
 import { AerobicCalendarResponseBody, AerobicDeleteRequestParam, AerobicFavoriteListResponseBody, AerobicItemResponseBody, AerobicReadRequestParam, AerobicReadResponseBody, AerobicRequestBody } from "~~/types/aerobic";
 import { OnlyMessageResponse, YoutubeKeywordRequest, YoutubeResponseBody, customError } from "~~/types/common";
 import { GET, POST, PUT, DELETE } from "~~/types/method";
@@ -11,7 +9,7 @@ const headers = {
 /**
  * 유산소 운동 조회 (근력 운동 조회) - GET
  */
-function readAerobicItem(params: AerobicReadRequestParam) {
+export function readAerobicItem(params: AerobicReadRequestParam) {
 return useFetch<AerobicItemResponseBody>("/search", {
     baseURL,
     method: GET,
@@ -23,7 +21,7 @@ return useFetch<AerobicItemResponseBody>("/search", {
 /**
  * 유산소 달력 조회 - GET
  */
-function readAerobicCalendarList(params: AerobicReadRequestParam) {
+export function readAerobicCalendarList(params: AerobicReadRequestParam) {
   return useFetch<AerobicCalendarResponseBody>("/calendar", {
     baseURL,
     method: GET,
@@ -35,7 +33,7 @@ function readAerobicCalendarList(params: AerobicReadRequestParam) {
 /**
  * Activity 조회 - GET
  */
-function readAerobicActivityList(params: AerobicReadRequestParam) {
+export function readAerobicActivityList(params: AerobicReadRequestParam) {
   return useFetch<AerobicReadResponseBody>("/activity", {
     baseURL,
     method: GET,
@@ -47,7 +45,7 @@ function readAerobicActivityList(params: AerobicReadRequestParam) {
 /**
  * 유산소운동 추가 - POST
  */
-function createAerobicItem(body: AerobicRequestBody) {
+export function createAerobicItem(body: AerobicRequestBody) {
   return useFetch<OnlyMessageResponse, customError, string, 'post'>("/insert", {
     baseURL,
     method: POST,
@@ -59,7 +57,7 @@ function createAerobicItem(body: AerobicRequestBody) {
 /**
  * 유산소운동 삭제 - GET
  */
-function deleteAerobicItem(params: AerobicDeleteRequestParam) {
+export function deleteAerobicItem(params: AerobicDeleteRequestParam) {
   return useFetch<OnlyMessageResponse, customError, string, 'delete'>("/delete", {
     baseURL,
     method: DELETE,
@@ -71,7 +69,7 @@ function deleteAerobicItem(params: AerobicDeleteRequestParam) {
 /**
  * 유산소운동 수정 - POST
  */
-function updateAerobicItem(body: AerobicRequestBody) {
+export function updateAerobicItem(body: AerobicRequestBody) {
   return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,
@@ -81,7 +79,7 @@ function updateAerobicItem(body: AerobicRequestBody) {
 }
 
 
-function readFavoritAerobicList(){
+export function readFavoritAerobicList(){
   return useFetch<AerobicFavoriteListResponseBody>("/favorite",{
     baseURL,
     method:GET,
@@ -89,7 +87,7 @@ function readFavoritAerobicList(){
   })
 }
 
-function getAerobicYoutubeList(params: YoutubeKeywordRequest){
+export function getAerobicYoutubeList(params: YoutubeKeywordRequest){
   return useFetch<YoutubeResponseBody>("/youtube", {
     baseURL,
     method:GET,
@@ -97,13 +95,3 @@ function getAerobicYoutubeList(params: YoutubeKeywordRequest){
     params
   })
 }
-export {
-  readAerobicItem, 
-  readAerobicCalendarList, 
-  readAerobicActivityList, 
-  createAerobicItem, 
-  deleteAerobicItem, 
-  updateAerobicItem,
-  readFavoritAerobicList,
-  getAerobicYoutubeList
-};

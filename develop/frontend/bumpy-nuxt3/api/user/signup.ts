@@ -3,7 +3,7 @@ import { POST } from "~~/types/method";
 import { SignUpRequestBody, UserEmailCertificateRequestBody, UserEmailChkRequestBody, UserEmailChkResponseBody, UserIdChkRequestBody } from "~~/types/user";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/signup`;
-async function createCheckDuplicateId(body: UserIdChkRequestBody){
+export async function createCheckDuplicateId(body: UserIdChkRequestBody){
   return useFetch<OnlyMessageResponse, customError, string, 'post'>('/user/check', {
     baseURL,
     method: POST,
@@ -11,7 +11,7 @@ async function createCheckDuplicateId(body: UserIdChkRequestBody){
   })
 }
 // email 발송
-async function createEmailVerificationCode(body: UserEmailChkRequestBody){
+export async function createEmailVerificationCode(body: UserEmailChkRequestBody){
   return await useFetch<UserEmailChkResponseBody, customError, string, 'post'>('/email/send', {
     baseURL,
     method: POST,
@@ -20,7 +20,7 @@ async function createEmailVerificationCode(body: UserEmailChkRequestBody){
 }
 
 // email 인증
-async function createCheckCertificateEmail(body: UserEmailCertificateRequestBody){
+export async function createCheckCertificateEmail(body: UserEmailCertificateRequestBody){
   return await useFetch<OnlyMessageResponse, customError, string, 'post'>('/email/validate', {
     baseURL,
     method: POST,
@@ -29,11 +29,10 @@ async function createCheckCertificateEmail(body: UserEmailCertificateRequestBody
 }
 
 // email 인증
-async function createSignUp(body: SignUpRequestBody){
+export async function createSignUp(body: SignUpRequestBody){
   return await useFetch<OnlyMessageResponse, customError, string, 'post'>('/submit', {
     baseURL,
     method: POST,
     body,
   })
 }
-export {createCheckDuplicateId, createEmailVerificationCode , createCheckCertificateEmail, createSignUp}

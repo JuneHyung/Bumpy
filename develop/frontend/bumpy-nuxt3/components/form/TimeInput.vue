@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { InputTime, MatchMessage } from '~~/types/input';
+import { InputTime } from '~~/types/input';
 
 interface Props {
   data: InputTime;
