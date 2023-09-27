@@ -59,7 +59,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await readInbodyCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && Array.isArray(data.value.data)) {
+      } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value?.data;
         setCalendarlist(list);
       }
@@ -175,7 +175,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
   return {
     getActivityListByStdDate,
     getCalendarListByStdDate,
-    getSelectItemByStdDateSeq,
+    getSelectItemByStdDate,
     postInbodyItem,
     putInbodyItem,
     removeInbodyItem,

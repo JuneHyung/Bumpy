@@ -48,4 +48,4 @@ export type MealInfoResponseBody = ResponseBody<MealList>;
 export type WeightInfoResponseBody = ResponseBody<WeightList>;
 export type AerobicInfoReasponseBody = ResponseBody<AerobicList>;
 export type WeightChartInfoResponseBody = ResponseBody<MainWeightChartData>;
-export type AerobicChartInfoResponseBody = ResponseBody<MainWeightChartData>;
+export type AerobicChartInfoResponseBody = ResponseBody<MainAerobicChartData>;
