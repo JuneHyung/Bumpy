@@ -161,8 +161,9 @@ const cancelWeightEdit = () => {
 const initSelectedItem = async () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    form.value[key as keyof WeightFormData].value = weightStore.getSelectItem()[key as keyof WeightFormData];
+    const key = keys[i] as keyof WeightFormData;
+    form.value[key].value = weightStore.getSelectItem()[key];
+    
   }
 };
 

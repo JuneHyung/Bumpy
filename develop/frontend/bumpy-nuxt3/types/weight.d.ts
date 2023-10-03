@@ -2,17 +2,17 @@ import { CommonCalendarData, FavoriteListItem, ResponseBody } from "./common";
 import { InputSelectbox, InputText, InputTextarea } from "./input";
 export interface Weight{
   seq: string,
-  name?: string,
-  weightStart?: string,
-  weightEnd?: string,
-  repsStart?: string,
-  repsEnd?: string,
-  pollWeight?: string,
-  setReps?: string,
-  measure?: string,
-  memo?: string,
-  stdDate?: string,
-  picture?: ImageData[],
+  name: string,
+  weightStart: string,
+  weightEnd: string,
+  repsStart: string,
+  repsEnd: string,
+  pollWeight: string,
+  setReps: string,
+  measure: string,
+  memo: string,
+  stdDate: string,
+  picture: ImageData[],
 }
 
 export type WeightFormData = {
@@ -25,7 +25,7 @@ export type WeightFormData = {
   setReps: InputText,
   measure: InputSelectbox,
   memo: InputTextarea
-  picture?: {value: ImageData[]}
+  picture: {value: ImageData[]}
 }
 export type WeightList = Weight[];
 
@@ -34,7 +34,7 @@ export interface WeightRemoveRequestParams {
   seq?: string
 }
 
-export type WeightRequestBody = Weight;
+export type WeightRequestBody = Partial<Weight>;
 export type WeightItemRequestParam = {
   stdDate?: string,
   seq?: string,

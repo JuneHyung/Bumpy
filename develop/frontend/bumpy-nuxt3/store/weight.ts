@@ -6,14 +6,28 @@ import { getWeightActivityForMain, getWeightChartInfoForMain } from "~~/api/main
 import { createWeightItem, deleteWeightItem, getWeightYoutubeList, readWeightCalendarList, readWeightItem, readWeightList, updateWeightItem } from "~~/api/weight/weight";
 import { CommonCalendarData, YoutubeList } from "~~/types/common";
 import { MainWeightChartData, MainWeightChartInfo } from "~~/types/main";
-import { Weight, WeightList, WeightRemoveRequestParams } from "~~/types/weight";
+import { Weight, WeightList, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
 export const useWeightStore = defineStore("weight-store", () => {
   const focusDate = ref("");
   const isToday = ref(true);
   const activityList: Ref<WeightList> = ref([]);
   const calendarList:Ref<CommonCalendarData[]> = ref([]);
-  const selectItem: Ref<Weight> = ref({});
+  const selectItem: Ref<Weight> = ref({
+    seq: '',
+  name: '',
+  weightStart: '',
+  weightEnd: '',
+  repsStart: '',
+  repsEnd: '',
+  pollWeight: '',
+  setReps: '',
+  measure: '',
+  memo: '',
+  stdDate: '',
+  picture: [],
+  });
+  
   const selectYoutubeList: Ref<YoutubeList> = ref([]);
 
   const mainWeightDate: Ref<string> = ref('');
@@ -53,14 +67,17 @@ const getWeightChartInfo = async (name: string) =>{
       if(error.value!==null){
         setErrorMessage(error.value);
       }else if(data.value!==null){
-        const result = data.value.data
-        const infoKeys = Object.keys(mainWeightInfo.value)
-        // const chartKeys = Object.keys(mainWeightChartInfo.value)
-        for(const key of infoKeys) mainWeightInfo.value[key] = result[key];
-        
-        mainWeightChartInfo.value.xAxis = result.xAxis;
-        mainWeightChartInfo.value.series = result.series;
-      }
+        const {myBest, monthAverage, reps, sets, xAxis, series} = data.value.data
+        const weightInfoResult: MainWeightChartInfo = {myBest, monthAverage, reps, sets}
+        const weightChartInfoResult = {xAxis, series}
+        const infoKeys = Object.keys(weightInfoResult);
+        for(let i=0;i<infoKeys.length;i++){
+          const key = infoKeys[i] as keyof MainWeightChartInfo;
+          mainWeightInfo.value[key] = weightInfoResult[key];
+        }
+        mainWeightChartInfo.value.xAxis = weightChartInfoResult.xAxis;
+        mainWeightChartInfo.value.series = weightChartInfoResult.series;
+        }
     }catch(e){
       setErrorMessage(e);
     }
@@ -121,7 +138,7 @@ const getWeightChartInfo = async (name: string) =>{
       }else if(data.value !==null ){
         setSelectItem(data.value.data)
       }else {
-        setSelectItem({})
+        resetSelectItem();
       }
       }catch(e){
         setErrorMessage(e)
@@ -129,7 +146,7 @@ const getWeightChartInfo = async (name: string) =>{
   }
 
 
-  const postWeightItem = async (body: Weight) => {
+  const postWeightItem = async (body: WeightRequestBody) => {
     try {
       const { data, error } = await createWeightItem(body);
       if (error.value !== null) {
@@ -143,7 +160,7 @@ const getWeightChartInfo = async (name: string) =>{
     }
   }
 
-  const putWeightItem = async (body: Weight) =>{
+  const putWeightItem = async (body: WeightRequestBody) =>{
     try {
     const { data, error } = await updateWeightItem(body);
     if (error.value !== null) {
@@ -197,7 +214,20 @@ const getWeightChartInfo = async (name: string) =>{
     selectItem.value = _.cloneDeep(item);
   };
   const resetSelectItem = async () => {
-    selectItem.value = {};
+    selectItem.value = {
+      seq: '',
+      name: '',
+      weightStart: '',
+      weightEnd: '',
+      repsStart: '',
+      repsEnd: '',
+      pollWeight: '',
+      setReps: '',
+      measure: '',
+      memo: '',
+      stdDate: '',
+      picture: [],
+    };
   };
 
 

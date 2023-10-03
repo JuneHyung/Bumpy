@@ -1,5 +1,6 @@
 import { AerobicList } from "./aerobic";
 import { ResponseBody } from "./common";
+import { Inbody } from "./inbody";
 import { MealList } from "./meal";
 import { WeightList } from "./weight";
 
@@ -31,6 +32,16 @@ export interface MainAerobicInfo {
   series: ChartData[];
 }
 
+export interface MainUserInfo{
+  weight:string,
+  height: string,
+  age: string,
+  averageWater: string,
+  continuity: string,
+  inbodyData: MainUserInbodyData,
+  lastActive: string,
+  username: string,
+}
 export interface GrassInfoRequestParams {
   stdDate: string;
 }
@@ -42,10 +53,13 @@ export type MainWeightChartInfo = Pick<MainWeightInfo, "myBest" | "monthAverage"
 export type MainWeightChartData = Pick<MainWeightInfo, "xAxis" | "series">;
 export type MainAerobicChartInfo = Pick<MainAerobicInfo, "bestKcal" | "bestTime" | "averageIncline" | "averageSpeed">;
 export type MainAerobicChartData = Pick<MainAerobicInfo, "xAxis" | "series">;
+export type MainUserInbodyData = Pick<Inbody, 'weight' | 'muscle' | 'fat' | 'bmi' | 'fatRate'>
 
 export type GrassInfoResponseBody = ResponseBody<[GrassInfoItem[]]>;
 export type MealInfoResponseBody = ResponseBody<MealList>;
 export type WeightInfoResponseBody = ResponseBody<WeightList>;
 export type AerobicInfoReasponseBody = ResponseBody<AerobicList>;
-export type WeightChartInfoResponseBody = ResponseBody<MainWeightChartData>;
-export type AerobicChartInfoResponseBody = ResponseBody<MainAerobicChartData>;
+export type WeightChartInfoResponseBody = ResponseBody<MainWeightInfo>;
+export type AerobicChartInfoResponseBody = ResponseBody<MainAerobicInfo>;
+export type MainUserInfoResponseBody = ResponseBody<MainUserInfo>
+

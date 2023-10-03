@@ -1,6 +1,6 @@
 import { OnlyMessageResponse, YoutubeKeywordRequest, YoutubeResponseBody, customError } from "~~/types/common";
 import { DELETE, GET, POST, PUT } from "~~/types/method";
-import { Weight, WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
+import { WeightCalendarResponseBody, WeightFavoriteListResponseBody, WeightItemRequestParam, WeightItemResponseBody, WeightReadRequestParam, WeightReadResponseBody, WeightRemoveRequestParams, WeightRequestBody } from "~~/types/weight";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/weight`;
 const headers = {
@@ -68,7 +68,7 @@ export function deleteWeightItem(params: WeightRemoveRequestParams) {
 /**
  * 근력운동 수정 - PUT
  */
-export function updateWeightItem(body: Weight) {
+export function updateWeightItem(body: WeightRequestBody) {
   return useFetch<OnlyMessageResponse, customError, string, 'put'>("/update", {
     baseURL,
     method: PUT,

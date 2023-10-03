@@ -64,11 +64,17 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
       if (error.value !== null) {
         setErrorMessage(error.value);
       } else if (data.value !== null) {
-        const result = data.value.data;
-        const infoKeys = Object.keys(mainAerobicInfo.value);
-        for (const key of infoKeys) mainAerobicInfo.value[key] = result[key];
-        mainAerobicChartInfo.value.xAxis = result.xAxis;
-        mainAerobicChartInfo.value.series = result.series;
+        const {bestKcal, bestTime, averageIncline, averageSpeed, xAxis, series} = data.value.data;
+        const aerobicInfoReesult: MainAerobicChartInfo = {bestKcal, bestTime, averageIncline, averageSpeed}
+        const aerobicChartInfoReesult = {xAxis, series};
+        const infoKeys = Object.keys(aerobicInfoReesult);
+
+        for(let i=0;i<infoKeys.length;i++){
+          const key = infoKeys[i] as keyof MainAerobicChartInfo;
+          mainAerobicInfo.value[key] = aerobicInfoReesult[key];
+        }
+        mainAerobicChartInfo.value.xAxis = aerobicChartInfoReesult.xAxis;
+        mainAerobicChartInfo.value.series = aerobicChartInfoReesult.series;
       }
     } catch (e) {
       setErrorMessage(e);

@@ -187,15 +187,21 @@ const initUserInfo = async (list: any) =>{
   const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
   for(const key of bodyInfoKeys){
     const target = userBodyInfo.value.find(el=>el.key===key);
-    target.value = list[key];
+    if(target){
+      target.value = list[key];
+    }
   }
   for(const key of userActivityInfoKeys){
     const target = userActivityInfo.value.find(el=>el.key===key);
-    target.value = list[key];
+    if(target){
+      target.value = list[key];
+    }
   }
   for(const key of userInbodyInfoKeys){
     const target = userInbodyInfo.value.find(el=>el.key===key);
-    target.value = list.inbodyData[key];
+    if(target){
+      target.value = list.inbodyData[key];
+    }
   }
 }
 

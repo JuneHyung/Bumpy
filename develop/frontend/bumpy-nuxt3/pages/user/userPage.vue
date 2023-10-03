@@ -65,7 +65,7 @@ import PasswordInput from '~~/components/form/PasswordInput.vue';
 import TextInput from '~~/components/form/TextInput.vue';
 import { ref } from 'vue';
 import Avatar from '~~/components/user/Avatar.vue';
-import {UserFormData, UserUpdateRequestBody} from '~~/types/user'
+import {UserFormData, UserPageInfo, UserUpdateRequestBody} from '~~/types/user'
 import { useUserStore } from '~~/store/user';
 
 definePageMeta({
@@ -196,9 +196,18 @@ const movePasswordCheck = () =>{
 
 const initUserForm = async () =>{
   const userData = userStore.getUserPageData();
-  const keyList = Object.keys(userData);
-  for(const key of keyList){
-    userForm.value[key].value = userData[key];
+  if(userData!==undefined){
+    const keyList = Object.keys(userData);
+    for(let i=0;i<keyList.length;i++){
+      const key = keyList[i] as keyof UserPageInfo;
+        if(key==='phoneFirst' || key==='phoneSecond' || key==='phoneThird' || key==='password' || key==='passwordChk' ) continue;
+        else if(key==='phoneNumber'){
+          const tel:string[] = userData[key].split('-');
+          [userForm.value.phoneFirst.value, userForm.value.phoneSecond.value, userForm.value.phoneThird.value] = tel;
+        } else{
+          userForm.value[key].value = userData[key];
+        }
+    }
   }
 }
 

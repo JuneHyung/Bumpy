@@ -14,7 +14,7 @@
                   <label class="edit-input-label">
                     <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                     <div class="edit-input">
-                      <TextInput :data="form[item.key]"></TextInput>
+                      <TextInput :data="form[item.key as keyof Omit<InbodyFormData, 'picture'>]"></TextInput>
                     </div>
                   </label>
                 </template>
@@ -35,7 +35,7 @@
 import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
-import { InbodyItemRequestBody } from "~~/types/inbody";
+import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
 
 definePageMeta({
   layout: "main-layout",
@@ -46,11 +46,9 @@ const inbodyStore = useInbodyStore();
 const router = useRouter();
 const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
-const form = ref({
-  name: { value: "" },
+const form = ref<InbodyFormData>({
   height: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
   weight: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
-  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
   muscle: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
   fat: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
   score: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
@@ -81,7 +79,6 @@ const makeBody = () => {
     score: form.value.score.value,
     bmi: form.value.bmi.value,
     fatRate: form.value.fatRate.value,
-    // memo: form.value.memo.value,
     picture: form.value.picture.value,
   };
   return result;
@@ -105,7 +102,7 @@ const modifyInbodyItem = async () => {
 const resetInbodyItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
+    const key = keys[i] as keyof InbodyFormData;
     form.value[key].value = "";
   }
 };
@@ -118,7 +115,7 @@ const cancelInbodyEdit = () => {
 const initSelectItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
+    const key = keys[i] as keyof InbodyFormData;
     form.value[key].value = inbodyStore.getSelectItem()[key];
   }
 };

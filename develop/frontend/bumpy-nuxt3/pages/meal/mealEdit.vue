@@ -15,7 +15,7 @@
                   <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                   <div class="edit-input">
                     <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
-                    <TextInput :data="form[item.key]" v-else></TextInput>
+                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else></TextInput>
                   </div>
                 </label>
               </template>
@@ -83,11 +83,11 @@ const makeBody = () =>{
   const foodList = form.value.food?.value.map(item=> item.value);
   const request: MealItemRequestBody = {
     stdDate: mealStore.getFocusDate() === null || mealStore.getFocusDate().length===0 ? commonStore.getToday() : mealStore.getFocusDate(),
-    name: form.value.name.value as string,
-    time: form.value.time?.value as string,
-    kcal: form.value.kcal?.value as string,
-    water: form.value.water?.value as string,
-    food: foodList as string[],
+    name: form.value.name.value ,
+    time: form.value.time?.value ,
+    kcal: form.value.kcal?.value ,
+    water: form.value.water?.value,
+    food: foodList,
     memo: form.value.memo?.value,
     picture: form.value.picture?.value,
   }
@@ -135,11 +135,12 @@ const cancelMealEdit = () =>{
 const initSelectItem = async () =>{
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    form.value[key].value = mealStore.getSelectItem()[key];
+    const key = keys[i] as keyof MealFormData;
     if(key==='food'){
       const result = mealStore.getSelectItem()[key].map(el=>{return{value: el}});
       form.value[key].value = result;
+    }else{
+      form.value[key].value = mealStore.getSelectItem()[key];
     }
   }
 }

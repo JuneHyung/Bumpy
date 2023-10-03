@@ -183,7 +183,7 @@ export const useMealStore = defineStore("meal-store", () => {
       food: [],
     };
   };
-  const setTodayMealList = async (data: any) => todayMealList.value = data;
+  const setTodayMealList = async (data: MealList) => todayMealList.value = data;
 
   const getFocusDate = (): string => focusDate.value;
   const getIsToday = () => isToday.value;

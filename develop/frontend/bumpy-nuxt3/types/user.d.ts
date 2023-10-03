@@ -29,11 +29,13 @@ export interface UserInfo {
 
 export interface UserPageInfo {
   userId: string,
+  password?: string,
+  passwordChk?:string,
   username: string,
   email: string,
   birth: string,
   gender: string,
-  phoneNumber?: string,
+  phoneNumber: string,
   phoneFirst?: string,
   phoneSecond?: string,
   phoneThird?: string,
@@ -41,7 +43,7 @@ export interface UserPageInfo {
   address: string,
   addressDetail: string,
 }
-
+export type PartUserPageInfo = Partial<UserPageInfo>
 export type userLoginFormData = Pick<UserFormData, "userId" | "password">;
 export type passwordChkRequest= {
   password:string,

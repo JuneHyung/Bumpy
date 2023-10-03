@@ -12,10 +12,10 @@ export interface Meal{
   time: string,
   kcal: string,
   water: string,
-  memo: string,
   stdDate: string,
-  picture: ImageData[],
   food: string[],
+  memo: string,
+  picture: ImageData[],
 }
 export type MealList = Meal[];
 

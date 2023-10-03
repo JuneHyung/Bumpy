@@ -4,8 +4,8 @@ import { InputText } from "./input";
 export interface Inbody {
   height: string,
   weight: string,
-  age: string,
   muscle: string,
+  age: string,
   fat: string,
   score: string,
   bmi: string,
@@ -15,15 +15,14 @@ export interface Inbody {
 }
 export type InbodyList = Inbody[]
 export type InbodyFormData = {
-  height?: InputText,
-  weight?: InputText,
-  age?: InputText,
-  muscle?: InputText,
-  fat?: InputText,
-  score?: InputText,
-  bmi?: InputText,
-  fatRate?: InputText,
-  picture?: ImageData[]
+  height: InputText,
+  weight: InputText,
+  muscle: InputText,
+  fat: InputText,
+  score: InputText,
+  bmi: InputText,
+  fatRate: InputText,
+  picture: {value: ImageData[]}
 }
 export type InbodyItemRequestBody = Partial<Inbody>;
 // export type InbodyItemRequestParam = Pick<Inbody, 'stdDate' | 'seq'>

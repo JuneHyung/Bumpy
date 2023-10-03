@@ -1,4 +1,4 @@
-import { AerobicChartInfoResponseBody, AerobicInfoReasponseBody, ChartRequestParams, GrassInfoRequestParams, GrassInfoResponseBody, MealInfoResponseBody, WeightChartInfoResponseBody, WeightInfoResponseBody } from "~~/types/main";
+import { AerobicChartInfoResponseBody, AerobicInfoReasponseBody, ChartRequestParams, GrassInfoRequestParams, GrassInfoResponseBody, MainUserInfoResponseBody, MealInfoResponseBody, WeightChartInfoResponseBody, WeightInfoResponseBody } from "~~/types/main";
 import { GET } from "~~/types/method";
 
 const baseURL = `${import.meta.env.VITE_BACKEND_URL}/main`;
@@ -17,7 +17,7 @@ export function getGrassInfo(params: GrassInfoRequestParams){
 }
 // 사용자정보(메인페이지용)
 export function getUserInfoForMain(){
-  return useFetch('/userinfo', {
+  return useFetch<MainUserInfoResponseBody>('/userinfo', {
     baseURL,
     method: GET,
     headers,
