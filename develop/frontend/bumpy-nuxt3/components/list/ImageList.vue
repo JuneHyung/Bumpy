@@ -13,33 +13,38 @@
     </ul>
   </div>
 </template>
-<script setup>
-const props = defineProps({
-  list: Array,
-});
+<script setup lang="ts">
+interface Props {
+  list: Uint8ClampedArray[]
+}
+const props = defineProps<Props>();
 
 const curIdx = ref(0);
 const curUrl = computed(() => props.list[curIdx.value]);
-const imageList = ref(null);
-const imageItem = ref(null);
+const imageList = ref<HTMLUListElement>();
+const imageItem = ref<HTMLLIElement[]>();
 const startPos = ref({x:0, y:0})
 
-const changeCurIdx = (idx) => {
+const changeCurIdx = (idx: number) => {
   curIdx.value = idx;
-  
-  const nextPos = imageItem.value[idx].getBoundingClientRect();
-  const nextX = nextPos.x - startPos.value.x;
-  
-  imageList.value.scrollTo({
-    top:0,
-    left: nextX,
-    behavior: 'smooth'
-  });
+  if(imageItem.value && imageList.value){
+    const nextPos = imageItem.value[idx].getBoundingClientRect();
+    const nextX = nextPos.x - startPos.value.x;
+    
+    imageList.value.scrollTo({
+      top:0,
+      left: nextX,
+      behavior: 'smooth'
+    });
+    
+  }
 };
 
 const initStartPos = () =>{
-  const rect = imageList.value.getBoundingClientRect();
-  startPos.value = {x: rect.x, y: rect.y};
+  if(imageList.value){
+    const rect = imageList.value.getBoundingClientRect();
+    startPos.value = {x: rect.x, y: rect.y};
+  }
 }
 
 onMounted(() => {

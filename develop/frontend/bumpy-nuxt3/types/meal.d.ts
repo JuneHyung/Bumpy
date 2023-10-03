@@ -4,7 +4,7 @@ import { InputText, InputTextarea } from "./input";
 interface FoodItem {
   value: string
 }
-type FoodListType = FoodItem[];
+export type FoodListType = FoodItem[];
 
 export interface Meal{
   seq: string,

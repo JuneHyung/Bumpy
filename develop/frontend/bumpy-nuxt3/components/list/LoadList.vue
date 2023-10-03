@@ -13,9 +13,12 @@
   </ul>
 </template>
 <script setup lang="ts">
-const props = defineProps({
-  list: Object,
-})
+import { FavoriteListItem } from '~~/types/common'
+
+interface Props {
+  list: FavoriteListItem[]
+}
+const props = defineProps<Props>();
 const emits = defineEmits(['initName'])
 
 const setFormName = (name: string) =>{

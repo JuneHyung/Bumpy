@@ -36,6 +36,8 @@ const switchComponent = () => {
     case 'inbody':
       if (props.type === 'square') return defineAsyncComponent(() => import('~~/components/list/item/InbodySquareItem.vue'));
       else return defineAsyncComponent(() => import('~~/components/list/item/InbodyRectangleItem.vue'));
+    default:
+      return;
   }
 };
 const ListItem = switchComponent();

@@ -6,23 +6,25 @@
         <CustomIcon iconName="mdiClose" @click="removeItem(idx)"></CustomIcon>
       </li>
     </template>
-    <li class="food-item plus-item" v-if="props.list.length<10" @click="plusItem">
+    <li class="food-item plus-item" v-if="props.list!==undefined && props.list.length<10" @click="plusItem">
       <CustomIcon iconName="mdiPlus"></CustomIcon>
     </li>
   </ul>
 </template>
-<script setup>
+<script setup lang="ts">
 import CustomIcon from '../icon/CustomIcon.vue';
-const props = defineProps({
-  list: Array,
-});
+import {FoodListType} from '~~/types/meal';
+interface Props {
+  list: FoodListType
+}
+const props = defineProps<Props>();
 const emits = defineEmits(['plus', 'remove'])
 
 const plusItem = () =>{
   emits('plus');
 }
 
-const removeItem = (idx) =>{
+const removeItem = (idx: number) =>{
   emits('remove', idx);
 }
 </script>
