@@ -9,7 +9,7 @@ export interface GrassInfoItem {
   visible: boolean;
   date: string;
 }
-
+export type GrassInfoList = GrassInfoItem[][];
 export interface ChartData {
   data: string[];
   name: string;

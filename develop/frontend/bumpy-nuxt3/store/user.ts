@@ -5,7 +5,7 @@ import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { getGrassInfo } from '~~/api/main';
 import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
 import { DateListFlag } from '~~/types/calendar';
-import { GrassInfoResponseBody } from '~~/types/main';
+import { GrassInfoItem, GrassInfoList, GrassInfoResponseBody } from '~~/types/main';
 import { UserUpdateRequestBody, passwordChkRequest, UserPageInfo } from '~~/types/user';
 export const useUserStore = defineStore('user-store',()=>{
   const isPass = ref(false);
@@ -15,7 +15,8 @@ export const useUserStore = defineStore('user-store',()=>{
   // grassCalendar
   const thisDate = ref('');
   const displayDate = ref('');
-  const dateList = ref(Array.from({length: 6}, ()=>Array.from({length:7},()=>{return {date: '', active: false, visible: false}})));
+  const defaultDateList:GrassInfoItem[][] = Array.from({length: 6}, ()=>Array.from({length:7},():GrassInfoItem=>{return {date: '', active: false, visible: false}}));
+  const dateList = ref<GrassInfoList>(defaultDateList);
 
   const userPageData = ref<UserPageInfo>(
     {
@@ -124,8 +125,8 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
     if(error.value!==null){
       setErrorMessage(error.value);
     }else if(data.value!==null){
-      const list = data.value as GrassInfoResponseBody;
-      setDateList(list.data)
+      const list = data.value.data as GrassInfoList;
+      setDateList(list)
     }
   }catch(e){
     setErrorMessage(e);
@@ -145,7 +146,7 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
   
   const setThisDate = (value: string) => thisDate.value = value;
   const setDisplayDate = (value: string) => displayDate.value = value;
-  const setDateList = (value: any) => dateList.value = value;
+  const setDateList = (value: GrassInfoList) => dateList.value = value;
   const setIsPass = (value:boolean) => isPass.value = value;
   const setUserName = (value: string) => userName.value = value;
   const setUserPageInfo = (value: UserPageInfo) => userPageData.value = value;

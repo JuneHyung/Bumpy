@@ -133,7 +133,7 @@ const emailModalFlag = ref(false);
 // 이메일 인증 타이머
 const verifyTime = ref(0);
 
-let countTimer: any = null; // interval함수 저장할 변수.
+let countTimer:NodeJS.Timer ; // interval함수 저장할 변수.
 
 
 // 1씩 감소하는 함수
