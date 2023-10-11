@@ -82,7 +82,7 @@ const moveLogin = () => {
 };
 
 const userForm: Ref<UserFormData> = ref({
-  userId: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false },
+  userId: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false, maxlength: 20 },
   password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20},
   passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20 },
   email: {value: '', placeholder: "email형식을 지켜 작성해주세요.", disabled: false},
@@ -174,7 +174,10 @@ const setVerifyTimer = () =>{
 const openEmailVerifyModal = () => {
   // e.preventDefault();
   const emailValue = userForm.value.email.value as string;
-  if (duplicateId.value) {
+  const regex = new RegExp(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i);
+  if(!emailValue.match(regex)){ 
+    setWarnMessage("이메일 형식을 맞춰주세요.")
+  } else if (duplicateId.value) {
     setWarnMessage("아이디 중복검사 먼저해주세요");
   } else if(emailValue === null || emailValue.length===0){
     setWarnMessage("이메일 값을 입력해주세요.");

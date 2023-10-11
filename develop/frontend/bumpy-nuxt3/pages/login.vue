@@ -60,12 +60,13 @@ const moveMain = async () => {
     formD.append("password", formData.value.password.value as string);
 
     try {
-      const { data } = await fetchLogin(formD);
-      const dataValue = data.value as OnlyMessageResponse;
-      if(dataValue.message){
+      const { data, error } = await fetchLogin(formD);
+      
+      if(error.value !== null) setErrorMessage(error.value.data.message)
+      else if(data.value!==null){
         userStore.setIsPass(true);
         router.push({name: 'main'});
-      }else setErrorMessage(`${dataValue.message}`);
+      }
     } catch (e) {
       setErrorMessage(`${e}`);
     }
