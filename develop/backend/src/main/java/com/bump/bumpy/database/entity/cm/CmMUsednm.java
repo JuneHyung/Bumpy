@@ -1,6 +1,7 @@
 package com.bump.bumpy.database.entity.cm;
 
 import com.bump.bumpy.database.entity.composite.CmMUsednmId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,7 @@ public class CmMUsednm implements Serializable {
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
+    @JsonIgnore
     private String userId;
 
     @Id

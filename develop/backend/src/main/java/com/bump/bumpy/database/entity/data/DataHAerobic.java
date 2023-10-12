@@ -1,6 +1,7 @@
 package com.bump.bumpy.database.entity.data;
 
 import com.bump.bumpy.database.entity.composite.DataHCardioId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,12 +28,12 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "DATA_H_CARDIO", schema = "bumpy", indexes = {
+@Table(name = "DATA_H_AEROBIC", schema = "bumpy", indexes = {
         @Index(name = "PRIMARY", columnList = "stdDate, userId, seq", unique = true),
         @Index(name = "CARDIO_USER_ID_idx", columnList = "userId")
 })
 @IdClass(DataHCardioId.class)
-public class DataHCardio implements Serializable {
+public class DataHAerobic implements Serializable {
     private static final long serialVersionUID = -3260140188077884176L;
 
     @Id
@@ -42,6 +45,7 @@ public class DataHCardio implements Serializable {
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
+    @JsonIgnore
     private String userId;
 
     @Id
@@ -80,4 +84,21 @@ public class DataHCardio implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
+    // set and get picture method for CRUD API split by ',' and join by ','
+    public List<String> getPicture() {
+        // null check
+        if (this.picture == null) {
+            return new ArrayList<>();
+        }
+        return List.of(this.picture.split(","));
+    }
+
+    public void setPicture(List<String> picture) {
+        // null check
+        if (picture == null) {
+            this.picture = null;
+            return;
+        }
+        this.picture = String.join(",", picture);
+    }
 }

@@ -1,16 +1,23 @@
 package com.bump.bumpy.domain.screen.weight;
 
+import com.bump.bumpy.domain.screen.dto.SearchDateRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchMonthRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
+import com.bump.bumpy.domain.screen.dto.SearchYoutubeDto;
 import com.bump.bumpy.domain.screen.weight.dto.DataHWeightDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 import static com.bump.bumpy.util.funtion.FieldValueUtil.getUserId;
 
@@ -21,21 +28,30 @@ public class WeightController {
 
     private final WeightService weightService;
 
+    @Operation(summary = "운동 이름 즐겨찾기 리스트 조회", description = "")
+    @GetMapping("/favorite")
+    public ResponseEntity<ResultMap> favorite() {
+        String userId = getUserId();
+        return weightService.favorite(userId);
+    }
+
     @Operation(summary = "달력 조회", description = "")
     @GetMapping("/calendar")
-    public ResponseEntity<ResultMap> calendar() {
-        return weightService.calendar();
+    public ResponseEntity<ResultMap> calendar(SearchMonthRequestDto request) {
+        request.setUserId(getUserId());
+        return weightService.calendar(request);
     }
 
     @Operation(summary = "액티비티 조회", description = "")
     @GetMapping("/activity")
-    public ResponseEntity<ResultMap> activity() {
-        return weightService.activity();
+    public ResponseEntity<ResultMap> activity(SearchDateRequestDto request) {
+        request.setUserId(getUserId());
+        return weightService.activity(request);
     }
 
     @Operation(summary = "조회", description = "")
     @GetMapping("/search")
-    public ResponseEntity<ResultMap> search(SearchRequestDto request) {
+    public ResponseEntity<ResultMap> search(@Valid SearchRequestDto request) {
         request.setUserId(getUserId());
         return weightService.search(request);
     }
@@ -47,17 +63,33 @@ public class WeightController {
         return weightService.insert(request, userId);
     }
 
+//    @Operation(summary = "추가", description = "")
+//    @PostMapping(value = "/insert", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<ResultMap> insert(@RequestPart("request") DataHWeightDto request,
+//                                            @RequestPart(value = "files", required = false) MultipartFile[] files
+//                                            )
+//    {
+//        String userId = getUserId();
+//        return weightService.insert(request, files, userId);
+//    }
+
     @Operation(summary = "수정", description = "")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ResultMap> update(@RequestBody DataHWeightDto request) {
         String userId = getUserId();
         return weightService.update(request, userId);
     }
 
     @Operation(summary = "삭제", description = "")
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<ResultMap> delete(SearchRequestDto request) {
         request.setUserId(getUserId());
         return weightService.delete(request);
+    }
+
+    @Operation(summary = "유튜브 검색", description = "")
+    @GetMapping("/youtube")
+    public ResponseEntity<ResultMap> youtube(@Valid SearchYoutubeDto request) {
+        return weightService.youtubeSearch(request);
     }
 }

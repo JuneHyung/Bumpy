@@ -1,6 +1,7 @@
-package com.bump.bumpy.domain.screen.cardio.dto;
+package com.bump.bumpy.domain.screen.aerobic.dto;
 
-import com.bump.bumpy.database.entity.data.DataHCardio;
+import com.bump.bumpy.database.entity.data.DataHAerobic;
+import com.bump.bumpy.util.dto.PictureDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,18 +12,18 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
- * A DTO for the {@link com.bump.bumpy.database.entity.data.DataHCardio} entity
+ * A DTO for the {@link DataHAerobic} entity
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class DataHCardioDto implements Serializable {
+public class DataHAerobicDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @NotNull
     private Integer seq;
     @Size(max = 100)
     @NotNull
@@ -35,14 +36,13 @@ public class DataHCardioDto implements Serializable {
     private BigDecimal speedEnd;
     @Size(max = 1000)
     private String memo;
-    @Size(max = 1000)
-    private String picture;
+    private List<PictureDto> picture;
 
     // to entity method for insert
-    public DataHCardio toEntity() {
-        DataHCardio entity = new DataHCardio();
+    public DataHAerobic toEntity(int seq) {
+        DataHAerobic entity = new DataHAerobic();
         entity.setStdDate(this.stdDate);
-        entity.setSeq(this.seq);
+        entity.setSeq(seq);
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);
@@ -51,12 +51,12 @@ public class DataHCardioDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+//        entity.setPicture(picture);
         return entity;
     }
 
     // to entity method for update
-    public DataHCardio updateEntity(DataHCardio entity) {
+    public DataHAerobic updateEntity(DataHAerobic entity) {
         entity.setName(this.name);
         entity.setKcal(this.kcal);
         entity.setTime(this.time);
@@ -65,7 +65,7 @@ public class DataHCardioDto implements Serializable {
         entity.setSpeedStart(this.speedStart);
         entity.setSpeedEnd(this.speedEnd);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+//        entity.setPicture(picture);
         return entity;
     }
 }

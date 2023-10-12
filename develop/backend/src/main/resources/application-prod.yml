@@ -1,21 +1,24 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://13.209.96.12:51130/bumpy
+    url: jdbc:mariadb://maria-db:51130/bumpy
     username: "bumpyapp"
-    password: "@bumpy123!"
+    password:
 
-  jpa:
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: false
-    open-in-view: false
+#  jpa:
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        format_sql: false
+#    open-in-view: false
 
+file:
+  upload:
+    path: /uploadFiles/
 
-cors:
-  origins:
-    - "bumpy.myddns.me"
+#cors:
+#  origins:
+#    - "www.bumpy.co.kr"
 
 springfox:
   documentation:

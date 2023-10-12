@@ -7,6 +7,7 @@ import com.bump.bumpy.util.dto.PasswordDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class SignUpController {
     @PostMapping("/password/check")
     public ResponseEntity<ResultMap> passwordCheck(@RequestBody @Valid PasswordDto request, BindingResult result) {
         if(result.hasErrors())
-            return ResponseEntity.badRequest().body(new ResultMap("message", result.getAllErrors().get(0).getDefaultMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", result.getAllErrors().get(0).getDefaultMessage()));
         return ResponseEntity.ok(new ResultMap("message", "OK"));
     }
 
@@ -53,7 +54,7 @@ public class SignUpController {
     @PostMapping("/submit")
     public ResponseEntity<ResultMap> submit(@RequestBody @Valid UsrMUsrDto request, BindingResult result) {
         if(result.hasErrors())
-            return ResponseEntity.badRequest().body(new ResultMap("message", result.getAllErrors().get(0).getDefaultMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", result.getAllErrors().get(0).getDefaultMessage()));
         return signUpService.submit(request);
     }
 }
