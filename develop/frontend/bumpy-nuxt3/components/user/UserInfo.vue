@@ -219,7 +219,7 @@ const initUserInfo = async (list: MainUserInfo) =>{
     const key = userInbodyInfoKeys[i] as keyof Pick<MainUserInfo, 'inbodyData'>;
     const target = userInbodyInfo.value.find(el=>el.key===key);
     if(target){
-      target.value = Number(userInbodyInfoData[key]);
+      target.value = Number(userInbodyInfoData.inbodyData[key]);
     }
   }
 }
