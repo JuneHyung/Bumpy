@@ -1,4 +1,6 @@
 $size-list: (xs, sm, md, lg, xl);
+$num-list: (1,2,3,4,5,6,7,8,9,10,11,12);
+
 // margin & padding
 @each $size in $size-list {
   $index: index($size-list, $size);
@@ -51,5 +53,33 @@ $size-list: (xs, sm, md, lg, xl);
   }
   .bp-pa-#{$size}{
     padding: 4px * $index;
+  }
+}
+
+
+.cursor-pointer{
+  cursor: pointer;
+}
+.cursor-not-allowed{
+  cursor: not-allowed;
+  input{
+    cursor:not-allowed;
+  }
+}
+
+.flex{
+  display:flex;
+}
+.row{
+  flex-direction: row;
+}
+.col{
+  flex-direction: column;
+}
+
+
+@each $num in $num-list{
+  .flex-#{$num}{
+    flex: $num;
   }
 }

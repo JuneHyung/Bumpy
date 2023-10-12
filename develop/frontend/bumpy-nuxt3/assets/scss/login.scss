@@ -1,5 +1,8 @@
 .login-wrap-box {
   display: flex;
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
   flex:0 1 1000px;
   .login-introduce-box {
     display:flex;

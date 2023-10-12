@@ -2,7 +2,7 @@
 .short-filled-button,
 .short-ghost-button {
   display:flex;
-  flex: 1 1;
+  flex: 1 1 120px;
   justify-content: center;
   align-items: center;
   min-width: 120px;
@@ -64,4 +64,14 @@
   &:active{
     color: $high-point-color;
   } 
+}
+
+
+.detail-button-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  button {
+    flex: 0;
+  }
 }

@@ -10,32 +10,32 @@
       </div>
     </div>
     <div class="signup-form-box">
-      <h2 class="signup-form-title">SIGN UP</h2>
+      <h2 class="signup-form-title bp-mb-sm">SIGN UP</h2>
       <form class="signup-form">
-        <div class="signup-id-wrap bp-mb-sm">
-          <TextInput :data="userForm.id" class="id-input bp-mr-sm" />
+        <div class="signup-input-wrap bp-mb-sm">
+          <TextInput :data="userForm.userId" class="signup-input bp-mr-sm" />
           <button type="button" class="short-filled-button duplicate-check-button" :class="{ 'check-ok': !duplicateId }" @click="checkDuplicateId">{{ duplicateBtnText }}</button>
         </div>
         <PasswordInput :data="userForm.password" class="bp-mb-sm"/>
         <PasswordInput :data="userForm.passwordChk" class="bp-mb-sm" />
-        <div class="signup-email-wrap">
-          <TextInput :data="userForm.email" class="email-input bp-mb-sm bp-mr-sm" />
+        <div class="signup-input-wrap">
+          <TextInput :data="userForm.email" class="signup-input bp-mb-sm bp-mr-sm" />
           <button type="button" class="short-filled-button" :class="{ 'check-ok': verificateEmail }" @click="openEmailVerifyModal">{{ verificateEmailText }}</button>
         </div>
-        <TextInput :data="userForm.name" class="bp-mb-sm" />
+        <TextInput :data="userForm.username" class="bp-mb-sm" />
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
-        <SelectboxInput :data="userForm.gender"></SelectboxInput>
-        <div class="signup-phone-wrap bp-mb-sm">
+        <SelectboxInput :data="userForm.gender" class="bp-mb-sm"></SelectboxInput>
+        <div class="signup-input-wrap bp-mb-sm">
           <TextInput :data="userForm.phoneFirst" />
           <TextInput :data="userForm.phoneSecond" class="bp-mx-sm" />
           <TextInput :data="userForm.phoneThird" />
         </div>
         <div class="signup-address-wrap">
           <label class="signup-zipcode-wrap bp-mb-sm">
-            <TextInput :data="userForm.zipCode" class="zipcode-input bp-mr-sm"></TextInput>
+            <TextInput :data="userForm.zipCode" class="zipcode-input cursor-not-allowed bp-mr-sm"></TextInput>
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
-          <TextInput :data="userForm.address" class="bp-mb-sm" /> 
+          <TextInput :data="userForm.address" class="bp-mb-sm cursor-not-allowed" /> 
           <TextInput :data="userForm.addressDetail" class="bp-mb-sm" />
         </div>
         <div class="signup-button-wrap">
@@ -68,26 +68,31 @@ import SelectboxInput from "../components/form/SelectboxInput.vue";
 import DateInput from "../components/form/DateInput.vue";
 import { ref, Ref } from "vue";
 import { createCheckDuplicateId, createEmailVerificationCode, createCheckCertificateEmail, createSignUp } from "~/api/user/signup";
-import { userFormData } from '~~/types/user';
+import { UserFormData } from '~~/types/user';
 import { setErrorMessage, setWarnMessage, setMessage } from '~~/api/alert/message';
+
+definePageMeta({
+  layout: 'start-layout',
+});
+
 const router = useRouter();
 
 const moveLogin = () => {
-  return true;
+  router.back();
 };
 
-const userForm: Ref<userFormData> = ref({
-  id: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false },
+const userForm: Ref<UserFormData> = ref({
+  userId: { value: "", placeholder: "아이디를 입력해주세요.", disabled: false, maxlength: 20 },
   password: { value: '', placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20},
   passwordChk: { value: '',placeholder: "영문, 숫자, 특수문자를 1자이상 포함해 8~20자로 입력해주세요.", maxlength:20 },
   email: {value: '', placeholder: "email형식을 지켜 작성해주세요.", disabled: false},
-  name: {value: '', placeholder: "이름을 입력해주세요.", maxlength: 20},
+  username: {value: '', placeholder: "이름을 입력해주세요.", maxlength: 20},
   birth: {value: '', placeholder: "생일을 입력해주세요" },
   gender: {value:'0', list:[{dtlCd: '0', dtlNm: '남'},{dtlCd: '1', dtlNm: '여'}]},
-  phoneFirst: { placeholder: "000", minlength: 3, maxlength: 3 },
-  phoneSecond: { placeholder: "0000", minlength: 4, maxlength: 4 },
-  phoneThird: { placeholder: "0000", minlength: 4, maxlength: 4 },
-  zipCode: { placeholder: "우편번호", disabled:true },
+  phoneFirst: {value: '', placeholder: "000", minlength: 3, maxlength: 3, isNumber:true  },
+  phoneSecond: {value: '', placeholder: "0000", minlength: 4, maxlength: 4, isNumber:true  },
+  phoneThird: {value: '', placeholder: "0000", minlength: 4, maxlength: 4, isNumber:true  },
+  zipCode: {value: '', placeholder: "우편번호", disabled:true },
   address: {value: '', placeholder: "주소", disabled:true },
   addressDetail: {value: '', placeholder: "상세주소를 입력해주세요." },
 });
@@ -101,17 +106,16 @@ const duplicateId = ref(true);
 const checkDuplicateId = async () => {
   if (duplicateId.value) {
     try{
-      const {data, error} = await createCheckDuplicateId({ userId: userForm.value.id.value });  
+      const {data, error} = await createCheckDuplicateId({ userId: userForm.value.userId.value });  
       if(error.value !== null){
-        const statusCode = error.value.statusCode;
-        const errorMessage = error.value?.data.message;
+        const errorMessage = error.value.data.message;
         setErrorMessage(errorMessage);
       }else if(data.value !== null){
         const duplicateMessage = data.value.message;
         if (duplicateMessage === "사용 가능한 아이디입니다."){ 
           setMessage(data.value.message);
           duplicateId.value = false;
-          userForm.value.id.disabled = true;
+          userForm.value.userId.disabled = true;
         }
       }
     } catch(e){
@@ -129,7 +133,7 @@ const emailModalFlag = ref(false);
 // 이메일 인증 타이머
 const verifyTime = ref(0);
 
-let countTimer: any = null; // interval함수 저장할 변수.
+let countTimer:NodeJS.Timer ; // interval함수 저장할 변수.
 
 
 // 1씩 감소하는 함수
@@ -144,10 +148,14 @@ const countVerifyTime = () =>{
 
 const sendEmailVerificationCode = async () => {
   try{
-    const { email, id } = userForm.value;
-    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: id.value });
-    const verificationCode = data.value.verificationCode;
-    emailVerficationCode.value = verificationCode;
+    const { email, userId } = userForm.value;
+    const { data, error } = await createEmailVerificationCode({ email: email.value, userId: userId.value });
+    if(data.value!==null){
+      const verificationCode = data.value.verificationCode;
+      emailVerficationCode.value = verificationCode;
+    }else{
+      setErrorMessage('새로고침후 다시 진행해 주시기 바랍니다.')
+    }
   }catch(e){
     setErrorMessage(e);
   }
@@ -166,7 +174,10 @@ const setVerifyTimer = () =>{
 const openEmailVerifyModal = () => {
   // e.preventDefault();
   const emailValue = userForm.value.email.value as string;
-  if (duplicateId.value) {
+  const regex = new RegExp(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i);
+  if(!emailValue.match(regex)){ 
+    setWarnMessage("이메일 형식을 맞춰주세요.")
+  } else if (duplicateId.value) {
     setWarnMessage("아이디 중복검사 먼저해주세요");
   } else if(emailValue === null || emailValue.length===0){
     setWarnMessage("이메일 값을 입력해주세요.");
@@ -185,16 +196,15 @@ const closeEmailVerifyModal = () => {
 // 이메일 인증 확인
 const checkCertificateEmail = async() => {
   try{
-    const { email, id } = userForm.value;
+    const { email, userId } = userForm.value;
     const body = {
       email: email.value,
-      userId: id.value,
+      userId: userId.value,
       verifyCode: emailVerficationCode.value,
     };
     const {data, error} = await createCheckCertificateEmail(body);
     if(error.value !== null){
-        const statusCode = error.value.statusCode;
-        const errorMessage = error.value?.data.message;
+        const errorMessage = error.value.data.message;
         setErrorMessage(errorMessage);
     }else if(data.value !== null){
       // 성공 후 
@@ -267,11 +277,12 @@ const openAddressModal = () => {
 };
 
 // 회원가입 버튼 클릭 시 body만들기
-const makeSignUpBody = (body: userFormData) =>{
+const makeSignUpBody = (body: UserFormData) =>{
   
   const result = {
-    userId : body.id.value,
+    userId : body.userId.value,
     password : body.password.value,
+    username: body.username.value,
     email : body.email.value,
     gender :body.gender.value,
     birth : body.birth.value,
@@ -297,7 +308,7 @@ const signUp = async () =>{
       }else if(data.value !== null){
         // const message = data.value.message;
         setMessage('회원가입이 완료되었습니다.')
-        router.push({path:'/'});
+        router.push({name:'login'});
       }
     }catch(e){
       setErrorMessage(e);
@@ -305,11 +316,7 @@ const signUp = async () =>{
   }
 }
 
-
 onMounted(() => {
   addScript();
 });
 </script>
-<style scoped lang="scss">
-
-</style>

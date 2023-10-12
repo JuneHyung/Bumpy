@@ -10,38 +10,21 @@
       width:100%;
     }
   }
-  .info-list-wrap{
-    display:flex;
-    flex: 7;
-    p{
+  .info-list-out-wrap{
+    display:flex; 
+    flex:6;
+    flex-direction: column;
+    .info-list-wrap{
       display:flex;
-      flex:1;
-      flex-direction: column;
-      span{
-        margin-bottom:20px;
+      flex: 1;
+      p{
+        display:flex;
+        flex:1;
+        flex-direction: column;
+        span{
+          margin-bottom:20px;
+        }
       }
     }
-  }
-  
-}
-
-.chart-wrap-box{
-  margin-top:60px;
-  .chart-wrap{
-    display:flex;
-    border: 1px solid black;
-    height:500px;
-    margin-top:8px;
-    justify-content:center;
-    align-items: center;
-  }
-}
-
-.weightDetail-button-wrap{
-  display:flex;
-  justify-content: flex-end;
-  margin-top:20px;
-  button{
-    flex:0;
   }
 }

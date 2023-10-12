@@ -20,13 +20,14 @@
 
 .square-list-wrap-box {
   flex-direction: row;
-  width: 100%;
+  flex: 1;
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 8px;
   }
   
   .square-item {
+    max-width:200px;
     flex: 4 0 200px;
     &:first-child {
       margin-left: 0;
@@ -39,13 +40,16 @@
 
 .rectangle-list-wrap-box {
   flex-direction: column;
-  height:100%;
+  display:flex;
+  flex: 0 4 300px;
+  margin-top: 1.5rem;
   overflow-y: auto;
   &::-webkit-scrollbar {
     width: 8px;
   }
   .rectangle-item {
-    flex: 4 0 80px;
+    flex: 1;
+    max-height:100px;
     // font-size: 14px;
     &:first-child {
       margin-top: 0;
@@ -55,3 +59,5 @@
     }
   }
 }
+
+

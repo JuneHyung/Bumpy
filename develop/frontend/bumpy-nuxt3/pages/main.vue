@@ -2,24 +2,24 @@
   <div class="content-layout main-page">
     <h1 class="content-title">Introduce</h1>
     <div class="content-wrap-box">
-      <p>Welcome 준형갓!</p>
+      <p>Welcome {{ userStore.getUserName() }}</p>
       <p>운동하다 죽기 딱 좋은 날씨에요!</p>
     </div>
     <div class="activity-meal-wrap-box">
       <div class="content-wrap-box activity-wrap-box">
         <div class="activity-title-box">
           <h3 class="activity-title">Your activity</h3>
-          <p class="activity-date">2023.02.07</p>
+          <p class="activity-date">{{ commonStore.getToday() }}</p>
         </div>
         <div class="calendar">
-          <GrassCalendar :activeList="activeList"></GrassCalendar>
+          <GrassCalendar></GrassCalendar>
         </div>
       </div>
       <div class="content-wrap-box meal-wrap-box">
         <div class="meal-title-box">
           <h3 class="meal-title">Today Meal</h3>
         </div>
-        <ActivityList type="square" listType="weight" :list="testList"></ActivityList>
+        <ActivityList type="square" listType="meal" :list="mealStore.getTodayMealList()"></ActivityList>
       </div>
     </div>
 
@@ -27,27 +27,27 @@
       <ul class="last-activity-list">
         <div class="activity-title-box">
           <h3 class="activity-title">Last Activity</h3>
-          <p class="activity-date">2023.02.07</p>
+          <p class="activity-date">{{weightStore.getMainWeightDate()}}</p>
         </div>
 
-        <ActivityList type="rectangle" listType="weight" :list="testList"></ActivityList>
+        <ActivityList type="rectangle" listType="weight" :list="weightStore.getLastWeightList()"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
           <li class="chart-info-item">
             <p class="chart-info-item-title">My Best</p>
-            <p class="chart-info-item-value">40kg</p>
+            <p class="chart-info-item-value">{{weightStore.getMainWeightInfo().myBest}} kg</p>
           </li>
           <li class="chart-info-item">
             <p class="chart-info-item-title">Month Average</p>
-            <p class="chart-info-item-value">26.6kg</p>
+            <p class="chart-info-item-value">{{weightStore.getMainWeightInfo().monthAverage}} kg</p>
           </li>
           <li class="chart-info-item">
             <p class="chart-info-item-title">Reps Average</p>
-            <p class="chart-info-item-value">12reps / 5sets</p>
+            <p class="chart-info-item-value">{{weightStore.getMainWeightInfo().reps}} reps / {{weightStore.getMainWeightInfo().sets}} sets</p>
           </li>
         </ul>
-        <LineChart class="last-activity-cahrt"></LineChart>
+        <LineChart class="last-activity-chart" :xAxis="weightStore.getMainWeightChartInfo().xAxis" :series="weightStore.getMainWeightChartInfo().series"></LineChart>
       </div>
     </div>
 
@@ -55,77 +55,60 @@
       <ul class="last-activity-list">
         <div class="activity-title-box">
           <h3 class="activity-title">Last Aerobic</h3>
-          <p class="activity-date">2023.02.07</p>
+          <p class="activity-date">{{aerobicStore.getMainAerobicDate()}}</p>
         </div>
-        <ActivityList type="rectangle" listType="weight" :list="testList"></ActivityList>
+        <ActivityList type="rectangle" listType="aerobic" :list="aerobicStore.getLastAerobicList()"></ActivityList>
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
           <li class="chart-info-item">
-            <p class="chart-info-item-title">My Best</p>
-            <p class="chart-info-item-value">40kg</p>
+            <p class="chart-info-item-title">Incline Average</p>
+            <p class="chart-info-item-value">{{ aerobicStore.getMainAerobicInfo().averageIncline }}</p>
           </li>
           <li class="chart-info-item">
-            <p class="chart-info-item-title">Month Average</p>
-            <p class="chart-info-item-value">26.6kg</p>
+            <p class="chart-info-item-title">Speed Average</p>
+            <p class="chart-info-item-value">{{ aerobicStore.getMainAerobicInfo().averageSpeed }}</p>
           </li>
           <li class="chart-info-item">
             <p class="chart-info-item-title">Reps Average</p>
-            <p class="chart-info-item-value">12reps / 5sets</p>
+            <p class="chart-info-item-value">{{aerobicStore.getMainAerobicInfo().bestKcal}} kcal | {{aerobicStore.getMainAerobicInfo().bestTime}} m</p>
           </li>
         </ul>
-        <AreaChart class="last-activity-cahrt"></AreaChart>
+        <AreaChart class="last-activity-cahrt" :xAxis="aerobicStore.getMainAerobicChartInfo().xAxis" :series="aerobicStore.getMainAerobicChartInfo().series"></AreaChart>
       </div>
     </div>
   </div>
 </template>
-<script setup>
-import ActivityList from '~/components/list/ActivityList.vue';
-import GrassCalendar from '~/components/calendar/GrassCalendar.vue';
+<script setup lang="ts">
+import ActivityList from '~~/components/list/ActivityList.vue';
+import GrassCalendar from '~~/components/calendar/GrassCalendar.vue';
 
-import AreaChart from '~/components/charts/AreaChart';
-import LineChart from '~/components/charts/LineChart';
+import AreaChart from '~~/components/charts/AreaChart.vue'; // 컴포넌트 선언파일 추가 필요
+import LineChart from '~~/components/charts/LineChart.vue';
+import {useCommonStore} from '~/store/common'
+
+import { useMealStore } from '~~/store/meal';
+import { useUserStore } from '~~/store/user';
+import { useWeightStore } from '~~/store/weight';
+import { useAerobicStore } from '~~/store/aerobic';
+const commonStore = useCommonStore();
+const userStore = useUserStore();
+const mealStore = useMealStore();
+const weightStore = useWeightStore();
+const aerobicStore = useAerobicStore();
+
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
-const activeList = [
-  '2023-04-01',
-  '2023-04-05',
-  '2023-04-12',
-  '2023-04-18',
-  '2023-04-25',
-  '2023-05-01',
-  '2023-05-03',
-  '2023-05-05',
-  '2023-05-12',
-  '2023-05-15',
-  '2023-05-27',
-  '2023-05-28',
-  '2023-05-29',
-  '2023-05-30',
-  '2023-05-13',
-  '2023-05-09',
-  '2023-05-18',
-  '2023-06-01',
-  '2023-06-03',
-  '2023-06-12',
-  '2023-06-17',
-  '2023-06-25',
-  '2023-06-26',
-  '2023-06-27',
-  '2023-06-28',
-  '2023-07-01',
-  '2023-07-11',
-  '2023-07-21',
-  '2023-07-31',
-  '2023-08-31',
-];
-const testList = [
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-  { name: '벤치 프레스', weightStart: 10, weightEnd: 30, pollWeight: 20, repsStart: 12, repsEnd: 8, setReps: 5, memo: '메모메모' },
-];
+
+onMounted(async ()=>{
+  commonStore.setToday();
+  mealStore.setFocusDate(commonStore.getToday());
+  await mealStore.getTodayMealInfo();
+  await weightStore.getLastWeightActivityInfo();
+  await aerobicStore.getLastAerobicActivityInfo();
+  if(weightStore.getLastWeightList().length!==0) await weightStore.getWeightChartInfo(weightStore.getLastWeightList()[0].name as string);
+  if(aerobicStore.getLastAerobicList().length!==0) await aerobicStore.getAerobicChartInfo(aerobicStore.getLastAerobicList()[0].name as string);
+})
 </script>
-<style lang="scss"></style>

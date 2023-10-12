@@ -2,15 +2,15 @@
   <div class="input-wrap-box">
     <label>
       <textarea
-        :value="data.value"
-        :placeholder="data.placeholder"
-        :autofocus="data.autofocus"
-        :cols="data.cols"
-        :rows="data.rows"
-        :maxlength="data.maxlength"
-        :minlength="data.minlength"
-        :disabled="data.disabled"
-        :readonly="data.readonly"
+        :value="props.data.value"
+        :placeholder="props.data.placeholder"
+        :autofocus="props.data.autofocus"
+        :cols="props.data.cols"
+        :rows="props.data.rows"
+        :maxlength="props.data.maxlength"
+        :minlength="props.data.minlength"
+        :disabled="props.data.disabled"
+        :readonly="props.data.readonly"
         class="input-textarea"
       ></textarea>
     </label>
@@ -24,4 +24,3 @@ interface Props {
 }
 const props = defineProps<Props>();
 </script>
-<style scoped></style>
