@@ -31,7 +31,7 @@ public class YoutubeService {
 
         Map<String, String> params = new HashMap<>();
         params.put("part", "snippet");
-        params.put("maxResults", "25");
+        params.put("maxResults", "10");
         params.put("q", keyword);
         params.put("type", "video");
         params.put("key", API_KEY);
