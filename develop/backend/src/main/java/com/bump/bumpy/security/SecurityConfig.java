@@ -40,13 +40,21 @@ public class SecurityConfig {
                     .loginProcessingUrl("/auth/login")
                     .usernameParameter("userId")
                     .passwordParameter("password")
-                    .successHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
-                    .failureHandler((request, response, exception) -> {response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);})
+                    .successHandler((request, response, authentication) -> {
+                        response.setContentType("application/json;charset=UTF-8");
+                        response.getWriter().write("{\"message\":\"로그인 성공\"}");
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    })
+                    .failureHandler((request, response, exception) -> {
+                        response.setContentType("application/json;charset=UTF-8");
+                        response.getWriter().write("{\"message\":\"로그인에 실패하였습니다.\"}");
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    })
                     .permitAll()
                 .and()
                     .logout()
                     .logoutUrl("/auth/logout")
-                    .logoutSuccessHandler((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);})
+                    .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK))
                     .deleteCookies("JSESSIONID")
                 .and()
 
@@ -58,6 +66,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/signup/**").permitAll()
                         .antMatchers("/swagger*/**", "/webjars/**", "/v3/**", "/document/**").permitAll()
+                        .antMatchers("/auth/login").permitAll()
+//                        .anyRequest().permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
@@ -69,11 +79,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         // AuthenticationManager 설정 - userDetails구현체, bCryptPasswordEncoder 적용
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(principalDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
+                .passwordEncoder(passwordEncoder())
                 .and()
                 .build();
     }

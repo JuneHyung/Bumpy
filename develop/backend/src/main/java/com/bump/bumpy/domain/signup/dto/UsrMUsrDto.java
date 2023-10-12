@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,21 +24,26 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
     @Size(max = 20)
     @NotNull
     private String userId;
-//    @Size(max = 100)
-//    @NotNull
-//    private String password;
+
+    // password 변수는 PasswordDto 클래스에서 상속
+
     @Size(max = 100)
     @NotNull
     private String email;
+    @Size(max = 100)
+    private String username;
     @NotNull
     private Byte gender;
     @NotNull
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birth;
     @Size(max = 20)
     private String phoneNumber;
-    private Integer addressMail;
+    private String zipCode;
     @Size(max = 200)
     private String address;
+    @Size(max = 200)
+    private String addressDetail;
     @Size(max = 1000)
     private String picture;
 
@@ -47,11 +53,13 @@ public class UsrMUsrDto extends PasswordDto implements Serializable{
         entity.setUserId(dto.getUserId());
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
+        entity.setUsername(dto.getUsername());
         entity.setGender(dto.getGender());
         entity.setBirth(dto.getBirth());
         entity.setPhoneNumber(dto.getPhoneNumber());
-        entity.setAddressMail(dto.getAddressMail());
+        entity.setZipCode(dto.getZipCode());
         entity.setAddress(dto.getAddress());
+        entity.setAddressDetail(dto.getAddressDetail());
         entity.setPicture(dto.getPicture());
         return entity;
     }

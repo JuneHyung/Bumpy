@@ -1,58 +1,80 @@
 <template>
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">About My Routine</h1>
-    <div class="content-wrap-box">
+    <div class="content-wrap-box" v-if="aerobicStore.getSelectItem().name !=null">
       <h2 class="content-title">{{ infoName.value }}</h2>
       <div class="aerobic-info-box">
-        <div class="chart-wrap">
-          <p>image</p>
+        <div class="kcal-chart-wrap">
+          <RadialBarChart :data="aerobicStore.getSelectItem().kcal"></RadialBarChart>
         </div>
-        <div class="info-list-wrap">
-          <div class="info-item">
-            <template v-for="(info, idx) in infoList" :key="idx">
-              <p class="bp-mr-sm">
-                <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ item.value }} {{ item.unit }}</span>
-                </template>
-              </p>
-            </template>
+        <div class="info-list-out-wrap">
+          <div class="info-list-wrap">
+            <p class="bp-mr-sm">
+              <span>시작 Incline : {{ aerobicStore.getSelectItem().inclineStart }} </span>
+              <span>시작 Speed : {{ aerobicStore.getSelectItem().speedStart }} </span>
+              <span>시간 : {{ aerobicStore.getSelectItem().time }} m</span>
+            </p>
+            <p class="bp-mr-sm">
+              <span>종료 Incline : {{ aerobicStore.getSelectItem().inclineEnd }} </span>
+              <span>종료 Speed : {{ aerobicStore.getSelectItem().speedEnd }} </span>
+              <span>Kcal : {{ aerobicStore.getSelectItem().kcal }}</span>
+            </p>
           </div>
           <div class="info-memo-box">
-            <textarea stype="width:100%;"></textarea>
+            <textarea disabled class="memo-box" :rows="10" :value="aerobicStore.getSelectItem().memo"></textarea>
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
-          <p>Youtube or chart</p>
+        <div class="youtube-wrap">
+          <YoutubeList :list="aerobicStore.getSelectYoutubeList()"></YoutubeList>
         </div>
       </div>
-      <div class="aerobicDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm">취소</button>
-        <button class="short-filled-button">수정</button>
+      <div class="detail-button-wrap">
+        <button class="short-ghost-button" @click="moveAerobicList">취소</button>
+        <button class="short-filled-button bp-mx-sm" v-if="aerobicStore.getIsToday()" @click="removeAerobicItem">삭제</button>
+        <button class="short-filled-button" v-if="aerobicStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
+    <NoData v-else></NoData>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
+import RadialBarChart from "~~/components/charts/RadialBarChart.vue";
+import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
+import { useAerobicStore } from "~~/store/aerobic";
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
-const infoName = { key: 'name', label: '', value: 'Walking' };
-const infoList = [
-  [
-    { key: 'startIncline', label: '시작 Incline', value: '0', unit: '' },
-    { key: 'startSpeed', label: '시작 Speed', value: '12', unit: '' },
-  ],
-  [
-    { key: 'endIncline', label: '종료 Incline', value: '20', unit: '' },
-    { key: 'endSpeed', label: '종료 Speed', value: '8', unit: '' },
-  ],
-  [
-    { key: 'time', label: '시간', value: '63:28', unit: '' },
-    { key: 'kcal', label: 'Kcal', value: '5', unit: '' },
-  ],
-];
-const infoMemo = { key: 'memo', label: '', value: 'memomemomemeomeoemo' };
+
+const router = useRouter();
+const aerobicStore = useAerobicStore();
+const infoName = { key: "name", label: "", value: "Walking" };
+
+
+const moveAerobicList = async () => {
+  await router.push({ name: "aerobic-aerobicList" });
+};
+
+const moveModifyItem = async () => {
+  await router.push({ name: "aerobic-aerobicEdit" });
+};
+
+const removeAerobicItem = async () => {
+  await aerobicStore.removeAerobicItem();
+  await moveAerobicList();
+}
+const getVideoList = async () =>{
+  const keyword = aerobicStore.getSelectItem().name as string
+  await aerobicStore.getYoutubeList(keyword)
+}
+
+onMounted(async ()=>{
+  if(aerobicStore.getSelectItem().name!==undefined){
+    await getVideoList();
+  }
+})
 </script>

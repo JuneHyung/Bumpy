@@ -11,8 +11,8 @@ import java.util.Properties;
 public class MailSenderConfig {
     private String host = "smtp.gmail.com";
 	private int port = 587;
-    private String username = "bumpyMailSender@gmail.com";
-    private String password = "bumpy123!";
+    private String username = "bumpyMailMaster@gmail.com";
+    private String password = "zgfrkwzqntpuwyfd";
     
 	@Bean(name = "JavaMailSender")
 	public JavaMailSender getJavaMailSender() {

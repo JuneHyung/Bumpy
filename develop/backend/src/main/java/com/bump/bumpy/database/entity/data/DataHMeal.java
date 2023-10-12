@@ -1,6 +1,7 @@
 package com.bump.bumpy.database.entity.data;
 
 import com.bump.bumpy.database.entity.composite.DataHMealId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,6 +47,7 @@ public class DataHMeal implements Serializable {
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
+    @JsonIgnore
     private String userId;
 
     @Id
@@ -54,11 +60,8 @@ public class DataHMeal implements Serializable {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "`order`")
-    private Integer order;
-
     @Column(name = "time")
-    private Date time;
+    private LocalTime time;
 
     @Column(name = "kcal", precision = 10)
     private BigDecimal kcal;
@@ -74,43 +77,26 @@ public class DataHMeal implements Serializable {
     @Column(name = "picture", length = 1000)
     private String picture;
 
-    @Size(max = 100)
-    @Column(name = "food1", length = 100)
-    private String food1;
+    @Lob
+    @Column(name = "food")
+    private String food;
 
-    @Size(max = 100)
-    @Column(name = "food2", length = 100)
-    private String food2;
+    // set and get picture method for CRUD API split by ',' and join by ','
+    public List<String> getPicture() {
+        // null check
+        if (this.picture == null) {
+            return new ArrayList<>();
+        }
+        return List.of(this.picture.split(","));
+    }
 
-    @Size(max = 100)
-    @Column(name = "food3", length = 100)
-    private String food3;
+    public void setPicture(List<String> picture) {
+        // null check
+        if (picture == null) {
+            this.picture = null;
+            return;
+        }
+        this.picture = String.join(",", picture);
+    }
 
-    @Size(max = 100)
-    @Column(name = "food4", length = 100)
-    private String food4;
-
-    @Size(max = 100)
-    @Column(name = "food5", length = 100)
-    private String food5;
-
-    @Size(max = 100)
-    @Column(name = "food6", length = 100)
-    private String food6;
-
-    @Size(max = 100)
-    @Column(name = "food7", length = 100)
-    private String food7;
-
-    @Size(max = 100)
-    @Column(name = "food8", length = 100)
-    private String food8;
-
-    @Size(max = 100)
-    @Column(name = "food9", length = 100)
-    private String food9;
-
-    @Size(max = 100)
-    @Column(name = "food10", length = 100)
-    private String food10;
 }

@@ -1,13 +1,13 @@
 <template>
   <div class="user-info-box">
     <ul class="user-info-button-list">
-      <li class="logout-button text-button">Logout</li>
+      <li class="logout-button text-button" @click="Logout">Logout</li>
       <li class="setting-button text-button" @click="moveUserPage">Setting</li>
     </ul>
 
     <div class="user-profile-wrap-box">
       <Avatar name="jh"></Avatar>
-      <p class="user-name bp-mt-sm">준형갓</p>
+      <p class="user-name bp-mt-sm">{{ userStore.getUserName() }}</p>
     </div>
 
     <ul class="user-body-info-box">
@@ -57,42 +57,56 @@
   </div>
 </template>
 <script setup lang="ts">
-import MeterBar from '~/components/meter/MeterBar.vue';
-import Avatar from '~/components/user/Avatar.vue';
+import MeterBar from '~~/components/meter/MeterBar.vue';
+import Avatar from '~~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
+import {fetchLogout} from '~~/api/user/user';
 import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
+import { getUserInfoForMain } from '~~/api/main';
+import { setErrorMessage } from '~~/api/alert/message';
+import { useUserStore } from '~~/store/user';
+import { MainUserInfo } from '~~/types/main';
+import { flatMap } from 'lodash';
 const router = useRouter();
+const userStore = useUserStore();
+
 const userBodyInfo: Ref<UserInfoList>=ref([
   {
+    key: 'height',
     category: 'Height',
-    value: 170,
+    value: '',
     unit: 'cm',
   },
   {
+    key: 'weight',
     category: 'Weight',
-    value: 68,
+    value: '',
     unit: 'kg',
   },
   {
+    key: 'age',
     category: 'Age',
-    value: 27,
+    value: '',
     unit: '',
   },
 ]);
 const userActivityInfo: Ref<UserInfoList>=ref([
   {
+    key: 'continuity',
     category: 'Continuity',
-    value: 180,
+    value: '0',
     unit: 'days',
   },
   {
+    key: 'lastActive',
     category: 'Last Active',
-    value: '2023-04-05',
+    value: '',
     unit: '',
   },
   {
+    key: 'averageWater',
     category: 'Average Water',
-    value: 3.2,
+    value: '',
     unit: 'L',
   },
 ]);
@@ -112,59 +126,129 @@ const degreeList:Ref<DegreeList> = ref([
 ])
 const userInbodyInfo:Ref<MeterList> = ref([
   {
-    value: 68.7,
+    value: 0,
     max: 100,
     min: 0,
     low: 50,
     high: 75,
     optimum: 100,
+    key: 'weight',
     category: '체중',
     unit: 'kg',
   },
   {
-    value: 31.5,
+    value: 0,
     max: 70,
     min: 0,
     low: 20,
     high: 50,
     optimum: 70,
+    key:'muscle',
     category: '골격근량',
     unit: 'kg',
   },
   {
-    value: 17,
+    value: 0,
     max: 100,
     min: 0,
     low: 10,
     high: 30,
     optimum: 100,
+    key:'fat',
     category: '체지방량',
     unit: 'kg',
   },
   {
-    value: 26.8,
+    value: 0,
     max: 100,
     min: 0,
     low: 10,
     high: 40,
     optimum: 100,
+    key:'bmi',
     category: 'BMI',
     unit: 'kg/m2',
   },
   {
-    value: 26.5,
+    value: 0,
     max: 70,
     min: 0,
     low: 10,
     high: 40,
     optimum: 70,
+    key: 'fatRate',
     category: '체지방률',
     unit: '%',
   },
 ]);
 
-const moveUserPage = () => { 
-  router.push({path:'/userPage'})
+const initUserInfo = async (list: MainUserInfo) =>{
+  userStore.setUserName(list.username);
+
+  const {height, age,averageWater, continuity, lastActive, inbodyData} = list;
+  const {weight, fat, muscle, bmi, fatRate} = inbodyData;
+
+  const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
+  const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
+  const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
+
+  const bodyInfoData = {weight, height, age}
+  const userActivityInfoData = {averageWater, continuity, lastActive}
+  const userInbodyInfoData = {inbodyData};  
+
+  // 신체영역 init
+  for(let i=0;i<bodyInfoKeys.length;i++){
+    const key = bodyInfoKeys[i] as keyof Pick<MainUserInfo, 'weight' | 'height' | 'age'>;
+    const target = userBodyInfo.value.find(el=>el.key===key);
+    if(target){
+      target.value = bodyInfoData[key];
+    }
+  }
+  
+  // 활동영역 init
+  for(let i=0;i<userActivityInfoKeys.length;i++){
+    const key = userActivityInfoKeys[i] as keyof Pick<MainUserInfo, 'averageWater' | 'continuity' | 'lastActive'>;
+      const target = userActivityInfo.value.find(el=>el.key===key);
+    if(target){
+      target.value = userActivityInfoData[key];
+    }
+  }
+
+  // meter 영역 init
+  for(let i=0;i<userInbodyInfoKeys.length;i++){
+    const key = userInbodyInfoKeys[i] as keyof Pick<MainUserInfo, 'inbodyData'>;
+    const target = userInbodyInfo.value.find(el=>el.key===key);
+    if(target){
+      target.value = Number(userInbodyInfoData.inbodyData[key]);
+    }
+  }
 }
+
+const getUserInfo = async () => {
+  try{
+    const {data, error} = await getUserInfoForMain();
+    if(error.value!==null){
+      setErrorMessage(error.value);
+    }else if(data.value!==null){
+      const list = data.value.data
+      await initUserInfo(list);
+    }
+  }catch(e){
+    setErrorMessage(e);
+  }
+}
+
+const moveUserPage = () => { 
+  router.push({name:'user-passwordCheck'})
+}
+
+const Logout = async () =>{
+  await fetchLogout();
+  userStore.setIsPass(false);
+  router.push({name: 'index'})
+}
+
+onMounted(async ()=>{
+  await getUserInfo()
+})
 </script>
-<style scoped lang="scss"></style>

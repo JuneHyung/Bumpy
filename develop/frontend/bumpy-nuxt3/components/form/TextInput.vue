@@ -4,22 +4,23 @@
       <input
         type="text"
         :autofocus="false"
-        :placeholder="data.placeholder"
-        :disabled="data.disabled"
-        :readonly="data.readonly"
-        :maxlength="data.maxlength"
-        :minlength="data.minlength"
+        :placeholder="props.data.placeholder"
+        :disabled="props.data.disabled"
+        :readonly="props.data.readonly"
+        :maxlength="props.data.maxlength"
+        :minlength="props.data.minlength"
         @keyup="handleKeyup"
-        v-model="data.value"
+        @input="handleInput"
+        v-model="props.data.value"
         class="input-text"
       />
-      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ data.suffix }}</span>
+      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ props.data.suffix }}</span>
     </label>
     <p class="validate-message bp-mt-xs ellipsis" :class="{ 'correct-message': validateFlag, 'hidden-box': isPattern }">{{ validateMessage }}</p>
   </div>
 </template>
 <script setup lang="ts">
-import { ComputedRef, Ref, computed, onMounted, ref } from 'vue';
+import { ComputedRef, computed, onMounted, ref } from 'vue';
 import { InputText, MatchMessage } from '~~/types/input';
 interface Props {
   data: InputText;
@@ -37,9 +38,15 @@ const handleKeyup = () => {
   validateFlag.value = regex.test(props.data.value as string);
 };
 
+const handleInput = () =>{
+  if(props.data.isNumber){
+    const lastValue = props.data.value;
+    props.data.value = props.data.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+  }
+}
+
 onMounted(() => {
   isPattern.value = props.data.pattern ? false : true;
   isSuffix.value = props.data.suffix ? false : true;
 });
 </script>
-<style scoped lang="scss"></style>

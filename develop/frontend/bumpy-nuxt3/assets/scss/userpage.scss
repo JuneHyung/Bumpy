@@ -20,15 +20,16 @@
       flex: 2;
     }
   }
-  .phone-input-wrap {
-    .userpage-input {
-      flex: 7;
-    }
-    .userpage-phone-input {
-      display: flex;
-      flex: 3;
-    }
+  .userpage-zipcode-input{
+    flex: 0 1 220px;
   }
+  .find-zipcode-button{
+    display:flex;
+    flex: 0 1 100px;
+    align-items: center;
+    justify-content: center;
+  }
+
   .userpage-button-wrap {
     display: flex;
     justify-content: flex-end;
@@ -38,4 +39,5 @@
       flex: 0;
     }
   }
+  
 }

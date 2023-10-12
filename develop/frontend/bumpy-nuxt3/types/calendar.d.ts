@@ -1,0 +1,1 @@
+export type DateListFlag = 'default' | 'plus' | 'minus'

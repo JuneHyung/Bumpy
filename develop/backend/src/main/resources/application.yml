@@ -8,9 +8,9 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://13.209.96.12:51130/bumpy
+    url: jdbc:mariadb://maria-db:51130/bumpy
     username: "bumpyapp"
-    password: "@bumpy123!"
+    password:
 
   jpa:
     hibernate:
@@ -23,10 +23,17 @@ spring:
       hibernate:
         format_sql: true
 
+caching:
+  evictTTL: 43200000
+
 server:
   servlet:
     context-path: /api
   port: 8090
+
+file:
+  upload:
+    path: c:/uploadFiles/
 
 cors:
   origins:

@@ -3,7 +3,7 @@
     <ul class="menu-list">
       <li class="menu-list-logo" @click="moveMain"></li>
       <template v-for="(item, idx) in menuList" :key="idx">
-        <li class="menu-list-item"><NuxtLink :to="item.link" class="menu-list-link">{{ item.label }}</NuxtLink></li>
+        <li class="menu-list-item"><NuxtLink :to="{name: item.link}" class="menu-list-link">{{ item.label }}</NuxtLink></li>
       </template>
     </ul>
   </nav>
@@ -15,35 +15,32 @@ const router = useRouter();
 
 const menuList: MenuList =[
   {
-    link: '/main',
+    link: 'main',
     label: 'Main',
     isActive: false,
   },
   {
-    link: '/weight/weightList',
+    link: 'weight-weightList',
     label: '웨이트',
     isActive: false,
   },
   {
-    link: '/aerobic/aerobicList',
+    link: 'aerobic-aerobicList',
     label: '유산소',
     isActive: false,
   },
   {
-    link: '/meal/mealList',
+    link: 'meal-mealList',
     label: '식단',
     isActive: false,
   },
   {
-    link: '/inbody/inbodyList',
+    link: 'inbody-inbodyList',
     label: '인바디',
     isActive: false,
   },
 ]
 const moveMain = () =>{
-  router.push({path: '/main'})
+  router.push({name: 'main'})
 }
 </script>
-<style lang="scss" scoped>
-
-</style>

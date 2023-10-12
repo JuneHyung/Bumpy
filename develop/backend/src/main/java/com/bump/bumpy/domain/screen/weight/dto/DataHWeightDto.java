@@ -1,6 +1,7 @@
 package com.bump.bumpy.domain.screen.weight.dto;
 
 import com.bump.bumpy.database.entity.data.DataHWeight;
+import com.bump.bumpy.util.dto.PictureDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A DTO for the {@link com.bump.bumpy.database.entity.data.DataHWeight} entity
@@ -22,10 +24,6 @@ import java.util.Date;
 public class DataHWeightDto implements Serializable {
     @NotNull
     private Date stdDate;
-    @Size(max = 20)
-    @NotNull
-    private String userId;
-    @NotNull
     private Integer seq;
     @Size(max = 100)
     @NotNull
@@ -40,15 +38,13 @@ public class DataHWeightDto implements Serializable {
     private Integer measure;
     @Size(max = 1000)
     private String memo;
-    @Size(max = 1000)
-    private String picture;
+    private List<PictureDto> picture;
 
     // to entity method for insert
-    public DataHWeight toEntity() {
+    public DataHWeight toEntity(int seq, List<String> picture) {
         DataHWeight entity = new DataHWeight();
         entity.setStdDate(this.stdDate);
-        entity.setUserId(this.userId);
-        entity.setSeq(this.seq);
+        entity.setSeq(seq);
         entity.setName(this.name);
         entity.setWeightStart(this.weightStart);
         entity.setWeightEnd(this.weightEnd);
@@ -58,12 +54,12 @@ public class DataHWeightDto implements Serializable {
         entity.setSetReps(this.setReps);
         entity.setMeasure(this.measure);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 
     // to entity method for update
-    public DataHWeight updateEntity(DataHWeight entity) {
+    public DataHWeight updateEntity(DataHWeight entity, List<String> picture) {
         entity.setName(this.name);
         entity.setWeightStart(this.weightStart);
         entity.setWeightEnd(this.weightEnd);
@@ -73,7 +69,7 @@ public class DataHWeightDto implements Serializable {
         entity.setSetReps(this.setReps);
         entity.setMeasure(this.measure);
         entity.setMemo(this.memo);
-        entity.setPicture(this.picture);
+        entity.setPicture(picture);
         return entity;
     }
 }

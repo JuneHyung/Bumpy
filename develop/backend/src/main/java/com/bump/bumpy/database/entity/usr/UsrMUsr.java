@@ -1,5 +1,6 @@
 package com.bump.bumpy.database.entity.usr;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class UsrMUsr implements Serializable {
     @Size(max = 20)
     @NotNull
     @Column(name = "userId", nullable = false, length = 20)
+    @JsonIgnore
     private String userId;
 
     @Size(max = 100)
@@ -43,10 +45,14 @@ public class UsrMUsr implements Serializable {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    @Size(max = 100)
+    @Column(name = "username", length = 100)
+    private String username;
+
     @NotNull
     @Builder.Default
     @Column(name = "useYn", nullable = false)
-    private Boolean useYn = false;
+    private Boolean useYn = true;
 
     @NotNull
     @Column(name = "gender", nullable = false)
@@ -60,12 +66,17 @@ public class UsrMUsr implements Serializable {
     @Column(name = "phoneNumber", length = 20)
     private String phoneNumber;
 
-    @Column(name = "addressMail")
-    private Integer addressMail;
+    @Size(max = 10)
+    @Column(name = "zipCode", length = 10)
+    private String zipCode;
 
     @Size(max = 200)
     @Column(name = "address", length = 200)
     private String address;
+
+    @Size(max = 200)
+    @Column(name = "addressDetail", length = 200)
+    private String addressDetail;
 
     @Size(max = 1000)
     @Column(name = "picture", length = 1000)

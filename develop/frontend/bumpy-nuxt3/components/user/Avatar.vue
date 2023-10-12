@@ -8,6 +8,4 @@ interface Props {
   name: string;
 }
 const props = defineProps<Props>();
-let url = '~/assets/images/beam.png';
 </script>
-<style lang="scss"></style>

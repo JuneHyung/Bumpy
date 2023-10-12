@@ -1,0 +1,46 @@
+
+.load-list-wrap-box {
+  display: flex;
+  .load-list-box {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    border: 1px solid  $white-color;
+    box-sizing: border-box;
+    padding: 4px;
+    .load-list-category{
+      font-size:1.1rem;
+      text-align: center;
+      border-bottom:1px solid $white-color;
+      padding:4px;
+    }
+    .load-list{
+      max-height: 10rem;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        border-radius: 1.25rem;
+        height:0.3rem;
+      }
+      &::-webkit-scrollbar-track {
+        border-radius: 1.25rem;
+        background-color: $low-point-color;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 1.25rem;
+        background-color: $high-point-color;
+      }
+
+      .load-item{
+        display:flex;
+        flex:1;
+        cursor: pointer;
+        background-color: rgba(255,255,255,0.2);
+        transition: all 0.2s;
+        &:hover{
+          background-color:$low-point-color;
+          color:$middle-point-color;
+        }
+      }
+    }
+  }
+}

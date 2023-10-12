@@ -1,8 +1,8 @@
 <template>
   <div class="input-wrap-box">
     <label>
-      <input type="date" :autofocus="false" :disabled="data.disabled" :readonly="data.readonly" max="9999-12-31" v-model="data.value" class="input-date" pattern="\d{4}-\d{2}-\d{2}" />
-      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ data.suffix }}</span>
+      <input type="date" :autofocus="false" :disabled="props.data.disabled" :readonly="props.data.readonly" max="9999-12-31" v-model="props.data.value" class="input-date" pattern="\d{4}-\d{2}-\d{2}" />
+      <span class="suffix bp-ml-xs" :class="{ 'hidden-box': isSuffix }">{{ props.data.suffix }}</span>
     </label>
   </div>
 </template>
@@ -23,4 +23,3 @@ onMounted(() => {
   isSuffix.value = props.data.suffix ? false : true;
 });
 </script>
-<style scoped lang="scss"></style>

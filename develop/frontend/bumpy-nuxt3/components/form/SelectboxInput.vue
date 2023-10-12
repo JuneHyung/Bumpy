@@ -19,7 +19,9 @@ interface Props {
 const props = defineProps<Props>();
 const closeFlag = ref(true);
 const toggleList = () => {
+  if(props.data.disabled) return;
   closeFlag.value = !closeFlag.value;
+  
 };
 const setValue = (item: SelectItem) => {
   // console.log(item)
@@ -29,6 +31,4 @@ const isEmpty = (val?: string) => {
   const arr = props.data.list?.map((el) => el.dtlCd);
   return val === undefined || val === null || !arr.includes(val);
 };
-const origin = ref(props.data.value);
 </script>
-<style lang="scss" scoped></style>

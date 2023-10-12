@@ -2,60 +2,155 @@
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">Edit My Routine</h1>
     <form class="content-wrap-box">
-      <label class="mealEdit-input-label photo-wrap-box bp-mt-sm">
+      <label class="edit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <div class="photo-wrap"></div>
+        <FileUploader :list="form.picture"></FileUploader>
       </label>
-      <div class="mealEdit-input-wrap-box">
-        <div class="mealEdit-input-label-wrap">
+      <div class="flex bp-my-sm">
+        <div class="flex flex-4 bp-my-sm">
           <template v-for="(list, idx) in numberList" :key="idx">
-            <div class="mealEdit-input-label">
+            <div class="edit-input-col">
               <template v-for="(item, nIdx) in list" :key="nIdx">
-                <label class="number-input-wrap">
-                  <span class="bp-mr-sm">{{ item.label }}</span>
-                  <div class="number-input">
-                    <NumberInput :data="item.data"></NumberInput>
+                <label class="edit-input-label">
+                  <span class="edit-label bp-mr-sm">{{ item.label }}</span>
+                  <div class="edit-input">
+                    <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
+                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else></TextInput>
                   </div>
                 </label>
               </template>
             </div>
           </template>
         </div>
-        <div class="food-list-wrap-box"></div>
+        <div class="flex flex-6">
+          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem"></FoodList>
+        </div>
       </div>
 
-      <label>
-        <p>메모</p>
-        <textarea></textarea>
+      <label class="edit-input-label bp-mb-lg">
+        <p class="edit-label bp-mr-sm" style="width:60px;">메모</p>
+        <TextareaInput :data="form.memo"></TextareaInput>
       </label>
-      <div class="mealEdit-button-wrap">
-        <button class="short-ghost-button">취소</button>
-        <button class="short-ghost-button bp-mx-sm">초기화</button>
-        <button class="short-filled-button">저장</button>
+      <div class="edit-button-wrap bp-my-sm">
+        <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>
+        <button type="button" class="short-ghost-button bp-mx-sm" @click="resetSelectItem">초기화</button>
+        <button type="button" class="short-filled-button" @click="saveMealItem" v-if="editFlag">저장</button>
+        <button type="button" class="short-filled-button" @click="modifyMealItem" v-else>수정</button>
       </div>
     </form>
   </main>
 </template>
-<script setup>
-import LoadList from '~/components/list/LoadList.vue';
-import TextInput from '~/components/form/TextInput.vue';
-import NumberInput from '~/components/form/NumberInput.vue';
-const info = { name: '벤치프레스' };
-const form = ref({
-  name: { value: '', placeholder: '잠온다' },
+<script setup lang="ts">
+import TextInput from '~~/components/form/TextInput.vue';
+import TextareaInput from '~~/components/form/TextareaInput.vue';
+import { useMealStore } from '~~/store/meal';
+import { useCommonStore } from '~~/store/common';
+import FoodList from '~~/components/list/FoodList.vue';
+import { MealFormData, MealItemRequestBody} from '~~/types/meal';
+import FileUploader from '~~/components/form/FileUploader.vue'
+import TimeInput from '~~/components/form/TimeInput.vue';
+
+definePageMeta({
+  layout: 'main-layout',
+  middleware: 'custom-router-guard'
+});
+
+const commonStore = useCommonStore();
+const mealStore = useMealStore();
+const router = useRouter();
+const editFlag = computed(()=>mealStore.getSelectItem().seq==='');
+
+const form: Ref<MealFormData> = ref({
+  name: { value: '' },
+  time: { value:'', isNumber:true, minlength: 0, maxlength: 3  },
+  kcal: { value:'', isNumber:true, minlength: 0, maxlength: 4 },
+  water: { value:'', isNumber:true, minlength: 0, maxlength: 2 },
+  food: { value: []},
+  memo: {value:'', rows: 10},
+  picture: {value:[]}
 });
 
 const numberList = [
   [
-    { key: 'name', label: '이름', data: { value: '', placeholder: '' } },
-    { key: 'order', label: '차례', data: { value: '', placeholder: '' } },
-    { key: 'time', label: 'Time', data: { value: '', placeholder: '' } },
-    { key: 'kcal', label: 'Kcal', data: { value: '', placeholder: '' } },
-    { key: 'water', label: 'Water', data: { value: '', placeholder: '' } },
+    { key: 'name', label: '이름'},
+    { key: 'time', label: 'Time'},
+    { key: 'kcal', label: 'Kcal'},
+    { key: 'water', label: 'Water'},
   ],
 ];
-definePageMeta({
-  layout: 'main-layout',
+
+const makeBody = () =>{
+  const foodList = form.value.food?.value.map(item=> item.value);
+  const request: MealItemRequestBody = {
+    stdDate: mealStore.getFocusDate() === null || mealStore.getFocusDate().length===0 ? commonStore.getToday() : mealStore.getFocusDate(),
+    name: form.value.name.value ,
+    time: form.value.time?.value ,
+    kcal: form.value.kcal?.value ,
+    water: form.value.water?.value,
+    food: foodList,
+    memo: form.value.memo?.value,
+    picture: form.value.picture?.value,
+  }
+  if (!editFlag.value) request.seq = mealStore.getSelectItem().seq;
+  return request;
+}
+
+const plusItem = () =>{
+  form.value.food.value.push({value: ''})
+}
+const removeItem = (idx: number) => {
+  const arr = form.value.food.value.slice();
+  arr.splice(idx, 1);
+  form.value.food.value = arr;
+}
+
+// 저장 버튼
+const saveMealItem = async () =>{
+  const body = makeBody()
+  mealStore.postMealItem(body);
+  router.push({name: "meal-mealList"})
+}
+
+// 수정 버튼
+const modifyMealItem = async () =>{
+  const body = makeBody()
+  mealStore.putMealItem(body);
+  router.push({name: "meal-mealList"});
+}
+
+// 초기화 버튼
+const resetSelectItem = () =>{
+  const keys = Object.keys(form.value);
+  for(let i=0;i<keys.length;i++){
+    const key = keys[i] as keyof MealFormData;
+    form.value[key].value = '';
+  }
+}
+
+// 취소 버튼
+const cancelMealEdit = () =>{
+  router.back();
+}
+
+const initSelectItem = async () =>{
+  const keys = Object.keys(form.value);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i] as keyof MealFormData;
+    if(key==='food'){
+      const result = mealStore.getSelectItem()[key].map(el=>{return{value: el}});
+      form.value[key].value = result;
+    }else{
+      form.value[key].value = mealStore.getSelectItem()[key];
+    }
+  }
+}
+
+onMounted(async () => {
+  if (!editFlag.value) {
+    await initSelectItem();
+  } else {
+    await mealStore.resetSelectItem();
+  }
 });
+
 </script>
-<style scoped lang="scss"></style>

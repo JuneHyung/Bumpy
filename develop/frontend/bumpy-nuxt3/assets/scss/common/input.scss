@@ -1,7 +1,8 @@
 .input-wrap-box {
   display: flex;
   flex-direction: column;
-  flex: 1 1 200;
+  min-width:200px;
+  flex: 1;
   border: none;
 
   label {
@@ -27,6 +28,7 @@
   }
 
   .input-text,
+  .input-time,
   .input-password,
   .input-number,
   .input-date,
@@ -38,6 +40,7 @@
     border-radius: 4px;
     height: 40px;
     background: none;
+    color:#fff;
     padding: 0 8px;
     display: flexbox;
     &:focus {
@@ -75,4 +78,14 @@
     outline: none;
     // https://blossoming-man.tistory.com/entry/textarea에-엔터를-입력했는데-렌더링해보니-줄-바꿈이-안-된다
   }
+}
+
+.memo-box{
+  width:100%;
+  &:disabled{
+    background:none;
+  }
+  resize:none;
+  color:$white-color;
+  padding:0.5rem;
 }

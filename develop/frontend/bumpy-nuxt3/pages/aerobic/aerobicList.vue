@@ -1,53 +1,28 @@
 <template>
-  <main class="content-layout aerobic-list-wrap-box">
+  <main class="content-layout list-page-wrap-box">
     <h1 class="content-title">Your Activity List</h1>
-    <div class="content-wrap-box bp-my-lg">
-      <div class="title-wrap-box">
-        <h3 class="content-title" @click="moveDetail">2022-02-01</h3>
-        <button @click="moveEdit">Edit</button>
-      </div>
-      <ActivityList type="square" :list="testList" @click="moveDetail"></ActivityList>
-    </div>
-    <div class="content-wrap-box bp-mt-xl">
-      <p>calendar ing</p>
-    </div>
+    <ActivitySection info="aerobic" />
+    <CalendarSection info="aerobic" />
   </main>
 </template>
-<script setup>
-import ActivityList from '~~/components/list/ActivityList.vue';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+<script setup lang="ts">
+import ActivitySection from '~~/components/section/ActivitySection.vue';
+import CalendarSection from '~~/components/section/CalendarSection.vue';
+import { useAerobicStore } from '~~/store/aerobic';
+import { useCommonStore } from '~~/store/common';
+const commonStore = useCommonStore();
+const aerobicStore = useAerobicStore();
+
 definePageMeta({
   layout: 'main-layout',
+  middleware: 'custom-router-guard'
 });
-const moveDetail = () => {
-  router.push({ path: 'aerobicDetail' });
-};
-const moveEdit = () => {
-  router.push({ path: 'aerobicEdit' });
-};
-const testList = [
-  { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  {
-    name: '벤치 프레스',
-    startWeight: 10,
-    endWeight: 30,
-    barWeight: 20,
-    startReps: 12,
-    endReps: 8,
-    setReps: 5,
-    memo: '메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모메모',
-  },
-  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-  // { name: '벤치 프레스', startWeight: 10, endWeight: 30, barWeight: 20, startReps: 12, endReps: 8, setReps: 5, memo: '메모메모' },
-];
+
+onMounted(async ()=>{
+  const today =commonStore.getToday();
+  await aerobicStore.setFocusDate(today);
+  await aerobicStore.getCalendarListByStdDate(today);
+  await aerobicStore.getActivityListByStdDate(today);
+})
+
 </script>
-<style scoped lang="scss">
-.aerobic-list-wrap-box {
-  .title-wrap-box {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-</style>

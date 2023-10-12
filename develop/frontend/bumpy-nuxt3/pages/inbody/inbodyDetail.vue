@@ -1,52 +1,92 @@
 <template>
   <main class="content-layout">
-    <h1 class="content-title q-mb-lg">About Last Inbody</h1>
-    <div class="content-wrap-box">
-      <h2 class="content-title">{{ infoName.value }}</h2>
+    <h1 class="content-title q-mb-lg">About Your Inbody</h1>
+    <div class="content-wrap-box" v-if="inbodyStore.getSelectItem().bmi!=null">
+      <h2 class="content-title">{{ inbodyStore.getFocusDate() }} Inbody</h2>
       <div class="inbody-info-box">
-        <div class="chart-wrap">
-          <p>image</p>
+        <div class="photo-list-wrap">
+          <ImageList :list="imageList()"></ImageList>
         </div>
         <div class="info-list-wrap">
           <div class="info-item">
             <template v-for="(info, idx) in infoList" :key="idx">
               <p class="bp-mr-sm">
                 <template v-for="(item, iIdx) in info" :key="iIdx">
-                  <span>{{ item.label }} : {{ item.value }} {{ item.unit }}</span>
+                  <span>{{ item.label }} : {{ inbodyStore.getSelectItem()[item.key as keyof Inbody] }} {{ item.unit }}</span>
                 </template>
               </p>
             </template>
           </div>
         </div>
       </div>
-      <div class="chart-wrap-box">
+      <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
-        <div class="chart-wrap">
-          <p>Youtube or chart</p>
+        <div class="youtube-wrap">
+          <YoutubeList :list="inbodyStore.getSelectYoutubeList()"/>
         </div>
       </div>
-      <div class="inbodyDetail-button-wrap">
-        <button class="short-ghost-button bp-mr-sm">취소</button>
-        <button class="short-filled-button">수정</button>
+      <div class="detail-button-wrap">
+        <button class="short-ghost-button" @click="moveInbodyList">취소</button>
+        <button class="short-filled-button bp-mx-sm" v-if="inbodyStore.getIsToday()" @click="removeInbodyItem">삭제</button>
+        <button class="short-filled-button" v-if="inbodyStore.getIsToday()" @click="moveModifyItem">수정</button>
       </div>
     </div>
+    <NoData v-else></NoData>
   </main>
 </template>
-<script setup>
+<script setup lang="ts">
+import { useInbodyStore } from "~~/store/inbody";
+import ImageList from "~~/components/list/ImageList.vue";
+import { Inbody } from "~~/types/inbody";
+import NoData from "~~/components/common/NoData.vue";
+import YoutubeList from "~~/components/common/YoutubeList.vue";
+
 definePageMeta({
-  layout: 'main-layout',
+  layout: "main-layout",
+  middleware: 'custom-router-guard'
 });
-const infoName = { key: 'name', label: '', value: '준형갓' };
+
+const router = useRouter();
+const inbodyStore = useInbodyStore();
+
 const infoList = [
   [
-    { key: 'kcal', label: '검사 날짜', value: '2023-01-05', unit: '' },
-    { key: 'time', label: '키', value: 170, unit: 'cm' },
-    { key: 'water', label: '체중', value: 67.3, unit: 'kg' },
-    { key: 'kcal', label: '골격근량', value: 31.5, unit: 'kg' },
-    { key: 'time', label: '체지방량', value: 21.1, unit: 'kg' },
-    { key: 'water', label: '인바디 점수', value: 78, unit: '점' },
-    { key: 'kcal', label: 'BMI', value: 26.5, unit: 'kg/m2' },
-    { key: 'time', label: '체지방률', value: 28.5, unit: '%' },
+    { key: "stdDate", label: "검사 날짜", unit: "" },
+    { key: "height", label: "키", unit: "cm" },
+    { key: "weight", label: "체중", unit: "kg" },
+    { key: "muscle", label: "골격근량", unit: "kg" },
+    { key: "fat", label: "체지방량", unit: "kg" },
+    { key: "score", label: "인바디 점수", unit: "점" },
+    { key: "bmi", label: "BMI", unit: "kg/m2" },
+    { key: "fatRate", label: "체지방률", unit: "%" },
   ],
 ];
+
+const imageList = () => {
+  const list = inbodyStore.getSelectItem().picture as ImageData[];
+  return list.map((el) => el.data);
+};
+
+const moveInbodyList = async () => {
+  await router.push({ name: "inbody-inbodyList" });
+};
+
+const moveModifyItem = async () => {
+  await router.push({ name: "inbody-inbodyEdit" });
+};
+
+const removeInbodyItem = async () =>{
+  await inbodyStore.removeInbodyItem();
+  await moveInbodyList();
+}
+
+const getVideoList = async () =>{
+  await inbodyStore.getYoutubeList()
+}
+
+onMounted(async ()=>{
+  if(inbodyStore.getSelectItem().weight.length !==0){
+    await getVideoList();
+  }
+})
 </script>
