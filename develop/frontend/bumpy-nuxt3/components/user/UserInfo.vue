@@ -66,7 +66,7 @@ import { getUserInfoForMain } from '~~/api/main';
 import { setErrorMessage } from '~~/api/alert/message';
 import { useUserStore } from '~~/store/user';
 import { MainUserInfo } from '~~/types/main';
-import { flatMap } from 'lodash';
+import {resetAllData} from '~~/api/util';
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -249,6 +249,7 @@ const Logout = async () =>{
 }
 
 onMounted(async ()=>{
-  await getUserInfo()
+  await getUserInfo();
+  await resetAllData();
 })
 </script>

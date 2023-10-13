@@ -4,6 +4,7 @@ import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { getGrassInfo } from '~~/api/main';
 import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
+import { resetAllData } from '~~/api/util';
 import { DateListFlag } from '~~/types/calendar';
 import { GrassInfoItem, GrassInfoList, GrassInfoResponseBody } from '~~/types/main';
 import { UserUpdateRequestBody, passwordChkRequest, UserPageInfo } from '~~/types/user';
@@ -36,6 +37,30 @@ export const useUserStore = defineStore('user-store',()=>{
       addressDetail: '',
     }
   );
+
+  const resetAllData = async () =>{
+    await setIsPass(false);
+    await setUserName('');
+    await setThisDate('');
+    await setDisplayDate('');
+    await setDateList(defaultDateList);
+    await setUserPageInfo({
+      userId: '',
+      password: '',
+      passwordChk: '',
+      username: '',
+      email: '',
+      birth: '',
+      gender: '',
+      phoneNumber: '',
+      phoneFirst: '',
+      phoneSecond: '',
+      phoneThird: '',
+      zipCode: '',
+      address: '',
+      addressDetail: '',
+    })
+  }
 
   const fetchUserPageInfo = async () => {
     try{
@@ -176,5 +201,6 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
 
     deleteUserPageData,
     updateUserPageData,
+    resetAllData,
   }
 })

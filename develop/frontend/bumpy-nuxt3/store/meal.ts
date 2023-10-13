@@ -26,7 +26,24 @@ export const useMealStore = defineStore("meal-store", () => {
 
   const todayMealList:Ref<MealList> = ref([]);
   const selectYoutubeList: Ref<YoutubeList> = ref([]);
-
+  const resetAllData = async () =>{
+    await setFocusDate('')
+    await setIsToday();
+    await setActivityList([])
+    await setCalendarlist([])
+    await setSelectItem({
+      seq: '',
+      name: '',
+      time: '',
+      kcal: '',
+      water: '',
+      memo: '',
+      stdDate: '',
+      picture: [],
+      food: [],
+    })
+    selectYoutubeList.value = []
+  }
   // dispatch
   const getTodayMealInfo = async () => {
     try{
@@ -217,6 +234,7 @@ export const useMealStore = defineStore("meal-store", () => {
     getSelectItem,
     getTodayMealList,
     getYoutubeList,
-    getSelectYoutubeList
+    getSelectYoutubeList,
+    resetAllData
   };
 });

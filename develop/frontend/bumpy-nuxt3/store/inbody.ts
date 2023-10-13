@@ -24,6 +24,27 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     picture: [],  
   });
   const selectYoutubeList: Ref<YoutubeList> = ref([]);
+
+  const resetAllData = async () =>{
+    await setFocusDate('')
+    await setIsToday();
+    await setActivityList([])
+    await setCalendarlist([])
+    await setSelectItem({
+      height: '',
+      weight: '',
+      age: '',
+      muscle: '',
+      fat: '',
+      score: '',
+      bmi: '',
+      fatRate: '',
+      stdDate: '',
+      picture: [],  
+    })
+    selectYoutubeList.value = []
+  }
+
   // dispatch
   const getYoutubeList = async () => {
     try{
@@ -193,6 +214,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     getCalendarList,
     getSelectItem,
     getYoutubeList,
-    getSelectYoutubeList
+    getSelectYoutubeList,
+    resetAllData
   };
 })
