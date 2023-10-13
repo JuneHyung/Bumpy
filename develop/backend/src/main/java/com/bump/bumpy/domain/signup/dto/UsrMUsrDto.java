@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -22,13 +23,13 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UsrMUsrDto extends PasswordDto implements Serializable{
     @Size(max = 20)
-    @NotNull
+    @NotEmpty
     private String userId;
 
     // password 변수는 PasswordDto 클래스에서 상속
 
     @Size(max = 100)
-    @NotNull
+    @NotEmpty
     private String email;
     @Size(max = 100)
     private String username;

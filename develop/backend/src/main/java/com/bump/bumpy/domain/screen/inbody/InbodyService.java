@@ -12,7 +12,6 @@ import com.bump.bumpy.domain.screen.inbody.dto.SearchInbodyDto;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
-import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.YoutubeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
