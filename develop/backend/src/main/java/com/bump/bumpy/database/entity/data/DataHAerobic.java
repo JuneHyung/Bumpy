@@ -87,7 +87,7 @@ public class DataHAerobic implements Serializable {
     // set and get picture method for CRUD API split by ',' and join by ','
     public List<String> getPicture() {
         // null check
-        if (this.picture == null) {
+        if (this.picture == null || this.picture.isEmpty()) {
             return new ArrayList<>();
         }
         return List.of(this.picture.split(","));
@@ -95,7 +95,7 @@ public class DataHAerobic implements Serializable {
 
     public void setPicture(List<String> picture) {
         // null check
-        if (picture == null) {
+        if (picture == null || picture.isEmpty()) {
             this.picture = null;
             return;
         }

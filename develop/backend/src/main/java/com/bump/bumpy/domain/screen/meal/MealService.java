@@ -11,7 +11,6 @@ import com.bump.bumpy.domain.screen.meal.dto.MealResponse;
 import com.bump.bumpy.util.dto.PictureDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
-import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import com.bump.bumpy.util.funtion.YoutubeService;
 import com.fasterxml.jackson.core.JsonProcessingException;

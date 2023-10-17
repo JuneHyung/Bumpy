@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ValidationException;
+
 @Slf4j
 @Order(GlobalExceptionHandler.ODER)
 @RestControllerAdvice
@@ -23,6 +25,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     })
     public ResponseEntity<Object> handleAuthenticationException(Exception e, HttpStatus status) {
         log.error("Authorization Exception", e);
-        return ResponseEntity.status(status).body(e.getMessage());
+        return ResponseEntity.status(status).body("인증 실패");
+    }
+
+    @ExceptionHandler(value = {
+            ValidationException.class
+
+    })
+    public ResponseEntity<Object> handleValidationException(Exception e, HttpStatus status) {
+        log.error("Validation Exception", e);
+        return ResponseEntity.status(status).body("누락되었거나, 잘못된 값입니다.");
     }
 }

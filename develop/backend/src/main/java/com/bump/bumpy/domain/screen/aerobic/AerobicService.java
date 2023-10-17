@@ -13,7 +13,6 @@ import com.bump.bumpy.domain.screen.dto.SearchRequestDto;
 import com.bump.bumpy.domain.screen.dto.SearchYoutubeDto;
 import com.bump.bumpy.util.dto.ResultMap;
 import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
-import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
 import com.bump.bumpy.util.funtion.FieldValueUtil;
 import com.bump.bumpy.util.funtion.YoutubeService;
 import lombok.RequiredArgsConstructor;

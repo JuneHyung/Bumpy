@@ -40,21 +40,19 @@ public class SignUpController {
 
     @Operation(summary = "인증용 이메일 발송", description = "")
     @PostMapping("/email/send")
-    public ResponseEntity<ResultMap> sendEmail(@RequestBody EmailRequestDto request) {
+    public ResponseEntity<ResultMap> sendEmail(@RequestBody @Valid EmailRequestDto request) {
         return signUpService.sendEmail(request);
     }
 
     @Operation(summary = "이메일 인증", description = "")
     @PostMapping("/email/validate")
-    public ResponseEntity<ResultMap> validateEmail(@RequestBody EmailRequestDto request) {
+    public ResponseEntity<ResultMap> validateEmail(@RequestBody @Valid EmailRequestDto request) {
         return signUpService.validateEmail(request);
     }
 
     @Operation(summary = "회원가입", description = "")
     @PostMapping("/submit")
-    public ResponseEntity<ResultMap> submit(@RequestBody @Valid UsrMUsrDto request, BindingResult result) {
-        if(result.hasErrors())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", result.getAllErrors().get(0).getDefaultMessage()));
+    public ResponseEntity<ResultMap> submit(@RequestBody @Valid UsrMUsrDto request) {
         return signUpService.submit(request);
     }
 }

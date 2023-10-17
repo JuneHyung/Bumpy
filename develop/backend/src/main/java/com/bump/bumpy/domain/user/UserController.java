@@ -48,7 +48,7 @@ public class UserController {
     @Operation(summary = "사용자정보 업데이트", description = "")
     @PutMapping("/update")
     public ResponseEntity<ResultMap> update(@RequestBody @Valid UserUpdateDto request) {
-        if(request.getPassword() != null) {
+        if(request.getPassword() != null && !request.getPassword().equals("")) {
             PasswordDto passwordDto = new PasswordDto();
             passwordDto.setPassword(request.getPassword());
             userService.updatePassword(passwordDto);

@@ -17,6 +17,6 @@ public class GlobalUnCheckedExceptionHandler {
     })
     public ResponseEntity<ResultMap> handleGlobalException(Exception e) {
         log.error("Unchecked Exception", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResultMap("message", "알 수 없는 에러가 발생했습니다."));
     }
 }
