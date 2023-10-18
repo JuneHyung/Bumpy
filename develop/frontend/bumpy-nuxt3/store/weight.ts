@@ -228,6 +228,7 @@ export const useWeightStore = defineStore("weight-store", () => {
 
   // getter & setter
   const setFocusDate = async (date: string | Date) => {
+    console.log(date)
     focusDate.value = dayjs(date).format("YYYY-MM-DD");
     setIsToday();
   };
