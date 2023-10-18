@@ -155,6 +155,8 @@ export const useWeightStore = defineStore("weight-store", () => {
       } else if (data.value?.data !== null && data.value?.data !== undefined) {
         const list = data.value?.data;
         setCalendarlist(list);
+      }else{
+        setCalendarlist([]);
       }
     } catch (e) {
       setErrorMessage(e);
