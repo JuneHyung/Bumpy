@@ -183,6 +183,7 @@ const userInbodyInfo:Ref<MeterList> = ref([
 ]);
 
 const initUserInfo = async (list: MainUserInfo) =>{
+  console.log(list);
   userStore.setUserName(list.username);
 
   const {height, age,averageWater, continuity, lastActive, inbodyData} = list;
