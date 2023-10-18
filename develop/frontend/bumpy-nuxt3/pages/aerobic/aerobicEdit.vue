@@ -56,13 +56,13 @@ const router = useRouter();
 const editFlag = computed(() => aerobicStore.getSelectItem().seq === '');
 const loadList: Ref<FavoriteListItem[]> = ref([]);
 const form: Ref<AerobicFormData> = ref({
-  name: { value: "", placeholder: "잠온다" },
-  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4},
-  inclineStart: { value: "", isNumber:true, minlength: 0, maxlength: 2},
-  speedStart:  {value: "", isNumber:true, minlength: 0, maxlength: 2},
-  time: { value: "", isNumber:true, minlength: 0, maxlength: 4,},
-  inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
-  speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
+  name: { value: "", placeholder: "등록할 유산소 이름을 작성해주세요." },
+  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  inclineStart: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
+  speedStart:  {value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
+  time: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
+  speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
   memo: {  value: "",rows: 10 },
 });
 

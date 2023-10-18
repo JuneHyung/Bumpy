@@ -152,7 +152,7 @@ export const useWeightStore = defineStore("weight-store", () => {
       const { data, error } = await readWeightCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+      } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value?.data;
         setCalendarlist(list);
       }else{
