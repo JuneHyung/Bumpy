@@ -3,7 +3,7 @@
     <p>{{ props.info.name }}</p>
     <div class="bp-mt-md">
       <p>
-        <span>{{ props.info.weightStart }}{{ props.info.measure }}</span> ~ <span>{{ props.info.weightEnd }}{{ props.info.measure==='1' ? 'kg' : 'lb' }}</span> / <span>{{ props.info.pollWeight }}kg</span>
+        <span>{{ props.info.weightStart }}{{ info.measure==='1' ? 'kg' : 'lb' }}</span> ~ <span>{{ props.info.weightEnd }}{{ props.info.measure==='1' ? 'kg' : 'lb' }}</span> / <span>{{ props.info.pollWeight }}kg</span>
       </p>
       <p>
         <span>{{ props.info.repsStart }}reps</span> ~ <span>{{ props.info.repsEnd }}reps</span> / <span>{{ props.info.setReps }}set</span>

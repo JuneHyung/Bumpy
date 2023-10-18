@@ -6,6 +6,7 @@
   </main>
 </template>
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
 import { useCommonStore } from '~~/store/common';
@@ -20,7 +21,7 @@ const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 
 onMounted(async()=>{
-  const today = commonStore.getToday();
+  const today = dayjs().format('YYYY-MM-DD');
   await weightStore.setFocusDate(today);
   await weightStore.resetSelectItem();
   await weightStore.getCalendarListByStdDate(today);
