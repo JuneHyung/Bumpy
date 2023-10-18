@@ -103,7 +103,6 @@ definePageMeta({
 });
 
 onMounted(async ()=>{
-  commonStore.setToday();
   mealStore.setFocusDate(commonStore.getToday());
   await mealStore.getTodayMealInfo();
   await weightStore.getLastWeightActivityInfo();
