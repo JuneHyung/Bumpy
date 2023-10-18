@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrap-box bp-mt-xl activity-calendar">
-    <Calendar @focusDate="getFocusDate" :type="props.info" v-if="store.getCalendarList().length!==0"></Calendar>
+    <Calendar @focusDate="getFocusDate" :type="props.info"></Calendar>
   </div>
 </template>
 <script setup lang="ts">

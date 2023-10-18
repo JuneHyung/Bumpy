@@ -76,7 +76,7 @@ definePageMeta({
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 const router = useRouter();
-const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
+const editFlag = computed(() => weightStore.getSelectItem().seq === '');
 
 const loadList:Ref<FavoriteListItem[]> = ref([]);
 
