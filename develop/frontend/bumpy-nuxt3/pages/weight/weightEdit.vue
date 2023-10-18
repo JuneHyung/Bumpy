@@ -81,13 +81,13 @@ const editFlag = computed(() => weightStore.getSelectItem().seq === '');
 const loadList:Ref<FavoriteListItem[]> = ref([]);
 
 const form: Ref<WeightFormData> = ref({
-  name: { value: "", placeholder: "잠온다" },
-  weightStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  repsStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  weightEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  repsEnd: { value: "", isNumber:true, minlength: 0, maxlength: 3  },
-  pollWeight: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
-  setReps: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
+  name: { value: "", placeholder: "등록할 운동 이름을 작성해주세요." },
+  weightStart: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0"},
+  repsStart: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0" },
+  weightEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0"},
+  repsEnd: { value: "", isNumber:true, minlength: 0, maxlength: 3, placeholder: "0"  },
+  pollWeight: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder: "0"  },
+  setReps: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder: "0"  },
   measure: {
     value: "1",
     list: [
@@ -149,7 +149,10 @@ const resetWeightItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key as keyof WeightFormData].value = "";
+    if(key==='measure'){form.value[key].value = '1'}
+    else{
+      form.value[key as keyof WeightFormData].value = "";
+    }
   }
 };
 
