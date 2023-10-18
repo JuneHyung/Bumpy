@@ -65,7 +65,7 @@ import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
 import { getUserInfoForMain } from '~~/api/main';
 import { setErrorMessage } from '~~/api/alert/message';
 import { useUserStore } from '~~/store/user';
-import { MainUserInfo } from '~~/types/main';
+import { MainUserInbodyData, MainUserInfo } from '~~/types/main';
 import {resetAllData} from '~~/api/util';
 const router = useRouter();
 const userStore = useUserStore();
@@ -183,29 +183,25 @@ const userInbodyInfo:Ref<MeterList> = ref([
 ]);
 
 const initUserInfo = async (list: MainUserInfo) =>{
-  console.log(list);
   userStore.setUserName(list.username);
 
-  const {height, age,averageWater, continuity, lastActive, inbodyData} = list;
-  const {weight, fat, muscle, bmi, fatRate} = inbodyData;
-
+  const {height, age, averageWater, continuity, lastActive, inbodyData} = list;
+  const bodyInfoData = {height, age};
   const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
   const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
   const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
 
-  const bodyInfoData = {weight, height, age}
   const userActivityInfoData = {averageWater, continuity, lastActive}
-  const userInbodyInfoData = {inbodyData};  
 
   // 신체영역 init
   for(let i=0;i<bodyInfoKeys.length;i++){
     const key = bodyInfoKeys[i] as keyof Pick<MainUserInfo, 'weight' | 'height' | 'age'>;
+    if(key==='weight') continue;
     const target = userBodyInfo.value.find(el=>el.key===key);
     if(target){
       target.value = bodyInfoData[key];
     }
   }
-  
   // 활동영역 init
   for(let i=0;i<userActivityInfoKeys.length;i++){
     const key = userActivityInfoKeys[i] as keyof Pick<MainUserInfo, 'averageWater' | 'continuity' | 'lastActive'>;
@@ -215,14 +211,24 @@ const initUserInfo = async (list: MainUserInfo) =>{
     }
   }
 
-  // meter 영역 init
-  for(let i=0;i<userInbodyInfoKeys.length;i++){
-    const key = userInbodyInfoKeys[i] as keyof Pick<MainUserInfo, 'inbodyData'>;
-    const target = userInbodyInfo.value.find(el=>el.key===key);
+  if(inbodyData){
+    const {weight, fat, muscle, bmi, fatRate} = inbodyData;
+    const target = userBodyInfo.value.find(el=>el.key==='weight');
     if(target){
-      target.value = Number(userInbodyInfoData.inbodyData[key]);
+      target.value = weight;
     }
-  }
+
+    const userInbodyInfoData = {weight, fat, muscle, bmi, fatRate};  
+
+    // meter 영역 init
+    for(let i=0;i<userInbodyInfoKeys.length;i++){
+      const key = userInbodyInfoKeys[i] as keyof MainUserInbodyData;
+      const target = userInbodyInfo.value.find(el=>el.key===key);
+      if(target){
+        target.value = Number(userInbodyInfoData[key]);
+      }
+    }
+  }  
 }
 
 const getUserInfo = async () => {
