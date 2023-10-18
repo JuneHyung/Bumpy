@@ -256,7 +256,7 @@ const Logout = async () =>{
 }
 
 onMounted(async ()=>{
-  await getUserInfo();
   await resetAllData();
+  await getUserInfo();
 })
 </script>
