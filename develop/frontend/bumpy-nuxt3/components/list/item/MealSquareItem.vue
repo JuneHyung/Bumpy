@@ -4,7 +4,7 @@
     <div class="bp-mt-md bp-mb-lg">
       <p class="bp-my-md">
         <span>{{ props.info.seq }}번째 식사</span>
-        <span>{{ props.info.time }} m</span>
+        <span>{{ props.info.time }}</span>
       </p>
       <p class="bp-my-md">
         <span>{{ props.info.kcal }}kcal</span>

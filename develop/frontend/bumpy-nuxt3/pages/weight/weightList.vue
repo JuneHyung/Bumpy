@@ -9,7 +9,6 @@
 import dayjs from 'dayjs';
 import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
-import { useCommonStore } from '~~/store/common';
 import { useWeightStore } from '~~/store/weight';
 
 definePageMeta({
@@ -17,7 +16,6 @@ definePageMeta({
   middleware: 'custom-router-guard'
 });
 
-const commonStore = useCommonStore();
 const weightStore = useWeightStore();
 
 onMounted(async()=>{
