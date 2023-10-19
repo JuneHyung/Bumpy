@@ -31,7 +31,7 @@
     <ul class="user-inbody-info-box">
       <p class="user-inbody-title-wrap bp-mb-sm">
         <h4>Your Last Inbody</h4>
-        <span class="last-inbody-date">2023.01.29</span>
+        <!-- <span class="last-inbody-date"></span> -->
       </p>
       <ul class="user-inbody-degree-wrap">
         <template v-for="(degree, idx) in degreeList" :key="idx">
