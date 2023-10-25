@@ -259,12 +259,4 @@ onMounted(async ()=>{
   await resetAllData();
   await getUserInfo();
 })
-
-onUpdated(async ()=>{
-  const curName = router.currentRoute.value.name;
-  console.log(curName);
-  if(curName==='inbody-inbodyList'){
-    await getUserInfo();
-  }
-})
 </script>

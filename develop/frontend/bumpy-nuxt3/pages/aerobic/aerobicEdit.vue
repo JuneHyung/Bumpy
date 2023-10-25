@@ -173,7 +173,6 @@ onMounted(async () => {
   } else {
     await aerobicStore.resetSelectItem();
   }
-  console.log( aerobicStore.getSelectItem())
 });
 definePageMeta({
   layout: "main-layout",
