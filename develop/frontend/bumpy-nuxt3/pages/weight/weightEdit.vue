@@ -95,7 +95,7 @@ const form: Ref<WeightFormData> = ref({
       { dtlCd: "2", dtlNm: "lb" },
     ],
   },
-  memo: { value: "", rows: 10 },
+  memo: { value: "", rows: 10, maxlength: 500 },
   picture: { value: [] },
 });
 

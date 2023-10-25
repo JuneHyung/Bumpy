@@ -4,9 +4,8 @@ import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
 import { getGrassInfo } from '~~/api/main';
 import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
-import { resetAllData } from '~~/api/util';
 import { DateListFlag } from '~~/types/calendar';
-import { GrassInfoItem, GrassInfoList, GrassInfoResponseBody } from '~~/types/main';
+import { GrassInfoItem, GrassInfoList } from '~~/types/main';
 import { UserUpdateRequestBody, passwordChkRequest, UserPageInfo } from '~~/types/user';
 export const useUserStore = defineStore('user-store',()=>{
   const isPass = ref(false);

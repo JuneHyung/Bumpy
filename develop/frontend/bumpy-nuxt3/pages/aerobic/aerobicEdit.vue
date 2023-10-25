@@ -63,7 +63,7 @@ const form: Ref<AerobicFormData> = ref({
   time: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
   inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
   speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder:"0"},
-  memo: {  value: "",rows: 10 },
+  memo: {  value: "",rows: 10, maxlength: 500 },
 });
 
 const numberList = [

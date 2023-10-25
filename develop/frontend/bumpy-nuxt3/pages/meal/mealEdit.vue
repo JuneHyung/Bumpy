@@ -66,7 +66,7 @@ const form: Ref<MealFormData> = ref({
   kcal: { value:'', isNumber:true, minlength: 0, maxlength: 4 },
   water: { value:'', isNumber:true, minlength: 0, maxlength: 2 },
   food: { value: []},
-  memo: {value:'', rows: 10},
+  memo: {value:'', rows: 10, maxlength: 500},
   picture: {value:[]}
 });
 
