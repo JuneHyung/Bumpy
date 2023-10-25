@@ -1,7 +1,7 @@
 <template>
   <div class="activity-list-box content-wrap-box bp-my-lg">
     <div class="title-wrap-box">
-      <h3 class="content-title">{{ store.getFocusDate() }}</h3>
+      <h3 class="content-title">{{ focusedDate }}</h3>
       <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">추가</button>
     </div>
     <ActivityList type="square" :listType="props.info" :list="store.getActivityList()"></ActivityList>
@@ -36,6 +36,7 @@ const switchStore = () => {
 };
 
 const store = switchStore();
+const focusedDate = computed(()=>store.getFocusDate());
 const editFlag = computed(() => commonStore.getToday() === store.getFocusDate());
 const moveEdit = () => {
   store.resetSelectItem();
