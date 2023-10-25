@@ -155,7 +155,11 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
 
   // getter & setter
   const setFocusDate = async (date: string | Date) => {
-    focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    if(date){
+      focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    }else{
+      focusDate.value = dayjs().format("YYYY-MM-DD");
+    }
     setIsToday();
   };
   const setIsToday = async () => {
