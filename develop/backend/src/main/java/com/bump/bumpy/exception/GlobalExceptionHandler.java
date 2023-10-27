@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 @Slf4j
@@ -29,11 +31,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = {
-            ValidationException.class
-
+            ValidationException.class,
+            MethodArgumentNotValidException.class,  // @Valid @NotNull에서 발생
+            ConstraintViolationException.class      // Entity @NotNull에서 발생
     })
     public ResponseEntity<Object> handleValidationException(Exception e, HttpStatus status) {
         log.error("Validation Exception", e);
         return ResponseEntity.status(status).body("누락되었거나, 잘못된 값입니다.");
+    }
+
+    @ExceptionHandler(value = {RuntimeException.class})
+    public  ResponseEntity<Object> handleRuntimeException(Exception e, HttpStatus status) {
+        log.error("Runtime Exception", e);
+        return ResponseEntity.status(status).body("알 수 없는 에러가 발생했습니다.");
     }
 }
