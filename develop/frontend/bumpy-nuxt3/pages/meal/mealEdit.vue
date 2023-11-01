@@ -49,6 +49,7 @@ import FoodList from '~~/components/list/FoodList.vue';
 import { MealFormData, MealItemRequestBody} from '~~/types/meal';
 import FileUploader from '~~/components/form/FileUploader.vue'
 import TimeInput from '~~/components/form/TimeInput.vue';
+import { useUserStore } from '~~/store/user';
 
 definePageMeta({
   layout: 'main-layout',
@@ -57,6 +58,7 @@ definePageMeta({
 
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(()=>mealStore.getSelectItem().seq==='');
 
@@ -107,15 +109,17 @@ const removeItem = (idx: number) => {
 // 저장 버튼
 const saveMealItem = async () =>{
   const body = makeBody()
-  mealStore.postMealItem(body);
-  router.push({name: "meal-mealList"})
+  await mealStore.postMealItem(body);
+  await userStore.getUserInfo();
+  await router.push({name: "meal-mealList"})
 }
 
 // 수정 버튼
 const modifyMealItem = async () =>{
   const body = makeBody()
-  mealStore.putMealItem(body);
-  router.push({name: "meal-mealList"});
+  await mealStore.putMealItem(body);
+  await userStore.getUserInfo();
+  await router.push({name: "meal-mealList"});
 }
 
 // 초기화 버튼

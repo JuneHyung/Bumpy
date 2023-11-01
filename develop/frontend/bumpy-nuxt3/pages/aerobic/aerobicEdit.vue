@@ -49,9 +49,11 @@ import { createAerobicItem, updateAerobicItem, readFavoritAerobicList } from "~~
 import { useAerobicStore } from "~~/store/aerobic";
 import { AerobicFormData, AerobicRequestBody } from "~~/types/aerobic";
 import { FavoriteListItem } from "~~/types/common";
+import { useUserStore } from "~~/store/user";
 
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(() => aerobicStore.getSelectItem().seq === '');
 const loadList: Ref<FavoriteListItem[]> = ref([]);
@@ -103,8 +105,9 @@ const saveAerobicItem = async () => {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
     } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ name: "aerobic-aerobicList" });
+      await setMessage(data.value.message);
+      await userStore.getUserInfo();
+      await router.push({ name: "aerobic-aerobicList" });
     }
   } catch (e) {
     setErrorMessage(e);
@@ -120,8 +123,9 @@ const modifyAerobicItem = async () => {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
     } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ name: "aerobic-aerobicList" });
+      await setMessage(data.value.message);
+      await userStore.getUserInfo();
+      await router.push({ name: "aerobic-aerobicList" });
     }
   } catch (e) {
     setErrorMessage(e);

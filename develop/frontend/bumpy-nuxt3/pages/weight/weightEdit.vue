@@ -67,6 +67,7 @@ import { WeightFormData, WeightRequestBody } from "~~/types/weight";
 import _ from "lodash";
 import { FavoriteListItem } from "~~/types/common";
 import { InputText } from "~~/types/input";
+import { useUserStore } from "~~/store/user";
 
 definePageMeta({
   layout: "main-layout",
@@ -75,6 +76,7 @@ definePageMeta({
 
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(() => weightStore.getSelectItem().seq === '');
 
@@ -133,15 +135,17 @@ const makeBody = () => {
 // 저장 버튼
 const saveWeightItem = async () => {
   const body = makeBody();
-  weightStore.postWeightItem(body);
-  router.push({ path: "/weight/weightList" });
+  await weightStore.postWeightItem(body);
+  await userStore.getUserInfo();
+  await router.push({ path: "/weight/weightList" });
 };
 
 // 수정 버튼
 const modifyWeightItem = async () => {
   const body = makeBody();
-  weightStore.putWeightItem(body);
-  router.push({ name: "weight-weightList" });
+  await weightStore.putWeightItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "weight-weightList" });
 };
 
 // 초기화 버튼
