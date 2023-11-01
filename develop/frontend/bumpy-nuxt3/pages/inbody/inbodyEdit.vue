@@ -36,6 +36,7 @@ import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
 import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
+import { useUserStore } from "~~/store/user";
 
 definePageMeta({
   layout: "main-layout",
@@ -43,6 +44,7 @@ definePageMeta({
 });
 
 const inbodyStore = useInbodyStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
@@ -87,15 +89,17 @@ const makeBody = () => {
 // 저장 버튼
 const saveInbodyItem = async () => {
   const body = makeBody();
-  inbodyStore.postInbodyItem(body);
-  router.push({ name: "inbody-inbodyList" });
+  await inbodyStore.postInbodyItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "inbody-inbodyList" });
 };
 
 // 수정 버튼
 const modifyInbodyItem = async () => {
   const body = makeBody();
-  inbodyStore.putInbodyItem(body);
-  router.push({ name: "inbody-inbodyList" });
+  await inbodyStore.putInbodyItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "inbody-inbodyList" });
 };
 
 // 초기화 버튼

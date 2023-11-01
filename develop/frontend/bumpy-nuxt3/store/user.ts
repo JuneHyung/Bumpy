@@ -2,10 +2,11 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import {defineStore} from 'pinia';
 import { setErrorMessage, setMessage } from '~~/api/alert/message';
-import { getGrassInfo } from '~~/api/main';
+import { getGrassInfo, getUserInfoForMain } from '~~/api/main';
 import { deleteUserInfo, fetchUserPasswordCheck, fetchUserPasswordVerifyCheck, getUserPageInfo, putUserInfo } from '~~/api/user/user';
 import { DateListFlag } from '~~/types/calendar';
-import { GrassInfoItem, GrassInfoList } from '~~/types/main';
+import { DegreeList, MeterList, UserInfoList } from '~~/types/inbody';
+import { GrassInfoItem, GrassInfoList, MainUserInbodyData, MainUserInfo } from '~~/types/main';
 import { UserUpdateRequestBody, passwordChkRequest, UserPageInfo } from '~~/types/user';
 export const useUserStore = defineStore('user-store',()=>{
   const isPass = ref(false);
@@ -37,6 +38,119 @@ export const useUserStore = defineStore('user-store',()=>{
     }
   );
 
+  const userBodyInfo = ref<UserInfoList>([
+    {
+      key: 'height',
+      category: 'Height',
+      value: '',
+      unit: 'cm',
+    },
+    {
+      key: 'weight',
+      category: 'Weight',
+      value: '',
+      unit: 'kg',
+    },
+    {
+      key: 'age',
+      category: 'Age',
+      value: '',
+      unit: '',
+    },
+  ])
+
+  const userActivityInfo = ref<UserInfoList>([
+    {
+      key: 'continuity',
+      category: 'Continuity',
+      value: '0',
+      unit: 'days',
+    },
+    {
+      key: 'lastActive',
+      category: 'Last Active',
+      value: '',
+      unit: '',
+    },
+    {
+      key: 'averageWater',
+      category: 'Average Water',
+      value: '',
+      unit: 'L',
+    },
+  ])
+  const degreeList = ref<DegreeList>([
+    {
+      name: '표준 이하',
+      degree: 'low',
+    },
+    {
+      name: '표준',
+      degree: 'middle',
+    },
+    {
+      name: '표준 이상',
+      degree: 'high',
+    }
+  ])
+  const userInbodyInfo = ref<MeterList>([
+    {
+      value: 0,
+      max: 100,
+      min: 0,
+      low: 50,
+      high: 75,
+      optimum: 100,
+      key: 'weight',
+      category: '체중',
+      unit: 'kg',
+    },
+    {
+      value: 0,
+      max: 70,
+      min: 0,
+      low: 20,
+      high: 50,
+      optimum: 70,
+      key:'muscle',
+      category: '골격근량',
+      unit: 'kg',
+    },
+    {
+      value: 0,
+      max: 100,
+      min: 0,
+      low: 10,
+      high: 30,
+      optimum: 100,
+      key:'fat',
+      category: '체지방량',
+      unit: 'kg',
+    },
+    {
+      value: 0,
+      max: 100,
+      min: 0,
+      low: 10,
+      high: 40,
+      optimum: 100,
+      key:'bmi',
+      category: 'BMI',
+      unit: 'kg/m2',
+    },
+    {
+      value: 0,
+      max: 70,
+      min: 0,
+      low: 10,
+      high: 40,
+      optimum: 70,
+      key: 'fatRate',
+      category: '체지방률',
+      unit: '%',
+    },
+  ])
+  //---
   const resetAllData = async () =>{
     await setIsPass(false);
     await setUserName('');
@@ -158,6 +272,69 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
   setDisplayDate(`${year} ${monthList[Number(month)-1]}`);
 }
 
+const initUserInfo = async (list: MainUserInfo) =>{
+  setUserName(list.username);
+  
+  const {height, age, averageWater, continuity, lastActive, inbodyData} = list;
+  const bodyInfoData = {height, age};
+  const bodyInfoKeys = userBodyInfo.value.map(el=>el.key)
+  const userActivityInfoKeys = userActivityInfo.value.map(el=>el.key)
+  const userInbodyInfoKeys = userInbodyInfo.value.map(el=>el.key)
+
+  const userActivityInfoData = {averageWater, continuity, lastActive}
+
+  // 신체영역 init
+  for(let i=0;i<bodyInfoKeys.length;i++){
+    const key = bodyInfoKeys[i] as keyof Pick<MainUserInfo, 'weight' | 'height' | 'age'>;
+    if(key==='weight') continue;
+    const target = userBodyInfo.value.find(el=>el.key===key);
+    if(target){
+      target.value = bodyInfoData[key];
+    }
+  }
+  // 활동영역 init
+  for(let i=0;i<userActivityInfoKeys.length;i++){
+    const key = userActivityInfoKeys[i] as keyof Pick<MainUserInfo, 'averageWater' | 'continuity' | 'lastActive'>;
+      const target = userActivityInfo.value.find(el=>el.key===key);
+    if(target){
+      target.value = userActivityInfoData[key];
+    }
+  }
+
+  if(inbodyData){
+    const {weight, fat, muscle, bmi, fatRate} = inbodyData;
+    const target = userBodyInfo.value.find(el=>el.key==='weight');
+    if(target){
+      target.value = weight;
+    }
+
+    const userInbodyInfoData = {weight, fat, muscle, bmi, fatRate};  
+
+    // meter 영역 init
+    for(let i=0;i<userInbodyInfoKeys.length;i++){
+      const key = userInbodyInfoKeys[i] as keyof MainUserInbodyData;
+      const target = userInbodyInfo.value.find(el=>el.key===key);
+      if(target){
+        target.value = Number(userInbodyInfoData[key]);
+      }
+    }
+  }  
+}
+
+const getUserInfo = async () => {
+  try{
+    const {data, error} = await getUserInfoForMain();
+    if(error.value!==null){
+      setErrorMessage(error.value);
+    }else if(data.value!==null){
+      const list = data.value.data
+      await initUserInfo(list);
+    }
+  }catch(e){
+    setErrorMessage(e);
+  }
+}
+
 
 
   const getIsPass = () => isPass.value;
@@ -168,6 +345,11 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
   const getDateList = () => dateList.value;
   const getUserPageData = () => userPageData.value;
   
+  const getUserBodyInfo = () => userBodyInfo.value;
+  const getUserActivityInfo = () => userActivityInfo.value;
+  const getDegreeList = () => degreeList.value;
+  const getUserInbodyInfo = () => userInbodyInfo.value;
+
   const setThisDate = (value: string) => thisDate.value = value;
   const setDisplayDate = (value: string) => displayDate.value = value;
   const setDateList = (value: GrassInfoList) => dateList.value = value;
@@ -190,6 +372,11 @@ const getGrassCalendarInfo = async (flag: DateListFlag) => {
     getDisplayDate,
     getDateList,
     getUserPageData,
+    getUserInfo,
+    getUserBodyInfo,
+    getUserActivityInfo,
+    getDegreeList,
+    getUserInbodyInfo,
 
     setIsPass,
     setUserName,
