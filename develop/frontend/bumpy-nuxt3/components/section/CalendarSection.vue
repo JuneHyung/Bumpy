@@ -8,8 +8,7 @@ import { useWeightStore } from "~~/store/weight";
 import { useAerobicStore } from "~~/store/aerobic";
 import { useMealStore } from "~~/store/meal";
 import { useInbodyStore } from "~~/store/inbody";
-import dayjs from "dayjs";
-
+import Calendar from "~~/components/calendar/Calendar.vue";
 interface Props {
   info: 'weight' | 'aerobic' |'meal' |'inbody';
 }
