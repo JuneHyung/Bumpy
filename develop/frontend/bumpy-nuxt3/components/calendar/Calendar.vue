@@ -71,6 +71,7 @@ const clickDateShift = async (shiftType: string) => {
   }
   await store.setFocusDate(newDate);
   await store.getActivityListByStdDate(newDate);
+  await store.getCalendarListByStdDate(newDate);
   await api.setOption("events", store.getCalendarList());
 };
 
