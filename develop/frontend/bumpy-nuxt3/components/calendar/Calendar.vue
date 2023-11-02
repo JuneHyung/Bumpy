@@ -117,7 +117,7 @@ const calendarOptions = ref({
 
 const initCalendarEvents = () =>{
   const api = calendar.value.getApi();
-  api.setOptions("events", store.getCalendarList())
+  api.setOption("events", store.getCalendarList())
 }
 onMounted(()=>{
   initCalendarEvents();
