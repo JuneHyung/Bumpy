@@ -43,7 +43,7 @@ const focusDate = (v: any) => {
 };
 
 
-const clickDateShift = (shiftType: string) => {
+const clickDateShift = async (shiftType: string) => {
   const focusDate = store.getFocusDate();
   let newDate = "";
   const api = calendar.value.getApi();
@@ -69,8 +69,9 @@ const clickDateShift = (shiftType: string) => {
       api.today();
       break;
   }
-  api.setOption("events", store.getCalendarList());
-  store.setFocusDate(newDate);
+  await store.setFocusDate(newDate);
+  await store.getActivityListByStdDate(newDate);
+  await api.setOption("events", store.getCalendarList());
 };
 
 const calendarOptions = ref({
@@ -80,20 +81,20 @@ const calendarOptions = ref({
   ],
   customButtons: {
     prevYear: {
-      click: () => clickDateShift("prevYear"),
+      click: async () => await clickDateShift("prevYear"),
     },
     prev: {
-      click: () => clickDateShift("prevMonth"),
+      click: async () => await clickDateShift("prevMonth"),
     },
     next: {
-      click: () => clickDateShift("nextMonth"),
+      click: async () => await clickDateShift("nextMonth"),
     },
     nextYear: {
-      click: () => clickDateShift("nextYear"),
+      click: async () => await clickDateShift("nextYear"),
     },
     today: {
       text: "Today",
-      click: () => clickDateShift('today'),
+      click: async () => await clickDateShift('today'),
     },
   },
   headerToolbar: {
