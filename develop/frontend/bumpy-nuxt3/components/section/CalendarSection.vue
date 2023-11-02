@@ -8,6 +8,7 @@ import { useWeightStore } from "~~/store/weight";
 import { useAerobicStore } from "~~/store/aerobic";
 import { useMealStore } from "~~/store/meal";
 import { useInbodyStore } from "~~/store/inbody";
+import dayjs from "dayjs";
 
 interface Props {
   info: 'weight' | 'aerobic' |'meal' |'inbody';
@@ -35,4 +36,8 @@ const getFocusDate = async (v: string) => {
   await store.setFocusDate(v);
   await store.getActivityListByStdDate(v);
 };
+
+onBeforeMount(async ()=>{
+  await getFocusDate(dayjs().format('YYYY-MM-DD'));
+})
 </script>
