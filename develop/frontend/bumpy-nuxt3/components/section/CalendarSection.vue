@@ -36,8 +36,4 @@ const getFocusDate = async (v: string) => {
   await store.setFocusDate(v);
   await store.getActivityListByStdDate(v);
 };
-
-onBeforeMount(async ()=>{
-  await getFocusDate(dayjs().format('YYYY-MM-DD'));
-})
 </script>

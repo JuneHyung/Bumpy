@@ -18,7 +18,7 @@ definePageMeta({
 
 const weightStore = useWeightStore();
 
-onMounted(async()=>{
+onBeforeMount(async()=>{
   const today = dayjs().format('YYYY-MM-DD');
   await weightStore.setFocusDate(today);
   await weightStore.resetSelectItem();

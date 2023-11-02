@@ -19,7 +19,7 @@ definePageMeta({
 
 const mealStore = useMealStore();
 
-onMounted(async ()=>{
+onBeforeMount(async ()=>{
   const today =dayjs().format('YYYY-MM-DD');
   await mealStore.setFocusDate(today);
   await mealStore.resetSelectItem();

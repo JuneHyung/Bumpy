@@ -18,7 +18,7 @@ definePageMeta({
 
 const inbodyStore = useInbodyStore();
 
-onMounted(async ()=>{
+onBeforeMount(async ()=>{
   const today =dayjs().format('YYYY-MM-DD');
   await inbodyStore.setFocusDate(today);
   await inbodyStore.resetSelectItem();

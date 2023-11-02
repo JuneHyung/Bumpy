@@ -18,7 +18,7 @@ definePageMeta({
 
 const aerobicStore = useAerobicStore();
 
-onMounted(async ()=>{
+onBeforeMount(async ()=>{
   const today =dayjs().format('YYYY-MM-DD');
   await aerobicStore.setFocusDate(today);
   await aerobicStore.getCalendarListByStdDate(today);
