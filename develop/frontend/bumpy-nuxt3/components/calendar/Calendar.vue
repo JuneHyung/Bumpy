@@ -16,15 +16,8 @@ import { useInbodyStore } from "~~/store/inbody";
 
 const calendar = ref();
 
-interface EventListItem {
-  title: string;
-  date: string;
-}
-type EventList = EventListItem[];
-
 interface Props {
   type?: String;
-  list?: EventList;
 }
 
 const switchStore = () => {
@@ -116,9 +109,17 @@ const calendarOptions = ref({
   },
   initialView: "dayGridMonth", // alternatively, use the `events` setting to fetch from a feed
   selectable: true,
-  events: store.getCalendarList(),
+  events: [],
   dayMaxEvents: 3,
   contentHeight: 500,
   dateClick: focusDate,
 });
+
+const initCalendarEvents = () =>{
+  const api = calendar.value.getApi();
+  api.setOptions("events", store.getCalendarList())
+}
+onMounted(()=>{
+  initCalendarEvents();
+})
 </script>
