@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FullCalendar ref="calendar" :options="calendarOptions" class="list-calendar"></FullCalendar>
+    <FullCalendar ref="calendar" :options="calendarOptions" class="list-calendar" />
   </div>
 </template>
 <script setup lang="ts">

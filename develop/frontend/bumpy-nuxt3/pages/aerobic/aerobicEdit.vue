@@ -4,12 +4,12 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p class="bp-my-sm">불러오기</p>
-        <LoadList :list="loadList" @initName="initName"></LoadList>
+        <LoadList :list="loadList" @initName="initName" />
       </label>
 
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">이름</span>
-        <TextInput :data="form.name" class="edit-input"></TextInput>
+        <TextInput :data="form.name" class="edit-input" />
       </label>
 
       <template v-for="(list, idx) in numberList" :key="idx">
@@ -27,7 +27,7 @@
 
       <label class="edit-input-label bp-mb-lg">
         <p class="edit-label bp-mr-sm">메모</p>
-        <TextareaInput :data="form.memo"></TextareaInput>
+        <TextareaInput :data="form.memo" />
       </label>
       <div class="edit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelAerobicEdit">취소</button>

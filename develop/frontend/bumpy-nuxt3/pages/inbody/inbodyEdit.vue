@@ -5,7 +5,7 @@
       <div class="flex bp-mb-lg">
         <label class="flex col flex-6 bp-mr-sm">
           <p class="bp-mb-sm">사진 및 비디오</p>
-          <FileUploader :list="form.picture" class="full-height"></FileUploader>
+          <FileUploader :list="form.picture" class="full-height" />
         </label>
         <div class="flex flex-6 bp-mt-xl" style="justify-content: flex-end;">
             <template v-for="(list, idx) in numberList" :key="idx">
@@ -14,7 +14,7 @@
                   <label class="edit-input-label">
                     <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                     <div class="edit-input">
-                      <TextInput :data="form[item.key as keyof Omit<InbodyFormData, 'picture'>]"></TextInput>
+                      <TextInput :data="form[item.key as keyof Omit<InbodyFormData, 'picture'>]" />
                     </div>
                   </label>
                 </template>

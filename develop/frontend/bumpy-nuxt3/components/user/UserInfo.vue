@@ -6,7 +6,7 @@
     </ul>
 
     <div class="user-profile-wrap-box">
-      <Avatar name="jh"></Avatar>
+      <Avatar name="jh" />
       <p class="user-name bp-mt-sm">{{ userStore.getUserName() }}</p>
     </div>
 
@@ -49,7 +49,7 @@
               <h4 class="bp-mr-xs">{{ inbody.category }}</h4>
               <span class="inbody-unit">( {{ inbody.unit }} )</span>
             </p>
-            <MeterBar :info="inbody"></MeterBar>
+            <MeterBar :info="inbody" />
           </li>
         </template>
       </ul>
@@ -61,11 +61,7 @@ import MeterBar from '~~/components/meter/MeterBar.vue';
 import Avatar from '~~/components/user/Avatar.vue';
 import { useRouter } from 'vue-router';
 import {fetchLogout} from '~~/api/user/user';
-import { UserInfoList, DegreeList, MeterList } from '~~/types/inbody';
-import { getUserInfoForMain } from '~~/api/main';
-import { setErrorMessage } from '~~/api/alert/message';
 import { useUserStore } from '~~/store/user';
-import { MainUserInbodyData, MainUserInfo } from '~~/types/main';
 import {resetAllData} from '~~/api/util';
 const router = useRouter();
 const userStore = useUserStore();

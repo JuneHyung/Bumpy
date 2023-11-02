@@ -24,7 +24,7 @@
         </div>
         <TextInput :data="userForm.username" class="bp-mb-sm" />
         <DateInput :data="userForm.birth" class="bp-mb-sm" />
-        <SelectboxInput :data="userForm.gender" class="bp-mb-sm"></SelectboxInput>
+        <SelectboxInput :data="userForm.gender" class="bp-mb-sm" />
         <div class="signup-input-wrap bp-mb-sm">
           <TextInput :data="userForm.phoneFirst" />
           <TextInput :data="userForm.phoneSecond" class="bp-mx-sm" />
@@ -32,7 +32,7 @@
         </div>
         <div class="signup-address-wrap">
           <label class="signup-zipcode-wrap bp-mb-sm">
-            <TextInput :data="userForm.zipCode" class="zipcode-input cursor-not-allowed bp-mr-sm"></TextInput>
+            <TextInput :data="userForm.zipCode" class="zipcode-input cursor-not-allowed bp-mr-sm" />
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
           <TextInput :data="userForm.address" class="bp-mb-sm cursor-not-allowed" /> 

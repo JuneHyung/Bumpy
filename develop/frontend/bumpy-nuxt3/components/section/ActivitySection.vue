@@ -4,7 +4,7 @@
       <h3 class="content-title">{{ store.getFocusDate() }}</h3>
       <button @click="moveEdit" v-if="editFlag" class="short-filled-button edit-button">추가</button>
     </div>
-    <ActivityList type="square" :listType="props.info" :list="store.getActivityList()"></ActivityList>
+    <ActivityList type="square" :listType="props.info" :list="store.getActivityList()" />
   </div>
 </template>
 <script setup lang="ts">

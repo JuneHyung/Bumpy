@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="edit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader :list="form.picture"></FileUploader>
+        <FileUploader :list="form.picture" />
       </label>
       <div class="flex bp-my-sm">
         <div class="flex flex-4 bp-my-sm">
@@ -14,8 +14,8 @@
                 <label class="edit-input-label">
                   <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                   <div class="edit-input">
-                    <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
-                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else></TextInput>
+                    <TimeInput :data="form[item.key]" v-if="item.key==='time'" />
+                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else /> 
                   </div>
                 </label>
               </template>
@@ -23,13 +23,13 @@
           </template>
         </div>
         <div class="flex flex-6">
-          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem"></FoodList>
+          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem" />
         </div>
       </div>
 
       <label class="edit-input-label bp-mb-lg">
         <p class="edit-label bp-mr-sm" style="width:60px;">메모</p>
-        <TextareaInput :data="form.memo"></TextareaInput>
+        <TextareaInput :data="form.memo" />
       </label>
       <div class="edit-button-wrap bp-my-sm">
         <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>

@@ -1,5 +1,5 @@
 <template>
-  <Apexchart type="area" height="90%" :key="props.series" :options="options" :series="props.series"></Apexchart>
+  <Apexchart type="area" height="90%" :key="props.series" :options="options" :series="props.series" />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -25,5 +25,8 @@ const options = ref({
     curve: 'straight',
   },
   labels: props.xAxis,
+  xAxis:{
+    categories: props.xAxis
+  }
 });
 </script>

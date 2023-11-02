@@ -1,10 +1,10 @@
 <template>
   <ul :class="{ 'square-list-wrap-box': props.type === 'square', 'rectangle-list-wrap-box': props.type === 'rectangle' }">
     <template v-for="(item, idx) in props.list" :key="item.seq" v-if="list!==undefined && list.length>0">
-      <ListItem :info="item"></ListItem>
+      <ListItem :info="item" />
     </template>
     <template v-else>
-      <NoData></NoData>
+      <NoData />
     </template>
   </ul>
 </template>

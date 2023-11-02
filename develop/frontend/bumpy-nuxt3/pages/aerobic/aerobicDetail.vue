@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ aerobicStore.getSelectItem().name }}</h2>
       <div class="aerobic-info-box">
         <div class="kcal-chart-wrap">
-          <RadialBarChart :data="aerobicStore.getSelectItem().kcal"></RadialBarChart>
+          <RadialBarChart :data="aerobicStore.getSelectItem().kcal" />
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -28,7 +28,7 @@
       <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="youtube-wrap">
-          <YoutubeList :list="aerobicStore.getSelectYoutubeList()"></YoutubeList>
+          <YoutubeList :list="aerobicStore.getSelectYoutubeList()" />
         </div>
       </div>
       <div class="detail-button-wrap">

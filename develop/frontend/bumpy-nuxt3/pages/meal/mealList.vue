@@ -9,7 +9,6 @@
 import dayjs from 'dayjs';
 import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
-import { useCommonStore } from '~~/store/common';
 import { useMealStore } from '~~/store/meal';
 
 definePageMeta({

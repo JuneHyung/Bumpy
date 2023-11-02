@@ -12,14 +12,14 @@
           <p class="activity-date">{{ commonStore.getToday() }}</p>
         </div>
         <div class="calendar">
-          <GrassCalendar></GrassCalendar>
+          <GrassCalendar />
         </div>
       </div>
       <div class="content-wrap-box meal-wrap-box">
         <div class="meal-title-box">
           <h3 class="meal-title">Today Meal</h3>
         </div>
-        <ActivityList type="square" listType="meal" :list="mealStore.getTodayMealList()"></ActivityList>
+        <ActivityList type="square" listType="meal" :list="mealStore.getTodayMealList()" />
       </div>
     </div>
 
@@ -30,7 +30,7 @@
           <p class="activity-date">{{weightStore.getMainWeightDate()}}</p>
         </div>
 
-        <ActivityList type="rectangle" listType="weight" :list="weightStore.getLastWeightList()"></ActivityList>
+        <ActivityList type="rectangle" listType="weight" :list="weightStore.getLastWeightList()" />
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -47,7 +47,12 @@
             <p class="chart-info-item-value">{{weightStore.getMainWeightInfo().reps}} reps / {{weightStore.getMainWeightInfo().sets}} sets</p>
           </li>
         </ul>
-        <LineChart class="last-activity-chart" :xAxis="weightStore.getMainWeightChartInfo().xAxis" :series="weightStore.getMainWeightChartInfo().series"></LineChart>
+        <template v-if="weightStore.getMainWeightChartInfo().xAxis.length!==0">
+          <LineChart class="last-activity-chart" :xAxis="weightStore.getMainWeightChartInfo().xAxis" :series="weightStore.getMainWeightChartInfo().series" />
+        </template>
+        <template v-else>
+          <NoData />
+        </template>
       </div>
     </div>
 
@@ -57,7 +62,7 @@
           <h3 class="activity-title">Last Aerobic</h3>
           <p class="activity-date">{{aerobicStore.getMainAerobicDate()}}</p>
         </div>
-        <ActivityList type="rectangle" listType="aerobic" :list="aerobicStore.getLastAerobicList()"></ActivityList>
+        <ActivityList type="rectangle" listType="aerobic" :list="aerobicStore.getLastAerobicList()" />
       </ul>
       <div class="last-activity-chart-box">
         <ul class="last-activity-chart-info">
@@ -74,7 +79,12 @@
             <p class="chart-info-item-value">{{aerobicStore.getMainAerobicInfo().bestKcal}} kcal | {{aerobicStore.getMainAerobicInfo().bestTime}} m</p>
           </li>
         </ul>
-        <AreaChart class="last-activity-cahrt" :xAxis="aerobicStore.getMainAerobicChartInfo().xAxis" :series="aerobicStore.getMainAerobicChartInfo().series"></AreaChart>
+        <template v-if="aerobicStore.getMainAerobicChartInfo().xAxis.length!==0">
+          <AreaChart class="last-activity-cahrt" :xAxis="aerobicStore.getMainAerobicChartInfo().xAxis" :series="aerobicStore.getMainAerobicChartInfo().series" />
+        </template>
+        <template v-else>
+          <NoData />
+        </template>
       </div>
     </div>
   </div>
@@ -85,6 +95,7 @@ import GrassCalendar from '~~/components/calendar/GrassCalendar.vue';
 
 import AreaChart from '~~/components/charts/AreaChart.vue'; // 컴포넌트 선언파일 추가 필요
 import LineChart from '~~/components/charts/LineChart.vue';
+import NoData from '~~/components/common/NoData.vue';
 import {useCommonStore} from '~/store/common'
 
 import { useMealStore } from '~~/store/meal';

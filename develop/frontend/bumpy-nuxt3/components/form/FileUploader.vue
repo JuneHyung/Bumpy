@@ -13,7 +13,7 @@
               <img :src="`data:image/jpg;base64, ${item.data}`" :alt="item.name" style="width:200px; height:200px;"/>
               <p class="bp-mx-md">{{ item.name }} <span class="bp-mx-sm">{{ formatFileSize(item.size) }}</span> </p>
             </div>
-            <CustomIcon iconName="mdiDelete" @click="removeFile(idx)"></CustomIcon>
+            <CustomIcon iconName="mdiDelete" @click="removeFile(idx)" />
           </li>
         </template>
       </ul>

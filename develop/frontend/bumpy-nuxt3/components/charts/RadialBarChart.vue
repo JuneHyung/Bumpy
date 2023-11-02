@@ -1,5 +1,5 @@
 <template>
-  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="[calculated]"></Apexchart>
+  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="[calculated]" />
 </template>
 <script setup lang="ts">
 import Apexchart from 'vue3-apexcharts';

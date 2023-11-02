@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ weightStore.getSelectItem().name }}</h2>
       <div class="weight-info-box">
         <div class="photo-list-wrap">
-          <ImageList :list="imageList()"></ImageList>
+          <ImageList :list="imageList()" />
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -28,7 +28,7 @@
       <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="youtube-wrap">
-          <YoutubeList :list="weightStore.getSelectYoutubeList()"></YoutubeList>
+          <YoutubeList :list="weightStore.getSelectYoutubeList()" />
         </div>
       </div>
       <div class="detail-button-wrap">

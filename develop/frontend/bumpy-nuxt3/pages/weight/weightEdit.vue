@@ -4,15 +4,15 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p class="bp-my-sm">불러오기</p>
-        <LoadList :list="loadList" @initName="initName"></LoadList>
+        <LoadList :list="loadList" @initName="initName" />
       </label>
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">이름</span>
-        <TextInput :data="form.name" class="edit-input"></TextInput>
+        <TextInput :data="form.name" class="edit-input" />
       </label>
       <label class="edit-input-label photo-wrap-box bp-my-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader :list="form.picture"></FileUploader>
+        <FileUploader :list="form.picture" />
       </label>
 
       <template v-for="(list, idx) in numberList" :key="idx">
@@ -21,7 +21,7 @@
             <label class="edit-input-label">
               <span class="edit-label bp-mr-sm">{{ item.label }}</span>
               <div class="edit-input">
-                <TextInput :data="(form[item.key as keyof WeightFormData] as InputText)"></TextInput>
+                <TextInput :data="(form[item.key as keyof WeightFormData] as InputText)" />
               </div>
             </label>
           </template>
@@ -31,7 +31,7 @@
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">단위</span>
         <div class="edit-input">
-          <SelectboxInput :data="form.measure"></SelectboxInput>
+          <SelectboxInput :data="form.measure" />
         </div>
       </label>
 
@@ -39,7 +39,7 @@
         <label class="edit-input-wrap">
           <span class="edit-label bp-mr-sm">메모</span>
           <div class="edit-input">
-            <TextareaInput :data="form.memo"></TextareaInput>
+            <TextareaInput :data="form.memo" />
           </div>
         </label>
       </div>
