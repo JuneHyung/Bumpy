@@ -43,7 +43,7 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 
 ## ⚙ Project Structure
 
-📦PJT
+📦PJT <br/>
  ┣ 📂develop <br/>
  ┃ ┣ 📂backend			#Backend <br/>
  ┃ 	 ┣ 📂src/main/java	#Backend 코드 <br/>

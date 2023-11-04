@@ -14,7 +14,7 @@ Nuxt를 생성하고, 생성된 폴더의 구조에 대해 알아보자. <br/>
 
 ### 👉 폴더 구조
 
-📦PJT
+📦PJT <br/>
  ┣ 📂 .nuxt					# 넉스트 빌드 결과물 폴더 <br/>
  ┣ 📂 assets				 # style, image, font등 웹 리소스 폴더 <br/>
  ┣ 📂 components		# 사용할 컴포넌트 폴더 <br/>
