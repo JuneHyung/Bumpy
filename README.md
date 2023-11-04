@@ -48,33 +48,33 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
  ┃&ensp;┣ 📂backend			#Backend <br/>
  ┃ &ensp;&ensp;┣ 📂src/main/java	#Backend 코드 <br/>
   .... <br/>
- ┃ ┣ 📂frontend			# FrontEnd <br/>
- ┃   ┣ 📂bumpy-nuxt3 <br/>
- ┃ 	   ┣ 📂src			# Front 코드 <br/>
- ┃ 	     ┣ 📂api		# 통신관련 Method <br/>
- ┃ 	     ┣ 📂assets	 <br/>
- ┃ 	       ┣ 📂scss # CSS 파일 <br/>
- ┃ 	       ┣ 📂images <br/>
- ┃ 	     ┣ 📂components # 관련 컴포넌트 <br/>
- ┃ 	       ┣ 📂calendar <br/>
- ┃ 	       ┣ 📂charts <br/>
- ┃ 	       ┣ 📂form   <br/>
- ┃ 	       ┣ 📂list <br/>
- ┃ 	       ┣ 📂menu <br/>
- ┃ 	       ┣ 📂meter <br/>
- ┃ 	       ┣ 📂user <br/>
- ┃ 	     ┣ 📂layouts # 레이아웃 <br/>
- ┃ 	     ┣ 📂pages # 페이지들 <br/>
- ┃ 	     ┣ 📂plugins <br/>
- ┃ 	     ┣ 📂public <br/>
- ┃ 	     ┣ 📂store # pinia Store <br/>
- ┃ 	     ┣ 📂types # type 선언 파일 <br/>
+ ┃&ensp;┣ 📂frontend			# FrontEnd <br/>
+ ┃&ensp; &ensp; ┣ 📂bumpy-nuxt3 <br/>
+ ┃&ensp; &ensp; &ensp; ┣ 📂src			# Front 코드 <br/>
+ ┃ &ensp;&ensp; &ensp; &ensp;┣ 📂api		# 통신관련 Method <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂assets	 <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂scss # CSS 파일 <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂images <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂components # 관련 컴포넌트 <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂calendar <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂charts <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂form   <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂list <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂menu <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂meter <br/>
+ ┃&ensp; &ensp; &ensp; &ensp; &ensp;┣ 📂user <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂layouts # 레이아웃 <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂pages # 페이지들 <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂plugins <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂public <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂store # pinia Store <br/>
+ ┃&ensp; &ensp; &ensp; &ensp;┣ 📂types # type 선언 파일 <br/>
  ┣ 📂docs				# 문서작업 <br/>
- ┃ ┣ 📂FlowChart      # Flow Chart <br/>
- ┃ ┣ 📂WireFrame    # 와이어 프레임 <br/>
- ┃ ┣ 📂기능정의        # DB ERD 및 개발 관련 필요 문서들 <br/>
- ┃ ┣ 📂자료조사	    # 유사 서비스 조사 <br/>
- ┃ ┣ 📂회의록			# 회의록 <br/>
+ ┃&ensp;┣ 📂FlowChart      # Flow Chart <br/>
+ ┃&ensp;┣ 📂WireFrame    # 와이어 프레임 <br/>
+ ┃&ensp;┣ 📂기능정의        # DB ERD 및 개발 관련 필요 문서들 <br/>
+ ┃&ensp;┣ 📂자료조사	    # 유사 서비스 조사 <br/>
+ ┃&ensp;┣ 📂회의록			# 회의록 <br/>
  ┗ 📜README.md			# 프로젝트 README <br/>
 
 
