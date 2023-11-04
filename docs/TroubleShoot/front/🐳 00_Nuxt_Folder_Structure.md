@@ -15,15 +15,15 @@ Nuxt를 생성하고, 생성된 폴더의 구조에 대해 알아보자. <br/>
 ### 👉 폴더 구조
 
 📦PJT
- ┣ 📂 .nuxt					# 넉스트 빌드 결과물 폴더
- ┣ 📂 assets				 # style, image, font등 웹 리소스 폴더
- ┣ 📂 components		# 사용할 컴포넌트 폴더
- ┣ 📂 layouts				# 레이아웃 컴포넌트 폴더
- ┣ 📂 middleware		 # middleware파일을 저장해두는 폴더
- ┣ 📂 pages				  # 화면파일들을 저장해두는 폴더 - 자동라우팅 적용.
- ┣ 📂 plugins 				# Vue Plugin 폴더 
-	...
- ┗ 📂 store					# 상태 관리 폴더 
+ ┣ 📂 .nuxt					# 넉스트 빌드 결과물 폴더 <br/>
+ ┣ 📂 assets				 # style, image, font등 웹 리소스 폴더 <br/>
+ ┣ 📂 components		# 사용할 컴포넌트 폴더 <br/>
+ ┣ 📂 layouts				# 레이아웃 컴포넌트 폴더 <br/>
+ ┣ 📂 middleware		 # middleware파일을 저장해두는 폴더 <br/>
+ ┣ 📂 pages				  # 화면파일들을 저장해두는 폴더 - 자동라우팅 적용. <br/>
+ ┣ 📂 plugins 				# Vue Plugin 폴더  <br/>
+	... <br/>
+ ┗ 📂 store					# 상태 관리 폴더  <br/>
 
 주의 깊게 봐야할 부분은 pages폴더와 layouts폴더이다.
 

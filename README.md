@@ -44,38 +44,38 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 ## ⚙ Project Structure
 
 📦PJT
- ┣ 📂develop
- ┃ ┣ 📂backend			#Backend
- ┃ 	 ┣ 📂src/main/java	#Backend 코드
-  ....
- ┃ ┣ 📂frontend			# FrontEnd
- ┃   ┣ 📂bumpy-nuxt3
- ┃ 	   ┣ 📂src			# Front 코드
- ┃ 	     ┣ 📂api		# 통신관련 Method
- ┃ 	     ┣ 📂assets	
- ┃ 	       ┣ 📂scss # CSS 파일
- ┃ 	       ┣ 📂images
- ┃ 	     ┣ 📂components # 관련 컴포넌트
- ┃ 	       ┣ 📂calendar
- ┃ 	       ┣ 📂charts
- ┃ 	       ┣ 📂form  
- ┃ 	       ┣ 📂list
- ┃ 	       ┣ 📂menu
- ┃ 	       ┣ 📂meter
- ┃ 	       ┣ 📂user
- ┃ 	     ┣ 📂layouts # 레이아웃
- ┃ 	     ┣ 📂pages # 페이지들
- ┃ 	     ┣ 📂plugins
- ┃ 	     ┣ 📂public
- ┃ 	     ┣ 📂store # pinia Store
- ┃ 	     ┣ 📂types # type 선언 파일
- ┣ 📂docs				# 문서작업
- ┃ ┣ 📂FlowChart      # Flow Chart
- ┃ ┣ 📂WireFrame    # 와이어 프레임
- ┃ ┣ 📂기능정의        # DB ERD 및 개발 관련 필요 문서들
- ┃ ┣ 📂자료조사	    # 유사 서비스 조사
- ┃ ┣ 📂회의록			# 회의록
- ┗ 📜README.md			# 프로젝트 README
+ ┣ 📂develop <br/>
+ ┃ ┣ 📂backend			#Backend <br/>
+ ┃ 	 ┣ 📂src/main/java	#Backend 코드 <br/>
+  .... <br/>
+ ┃ ┣ 📂frontend			# FrontEnd <br/>
+ ┃   ┣ 📂bumpy-nuxt3 <br/>
+ ┃ 	   ┣ 📂src			# Front 코드 <br/>
+ ┃ 	     ┣ 📂api		# 통신관련 Method <br/>
+ ┃ 	     ┣ 📂assets	 <br/>
+ ┃ 	       ┣ 📂scss # CSS 파일 <br/>
+ ┃ 	       ┣ 📂images <br/>
+ ┃ 	     ┣ 📂components # 관련 컴포넌트 <br/>
+ ┃ 	       ┣ 📂calendar <br/>
+ ┃ 	       ┣ 📂charts <br/>
+ ┃ 	       ┣ 📂form   <br/>
+ ┃ 	       ┣ 📂list <br/>
+ ┃ 	       ┣ 📂menu <br/>
+ ┃ 	       ┣ 📂meter <br/>
+ ┃ 	       ┣ 📂user <br/>
+ ┃ 	     ┣ 📂layouts # 레이아웃 <br/>
+ ┃ 	     ┣ 📂pages # 페이지들 <br/>
+ ┃ 	     ┣ 📂plugins <br/>
+ ┃ 	     ┣ 📂public <br/>
+ ┃ 	     ┣ 📂store # pinia Store <br/>
+ ┃ 	     ┣ 📂types # type 선언 파일 <br/>
+ ┣ 📂docs				# 문서작업 <br/>
+ ┃ ┣ 📂FlowChart      # Flow Chart <br/>
+ ┃ ┣ 📂WireFrame    # 와이어 프레임 <br/>
+ ┃ ┣ 📂기능정의        # DB ERD 및 개발 관련 필요 문서들 <br/>
+ ┃ ┣ 📂자료조사	    # 유사 서비스 조사 <br/>
+ ┃ ┣ 📂회의록			# 회의록 <br/>
+ ┗ 📜README.md			# 프로젝트 README <br/>
 
 
 
