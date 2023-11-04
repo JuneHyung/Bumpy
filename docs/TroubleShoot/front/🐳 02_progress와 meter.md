@@ -56,12 +56,7 @@ max와 value 2가지만 존재
 
 
 
-
-
 ## 📘 참고
 
-* [form action과 onsubmit차이](https://kindle14.tistory.com/57)
-* [MDN form](https://developer.mozilla.org/ko/docs/Web/HTML/Element/form)
-* [MDN Events](https://developer.mozilla.org/ko/docs/Learn/JavaScript/Building_blocks/Events)
-
-* [MDN input submit](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit)
+* [MDN progress tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)
+* [MDN meter tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter)
