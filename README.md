@@ -45,8 +45,8 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 
 📦PJT <br/>
  ┣ 📂develop <br/>
- ┃ ┣ 📂backend			#Backend <br/>
- ┃ 	 ┣ 📂src/main/java	#Backend 코드 <br/>
+ ┃&ensp;┣ 📂backend			#Backend <br/>
+ ┃ &ensp;&ensp;┣ 📂src/main/java	#Backend 코드 <br/>
   .... <br/>
  ┃ ┣ 📂frontend			# FrontEnd <br/>
  ┃   ┣ 📂bumpy-nuxt3 <br/>
