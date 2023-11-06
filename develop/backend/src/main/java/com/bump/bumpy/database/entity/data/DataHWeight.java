@@ -80,8 +80,8 @@ public class DataHWeight implements Serializable {
     @Column(name = "measure", nullable = false)
     private Integer measure;
 
-    @Size(max = 1000)
-    @Column(name = "memo", length = 1000)
+    @Size(max = 500)
+    @Column(name = "memo", length = 500)
     private String memo;
 
     @Size(max = 1000)
