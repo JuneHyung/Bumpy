@@ -1,7 +1,7 @@
 <template>
   <div class="avatar-wrap-box">
     <!-- <img src="~/assets/images/beam.png" class="avatar-image" /> -->
-    <CustomIcon iconName="mdiAccountCircle" class="avatar-image"></CustomIcon>
+    <CustomIcon iconName="mdiAccount" class="avatar-image"></CustomIcon>
   </div>
 </template>
 <script setup lang="ts">
