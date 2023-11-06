@@ -49,13 +49,13 @@ const router = useRouter();
 const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
 const form = ref<InbodyFormData>({
-  height: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
-  weight: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
-  muscle: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  fat: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  score: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  bmi: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  fatRate: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  height: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  weight: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  muscle: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  fat: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  score: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  bmi: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  fatRate: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
   picture: { value: [] },
 });
 
