@@ -20,7 +20,7 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 ## 🤼‍♂️ 개요
 
 * 프로젝트 이름 : Bumpy
-* 기술 Stack : Java, Mysql , Nuxt3, ....
+* 기술 Stack : Java, MariaDB , Nuxt3, ....
 * Team 
 * 조준형 : Front & 기획, Design, 기타 문서작업
 * 이희정 : Back & DB, 배포, 기획 
@@ -37,7 +37,9 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 
 ### Back
 
-* 
+* Spring Boot를 활용한 기본적인 웹서비스 A-Z까지 제작하기
+* maria DB & JPA 활용에 익숙해지기
+* 새로운 문제에 부딪혀보고, 해결해보기
 
 
 
