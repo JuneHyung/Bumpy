@@ -17,7 +17,7 @@ import { useInbodyStore } from "~~/store/inbody";
 const calendar = ref();
 
 interface Props {
-  type?: String;
+  type: String;
 }
 
 const switchStore = () => {
@@ -121,6 +121,7 @@ const initCalendarEvents = () =>{
   const api = calendar.value.getApi();
   api.setOption("events", store.getCalendarList())
 }
+
 onMounted(()=>{
   initCalendarEvents();
 })
