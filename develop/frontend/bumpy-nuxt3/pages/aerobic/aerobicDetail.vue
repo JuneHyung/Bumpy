@@ -2,10 +2,10 @@
   <main class="content-layout">
     <h1 class="content-title q-mb-lg">About My Routine</h1>
     <div class="content-wrap-box" v-if="aerobicStore.getSelectItem().name !=null">
-      <h2 class="content-title">{{ infoName.value }}</h2>
+      <h2 class="content-title">{{ aerobicStore.getSelectItem().name }}</h2>
       <div class="aerobic-info-box">
         <div class="kcal-chart-wrap">
-          <RadialBarChart :data="aerobicStore.getSelectItem().kcal"></RadialBarChart>
+          <RadialBarChart :data="aerobicStore.getSelectItem().kcal" />
         </div>
         <div class="info-list-out-wrap">
           <div class="info-list-wrap">
@@ -28,7 +28,7 @@
       <div class="youtube-wrap-box">
         <h3>Youtube or chart</h3>
         <div class="youtube-wrap">
-          <YoutubeList :list="aerobicStore.getSelectYoutubeList()"></YoutubeList>
+          <YoutubeList :list="aerobicStore.getSelectYoutubeList()" />
         </div>
       </div>
       <div class="detail-button-wrap">
@@ -52,8 +52,6 @@ definePageMeta({
 
 const router = useRouter();
 const aerobicStore = useAerobicStore();
-const infoName = { key: "name", label: "", value: "Walking" };
-
 
 const moveAerobicList = async () => {
   await router.push({ name: "aerobic-aerobicList" });

@@ -2,7 +2,6 @@
   <div class="input-wrap-box">
     <label>
       <textarea
-        :value="props.data.value"
         :placeholder="props.data.placeholder"
         :autofocus="props.data.autofocus"
         :cols="props.data.cols"
@@ -11,6 +10,7 @@
         :minlength="props.data.minlength"
         :disabled="props.data.disabled"
         :readonly="props.data.readonly"
+        v-model="props.data.value"
         class="input-textarea"
       ></textarea>
     </label>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FullCalendar ref="calendar" :options="calendarOptions" class="list-calendar"></FullCalendar>
+    <FullCalendar ref="calendar" :options="calendarOptions" class="list-calendar" />
   </div>
 </template>
 <script setup lang="ts">
@@ -16,15 +16,8 @@ import { useInbodyStore } from "~~/store/inbody";
 
 const calendar = ref();
 
-interface EventListItem {
-  title: string;
-  date: string;
-}
-type EventList = EventListItem[];
-
 interface Props {
-  type?: String;
-  list?: EventList;
+  type: String;
 }
 
 const switchStore = () => {
@@ -50,7 +43,7 @@ const focusDate = (v: any) => {
 };
 
 
-const clickDateShift = (shiftType: string) => {
+const clickDateShift = async (shiftType: string) => {
   const focusDate = store.getFocusDate();
   let newDate = "";
   const api = calendar.value.getApi();
@@ -76,8 +69,10 @@ const clickDateShift = (shiftType: string) => {
       api.today();
       break;
   }
-  api.setOption("events", store.getCalendarList());
-  store.setFocusDate(newDate);
+  await store.setFocusDate(newDate);
+  await store.getActivityListByStdDate(newDate);
+  await store.getCalendarListByStdDate(newDate);
+  await api.setOption("events", store.getCalendarList());
 };
 
 const calendarOptions = ref({
@@ -87,20 +82,20 @@ const calendarOptions = ref({
   ],
   customButtons: {
     prevYear: {
-      click: () => clickDateShift("prevYear"),
+      click: async () => await clickDateShift("prevYear"),
     },
     prev: {
-      click: () => clickDateShift("prevMonth"),
+      click: async () => await clickDateShift("prevMonth"),
     },
     next: {
-      click: () => clickDateShift("nextMonth"),
+      click: async () => await clickDateShift("nextMonth"),
     },
     nextYear: {
-      click: () => clickDateShift("nextYear"),
+      click: async () => await clickDateShift("nextYear"),
     },
     today: {
       text: "Today",
-      click: () => clickDateShift('today'),
+      click: async () => await clickDateShift('today'),
     },
   },
   headerToolbar: {
@@ -116,9 +111,18 @@ const calendarOptions = ref({
   },
   initialView: "dayGridMonth", // alternatively, use the `events` setting to fetch from a feed
   selectable: true,
-  events: store.getCalendarList(),
+  events: [],
   dayMaxEvents: 3,
   contentHeight: 500,
   dateClick: focusDate,
 });
+
+const initCalendarEvents = () =>{
+  const api = calendar.value.getApi();
+  api.setOption("events", store.getCalendarList())
+}
+
+onMounted(()=>{
+  initCalendarEvents();
+})
 </script>

@@ -1,5 +1,6 @@
 package com.bump.bumpy.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,7 +13,9 @@ public class MailSenderConfig {
     private String host = "smtp.gmail.com";
 	private int port = 587;
     private String username = "bumpyMailMaster@gmail.com";
-    private String password = "zgfrkwzqntpuwyfd";
+
+	@Value("${mail.password}")
+    private String password;
     
 	@Bean(name = "JavaMailSender")
 	public JavaMailSender getJavaMailSender() {

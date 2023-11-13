@@ -3,6 +3,7 @@ package com.bump.bumpy.domain.user.dto;
 import com.bump.bumpy.database.entity.usr.UsrMUsr;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -14,10 +15,10 @@ import java.util.Date;
 @Data
 public class UserSearchDto implements Serializable {
     @Size(max = 20)
-    @NotNull
+    @NotEmpty
     private final String userId;
     @Size(max = 100)
-    @NotNull
+    @NotEmpty
     private final String email;
     @Size(max = 100)
     private final String username;

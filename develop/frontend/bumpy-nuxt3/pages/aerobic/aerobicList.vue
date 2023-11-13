@@ -6,20 +6,20 @@
   </main>
 </template>
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
 import { useAerobicStore } from '~~/store/aerobic';
-import { useCommonStore } from '~~/store/common';
-const commonStore = useCommonStore();
-const aerobicStore = useAerobicStore();
 
 definePageMeta({
   layout: 'main-layout',
   middleware: 'custom-router-guard'
 });
 
-onMounted(async ()=>{
-  const today =commonStore.getToday();
+const aerobicStore = useAerobicStore();
+
+onBeforeMount(async ()=>{
+  const today =dayjs().format('YYYY-MM-DD');
   await aerobicStore.setFocusDate(today);
   await aerobicStore.getCalendarListByStdDate(today);
   await aerobicStore.getActivityListByStdDate(today);

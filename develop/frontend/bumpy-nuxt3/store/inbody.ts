@@ -24,6 +24,27 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     picture: [],  
   });
   const selectYoutubeList: Ref<YoutubeList> = ref([]);
+
+  const resetAllData = async () =>{
+    await setFocusDate('')
+    await setIsToday();
+    await setActivityList([])
+    await setCalendarlist([])
+    await setSelectItem({
+      height: '',
+      weight: '',
+      age: '',
+      muscle: '',
+      fat: '',
+      score: '',
+      bmi: '',
+      fatRate: '',
+      stdDate: '',
+      picture: [],  
+    })
+    selectYoutubeList.value = []
+  }
+
   // dispatch
   const getYoutubeList = async () => {
     try{
@@ -45,7 +66,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       const { data, error } = await readInbodyActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && Array.isArray(data.value.data)) {
+      } else if (data.value !== null) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -62,6 +83,8 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
       } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value?.data;
         setCalendarlist(list);
+      }else{
+        setCalendarlist([])
       }
     } catch (e) {
       setErrorMessage(e);
@@ -132,7 +155,11 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
 
   // getter & setter
   const setFocusDate = async (date: string | Date) => {
-    focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    if(date){
+      focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    }else{
+      focusDate.value = dayjs().format("YYYY-MM-DD");
+    }
     setIsToday();
   };
   const setIsToday = async () => {
@@ -193,6 +220,7 @@ export const useInbodyStore = defineStore('inbody-store',()=>{
     getCalendarList,
     getSelectItem,
     getYoutubeList,
-    getSelectYoutubeList
+    getSelectYoutubeList,
+    resetAllData
   };
 })

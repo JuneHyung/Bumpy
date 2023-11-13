@@ -6,9 +6,9 @@
   </main>
 </template>
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import ActivitySection from '~~/components/section/ActivitySection.vue';
 import CalendarSection from '~~/components/section/CalendarSection.vue';
-import { useCommonStore } from '~~/store/common';
 import { useMealStore } from '~~/store/meal';
 
 definePageMeta({
@@ -16,11 +16,10 @@ definePageMeta({
   middleware: 'custom-router-guard'
 });
 
-const commonStore = useCommonStore();
 const mealStore = useMealStore();
 
-onMounted(async ()=>{
-  const today =commonStore.getToday();
+onBeforeMount(async ()=>{
+  const today =dayjs().format('YYYY-MM-DD');
   await mealStore.setFocusDate(today);
   await mealStore.resetSelectItem();
   await mealStore.getCalendarListByStdDate(today);

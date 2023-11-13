@@ -80,8 +80,8 @@ public class DataHWeight implements Serializable {
     @Column(name = "measure", nullable = false)
     private Integer measure;
 
-    @Size(max = 1000)
-    @Column(name = "memo", length = 1000)
+    @Size(max = 500)
+    @Column(name = "memo", length = 500)
     private String memo;
 
     @Size(max = 1000)
@@ -91,7 +91,7 @@ public class DataHWeight implements Serializable {
     // set and get picture method for CRUD API split by ',' and join by ','
     public List<String> getPicture() {
         // null check
-        if (this.picture == null) {
+        if (this.picture == null || this.picture.isEmpty()) {
             return new ArrayList<>();
         }
         return List.of(this.picture.split(","));
@@ -99,7 +99,7 @@ public class DataHWeight implements Serializable {
 
     public void setPicture(List<String> picture) {
         // null check
-        if (picture == null) {
+        if (picture == null || picture.isEmpty()) {
             this.picture = null;
             return;
         }

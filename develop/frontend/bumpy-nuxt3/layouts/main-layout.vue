@@ -1,9 +1,9 @@
 <template>
   <div class="wrapper-layout">
     <div class="main-layout">
-      <Menu></Menu>
+      <Menu />
       <NuxtPage />
-      <UserInfo></UserInfo>
+      <UserInfo />
     </div>
   </div>
 </template>

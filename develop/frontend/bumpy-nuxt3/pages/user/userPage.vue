@@ -44,7 +44,7 @@
       </label>
       <div class="userpage-address-wrap">
           <label class="userpage-input-wrap bp-mb-sm">
-            <TextInput :data="userForm.zipCode" class="userpage-zipcode-input bp-mr-sm"></TextInput>
+            <TextInput :data="userForm.zipCode" class="userpage-zipcode-input bp-mr-sm" />
             <button type="button" @click="openAddressModal" class="short-filled-button find-zipcode-button">우편번호 찾기</button>
           </label>
           <TextInput :data="userForm.address" class="bp-mb-sm" /> 

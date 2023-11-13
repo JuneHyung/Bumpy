@@ -1,7 +1,7 @@
 <template>
   <svg width="24" height="24" viewBox="0 0 24 24">
-      <path :d="mdiIcons[props.iconName]" />
-    </svg>
+    <path :d="mdiIcons[props.iconName]" />
+  </svg>
 </template>
 <script setup>
 import * as mdiIcons from "@mdi/js";

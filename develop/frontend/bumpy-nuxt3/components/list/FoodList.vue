@@ -2,12 +2,12 @@
   <ul class="food-item-list">
     <template v-for="(item, idx) in props.list" :key="idx">
       <li class="food-item">
-        <input v-model="item.value" class="food-item-input"/>
-        <CustomIcon iconName="mdiClose" @click="removeItem(idx)"></CustomIcon>
+        <input v-model="item.value" class="food-item-input" maxlength="20"/>
+        <CustomIcon iconName="mdiClose" @click="removeItem(idx)" />
       </li>
     </template>
     <li class="food-item plus-item" v-if="props.list!==undefined && props.list.length<10" @click="plusItem">
-      <CustomIcon iconName="mdiPlus"></CustomIcon>
+      <CustomIcon iconName="mdiPlus" />
     </li>
   </ul>
 </template>

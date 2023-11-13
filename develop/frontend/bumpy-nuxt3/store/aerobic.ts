@@ -40,7 +40,37 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     series: [],
     xAxis: [],
   });
-
+  const resetAllData = async () =>{
+    await setFocusDate('');
+    await setIsToday();
+    await setActivityList([]);
+    await setCalendarlist([]);
+    await setSelectItem({
+      seq: "",
+      name: "",
+      kcal: "",
+      time: "",
+      inclineStart: "",
+      inclineEnd: "",
+      speedStart: "",
+      speedEnd: "",
+      memo: "",
+      stdDate: "",
+    })
+    selectYoutubeList.value = [];
+    await setMainAerobicDate('')
+    await setLastAerobicList([])
+    await setMainAerobicInfo({
+      bestKcal: "",
+      bestTime: "",
+      averageIncline: "",
+      averageSpeed: "",
+    });
+    await setMainAerobicChartInfo({
+      series:[],
+      xAxis:[]
+    })
+  }
   // dispatch
   const getLastAerobicActivityInfo = async () => {
     try {
@@ -51,6 +81,9 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
         const list = data.value.data;
         lastAerobicList.value = list as AerobicList;
         setMainAerobicDate(list[0].stdDate as string);
+      }else{
+        lastAerobicList.value = [];
+        setMainAerobicDate('');
       }
     } catch (e) {
       setErrorMessage(e);
@@ -75,6 +108,9 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
         }
         mainAerobicChartInfo.value.xAxis = aerobicChartInfoReesult.xAxis;
         mainAerobicChartInfo.value.series = aerobicChartInfoReesult.series;
+      }else{
+        mainAerobicChartInfo.value.xAxis = [];
+        mainAerobicChartInfo.value.series = [];
       }
     } catch (e) {
       setErrorMessage(e);
@@ -162,7 +198,11 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
 
   // getter & setter
   const setFocusDate = async (date: string | Date) => {
-    focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    if(date){
+      focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    }else{
+      focusDate.value = dayjs().format("YYYY-MM-DD");
+    }
     setIsToday();
   };
   const setIsToday = async () => {
@@ -245,6 +285,7 @@ export const useAerobicStore = defineStore("aerobic-store", () => {
     setMainAerobicInfo,
     setMainAerobicChartInfo,
     getYoutubeList,
-    getSelectYoutubeList
+    getSelectYoutubeList,
+    resetAllData
   };
 });
