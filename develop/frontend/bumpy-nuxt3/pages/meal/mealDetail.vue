@@ -5,7 +5,7 @@
       <h2 class="content-title">{{ mealStore.getSelectItem().name }}</h2>
       <div class="meal-info-box">
         <div class="photo-list-wrap">
-          <ImageList :list="imageList()"></ImageList>
+          <ImageList :list="imageList()" />
         </div>
         <div class="info-list-wrap">
           <div class="info-item">

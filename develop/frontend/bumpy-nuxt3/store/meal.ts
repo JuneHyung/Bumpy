@@ -26,7 +26,24 @@ export const useMealStore = defineStore("meal-store", () => {
 
   const todayMealList:Ref<MealList> = ref([]);
   const selectYoutubeList: Ref<YoutubeList> = ref([]);
-
+  const resetAllData = async () =>{
+    await setFocusDate('')
+    await setIsToday();
+    await setActivityList([])
+    await setCalendarlist([])
+    await setSelectItem({
+      seq: '',
+      name: '',
+      time: '',
+      kcal: '',
+      water: '',
+      memo: '',
+      stdDate: '',
+      picture: [],
+      food: [],
+    })
+    selectYoutubeList.value = []
+  }
   // dispatch
   const getTodayMealInfo = async () => {
     try{
@@ -62,7 +79,7 @@ export const useMealStore = defineStore("meal-store", () => {
       const { data, error } = await readMealActivityList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value !== null && Array.isArray(data.value.data)) {
+      } else if (data.value !== null) {
         const list = data.value.data;
         setActivityList(list);
       }
@@ -76,10 +93,10 @@ export const useMealStore = defineStore("meal-store", () => {
       const { data, error } = await readMealCalendarList({ stdDate: stdDate });
       if (error.value !== null) {
         setErrorMessage(error.value);
-      } else if (data.value?.data !== null && data.value?.data !== undefined) {
+      } else if (data.value !== null && Array.isArray(data.value.data)) {
         const list = data.value?.data;
         setCalendarlist(list);
-      }
+      }else setCalendarlist([]);
     } catch (e) {
       setErrorMessage(e);
     }
@@ -151,7 +168,11 @@ export const useMealStore = defineStore("meal-store", () => {
 
   // getter & setter
   const setFocusDate = async (date: string | Date) => {
-    focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    if(date){
+      focusDate.value = dayjs(date).format("YYYY-MM-DD");
+    }else{
+      focusDate.value = dayjs().format("YYYY-MM-DD");
+    }
     setIsToday();
   };
   const setIsToday = async () => {
@@ -217,6 +238,7 @@ export const useMealStore = defineStore("meal-store", () => {
     getSelectItem,
     getTodayMealList,
     getYoutubeList,
-    getSelectYoutubeList
+    getSelectYoutubeList,
+    resetAllData
   };
 });

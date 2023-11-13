@@ -1,5 +1,5 @@
 <template>
-  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="[calculated]"></Apexchart>
+  <Apexchart type="radialBar" height="90%" :options="chartOptions" :series="[calculated]" />
 </template>
 <script setup lang="ts">
 import Apexchart from 'vue3-apexcharts';
@@ -7,7 +7,10 @@ interface Props {
   data: String,
 }
 const props = defineProps<Props>()
-const calculated = computed(()=>(Math.floor(Number(props.data) / 10) ))
+const calculated = computed(()=>{
+  const result = (Math.floor(Number(props.data) / 10))
+  return isNaN(result) ? 0 : result;
+})
 const chartOptions =  {
   chart: {
     type: 'radialBar',

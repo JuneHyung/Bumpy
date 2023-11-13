@@ -1,5 +1,5 @@
 <template>
-  <Apexchart type="line" height="90%" :options="options" :series="props.series"></Apexchart>
+  <Apexchart type="line" height="90%" :options="options" :series="props.series" />
 </template>
 <script setup lang="ts">
 import { ref } from "vue";

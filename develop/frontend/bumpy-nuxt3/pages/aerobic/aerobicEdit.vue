@@ -4,12 +4,12 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p class="bp-my-sm">불러오기</p>
-        <LoadList :list="loadList" @initName="initName"></LoadList>
+        <LoadList :list="loadList" @initName="initName" />
       </label>
 
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">이름</span>
-        <TextInput :data="form.name" class="edit-input"></TextInput>
+        <TextInput :data="form.name" class="edit-input" />
       </label>
 
       <template v-for="(list, idx) in numberList" :key="idx">
@@ -27,7 +27,7 @@
 
       <label class="edit-input-label bp-mb-lg">
         <p class="edit-label bp-mr-sm">메모</p>
-        <TextareaInput :data="form.memo"></TextareaInput>
+        <TextareaInput :data="form.memo" />
       </label>
       <div class="edit-button-wrap">
         <button type="button" class="short-ghost-button" @click="cancelAerobicEdit">취소</button>
@@ -49,21 +49,23 @@ import { createAerobicItem, updateAerobicItem, readFavoritAerobicList } from "~~
 import { useAerobicStore } from "~~/store/aerobic";
 import { AerobicFormData, AerobicRequestBody } from "~~/types/aerobic";
 import { FavoriteListItem } from "~~/types/common";
+import { useUserStore } from "~~/store/user";
 
 const commonStore = useCommonStore();
 const aerobicStore = useAerobicStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(() => aerobicStore.getSelectItem().seq === '');
 const loadList: Ref<FavoriteListItem[]> = ref([]);
 const form: Ref<AerobicFormData> = ref({
-  name: { value: "", placeholder: "잠온다" },
-  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4},
-  inclineStart: { value: "", isNumber:true, minlength: 0, maxlength: 2},
-  speedStart:  {value: "", isNumber:true, minlength: 0, maxlength: 2},
-  time: { value: "", isNumber:true, minlength: 0, maxlength: 4,},
-  inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
-  speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 2},
-  memo: {  value: "",rows: 10 },
+  name: { value: "", placeholder: "등록할 유산소 이름을 작성해주세요." },
+  kcal: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  inclineStart: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  speedStart:  {value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  time: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  inclineEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  speedEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder:"0"},
+  memo: {  value: "",rows: 10, maxlength: 500 },
 });
 
 const numberList = [
@@ -103,8 +105,9 @@ const saveAerobicItem = async () => {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
     } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ name: "aerobic-aerobicList" });
+      await setMessage(data.value.message);
+      await userStore.getUserInfo();
+      await router.push({ name: "aerobic-aerobicList" });
     }
   } catch (e) {
     setErrorMessage(e);
@@ -120,8 +123,9 @@ const modifyAerobicItem = async () => {
       const errorMessage = error.value?.data.message;
       setErrorMessage(errorMessage);
     } else if (data.value !== null) {
-      setMessage(data.value.message);
-      router.push({ name: "aerobic-aerobicList" });
+      await setMessage(data.value.message);
+      await userStore.getUserInfo();
+      await router.push({ name: "aerobic-aerobicList" });
     }
   } catch (e) {
     setErrorMessage(e);
@@ -173,7 +177,6 @@ onMounted(async () => {
   } else {
     await aerobicStore.resetSelectItem();
   }
-  console.log( aerobicStore.getSelectItem())
 });
 definePageMeta({
   layout: "main-layout",

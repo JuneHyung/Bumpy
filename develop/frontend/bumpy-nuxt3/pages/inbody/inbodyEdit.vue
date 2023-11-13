@@ -5,7 +5,7 @@
       <div class="flex bp-mb-lg">
         <label class="flex col flex-6 bp-mr-sm">
           <p class="bp-mb-sm">사진 및 비디오</p>
-          <FileUploader :list="form.picture" class="full-height"></FileUploader>
+          <FileUploader :list="form.picture" class="full-height" />
         </label>
         <div class="flex flex-6 bp-mt-xl" style="justify-content: flex-end;">
             <template v-for="(list, idx) in numberList" :key="idx">
@@ -14,7 +14,7 @@
                   <label class="edit-input-label">
                     <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                     <div class="edit-input">
-                      <TextInput :data="form[item.key as keyof Omit<InbodyFormData, 'picture'>]"></TextInput>
+                      <TextInput :data="form[item.key as keyof Omit<InbodyFormData, 'picture'>]" />
                     </div>
                   </label>
                 </template>
@@ -36,6 +36,7 @@ import TextInput from "~~/components/form/TextInput.vue";
 import FileUploader from "~~/components/form/FileUploader.vue";
 import { useInbodyStore } from "~~/store/inbody";
 import { InbodyFormData, InbodyItemRequestBody } from "~~/types/inbody";
+import { useUserStore } from "~~/store/user";
 
 definePageMeta({
   layout: "main-layout",
@@ -43,17 +44,18 @@ definePageMeta({
 });
 
 const inbodyStore = useInbodyStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(() => inbodyStore.getSelectItem().height === '');
 
 const form = ref<InbodyFormData>({
-  height: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
-  weight: { value: "", isNumber:true, minlength: 0, maxlength: 3 },
-  muscle: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  fat: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  score: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  bmi: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
-  fatRate: { value: "", isNumber:true, minlength: 0, maxlength: 4 },
+  height: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  weight: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  muscle: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  fat: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  score: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  bmi: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
+  fatRate: { value: "", isNumber:true, minlength: 0, maxlength: 5 },
   picture: { value: [] },
 });
 
@@ -87,15 +89,17 @@ const makeBody = () => {
 // 저장 버튼
 const saveInbodyItem = async () => {
   const body = makeBody();
-  inbodyStore.postInbodyItem(body);
-  router.push({ name: "inbody-inbodyList" });
+  await inbodyStore.postInbodyItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "inbody-inbodyList" });
 };
 
 // 수정 버튼
 const modifyInbodyItem = async () => {
   const body = makeBody();
-  inbodyStore.putInbodyItem(body);
-  router.push({ name: "inbody-inbodyList" });
+  await inbodyStore.putInbodyItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "inbody-inbodyList" });
 };
 
 // 초기화 버튼

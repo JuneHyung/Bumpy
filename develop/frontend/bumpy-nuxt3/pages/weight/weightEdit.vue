@@ -4,15 +4,15 @@
     <form class="content-wrap-box">
       <label class="load-wrap-box">
         <p class="bp-my-sm">불러오기</p>
-        <LoadList :list="loadList" @initName="initName"></LoadList>
+        <LoadList :list="loadList" @initName="initName" />
       </label>
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">이름</span>
-        <TextInput :data="form.name" class="edit-input"></TextInput>
+        <TextInput :data="form.name" class="edit-input" />
       </label>
       <label class="edit-input-label photo-wrap-box bp-my-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader :list="form.picture"></FileUploader>
+        <FileUploader :list="form.picture" />
       </label>
 
       <template v-for="(list, idx) in numberList" :key="idx">
@@ -21,7 +21,7 @@
             <label class="edit-input-label">
               <span class="edit-label bp-mr-sm">{{ item.label }}</span>
               <div class="edit-input">
-                <TextInput :data="(form[item.key as keyof WeightFormData] as InputText)"></TextInput>
+                <TextInput :data="(form[item.key as keyof WeightFormData] as InputText)" />
               </div>
             </label>
           </template>
@@ -31,7 +31,7 @@
       <label class="edit-input-label bp-my-sm">
         <span class="edit-label bp-mr-sm">단위</span>
         <div class="edit-input">
-          <SelectboxInput :data="form.measure"></SelectboxInput>
+          <SelectboxInput :data="form.measure" />
         </div>
       </label>
 
@@ -39,7 +39,7 @@
         <label class="edit-input-wrap">
           <span class="edit-label bp-mr-sm">메모</span>
           <div class="edit-input">
-            <TextareaInput :data="form.memo"></TextareaInput>
+            <TextareaInput :data="form.memo" />
           </div>
         </label>
       </div>
@@ -67,6 +67,7 @@ import { WeightFormData, WeightRequestBody } from "~~/types/weight";
 import _ from "lodash";
 import { FavoriteListItem } from "~~/types/common";
 import { InputText } from "~~/types/input";
+import { useUserStore } from "~~/store/user";
 
 definePageMeta({
   layout: "main-layout",
@@ -75,19 +76,20 @@ definePageMeta({
 
 const commonStore = useCommonStore();
 const weightStore = useWeightStore();
+const userStore = useUserStore();
 const router = useRouter();
-const editFlag = computed(() => weightStore.getSelectItem().seq === undefined);
+const editFlag = computed(() => weightStore.getSelectItem().seq === '');
 
 const loadList:Ref<FavoriteListItem[]> = ref([]);
 
 const form: Ref<WeightFormData> = ref({
-  name: { value: "", placeholder: "잠온다" },
-  weightStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  repsStart: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  weightEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4  },
-  repsEnd: { value: "", isNumber:true, minlength: 0, maxlength: 3  },
-  pollWeight: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
-  setReps: { value: "", isNumber:true, minlength: 0, maxlength: 2  },
+  name: { value: "", placeholder: "등록할 운동 이름을 작성해주세요." },
+  weightStart: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0"},
+  repsStart: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0" },
+  weightEnd: { value: "", isNumber:true, minlength: 0, maxlength: 4, placeholder: "0"},
+  repsEnd: { value: "", isNumber:true, minlength: 0, maxlength: 3, placeholder: "0"  },
+  pollWeight: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder: "0"  },
+  setReps: { value: "", isNumber:true, minlength: 0, maxlength: 2, placeholder: "0"  },
   measure: {
     value: "1",
     list: [
@@ -95,7 +97,7 @@ const form: Ref<WeightFormData> = ref({
       { dtlCd: "2", dtlNm: "lb" },
     ],
   },
-  memo: { value: "", rows: 10 },
+  memo: { value: "", rows: 10, maxlength: 500 },
   picture: { value: [] },
 });
 
@@ -133,15 +135,17 @@ const makeBody = () => {
 // 저장 버튼
 const saveWeightItem = async () => {
   const body = makeBody();
-  weightStore.postWeightItem(body);
-  router.push({ path: "/weight/weightList" });
+  await weightStore.postWeightItem(body);
+  await userStore.getUserInfo();
+  await router.push({ path: "/weight/weightList" });
 };
 
 // 수정 버튼
 const modifyWeightItem = async () => {
   const body = makeBody();
-  weightStore.putWeightItem(body);
-  router.push({ name: "weight-weightList" });
+  await weightStore.putWeightItem(body);
+  await userStore.getUserInfo();
+  await router.push({ name: "weight-weightList" });
 };
 
 // 초기화 버튼
@@ -149,7 +153,10 @@ const resetWeightItem = () => {
   const keys = Object.keys(form.value);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    form.value[key as keyof WeightFormData].value = "";
+    if(key==='measure'){form.value[key].value = '1'}
+    else{
+      form.value[key as keyof WeightFormData].value = "";
+    }
   }
 };
 

@@ -14,8 +14,8 @@
       <h2 class="login-form-title">USER LOGIN</h2>
       <form class="login-form bp-pa-md">
         <div>
-          <TextInput :data="formData.userId" class="login-input bp-mb-xl"></TextInput>
-          <PasswordInput :data="formData.password" class="login-input bp-mb-xl"></PasswordInput>
+          <TextInput :data="formData.userId" class="login-input bp-mb-xl" />
+          <PasswordInput :data="formData.password" class="login-input bp-mb-xl" />
         </div>
         <div>
           <button type="button" class="long-filled-button login-button bp-mb-xl" @click="moveMain">Login</button>
@@ -35,7 +35,6 @@ import { setErrorMessage, setWarnMessage } from "~~/api/alert/message";
 import { fetchLogin } from "~~/api/user/user";
 import { inRange } from "~~/api/util";
 import { useUserStore } from "~~/store/user";
-import { OnlyMessageResponse } from "~~/types/common";
 
 definePageMeta({
   layout: 'start-layout',

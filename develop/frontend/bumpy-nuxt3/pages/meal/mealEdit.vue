@@ -4,7 +4,7 @@
     <form class="content-wrap-box">
       <label class="edit-input-label photo-wrap-box bp-mt-sm">
         <p class="bp-mb-sm">사진 및 비디오</p>
-        <FileUploader :list="form.picture"></FileUploader>
+        <FileUploader :list="form.picture" />
       </label>
       <div class="flex bp-my-sm">
         <div class="flex flex-4 bp-my-sm">
@@ -14,8 +14,8 @@
                 <label class="edit-input-label">
                   <span class="edit-label bp-mr-sm">{{ item.label }}</span>
                   <div class="edit-input">
-                    <TimeInput :data="form[item.key]" v-if="item.key==='time'"></TimeInput>
-                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else></TextInput>
+                    <TimeInput :data="form[item.key]" v-if="item.key==='time'" />
+                    <TextInput :data="form[item.key as keyof Omit<MealFormData, 'food' | 'picture'>]" v-else /> 
                   </div>
                 </label>
               </template>
@@ -23,13 +23,13 @@
           </template>
         </div>
         <div class="flex flex-6">
-          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem"></FoodList>
+          <FoodList :list="form.food.value" @remove="removeItem" @plus="plusItem" />
         </div>
       </div>
 
       <label class="edit-input-label bp-mb-lg">
         <p class="edit-label bp-mr-sm" style="width:60px;">메모</p>
-        <TextareaInput :data="form.memo"></TextareaInput>
+        <TextareaInput :data="form.memo" />
       </label>
       <div class="edit-button-wrap bp-my-sm">
         <button type="button" class="short-ghost-button" @click="cancelMealEdit">취소</button>
@@ -49,6 +49,7 @@ import FoodList from '~~/components/list/FoodList.vue';
 import { MealFormData, MealItemRequestBody} from '~~/types/meal';
 import FileUploader from '~~/components/form/FileUploader.vue'
 import TimeInput from '~~/components/form/TimeInput.vue';
+import { useUserStore } from '~~/store/user';
 
 definePageMeta({
   layout: 'main-layout',
@@ -57,16 +58,17 @@ definePageMeta({
 
 const commonStore = useCommonStore();
 const mealStore = useMealStore();
+const userStore = useUserStore();
 const router = useRouter();
 const editFlag = computed(()=>mealStore.getSelectItem().seq==='');
 
 const form: Ref<MealFormData> = ref({
   name: { value: '' },
-  time: { value:'', isNumber:true, minlength: 0, maxlength: 3  },
+  time: { value:''},
   kcal: { value:'', isNumber:true, minlength: 0, maxlength: 4 },
-  water: { value:'', isNumber:true, minlength: 0, maxlength: 2 },
+  water: { value:'', isNumber:true, minlength: 0, maxlength: 4 },
   food: { value: []},
-  memo: {value:'', rows: 10},
+  memo: {value:'', rows: 10, maxlength: 500},
   picture: {value:[]}
 });
 
@@ -107,15 +109,17 @@ const removeItem = (idx: number) => {
 // 저장 버튼
 const saveMealItem = async () =>{
   const body = makeBody()
-  mealStore.postMealItem(body);
-  router.push({name: "meal-mealList"})
+  await mealStore.postMealItem(body);
+  await userStore.getUserInfo();
+  await router.push({name: "meal-mealList"})
 }
 
 // 수정 버튼
 const modifyMealItem = async () =>{
   const body = makeBody()
-  mealStore.putMealItem(body);
-  router.push({name: "meal-mealList"});
+  await mealStore.putMealItem(body);
+  await userStore.getUserInfo();
+  await router.push({name: "meal-mealList"});
 }
 
 // 초기화 버튼
