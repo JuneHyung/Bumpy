@@ -2,6 +2,7 @@ package com.bump.bumpy.util.funtion;
 
 import com.bump.bumpy.util.dto.youtube.ResponseKeywordSearchDto;
 import com.bump.bumpy.util.dto.youtube.SearchListKeywordDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -14,7 +15,9 @@ import java.util.Map;
 
 @Service
 public class YoutubeService {
-    private static final String API_KEY = "AIzaSyDkzCviTKEBN-xue3AUWJBOesyq59UQq3k";
+
+    @Value("${youtube.apikey}")
+    private String API_KEY;
 
     @Cacheable(value = "searchListKeyword", key = "#keyword")
     public ResponseKeywordSearchDto searchListKeyword(String keyword){
