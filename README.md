@@ -98,13 +98,13 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 
 |        | 목록 페이지                                                  | 저장, 수정 페이지                                            | 상세 페이지                                                  |
 | :----- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 웨이트 | ![weightList](./readme_images/Weight/Weightlist.jpg)         | ![WeightEdit](./readme_images/Weight/WeightEdit.jpg)         | ![WeightDetail](./readme_images/Weight/WeightDetail.jpg)     |
+| 웨이트 | ![weightList](./readme_images/Weight/WeightList.jpg)         | ![WeightEdit](./readme_images/Weight/WeightEdit.jpg)         | ![WeightDetail](./readme_images/Weight/WeightDetail.jpg)     |
 |        | ● 웨이트 운동 정보를 확인하는 화면<br/>● 아이템 클릭 시 상세 페이지로 이동하며, 추가버튼은 당일만 가능합니다.<br />● 날짜 이동 시 해당 달의 정보를 가져옵니다. | ● 웨이트 운동 정보를 등록 및 수정하는 화면<br/>● 이전에 등록했던 웨이트 이름목록을 확인할 수 있습니다.<br />● 운동 사진, 시작과 종료시의 무게, 세트 수, 봉 무게등 운동과 관련된 정보를 입력할 수 있습니다. | ● 웨이트 운동 상세 정보를 확인하는 화면<br/>● 등록한 사진과 해당 운동에 대한 정보를 확인할 수 있습니다.<br />● 운동 이름을 keyword로 하여 관련된 유튜브 목록을 확인할 수 있습니다.<br />● 당일만 삭제 및 수정이 가능합니다. |
 | 유산소 | ![AerobicList](./readme_images/Aerobic/AerobicList.jpg)      | ![AerobicEdit](./readme_images/Aerobic/AerobicEdit.jpg)      | ![AerobicDetail](./readme_images/Aerobic/AerobicDetail.jpg)  |
 |        | ● 유산소 운동 정보를 확인하는 화면<br/>● 아이템 클릭 시 상세 페이지로 이동하며, 추가버튼은 당일만 가능합니다.<br />● 날짜 이동 시 해당 달의 정보를 가져옵니다. | ● 유산소 운동 정보를 등록 및 수정하는 화면<br/>● 이전에 등록했던 유산소 이름목록을 확인할 수 있습니다.<br />● 시작과 종료시의 Incline, Speed, 소모 Kcal, 시간등 해당 운동에 관한 정보를 입력할 수 있습니다. | ● 유산소 운동 상세 정보를 확인하는 화면<br/>● 소모kcal에 대한 정도와 해당 운동에 대한 정보를 확인할 수 있습니다.<br />● 운동 이름을 keyword로 하여 관련된 유튜브 목록을 확인할 수 있습니다.<br />● 당일만 삭제 및 수정이 가능합니다. |
 | 식단   | ![MealList](./readme_images/Meal/MealList.jpg)               | ![MealEdit](./readme_images/Meal/MealEdit.jpg)               | ![MealDetail](./readme_images/Meal/MealDetail.jpg)           |
 |        | ● 식단 정보를 확인하는 화면<br/>● 아이템 클릭 시 상세 페이지로 이동하며, 추가버튼은 당일만 가능합니다.<br />● 날짜 이동 시 해당 달의 정보를 가져옵니다. | ● 식단 정보를 등록 및 수정하는 화면<br/>● 음식 사진과 kcal, 식사시간, 음식목록등 해당 식사에 대한 정보를 입력할 수 있습니다. | ● 식단 상세 정보를 확인하는 화면<br/>● 등록했던 사진과 식단 정보를 확인할 수 있습니다.<br />● 식단과 관련된 고정된 keyword리스트 중 하나를 랜덤하게 keyword로 하여 관련된 유튜브 목록을 확인할 수 있습니다.<br />● 당일만 삭제 및 수정이 가능합니다. |
-| 인바디 | ![InbodyList](./readme_images/Inbody/InbodyList.jpg)         | ![InbodyEdit](./readme_images/Inbody/InbodyEdit.jpg)         | ![InbodyDetail](./readme_images/Inbody/InbodyDetail.jpg)     |
+| 인바디 | ![InbodyList](./readme_images/Inbody/InbodyList.jpg)         | ![InbodyEdit](./readme_images/Inbody/InbodyEdit.jpg)         | ![InbodyDetail](./readme_images/Inbody/inbodyDetail.jpg)     |
 |        | ● Inbody 정보를 확인하는 화면<br/>● 아이템 클릭 시 상세 페이지로 이동하며, 추가버튼은 당일만 가능합니다.<br />● 날짜 이동 시 해당 달의 정보를 가져옵니다. | ● Inbody 정보를 등록 및 수정하는 화면<br/>● Inbody사진과, 키, 체중, 골격근량등 Inbody측정시 나오는 값을 입력할 수 있습니다. | ● Inbody 상세 정보를 확인하는 화면<br/>● 등록했던 사진과 Inbody정보를 확인할 수 있습니다.<br />● Inbody와 관련된 고정된 keyword리스트 중 하나를 랜덤하게 keyword로 하여 관련된 유튜브 목록을 확인할 수 있습니다.<br /><br />● 당일만 삭제 및 수정이 가능합니다. |
 
 
@@ -120,6 +120,6 @@ Front와 Back 각자 사용해보고 싶었던 기술을 사용해보며, 해당
 
 | 비밀번호 체크                                                | 회원 정보 수정                                               |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![passwordCheck](./readme_images/User/passwordCheck.jpg)     | ![userInfo](./readme_images/User/UserInfoPage.jpg)           |
+| ![passwordCheck](./readme_images/User/PasswordCheck.jpg)     | ![userInfo](./readme_images/User/UserInfoPage.jpg)           |
 | ● 회원정보 수정 전 비밀번호를 확인하는 화면.<br />● 비밀번호 확인 후 회원 정보 수정 페이지로 이동합니다. | ● 회원정보 수정 화면.<br />● 첫 진입시 비밀번호를 제외한 회원의 정보가 입력된 상태입니다.<br />● 비밀번호는 변경버튼을 클릭시 활성화되어 입력이 가능합니다. |
 
